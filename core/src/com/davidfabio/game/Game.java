@@ -2,32 +2,31 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.ArrayList;
 
 
 public class Game extends ApplicationAdapter {
 
 	public static int gameWidth  = 720;
 	public static int gameHeight = 540;
+	int gameTimer = 0;
+	ShapeRenderer shape;
 
 	Player player = new Player();
+	public static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
-	ShapeRenderer shape;
-	SpriteBatch batch;
-	Texture img;
 
 
 	@Override public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 		shape = new ShapeRenderer();
-
 		player.init();
+
+		for (int i = 0; i < 10; i += 1)
+			enemies.add(new Enemy());
+
 	}
 
 
@@ -36,6 +35,7 @@ public class Game extends ApplicationAdapter {
 
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
 		float deltaTime = Gdx.graphics.getDeltaTime();
+		gameTimer += 1;
 
 		// get user input
 		Inputs.update();
@@ -45,26 +45,25 @@ public class Game extends ApplicationAdapter {
 			Gdx.app.exit();
 
 
-		// update game logic
+		// ---------------- update game logic ----------------
+		if (gameTimer % 100 == 0)
+			enemies.add(new Enemy());
+
 		player.update(deltaTime);
 
 
-
-		// rendering
+		// ---------------- rendering ----------------
 		ScreenUtils.clear(0, 0, 0, 1);
+
+		for (Enemy enemy : enemies)
+			enemy.render(shape);
+
 		player.render(shape);
-
-
-
-		/*
-		batch.begin();
-		batch.draw(img, imgX, imgY);
-		batch.end();
-		 */
 	}
-	
+
+
 	@Override public void dispose () {
-		batch.dispose();
-		img.dispose();
+
 	}
+
 }

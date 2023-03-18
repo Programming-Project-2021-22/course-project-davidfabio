@@ -3,8 +3,6 @@ package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.ArrayList;
-
 public class Player {
 
     float x, y;
@@ -16,7 +14,7 @@ public class Player {
     float fireRate = 0.04f;
     float fireRateCooldown = 0.0f;
 
-    final int MAX_BULLETS = 128;
+    final int MAX_BULLETS = 64;
     Bullet[] bullets = new Bullet[MAX_BULLETS];
 
 
@@ -68,7 +66,7 @@ public class Player {
             fireRateCooldown -= deltaTime;
 
         if (Inputs.Mouse.left.isDown && fireRateCooldown <= 0) {
-            // get new bullet
+            // get new bullet from array and activate it
             for (int i = 0; i < MAX_BULLETS; i += 1) {
                 if (!bullets[i].isActive) {
                     bullets[i].init(x, y, lookDirection, color);
@@ -79,9 +77,6 @@ public class Player {
         }
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            if (!bullets[i].isActive)
-                continue;
-
             bullets[i].update(deltaTime);
         }
 
@@ -92,13 +87,12 @@ public class Player {
     public void render(ShapeRenderer shape) {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(color);
-        shape.circle(Math.round(x), Game.gameHeight - Math.round(y), radius);
+        float _x = Math.round(x);
+        float _y = Game.gameHeight - Math.round(y);
+        shape.circle(_x, _y, radius);
         shape.end();
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            if (!bullets[i].isActive)
-                continue;
-
             bullets[i].render(shape);
         }
     }
