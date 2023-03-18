@@ -36,4 +36,52 @@ public class Inputs {
         Mouse.middle.Update();
     }
 
+
+    public static class Key {
+        int binding;
+        public boolean isDown, wasPressed, wasReleased;
+        boolean wasDownLastFrame;
+
+        public Key(int binding) {
+            this.binding = binding;
+        }
+
+        void Update() {
+            wasDownLastFrame = isDown;
+            isDown = false;
+            wasPressed = false;
+            wasReleased = false;
+
+            if (Gdx.input.isKeyJustPressed(binding))
+                wasPressed = true;
+            if (Gdx.input.isKeyPressed(binding))
+                isDown = true;
+            if (wasDownLastFrame && !isDown)
+                wasReleased = true;
+        }
+    }
+
+    public static class MouseButton {
+        int binding;
+        public boolean isDown, wasPressed, wasReleased;
+        boolean wasDownLastFrame;
+
+        public MouseButton(int binding) {
+            this.binding = binding;
+        }
+
+        void Update() {
+            wasDownLastFrame = isDown;
+            isDown = false;
+            wasPressed = false;
+            wasReleased = false;
+
+            if (Gdx.input.isButtonJustPressed(binding))
+                wasPressed = true;
+            if (Gdx.input.isButtonPressed(binding))
+                isDown = true;
+            if (wasDownLastFrame && !isDown)
+                wasReleased = true;
+        }
+    }
 }
