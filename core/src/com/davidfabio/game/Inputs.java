@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 public class Inputs {
 
-    // TODO: support multiple key bindings? allow user to rebind inputs?
+    // TODO: support multiple key bindings?
+    // TODO: allow user to rebind inputs?
+    // TODO: gamepad support?
 
 
     public static ArrayList<Key> keys = new ArrayList<Key>();
@@ -18,13 +20,15 @@ public class Inputs {
     public static Key down  = new Key(Keys.S);
     public static Key left  = new Key(Keys.A);
     public static Key right = new Key(Keys.D);
+    public static Key esc   = new Key(Keys.ESCAPE);
+    public static Key space = new Key(Keys.SPACE);
 
 
-    public static void Update() {
+    public static void update() {
         for (Key key : keys)
-            key.Update();
+            key.update();
 
-        Mouse.Update();
+        Mouse.update();
     }
 
 
@@ -34,12 +38,12 @@ public class Inputs {
         public static Button right  = new Button(Buttons.RIGHT);
         public static Button middle = new Button(Buttons.MIDDLE);
 
-        static void Update() {
+        static void update() {
             x = Gdx.input.getX();
             y = Gdx.input.getY();
-            left.Update();
-            right.Update();
-            middle.Update();
+            left.update();
+            right.update();
+            middle.update();
         }
     }
 
@@ -53,7 +57,7 @@ public class Inputs {
             this.binding = binding;
         }
 
-        void Update() {
+        void update() {
             wasDownLastFrame = isDown;
             isDown = false;
             wasPressed = false;
@@ -69,8 +73,8 @@ public class Inputs {
             keys.add(this);
         }
 
-        void Update() {
-            super.Update();
+        void update() {
+            super.update();
 
             if (Gdx.input.isKeyJustPressed(binding))
                 wasPressed = true;
@@ -88,8 +92,8 @@ public class Inputs {
             super(binding);
         }
 
-        void Update() {
-            super.Update();
+        void update() {
+            super.update();
 
             if (Gdx.input.isButtonJustPressed(binding))
                 wasPressed = true;
