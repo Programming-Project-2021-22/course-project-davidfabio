@@ -1,5 +1,4 @@
 package com.davidfabio.game;
-
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
