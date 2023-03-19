@@ -1,88 +1,96 @@
 package com.davidfabio.game;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Vector2;
 
-public class Player {
-    private Vector2 position;
-    private Circle circle;
-    private Color currentColor;
-    private static final int PLAYER_RADIUS = 25;
-    private static final int PLAYER_SPEED = 200;
 
-    public Player() {
-        this.setPosition(new Vector2(275,100));
-        this.currentColor = Color.BLACK;
+public class Player extends Entity {
+
+    private float fireRate = 0.04f;
+    private float fireRateCooldown = 0.0f;
+
+    private final int MAX_BULLETS = 16;
+    private PlayerBullet[] bullets = new PlayerBullet[MAX_BULLETS];
+
+
+    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed)  {
+        super.init(x, y, radius, direction, polarity);
+        this.setMoveSpeed(moveSpeed);
+
+        for (int i = 0; i < MAX_BULLETS; i += 1)
+            bullets[i] = new PlayerBullet();
     }
 
-    public Texture getTexture(int screenWidth, int screenHeight) {
-        Pixmap playerForm = new Pixmap(screenWidth,screenHeight, Pixmap.Format.RGBA8888);
-        playerForm.setColor(this.currentColor);
-        playerForm.fillCircle((int)this.circle.x, (int)this.circle.y, (int)this.circle.radius);
-        return new Texture(playerForm);
-    }
+    public void render(ShapeRenderer shape) {
+        super.render(shape);
 
-    public void setPosition(Vector2 newPosition) {
-        this.position = newPosition;
-        this.updateCircle();
-    }
-
-    public Vector2 getPosition() {
-        return this.position;
-    }
-
-    public void moveInDirection(int keyPressed) {
-        float newPlayerXPos = this.position.x;
-        if (keyPressed == Input.Keys.LEFT) {
-            newPlayerXPos = this.getPosition().x - (Player.PLAYER_SPEED * Gdx.graphics.getDeltaTime());
-        } else if (keyPressed == Input.Keys.RIGHT) {
-            newPlayerXPos = this.getPosition().x + (Player.PLAYER_SPEED * Gdx.graphics.getDeltaTime());
-        }
-
-        // Check for Screen Limits
-        if (newPlayerXPos < Player.PLAYER_RADIUS) {
-            newPlayerXPos = Player.PLAYER_RADIUS;
-        } else if (newPlayerXPos > (800 - Player.PLAYER_RADIUS)) {
-            newPlayerXPos = 800 - Player.PLAYER_RADIUS;
-        }
-        // Update X-Position if changed
-        if (newPlayerXPos != this.position.x) {
-            this.setPosition(new Vector2(newPlayerXPos, this.getPosition().y));
-        }
-
-        float newPlayerYPos = this.position.y;
-        if (keyPressed == Input.Keys.UP) {
-            newPlayerYPos = this.getPosition().y - (Player.PLAYER_SPEED * Gdx.graphics.getDeltaTime());
-        } else if (keyPressed == Input.Keys.DOWN) {
-            newPlayerYPos = this.getPosition().y + (Player.PLAYER_SPEED * Gdx.graphics.getDeltaTime());
-        }
-
-        // Check for Screen Limits
-        if (newPlayerYPos < Player.PLAYER_RADIUS) {
-            newPlayerYPos = Player.PLAYER_RADIUS;
-        } else if (newPlayerYPos > (480 - Player.PLAYER_RADIUS)) {
-            newPlayerYPos = 480 - Player.PLAYER_RADIUS;
-        }
-        // Update X-Position if changed
-        if (newPlayerYPos != this.position.y) {
-            this.setPosition(new Vector2(this.getPosition().x, newPlayerYPos));
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
+            bullets[i].render(shape);
         }
     }
 
-    public void switchToNextColor() {
-        if (this.currentColor == Color.BLACK) {
-            this.currentColor = Color.RED;
-        } else {
-            this.currentColor = Color.BLACK;
+
+    public void update(float deltaTime) {
+        // update direction
+        setDirection((float)Math.atan2(Inputs.Mouse.y - getY(), Inputs.Mouse.x - getX()));
+
+
+        // ---------------- movement ----------------
+        float speed = getMoveSpeed() * deltaTime;
+
+        // normalize diagonal movement
+        if ((Inputs.up.isDown || Inputs.down.isDown) && (Inputs.left.isDown || Inputs.right.isDown))
+            speed *= 0.707106f;
+
+        float nextX = getX();
+        float nextY = getY();
+        if (Inputs.up.isDown)    nextY -= speed;
+        if (Inputs.down.isDown)  nextY += speed;
+        if (Inputs.left.isDown ) nextX -= speed;
+        if (Inputs.right.isDown) nextX += speed;
+
+        // prevent player from going offscreen
+        nextX = Math.max(nextX, getRadius());
+        nextX = Math.min(nextX, Game.gameWidth - getRadius());
+        nextY = Math.max(nextY, getRadius());
+        nextY = Math.min(nextY, Game.gameHeight - getRadius());
+
+        setX(nextX);
+        setY(nextY);
+
+
+        // switch polarity
+        if (Inputs.space.wasPressed)
+            switchPolarity();
+
+
+
+
+        // ---------------- shooting ----------------
+        if (fireRateCooldown > 0)
+            fireRateCooldown -= deltaTime;
+
+        if (Inputs.Mouse.left.isDown && fireRateCooldown <= 0) {
+            // get new bullet from array
+            for (int i = 0; i < MAX_BULLETS; i += 1) {
+                if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
+                    bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), 1600);
+                    fireRateCooldown = fireRate;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
+            bullets[i].update(deltaTime);
         }
     }
 
-    private void updateCircle() {
-        this.circle = new Circle(this.position.x, this.position.y, Player.PLAYER_RADIUS);
+
+    void switchPolarity() {
+        if (getPolarity() == Entity.Polarity.RED)
+            setPolarity(Polarity.BLUE);
+        else
+            setPolarity(Polarity.RED);
     }
+
 }
