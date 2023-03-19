@@ -5,37 +5,42 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import java.util.ArrayList;
-
 
 public class Game extends ApplicationAdapter {
 
 	public static int gameWidth  = 720;
 	public static int gameHeight = 540;
-	int gameTimer = 0;
+	int frameCounter = 0; // for testing only
 	ShapeRenderer shape;
 
-	Player player = new Player();
-	public static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	Player player;
+
+	public static final int MAX_ENEMIES = 256;
+	public static Enemy[] enemies;
 
 
 
 	@Override public void create () {
 		shape = new ShapeRenderer();
-		player.init();
 
-		for (int i = 0; i < 10; i += 1)
-			enemies.add(new Enemy());
+		player = new Player();
+		player.init(gameWidth / 2, gameHeight / 2, 28, 0, Entity.Polarity.RED, 260);
 
+		enemies = new Enemy[MAX_ENEMIES];
+		for (int i = 0; i < MAX_ENEMIES; i += 1)
+			enemies[i] = new Enemy();
 	}
 
 
 	// this is the main update and render loop; there is no separate update method
 	@Override public void render () {
 
+		// TODO: frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
+
+
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
 		float deltaTime = Gdx.graphics.getDeltaTime();
-		gameTimer += 1;
+		frameCounter += 1;
 
 		// get user input
 		Inputs.update();
@@ -46,19 +51,31 @@ public class Game extends ApplicationAdapter {
 
 
 		// ---------------- update game logic ----------------
-		if (gameTimer % 100 == 0)
-			enemies.add(new Enemy());
+		if (frameCounter % 40 == 0) {
+			// get new enemy
+			for (int i = 0; i < MAX_ENEMIES; i += 1) {
+				if (!enemies[i].getActive()) {
+					float randomX = (float)(Math.random() * Game.gameWidth);
+					float randomY = (float)(Math.random() * Game.gameHeight);
+					enemies[i].init(randomX, randomY, 32, 0, Entity.Polarity.RED, 8);
+					break;
+				}
+			}
+		}
 
-		player.update(deltaTime);
+		player.update(deltaTime); // player bullets get updated here as well
 
 
 		// ---------------- rendering ----------------
 		ScreenUtils.clear(0, 0, 0, 1);
 
-		for (Enemy enemy : enemies)
-			enemy.render(shape);
+		for (int i = 0; i < MAX_ENEMIES; i += 1)
+			enemies[i].render(shape);
 
-		player.render(shape);
+		player.render(shape); // player bullets get rendered here as well
+
+
+
 	}
 
 
