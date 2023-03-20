@@ -2,11 +2,15 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 
 public class Game extends ApplicationAdapter {
+
+
+	public static boolean startInFullscreenMode = false;
 
 	public static int gameWidth  = 720;
 	public static int gameHeight = 540;
@@ -19,8 +23,15 @@ public class Game extends ApplicationAdapter {
 	public static Enemy[] enemies;
 
 
+	public static float sfxVolume = 1.0f; // range: 0 to 1
+	static Sound sfxShoot;
+
+
+
 
 	@Override public void create () {
+		sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
+
 		shape = new ShapeRenderer();
 
 		player = new Player();
@@ -36,7 +47,6 @@ public class Game extends ApplicationAdapter {
 	@Override public void render () {
 
 		// TODO: frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
-
 
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
 		float deltaTime = Gdx.graphics.getDeltaTime();
@@ -57,7 +67,7 @@ public class Game extends ApplicationAdapter {
 				if (!enemies[i].getActive()) {
 					float randomX = (float)(Math.random() * Game.gameWidth);
 					float randomY = (float)(Math.random() * Game.gameHeight);
-					enemies[i].init(randomX, randomY, 32, 0, Entity.Polarity.RED, 8);
+					enemies[i].init(randomX, randomY, 28, 0, Entity.Polarity.RED, 8);
 					break;
 				}
 			}
@@ -80,7 +90,7 @@ public class Game extends ApplicationAdapter {
 
 
 	@Override public void dispose () {
-
+		sfxShoot.dispose();
 	}
 
 }

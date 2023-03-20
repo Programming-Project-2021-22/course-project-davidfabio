@@ -75,6 +75,7 @@ public class Player extends Entity {
                 if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
                     bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), 1600);
                     fireRateCooldown = fireRate;
+                    Game.sfxShoot.play(Game.sfxVolume);
                     break;
                 }
             }
