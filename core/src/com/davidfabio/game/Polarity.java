@@ -30,6 +30,7 @@ public class Polarity {
     }
 
     public void togglePolarity() {
+
         if (this.currentColor == GameSettings.FIRST_COLOR) {
             this.currentColor = GameSettings.SECOND_COLOR;
         } else {

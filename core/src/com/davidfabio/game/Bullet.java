@@ -35,6 +35,7 @@ public class Bullet {
 
     public void draw(ShapeRenderer renderer) {
         this.update();
+
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(this.polarity.getCurrentColor());
         renderer.ellipse(this.getPosition().x, this.getPosition().x, Bullet.BULLET_WIDTH, Bullet.BULLET_LENGTH);
@@ -42,7 +43,7 @@ public class Bullet {
     }
 
     private void update() {
-
+        this.moveInDirection();
     }
 
     private void moveInDirection() {
