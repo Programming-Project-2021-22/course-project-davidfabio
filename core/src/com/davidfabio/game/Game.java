@@ -23,23 +23,30 @@ public class Game extends ApplicationAdapter {
 	public static Enemy[] enemies;
 
 
-	public static float sfxVolume = 1.0f; // range: 0 to 1
-	static Sound sfxShoot;
+	public static float sfxVolume = 0.33f; // range: 0 to 1
+	public static float musicVolume = 0.5f; // range: 0 to 1
+	static Sound sfxShoot, sfxExplosion;
+	static Sound musicTrack;
 
 
 
 
 	@Override public void create () {
 		sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
+		sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/explosion1.wav"));
+		musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
 
 		shape = new ShapeRenderer();
 
 		player = new Player();
-		player.init(gameWidth / 2, gameHeight / 2, 28, 0, Entity.Polarity.RED, 260);
+		player.init(gameWidth / 2, gameHeight / 2, 16, 0, Entity.Polarity.RED, 260);
 
 		enemies = new Enemy[MAX_ENEMIES];
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i] = new Enemy();
+
+
+		musicTrack.play(musicVolume);
 	}
 
 

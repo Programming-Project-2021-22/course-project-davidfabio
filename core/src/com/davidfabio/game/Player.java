@@ -8,7 +8,7 @@ public class Player extends Entity {
     private float fireRate = 0.04f;
     private float fireRateCooldown = 0.0f;
 
-    private final int MAX_BULLETS = 16;
+    private final int MAX_BULLETS = 64;
     private PlayerBullet[] bullets = new PlayerBullet[MAX_BULLETS];
 
 

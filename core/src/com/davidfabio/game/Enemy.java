@@ -42,8 +42,10 @@ public class Enemy extends Entity {
     public void hit(float attackPower) {
         health -= attackPower;
 
-        if (health <= 0)
+        if (health <= 0) {
             setActive(false);
+            Game.sfxExplosion.play(Game.sfxVolume);
+        }
     }
 
 }
