@@ -5,52 +5,51 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Game extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
+	private ShapeRenderer renderer;
 	private Player player;
 	
 	@Override
 	public void create () {
 		this.camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		camera.zoom = 0.5f;
+
 		this.batch = new SpriteBatch();
+		this.renderer = new ShapeRenderer();
 		this.player = new Player();
 	}
 
 	@Override
 	public void render () {
+		// Check for game end
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			Gdx.app.exit();
+		}
+
+		// Clear screen
 		ScreenUtils.clear(0.8f, 0.8f, 0.8f, 1);
+
+		// Zoom out of player
+		if (camera.zoom <= 1.0f) {
+			camera.zoom += 0.1f * Gdx.graphics.getDeltaTime();
+		}
 		this.camera.update();
 
-		this.batch.setProjectionMatrix(this.camera.combined);
-		this.batch.begin();
-		this.batch.draw(this.player.getTexture(800, 480),0,0);
-		this.batch.end();
-
-		// >>> Player Movement Inputs
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			this.player.moveInDirection(Input.Keys.LEFT);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			this.player.moveInDirection(Input.Keys.RIGHT);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			this.player.moveInDirection(Input.Keys.UP);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			this.player.moveInDirection(Input.Keys.DOWN);
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			this.player.switchToNextColor();
-		}
-		// <<< Player Movement Inputs
+		// Render scene
+		this.renderer.setProjectionMatrix(this.camera.combined);
+		this.player.draw(this.renderer);
 	}
 	
 	@Override
 	public void dispose () {
 		this.batch.dispose();
+		this.renderer.dispose();
 	}
 }
