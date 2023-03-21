@@ -1,14 +1,16 @@
 package com.davidfabio.game;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.lang.reflect.GenericArrayType;
 
 
 public class Player extends Entity {
 
-    private float fireRate = 0.04f;
+    private float fireRate = 0.05f;
     private float fireRateCooldown = 0.0f;
 
-    private final int MAX_BULLETS = 16;
+    private final int MAX_BULLETS = 64;
     private PlayerBullet[] bullets = new PlayerBullet[MAX_BULLETS];
 
 
@@ -20,7 +22,7 @@ public class Player extends Entity {
             bullets[i] = new PlayerBullet();
     }
 
-    public void render(ShapeRenderer shape) {
+    @Override public void render(ShapeRenderer shape) {
         super.render(shape);
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
@@ -32,7 +34,6 @@ public class Player extends Entity {
     public void update(float deltaTime) {
         // update direction
         setDirection((float)Math.atan2(Inputs.Mouse.y - getY(), Inputs.Mouse.x - getX()));
-
 
         // ---------------- movement ----------------
         float speed = getMoveSpeed() * deltaTime;
@@ -75,6 +76,7 @@ public class Player extends Entity {
                 if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
                     bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), 1600);
                     fireRateCooldown = fireRate;
+                    Game.sfxShoot.play(Game.sfxVolume);
                     break;
                 }
             }
@@ -83,6 +85,17 @@ public class Player extends Entity {
         for (int i = 0; i < MAX_BULLETS; i += 1) {
             bullets[i].update(deltaTime);
         }
+
+
+        // ---------------- collision detection against enemies ----------------
+        for (int i = 0; i < Game.MAX_ENEMIES; i += 1) {
+            if (!Game.enemies[i].getActive())
+                continue;
+            if (Collision.circleCircle(getX(), getY(), getRadius(), Game.enemies[i].getX(), Game.enemies[i].getY(), Game.enemies[i].getRadius()))
+                Game.enemies[i].hit(Game.enemies[i].getHealth());
+        }
+
+
     }
 
 
