@@ -6,6 +6,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.Random;
+
 
 public class Game extends ApplicationAdapter {
 
@@ -28,10 +30,14 @@ public class Game extends ApplicationAdapter {
 	static Sound sfxShoot, sfxExplosion;
 	static Sound musicTrack;
 
+	Random random;
+
 
 
 
 	@Override public void create () {
+		random = new Random();
+
 		sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
 		sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/explosion1.wav"));
 		//musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
@@ -85,7 +91,15 @@ public class Game extends ApplicationAdapter {
 						randomX = (float)(Math.random() * Game.gameWidth);
 						randomY = (float)(Math.random() * Game.gameHeight);
 					}
-					enemies[i].init(randomX, randomY, 28, 0, Entity.Polarity.RED, 80, 8);
+
+					Entity.Polarity polarity = Entity.Polarity.RED;
+					int rand = random.nextInt(2);
+					if (rand == 1)
+						polarity = Entity.Polarity.BLUE;
+
+					rand = random.nextInt(16) + 24;
+
+					enemies[i].init(randomX, randomY, rand, 0, polarity, 80, 7);
 
 					break;
 				}
