@@ -17,7 +17,7 @@ public class Game extends ApplicationAdapter {
 	int frameCounter = 0; // for testing only
 	ShapeRenderer shape;
 
-	Player player;
+	public static Player player;
 
 	public static final int MAX_ENEMIES = 256;
 	public static Enemy[] enemies;
@@ -34,7 +34,7 @@ public class Game extends ApplicationAdapter {
 	@Override public void create () {
 		sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
 		sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/explosion1.wav"));
-		musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
+		//musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
 
 		shape = new ShapeRenderer();
 
@@ -46,7 +46,7 @@ public class Game extends ApplicationAdapter {
 			enemies[i] = new Enemy();
 
 
-		musicTrack.play(musicVolume);
+		//musicTrack.play(musicVolume);
 	}
 
 
@@ -57,7 +57,6 @@ public class Game extends ApplicationAdapter {
 
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
 		float deltaTime = Gdx.graphics.getDeltaTime();
-		frameCounter += 1;
 
 		// get user input
 		Inputs.update();
@@ -68,13 +67,26 @@ public class Game extends ApplicationAdapter {
 
 
 		// ---------------- update game logic ----------------
-		if (frameCounter % 40 == 0) {
-			// get new enemy
+
+		for (int i = 0; i < MAX_ENEMIES; i += 1)
+			enemies[i].update(deltaTime);
+
+
+		// FOR TESTING ONLY: create new enemy every x frames
+		frameCounter += 1;
+		if (frameCounter % 60 == 0) {
 			for (int i = 0; i < MAX_ENEMIES; i += 1) {
 				if (!enemies[i].getActive()) {
 					float randomX = (float)(Math.random() * Game.gameWidth);
 					float randomY = (float)(Math.random() * Game.gameHeight);
-					enemies[i].init(randomX, randomY, 28, 0, Entity.Polarity.RED, 8);
+					float minDistanceToPlayer = 240;
+
+					while(player.getDistanceTo(randomX, randomY) < minDistanceToPlayer) {
+						randomX = (float)(Math.random() * Game.gameWidth);
+						randomY = (float)(Math.random() * Game.gameHeight);
+					}
+					enemies[i].init(randomX, randomY, 28, 0, Entity.Polarity.RED, 80, 8);
+
 					break;
 				}
 			}

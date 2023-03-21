@@ -50,11 +50,6 @@ public class Entity {
     }
 
 
-    public void update(float deltaTime) {
-
-    }
-
-
     public void render(ShapeRenderer shape) {
         if (!isActive)
             return;
@@ -90,6 +85,30 @@ public class Entity {
             return false;
 
         return true;
+    }
+
+    void moveTowards(float direction, float deltaTime) {
+        float speed = getMoveSpeed() * deltaTime;
+        float deltaX = (float)Math.cos(direction) * speed;
+        float deltaY = (float)Math.sin(direction) * speed;
+
+        setX(getX() + deltaX);
+        setY(getY() + deltaY);
+    }
+
+    void moveTowards(float otherX, float otherY, float deltaTime) {
+        float dir = getAngleTowards(otherX, otherY);
+        moveTowards(dir, deltaTime);
+    }
+
+    float getAngleTowards(float otherX, float otherY) {
+        return ((float)Math.atan2(otherY - y, otherX - x));
+    }
+
+    float getDistanceTo(float otherX, float otherY) {
+        float distanceX = x - otherX;
+        float distanceY = y - otherY;
+        return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
 
 

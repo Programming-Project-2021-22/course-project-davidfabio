@@ -10,9 +10,12 @@ public class Enemy extends Entity {
     private float healthInitial;
     private float health;
 
+    public float getHealth() { return health; }
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float healthInitial) {
+
+    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
         super.init(x, y, radius, direction, polarity);
+        setMoveSpeed(moveSpeed);
         health = this.healthInitial = healthInitial;
 
         setColorRed(new Color(0.33f, 0, 0, 1));
@@ -20,7 +23,13 @@ public class Enemy extends Entity {
         setPolarity(polarity); // we call this again to set the color
     }
 
-    public void render(ShapeRenderer shape) {
+
+    public void update(float deltaTime) {
+        moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
+    }
+
+
+    @Override public void render(ShapeRenderer shape) {
         super.render(shape);
 
         if (!getActive())

@@ -24,12 +24,8 @@ public class PlayerBullet extends Entity {
         if (!getActive())
             return;
 
-        float speed = getMoveSpeed() * deltaTime;
-        float deltaX = (float)Math.cos(getDirection()) * speed;
-        float deltaY = (float)Math.sin(getDirection()) * speed;
+        moveTowards(getDirection(), deltaTime);
 
-        setX(getX() + deltaX);
-        setY(getY() + deltaY);
 
 
         // ---------------- collision detection ----------------
