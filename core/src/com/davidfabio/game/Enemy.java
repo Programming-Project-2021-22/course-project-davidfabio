@@ -15,8 +15,8 @@ public class Enemy extends Entity {
     private float hitCooldown;
 
     private boolean isSpawning;
-    private float spawnDuration = 1.0f;
-    private float spawnCooldown;
+    private float spawnDuration = 1.5f;
+    private float spawnCounter;
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
@@ -29,19 +29,19 @@ public class Enemy extends Entity {
         inHitState = false;
         hitCooldown = 0;
         isSpawning = true;
-        spawnCooldown = spawnDuration;
+        spawnCounter = 0;
 
-        setColorRed(new Color(0.33f, 0, 0, 1));
-        setColorBlue(new Color(0, 0, 0.33f, 1));
+        setColorRed(new Color(0.5f, 0, 0, 1));
+        setColorBlue(new Color(0, 0, 0.5f, 1));
         setPolarity(polarity); // we call this again to set the color
     }
 
 
     public void update(float deltaTime) {
         if (isSpawning) {
-            spawnCooldown -= deltaTime;
+            spawnCounter += deltaTime;
 
-            if (spawnCooldown < 0)
+            if (spawnCounter > spawnDuration)
                 isSpawning = false;
 
             return;
@@ -73,7 +73,7 @@ public class Enemy extends Entity {
         if (isSpawning) {
             shape.begin(ShapeRenderer.ShapeType.Line);
             shape.setColor(outlineColor);
-            shape.arc(_x, _y, getRadius(), 0, 360 - (spawnCooldown * 360));
+            shape.arc(_x, _y, getRadius(), 0, (spawnCounter * 360) / spawnDuration);
             shape.end();
             return;
         }

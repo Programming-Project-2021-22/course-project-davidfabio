@@ -1,5 +1,10 @@
 package com.davidfabio.game;
 
+
+
+// TODO: remove this class and use libgdx's in-built collision detection methods
+
+
 public class Collision {
 
     public static boolean circleCircle(float x1, float y1, float radius1, float x2, float y2, float radius2) {
