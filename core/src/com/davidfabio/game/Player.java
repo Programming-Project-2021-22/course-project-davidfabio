@@ -33,21 +33,21 @@ public class Player extends Entity {
 
     public void update(float deltaTime) {
         // update direction
-        setDirection((float)Math.atan2(Inputs.Mouse.y - getY(), Inputs.Mouse.x - getX()));
+        setDirection((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
 
         // ---------------- movement ----------------
         float speed = getMoveSpeed() * deltaTime;
 
         // normalize diagonal movement
-        if ((Inputs.up.isDown || Inputs.down.isDown) && (Inputs.left.isDown || Inputs.right.isDown))
+        if ((Inputs.up.getIsDown() || Inputs.down.getIsDown()) && (Inputs.left.getIsDown() || Inputs.right.getIsDown()))
             speed *= 0.707106f;
 
         float nextX = getX();
         float nextY = getY();
-        if (Inputs.up.isDown)    nextY -= speed;
-        if (Inputs.down.isDown)  nextY += speed;
-        if (Inputs.left.isDown ) nextX -= speed;
-        if (Inputs.right.isDown) nextX += speed;
+        if (Inputs.up.getIsDown())    nextY -= speed;
+        if (Inputs.down.getIsDown())  nextY += speed;
+        if (Inputs.left.getIsDown() ) nextX -= speed;
+        if (Inputs.right.getIsDown()) nextX += speed;
 
         // prevent player from going offscreen
         nextX = Math.max(nextX, getRadius());
@@ -60,7 +60,7 @@ public class Player extends Entity {
 
 
         // switch polarity
-        if (Inputs.space.wasPressed)
+        if (Inputs.space.getWasPressed())
             switchPolarity();
 
 
@@ -70,7 +70,7 @@ public class Player extends Entity {
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (Inputs.Mouse.left.isDown && fireRateCooldown <= 0) {
+        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0) {
             // get new bullet from array
             for (int i = 0; i < MAX_BULLETS; i += 1) {
                 if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {

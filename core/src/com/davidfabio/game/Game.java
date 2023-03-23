@@ -68,7 +68,7 @@ public class Game extends ApplicationAdapter {
 		Inputs.update();
 
 		// close application
-		if (Inputs.esc.wasPressed)
+		if (Inputs.esc.getWasPressed())
 			Gdx.app.exit();
 
 

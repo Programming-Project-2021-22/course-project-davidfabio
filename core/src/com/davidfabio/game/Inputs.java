@@ -36,10 +36,13 @@ public class Inputs {
 
 
     public static class Mouse {
-        public static int x, y; // top-left of the window is 0,0 -- bottom-right is windowWidth,windowHeight
+        private static int x, y; // top-left of the window is 0,0 -- bottom-right is windowWidth,windowHeight
         public static Button left   = new Button(Buttons.LEFT);
         public static Button right  = new Button(Buttons.RIGHT);
         public static Button middle = new Button(Buttons.MIDDLE);
+
+        public static int getX() { return x; }
+        public static int getY() { return y; }
 
         static void update() {
             x = Gdx.input.getX();
@@ -52,9 +55,17 @@ public class Inputs {
 
 
     public static class Input {
-        int binding;
-        public boolean isDown, wasPressed, wasReleased;
-        boolean wasDownLastFrame;
+        private int binding;
+        private boolean isDown, wasPressed, wasReleased, wasDownLastFrame;
+
+        public int getBinding() { return binding; }
+        public boolean getIsDown() { return isDown; }
+        public boolean getWasPressed() { return wasPressed; }
+        public boolean getWasReleased() { return wasReleased; }
+        public boolean getWasDownLastFrame() { return wasDownLastFrame; }
+        public void setIsDown(boolean isDown) { this.isDown = isDown; }
+        public void setWasPressed(boolean wasPressed) { this.wasPressed = wasPressed; }
+        public void setWasReleased(boolean wasReleased) { this.wasReleased = wasReleased; }
 
         public Input(int binding) {
             this.binding = binding;
@@ -79,12 +90,12 @@ public class Inputs {
         void update() {
             super.update();
 
-            if (Gdx.input.isKeyJustPressed(binding))
-                wasPressed = true;
-            if (Gdx.input.isKeyPressed(binding))
-                isDown = true;
-            if (wasDownLastFrame && !isDown)
-                wasReleased = true;
+            if (Gdx.input.isKeyJustPressed(getBinding()))
+                setWasPressed(true);
+            if (Gdx.input.isKeyPressed(getBinding()))
+                setIsDown(true);
+            if (getWasDownLastFrame() && !getIsDown())
+                setWasReleased(true);
         }
     }
 
@@ -98,12 +109,12 @@ public class Inputs {
         void update() {
             super.update();
 
-            if (Gdx.input.isButtonJustPressed(binding))
-                wasPressed = true;
-            if (Gdx.input.isButtonPressed(binding))
-                isDown = true;
-            if (wasDownLastFrame && !isDown)
-                wasReleased = true;
+            if (Gdx.input.isButtonJustPressed(getBinding()))
+                setWasPressed(true);
+            if (Gdx.input.isButtonPressed(getBinding()))
+                setIsDown(true);
+            if (getWasDownLastFrame() && !getIsDown())
+                setWasReleased(true);
         }
     }
 
