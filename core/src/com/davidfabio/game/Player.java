@@ -7,7 +7,7 @@ import java.lang.reflect.GenericArrayType;
 
 public class Player extends Entity {
 
-    private float fireRate = 0.05f;
+    private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
 
     private final int MAX_BULLETS = 64;
@@ -22,11 +22,11 @@ public class Player extends Entity {
             bullets[i] = new PlayerBullet();
     }
 
-    @Override public void render(ShapeRenderer shape) {
-        super.render(shape);
+    @Override public void render(ShapeRenderer shape, Color _color) {
+        super.render(shape, getColor());
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].render(shape);
+            bullets[i].render(shape, getColor());
         }
     }
 
@@ -91,6 +91,8 @@ public class Player extends Entity {
         for (int i = 0; i < Game.MAX_ENEMIES; i += 1) {
             if (!Game.enemies[i].getActive())
                 continue;
+            if (Game.enemies[i].getIsSpawning())
+                continue;;
             if (Collision.circleCircle(getX(), getY(), getRadius(), Game.enemies[i].getX(), Game.enemies[i].getY(), Game.enemies[i].getRadius()))
                 Game.enemies[i].hit(Game.enemies[i].getHealth());
         }

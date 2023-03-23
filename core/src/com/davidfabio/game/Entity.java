@@ -50,7 +50,7 @@ public class Entity {
     }
 
 
-    public void render(ShapeRenderer shape) {
+    public void render(ShapeRenderer shape, Color _color) {
         if (!isActive)
             return;
 
@@ -58,7 +58,7 @@ public class Entity {
         float _y = Game.gameHeight - Math.round(y);
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(color);
+        shape.setColor(_color);
         shape.circle(_x, _y, radius);
         shape.end();
     }
