@@ -37,6 +37,8 @@ public class PlayerBullet extends Entity {
 
             if (!enemy.getActive())
                 continue;
+            if (enemy.getIsSpawning())
+                continue;
 
             if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
                 float _firePower = firePower;

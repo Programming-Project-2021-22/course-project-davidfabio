@@ -68,7 +68,7 @@ public class Game extends ApplicationAdapter {
 		Inputs.update();
 
 		// close application
-		if (Inputs.esc.wasPressed)
+		if (Inputs.esc.getWasPressed())
 			Gdx.app.exit();
 
 
@@ -80,7 +80,7 @@ public class Game extends ApplicationAdapter {
 
 		// FOR TESTING ONLY: create new enemy every x frames
 		frameCounter += 1;
-		if (frameCounter % 60 == 0) {
+		if (frameCounter % 30 == 0) {
 			for (int i = 0; i < MAX_ENEMIES; i += 1) {
 				if (!enemies[i].getActive()) {
 					float randomX = (float)(Math.random() * Game.gameWidth);
@@ -100,11 +100,11 @@ public class Game extends ApplicationAdapter {
 					rand = random.nextInt(16) + 24;
 
 					enemies[i].init(randomX, randomY, rand, 0, polarity, 80, 7);
-
 					break;
 				}
 			}
 		}
+
 
 		player.update(deltaTime); // player bullets get updated here as well
 
@@ -113,9 +113,12 @@ public class Game extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
-			enemies[i].render(shape);
+			enemies[i].render(shape, enemies[i].getColor());
 
-		player.render(shape); // player bullets get rendered here as well
+		player.render(shape, player.getColor()); // player bullets get rendered here as well
+
+
+
 
 
 
