@@ -92,6 +92,7 @@ public class Enemy extends Entity {
 
 
     public void hit(float attackPower) {
+        Game.sfxHit.play(Game.sfxVolume);
         inHitState = true;
         hitCooldown = hitDuration;
         health -= attackPower;

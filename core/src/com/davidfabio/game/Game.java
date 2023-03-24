@@ -27,7 +27,7 @@ public class Game extends ApplicationAdapter {
 
 	public static float sfxVolume = 0.33f; // range: 0 to 1
 	public static float musicVolume = 0.5f; // range: 0 to 1
-	static Sound sfxShoot, sfxExplosion;
+	static Sound sfxShoot, sfxExplosion, sfxHit;
 	static Sound musicTrack;
 
 	Random random;
@@ -40,6 +40,7 @@ public class Game extends ApplicationAdapter {
 
 		sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
 		sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/explosion1.wav"));
+		sfxHit = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot5.wav"));
 		//musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
 
 		shape = new ShapeRenderer();
