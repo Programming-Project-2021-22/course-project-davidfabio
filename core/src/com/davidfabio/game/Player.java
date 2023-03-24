@@ -10,6 +10,7 @@ public class Player extends Entity {
 
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
+    private float bulletSpeed = 1600;
 
     private final int MAX_BULLETS = 64;
     private PlayerBullet[] bullets = new PlayerBullet[MAX_BULLETS];
@@ -98,17 +99,8 @@ public class Player extends Entity {
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0) {
-            // get new bullet from array
-            for (int i = 0; i < MAX_BULLETS; i += 1) {
-                if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
-                    bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), 1600);
-                    fireRateCooldown = fireRate;
-                    Game.sfxShoot.play(Game.sfxVolume);
-                    break;
-                }
-            }
-        }
+        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
+            shoot();
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
             bullets[i].update(deltaTime);
@@ -127,6 +119,20 @@ public class Player extends Entity {
 
 
     }
+
+
+
+    void shoot() {
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
+            if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
+                bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), bulletSpeed);
+                fireRateCooldown = fireRate;
+                Game.sfxShoot.play(Game.sfxVolume);
+                break;
+            }
+        }
+    }
+
 
 
     void switchPolarity() {

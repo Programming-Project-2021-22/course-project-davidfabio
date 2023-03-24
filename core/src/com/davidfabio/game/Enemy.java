@@ -14,6 +14,10 @@ public class Enemy extends Entity {
     private float hitDuration = 0.03f;
     private float hitCooldown;
 
+    private float fireRate = 0.1f;
+    private float fireRateCooldown = 0.0f;
+    private float bulletSpeed = 200;
+
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
     private float spawnCounter;
@@ -38,12 +42,14 @@ public class Enemy extends Entity {
 
 
     public void update(float deltaTime) {
+        if (!getActive())
+            return;
+
         if (isSpawning) {
             spawnCounter += deltaTime;
 
             if (spawnCounter > spawnDuration)
                 isSpawning = false;
-
             return;
         }
 
@@ -54,7 +60,17 @@ public class Enemy extends Entity {
                 inHitState = false;
         }
 
-        moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
+
+        // movement
+        //moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
+
+
+        // ---------------- shooting ----------------
+        if (fireRateCooldown > 0)
+            fireRateCooldown -= deltaTime;
+
+        if (fireRateCooldown <= 0)
+            shoot();
     }
 
 
@@ -89,6 +105,22 @@ public class Enemy extends Entity {
         shape.circle(_x, _y, getRadius());
         shape.end();
     }
+
+
+    void shoot() {
+        for (int i = 0; i < Game.MAX_ENEMY_BULLETS; i += 1) {
+            EnemyBullet bullet = Game.enemyBullets[i];
+            float dir = getAngleTowards(Game.player.getX(), Game.player.getY());
+
+            if (!bullet.getActive() && !bullet.getToDestroyNextFrame()) {
+                bullet.init(getX(), getY(), 8, dir, getPolarity(), bulletSpeed);
+                fireRateCooldown = fireRate;
+                //Game.sfxShoot.play(Game.sfxVolume);
+                break;
+            }
+        }
+    }
+
 
 
     public void hit(float attackPower) {

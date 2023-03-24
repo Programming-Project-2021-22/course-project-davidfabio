@@ -16,13 +16,15 @@ public class Game extends ApplicationAdapter {
 
 	public static int gameWidth  = 720;
 	public static int gameHeight = 540;
-	int frameCounter = 0; // for testing only
+	public static int frameCounter = 0; // for testing only
 	ShapeRenderer shape;
 
 	public static Player player;
 
 	public static final int MAX_ENEMIES = 256;
+	public static final int MAX_ENEMY_BULLETS = 256;
 	public static Enemy[] enemies;
+	public static EnemyBullet[] enemyBullets;
 
 
 	public static float sfxVolume = 0.33f; // range: 0 to 1
@@ -52,6 +54,10 @@ public class Game extends ApplicationAdapter {
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i] = new Enemy();
 
+		enemyBullets = new EnemyBullet[MAX_ENEMY_BULLETS];
+		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
+			enemyBullets[i] = new EnemyBullet();
+
 
 		//musicTrack.play(musicVolume);
 	}
@@ -73,14 +79,15 @@ public class Game extends ApplicationAdapter {
 			Gdx.app.exit();
 
 
-		// ---------------- update game logic ----------------
 
+		// ---------------- update game logic ----------------
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i].update(deltaTime);
 
 
 
 		// FOR TESTING ONLY
+		frameCounter += 1;
 		int activeEnemyCount = 0;
 		int maxEnemies = 4;
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
@@ -113,6 +120,11 @@ public class Game extends ApplicationAdapter {
 		}
 
 
+		// update enemy bullets
+		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
+			enemyBullets[i].update(deltaTime);
+
+
 		player.update(deltaTime); // player bullets get updated here as well
 
 
@@ -121,12 +133,13 @@ public class Game extends ApplicationAdapter {
 
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i].render(shape, enemies[i].getColor());
+		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
+			enemies[i].render(shape, enemies[i].getColor());
+		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
+			enemyBullets[i].render(shape, enemyBullets[i].getColor());
+		}
 
 		player.render(shape, player.getColor()); // player bullets get rendered here as well
-
-
-
-
 
 
 	}
