@@ -1,6 +1,7 @@
 package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 import java.lang.reflect.GenericArrayType;
 
@@ -23,8 +24,35 @@ public class Player extends Entity {
     }
 
     @Override public void render(ShapeRenderer shape, Color _color) {
-        super.render(shape, getColor());
+        super.render(shape, getColor()); // draw player
 
+
+        // draw dashed line from player to mouse position
+        shape.begin(ShapeRenderer.ShapeType.Line);
+        shape.setColor(_color);
+
+        float segmentLength = 12;
+        float distance = getDistanceTo(Inputs.Mouse.getX(), Inputs.Mouse.getY());
+        int segmentCount = (int)(distance / segmentLength / 2);
+        float dirTowardsMouse = getAngleTowards(Inputs.Mouse.getX(), Inputs.Mouse.getY());
+        float deltaX = (float)Math.cos(dirTowardsMouse) * segmentLength;
+        float deltaY = (float)Math.sin(dirTowardsMouse) * segmentLength;
+        float startY = getY() + (float)Math.sin(getDirection()) * (getRadius() + segmentLength);
+        float startX = getX() + (float)Math.cos(getDirection()) * (getRadius() + segmentLength);
+        float endX = startX + deltaX;
+        float endY = startY + deltaY;
+
+        for (int i = 0; i < segmentCount - 1; i += 1) {
+            shape.line(startX, Game.gameHeight - startY, endX, Game.gameHeight - endY);
+            startX = endX + deltaX;
+            startY = endY + deltaY;
+            endX = startX + deltaX;
+            endY = startY + deltaY;
+        }
+        shape.end();
+
+
+        // draw bullets
         for (int i = 0; i < MAX_BULLETS; i += 1) {
             bullets[i].render(shape, getColor());
         }

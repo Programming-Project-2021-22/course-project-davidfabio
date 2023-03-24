@@ -79,9 +79,15 @@ public class Game extends ApplicationAdapter {
 			enemies[i].update(deltaTime);
 
 
-		// FOR TESTING ONLY: create new enemy every x frames
-		frameCounter += 1;
-		if (frameCounter % 30 == 0) {
+
+		// FOR TESTING ONLY
+		int activeEnemyCount = 0;
+		int maxEnemies = 4;
+		for (int i = 0; i < MAX_ENEMIES; i += 1)
+			if (enemies[i].getActive())
+				activeEnemyCount += 1;
+
+		if (activeEnemyCount < maxEnemies) {
 			for (int i = 0; i < MAX_ENEMIES; i += 1) {
 				if (!enemies[i].getActive()) {
 					float randomX = (float)(Math.random() * Game.gameWidth);
