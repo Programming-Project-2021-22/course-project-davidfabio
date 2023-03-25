@@ -2,13 +2,12 @@ package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.lang.reflect.GenericArrayType;
-
 
 public class Player extends Entity {
 
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
+    private float bulletSpeed = 1600;
 
     private final int MAX_BULLETS = 64;
     private PlayerBullet[] bullets = new PlayerBullet[MAX_BULLETS];
@@ -23,10 +22,37 @@ public class Player extends Entity {
     }
 
     @Override public void render(ShapeRenderer shape, Color _color) {
-        super.render(shape, getColor());
+        super.render(shape, getPolarity().getColor()); // draw player
 
+
+        // draw dashed line from player to mouse position
+        shape.begin(ShapeRenderer.ShapeType.Line);
+        shape.setColor(_color);
+
+        float segmentLength = 12;
+        float distance = getDistanceTo(Inputs.Mouse.getX(), Inputs.Mouse.getY());
+        int segmentCount = (int)(distance / segmentLength / 2);
+        float dirTowardsMouse = getAngleTowards(Inputs.Mouse.getX(), Inputs.Mouse.getY());
+        float deltaX = (float)Math.cos(dirTowardsMouse) * segmentLength;
+        float deltaY = (float)Math.sin(dirTowardsMouse) * segmentLength;
+        float startY = getY() + (float)Math.sin(getDirection()) * (getRadius() + segmentLength);
+        float startX = getX() + (float)Math.cos(getDirection()) * (getRadius() + segmentLength);
+        float endX = startX + deltaX;
+        float endY = startY + deltaY;
+
+        for (int i = 0; i < segmentCount - 1; i += 1) {
+            shape.line(startX, Settings.windowHeight - startY, endX, Settings.windowHeight - endY);
+            startX = endX + deltaX;
+            startY = endY + deltaY;
+            endX = startX + deltaX;
+            endY = startY + deltaY;
+        }
+        shape.end();
+
+
+        // draw bullets
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].render(shape, getColor());
+            bullets[i].render(shape, getPolarity().getColor());
         }
     }
 
@@ -46,14 +72,14 @@ public class Player extends Entity {
         float nextY = getY();
         if (Inputs.up.getIsDown())    nextY -= speed;
         if (Inputs.down.getIsDown())  nextY += speed;
-        if (Inputs.left.getIsDown() ) nextX -= speed;
+        if (Inputs.left.getIsDown())  nextX -= speed;
         if (Inputs.right.getIsDown()) nextX += speed;
 
         // prevent player from going offscreen
         nextX = Math.max(nextX, getRadius());
-        nextX = Math.min(nextX, Game.gameWidth - getRadius());
+        nextX = Math.min(nextX, Settings.windowWidth - getRadius());
         nextY = Math.max(nextY, getRadius());
-        nextY = Math.min(nextY, Game.gameHeight - getRadius());
+        nextY = Math.min(nextY, Settings.windowHeight - getRadius());
 
         setX(nextX);
         setY(nextY);
@@ -70,17 +96,8 @@ public class Player extends Entity {
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0) {
-            // get new bullet from array
-            for (int i = 0; i < MAX_BULLETS; i += 1) {
-                if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
-                    bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), 1600);
-                    fireRateCooldown = fireRate;
-                    Game.sfxShoot.play(Game.sfxVolume);
-                    break;
-                }
-            }
-        }
+        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
+            shoot();
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
             bullets[i].update(deltaTime);
@@ -101,11 +118,21 @@ public class Player extends Entity {
     }
 
 
-    void switchPolarity() {
-        if (getPolarity() == Entity.Polarity.RED)
-            setPolarity(Polarity.BLUE);
-        else
-            setPolarity(Polarity.RED);
+
+    void shoot() {
+        for (int i = 0; i < MAX_BULLETS; i += 1) {
+            if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
+                bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), bulletSpeed);
+                fireRateCooldown = fireRate;
+                Sounds.playShootSfx();
+                break;
+            }
+        }
     }
 
+
+
+    void switchPolarity() {
+        getPolarity().togglePolarity();
+    }
 }

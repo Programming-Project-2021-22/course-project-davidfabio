@@ -4,21 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Entity {
-
-    public enum Polarity {
-        RED,
-        BLUE
-    }
-
     private float x, y;
     private float radius;
     private float moveSpeed;
     private float direction; // in radians
     private boolean isActive = false;
-
     private Polarity polarity;
-    private Color color;
-    private Color colorRed = Color.RED, colorBlue = Color.BLUE;
 
     public float getX() { return x; }
     public float getY() { return y; }
@@ -32,9 +23,6 @@ public class Entity {
     public boolean getActive() { return isActive; }
     public void setActive(boolean isActive) { this.isActive = isActive; }
     public Polarity getPolarity() { return polarity; }
-    public void setColorRed(Color color) { colorRed = color; }
-    public void setColorBlue(Color color) { colorBlue = color; }
-    public Color getColor() { return color; }
 
 
 
@@ -55,7 +43,7 @@ public class Entity {
             return;
 
         float _x = Math.round(x);
-        float _y = Game.gameHeight - Math.round(y);
+        float _y = Settings.windowHeight - Math.round(y);
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(_color);
@@ -66,28 +54,22 @@ public class Entity {
 
     public void setPolarity(Polarity polarity) {
         this.polarity = polarity;
-
-        switch (polarity) {
-            case RED:  color = colorRed; break;
-            case BLUE: color = colorBlue; break;
-        }
     }
-
 
     public boolean isInView() {
         if (x + radius < 0)
             return false;
-        else if (x - radius > Game.gameWidth)
+        else if (x - radius > Settings.windowWidth)
             return false;
         else if (y + radius < 0)
             return false;
-        else if (y - radius > Game.gameHeight)
+        else if (y - radius > Settings.windowHeight)
             return false;
 
         return true;
     }
 
-    void moveTowards(float direction, float deltaTime) {
+    public void moveTowards(float direction, float deltaTime) {
         float speed = getMoveSpeed() * deltaTime;
         float deltaX = (float)Math.cos(direction) * speed;
         float deltaY = (float)Math.sin(direction) * speed;
@@ -96,21 +78,18 @@ public class Entity {
         setY(getY() + deltaY);
     }
 
-    void moveTowards(float otherX, float otherY, float deltaTime) {
+    public void moveTowards(float otherX, float otherY, float deltaTime) {
         float dir = getAngleTowards(otherX, otherY);
         moveTowards(dir, deltaTime);
     }
 
-    float getAngleTowards(float otherX, float otherY) {
+    public float getAngleTowards(float otherX, float otherY) {
         return ((float)Math.atan2(otherY - y, otherX - x));
     }
 
-    float getDistanceTo(float otherX, float otherY) {
+    public float getDistanceTo(float otherX, float otherY) {
         float distanceX = x - otherX;
         float distanceY = y - otherY;
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
-
-
-
 }

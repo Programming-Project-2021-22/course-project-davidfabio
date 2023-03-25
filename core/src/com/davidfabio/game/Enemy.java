@@ -14,6 +14,10 @@ public class Enemy extends Entity {
     private float hitDuration = 0.03f;
     private float hitCooldown;
 
+    private float fireRate = 0.1f;
+    private float fireRateCooldown = 0.0f;
+    private float bulletSpeed = 200;
+
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
     private float spawnCounter;
@@ -31,19 +35,19 @@ public class Enemy extends Entity {
         isSpawning = true;
         spawnCounter = 0;
 
-        setColorRed(new Color(0.5f, 0, 0, 1));
-        setColorBlue(new Color(0, 0, 0.5f, 1));
         setPolarity(polarity); // we call this again to set the color
     }
 
 
     public void update(float deltaTime) {
+        if (!getActive())
+            return;
+
         if (isSpawning) {
             spawnCounter += deltaTime;
 
             if (spawnCounter > spawnDuration)
                 isSpawning = false;
-
             return;
         }
 
@@ -54,7 +58,17 @@ public class Enemy extends Entity {
                 inHitState = false;
         }
 
-        moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
+
+        // movement
+        //moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
+
+
+        // ---------------- shooting ----------------
+        if (fireRateCooldown > 0)
+            fireRateCooldown -= deltaTime;
+
+        if (fireRateCooldown <= 0)
+            shoot();
     }
 
 
@@ -63,12 +77,10 @@ public class Enemy extends Entity {
             return;
 
         float _x = Math.round(getX());
-        float _y = Game.gameHeight - Math.round(getY());
+        float _y = Settings.windowHeight - Math.round(getY());
 
 
-        Color outlineColor = Color.RED;
-        if (getPolarity() == Polarity.BLUE)
-            outlineColor = Color.BLUE;
+        Color outlineColor = getPolarity().getColor();
 
         if (isSpawning) {
             shape.begin(ShapeRenderer.ShapeType.Line);
@@ -91,14 +103,31 @@ public class Enemy extends Entity {
     }
 
 
+    void shoot() {
+        for (int i = 0; i < Game.MAX_ENEMY_BULLETS; i += 1) {
+            EnemyBullet bullet = Game.enemyBullets[i];
+            float dir = getAngleTowards(Game.player.getX(), Game.player.getY());
+
+            if (!bullet.getActive() && !bullet.getToDestroyNextFrame()) {
+                bullet.init(getX(), getY(), 8, dir, getPolarity(), bulletSpeed);
+                fireRateCooldown = fireRate;
+                //Game.sfxShoot.play(Game.sfxVolume);
+                break;
+            }
+        }
+    }
+
+
+
     public void hit(float attackPower) {
+        Sounds.playHitSfx();
         inHitState = true;
         hitCooldown = hitDuration;
         health -= attackPower;
 
         if (health <= 0) {
             setActive(false);
-            Game.sfxExplosion.play(Game.sfxVolume);
+            Sounds.playExplosionSfx();
         }
     }
 

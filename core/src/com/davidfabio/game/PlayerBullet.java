@@ -12,7 +12,6 @@ public class PlayerBullet extends Entity {
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed) {
         super.init(x, y, radius, direction, polarity);
         setMoveSpeed(moveSpeed);
-
     }
 
 
