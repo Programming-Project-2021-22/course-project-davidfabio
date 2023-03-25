@@ -1,9 +1,6 @@
 package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-
-import java.lang.reflect.GenericArrayType;
 
 
 public class Player extends Entity {
@@ -25,7 +22,7 @@ public class Player extends Entity {
     }
 
     @Override public void render(ShapeRenderer shape, Color _color) {
-        super.render(shape, getColor()); // draw player
+        super.render(shape, getPolarity().getColor()); // draw player
 
 
         // draw dashed line from player to mouse position
@@ -44,7 +41,7 @@ public class Player extends Entity {
         float endY = startY + deltaY;
 
         for (int i = 0; i < segmentCount - 1; i += 1) {
-            shape.line(startX, Game.gameHeight - startY, endX, Game.gameHeight - endY);
+            shape.line(startX, Settings.windowHeight - startY, endX, Settings.windowHeight - endY);
             startX = endX + deltaX;
             startY = endY + deltaY;
             endX = startX + deltaX;
@@ -55,7 +52,7 @@ public class Player extends Entity {
 
         // draw bullets
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].render(shape, getColor());
+            bullets[i].render(shape, getPolarity().getColor());
         }
     }
 
@@ -75,14 +72,14 @@ public class Player extends Entity {
         float nextY = getY();
         if (Inputs.up.getIsDown())    nextY -= speed;
         if (Inputs.down.getIsDown())  nextY += speed;
-        if (Inputs.left.getIsDown() ) nextX -= speed;
+        if (Inputs.left.getIsDown())  nextX -= speed;
         if (Inputs.right.getIsDown()) nextX += speed;
 
         // prevent player from going offscreen
         nextX = Math.max(nextX, getRadius());
-        nextX = Math.min(nextX, Game.gameWidth - getRadius());
+        nextX = Math.min(nextX, Settings.windowWidth - getRadius());
         nextY = Math.max(nextY, getRadius());
-        nextY = Math.min(nextY, Game.gameHeight - getRadius());
+        nextY = Math.min(nextY, Settings.windowHeight - getRadius());
 
         setX(nextX);
         setY(nextY);
@@ -127,7 +124,7 @@ public class Player extends Entity {
             if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
                 bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), bulletSpeed);
                 fireRateCooldown = fireRate;
-                Game.sfxShoot.play(Game.sfxVolume);
+                Sounds.playShootSfx();
                 break;
             }
         }
@@ -136,10 +133,6 @@ public class Player extends Entity {
 
 
     void switchPolarity() {
-        if (getPolarity() == Entity.Polarity.RED)
-            setPolarity(Polarity.BLUE);
-        else
-            setPolarity(Polarity.RED);
+        getPolarity().togglePolarity();
     }
-
 }
