@@ -2,7 +2,6 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -10,24 +9,22 @@ import java.util.Random;
 
 
 public class Game extends ApplicationAdapter {
-
-	public static int frameCounter = 0; // for testing only
-	ShapeRenderer shape;
-
 	public static Player player;
-
 	public static final int MAX_ENEMIES = 256;
 	public static final int MAX_ENEMY_BULLETS = 256;
 	public static Enemy[] enemies;
 	public static EnemyBullet[] enemyBullets;
+
 	private Random random;
-
-
+	private ShapeRenderer shape;
+	private Camera camera;
+	private static int frameCounter = 0; // for testing only
 
 
 	@Override public void create () {
 		random = new Random();
 		shape = new ShapeRenderer();
+		camera = new Camera();
 		Sounds.loadSounds();
 
 		player = new Player();
@@ -58,6 +55,10 @@ public class Game extends ApplicationAdapter {
 		if (Inputs.esc.getWasPressed())
 			Gdx.app.exit();
 
+
+		// Reposition camera on player
+		this.camera.updateCameraPosition(deltaTime, this.player);
+		this.shape.setProjectionMatrix(this.camera.combined);
 
 
 		// ---------------- update game logic ----------------
@@ -118,7 +119,6 @@ public class Game extends ApplicationAdapter {
 		}
 
 		player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
-
 
 	}
 
