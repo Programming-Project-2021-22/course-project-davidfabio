@@ -43,7 +43,7 @@ public class Entity {
             return;
 
         float _x = Math.round(x);
-        float _y = Settings.windowHeight - Math.round(y);
+        float _y = Math.round(y);
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(_color);
