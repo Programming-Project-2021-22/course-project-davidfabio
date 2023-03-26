@@ -18,13 +18,15 @@ public class Game extends ApplicationAdapter {
 	private Random random;
 	private ShapeRenderer shape;
 	private Camera camera;
+	private Stage stage;
 	private static int frameCounter = 0; // for testing only
 
 
 	@Override public void create () {
 		random = new Random();
 		shape = new ShapeRenderer();
-		camera = new Camera();
+		this.camera = new Camera();
+		this.stage = new Stage();
 		Sounds.loadSounds();
 
 		player = new Player();
@@ -106,6 +108,7 @@ public class Game extends ApplicationAdapter {
 
 		// ---------------- rendering ----------------
 		ScreenUtils.clear(0, 0, 0, 1);
+		this.stage.render(this.shape);
 
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			if (enemies[i].getActive())
