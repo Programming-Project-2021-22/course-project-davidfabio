@@ -133,8 +133,6 @@ public class Game extends ApplicationAdapter {
 
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i].render(shape, enemies[i].getColor());
-		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
-			enemies[i].render(shape, enemies[i].getColor());
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
 			enemyBullets[i].render(shape, enemyBullets[i].getColor());
 		}
