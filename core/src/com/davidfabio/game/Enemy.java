@@ -77,9 +77,7 @@ public class Enemy extends Entity {
             return;
 
         float _x = Math.round(getX());
-        float _y = Settings.windowHeight - Math.round(getY());
-
-
+        float _y = Math.round(getY());
         Color outlineColor = getPolarity().getColor();
 
         if (isSpawning) {

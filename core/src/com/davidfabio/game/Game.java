@@ -30,7 +30,7 @@ public class Game extends ApplicationAdapter {
 		shape = new ShapeRenderer();
 		this.camera = new Camera();
 		this.stage = new Stage();
-		Sounds.loadSounds();
+		//Sounds.loadSounds();
 
 		player = new Player();
 		player.init(Settings.windowWidth / 2, Settings.windowHeight / 2, 16, 0, new Polarity(), 260);
@@ -48,7 +48,7 @@ public class Game extends ApplicationAdapter {
 	// this is the main update and render loop; there is no separate update method
 	@Override public void render () {
 
-		// TODO: frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
+		// TODO (David): frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
 
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
 		float deltaTime = Gdx.graphics.getDeltaTime();
@@ -80,6 +80,7 @@ public class Game extends ApplicationAdapter {
 			if (enemies[i].getActive())
 				activeEnemyCount += 1;
 
+
 		if (activeEnemyCount < maxEnemies) {
 			for (int i = 0; i < MAX_ENEMIES; i += 1) {
 				if (!enemies[i].getActive()) {
@@ -109,6 +110,7 @@ public class Game extends ApplicationAdapter {
 		player.update(deltaTime); // player bullets get updated here as well
 
 
+
 		// ---------------- rendering ----------------
 		ScreenUtils.clear(0, 0, 0, 1);
 		this.stage.render(this.shape);
@@ -116,11 +118,7 @@ public class Game extends ApplicationAdapter {
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			if (enemies[i].getActive())
 				enemies[i].render(shape, enemies[i].getPolarity().getColor());
-        
-		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
-			if (enemies[i].getActive())
-				enemies[i].render(shape, enemies[i].getPolarity().getColor());
-        
+
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
 			if (enemyBullets[i].getActive())
 				enemyBullets[i].render(shape, enemyBullets[i].getPolarity().getColor());

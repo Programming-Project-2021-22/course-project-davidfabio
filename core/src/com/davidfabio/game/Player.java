@@ -29,7 +29,8 @@ public class Player extends Entity {
 
         // draw dashed line from player to mouse position
         shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(_color);
+        //shape.setColor(_color);
+        shape.setColor(Color.WHITE);
 
         float segmentLength = 12;
         float distance = getDistanceTo(Inputs.Mouse.getX(), Inputs.Mouse.getY());
@@ -43,7 +44,8 @@ public class Player extends Entity {
         float endY = startY + deltaY;
 
         for (int i = 0; i < segmentCount - 1; i += 1) {
-            shape.line(startX, Settings.windowHeight - startY, endX, Settings.windowHeight - endY);
+            //shape.line(startX, Settings.windowHeight - startY, endX, Settings.windowHeight - endY);
+            shape.line(startX, startY, endX, endY);
             startX = endX + deltaX;
             startY = endY + deltaY;
             endX = startX + deltaX;
