@@ -1,6 +1,7 @@
 package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class Player extends Entity {
@@ -22,6 +23,7 @@ public class Player extends Entity {
     }
 
     @Override public void render(ShapeRenderer shape, Color _color) {
+
         super.render(shape, getPolarity().getColor()); // draw player
 
 
@@ -48,7 +50,6 @@ public class Player extends Entity {
             endY = startY + deltaY;
         }
         shape.end();
-
 
         // draw bullets
         for (int i = 0; i < MAX_BULLETS; i += 1) {

@@ -9,6 +9,7 @@ import java.util.Random;
 
 
 public class Game extends ApplicationAdapter {
+
 	public static Player player;
 	public static final int MAX_ENEMIES = 256;
 	public static final int MAX_ENEMY_BULLETS = 256;
@@ -22,8 +23,10 @@ public class Game extends ApplicationAdapter {
 	private static int frameCounter = 0; // for testing only
 
 
+
 	@Override public void create () {
 		random = new Random();
+
 		shape = new ShapeRenderer();
 		this.camera = new Camera();
 		this.stage = new Stage();
@@ -113,16 +116,17 @@ public class Game extends ApplicationAdapter {
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			if (enemies[i].getActive())
 				enemies[i].render(shape, enemies[i].getPolarity().getColor());
+        
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
 			if (enemies[i].getActive())
 				enemies[i].render(shape, enemies[i].getPolarity().getColor());
+        
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
 			if (enemyBullets[i].getActive())
 				enemyBullets[i].render(shape, enemyBullets[i].getPolarity().getColor());
 		}
 
 		player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
-
 	}
 
 
