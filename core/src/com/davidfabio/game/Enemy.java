@@ -35,8 +35,6 @@ public class Enemy extends Entity {
         isSpawning = true;
         spawnCounter = 0;
 
-        setColorRed(new Color(0.5f, 0, 0, 1));
-        setColorBlue(new Color(0, 0, 0.5f, 1));
         setPolarity(polarity); // we call this again to set the color
     }
 
@@ -79,12 +77,10 @@ public class Enemy extends Entity {
             return;
 
         float _x = Math.round(getX());
-        float _y = Game.gameHeight - Math.round(getY());
+        float _y = Settings.windowHeight - Math.round(getY());
 
 
-        Color outlineColor = Color.RED;
-        if (getPolarity() == Polarity.BLUE)
-            outlineColor = Color.BLUE;
+        Color outlineColor = getPolarity().getColor();
 
         if (isSpawning) {
             shape.begin(ShapeRenderer.ShapeType.Line);
@@ -124,14 +120,14 @@ public class Enemy extends Entity {
 
 
     public void hit(float attackPower) {
-        Game.sfxHit.play(Game.sfxVolume);
+        Sounds.playHitSfx();
         inHitState = true;
         hitCooldown = hitDuration;
         health -= attackPower;
 
         if (health <= 0) {
             setActive(false);
-            Game.sfxExplosion.play(Game.sfxVolume);
+            Sounds.playExplosionSfx();
         }
     }
 

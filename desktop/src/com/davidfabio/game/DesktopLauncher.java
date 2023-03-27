@@ -17,14 +17,14 @@ public class DesktopLauncher {
 		Graphics.Monitor primary = Lwjgl3ApplicationConfiguration.getPrimaryMonitor();
 		Graphics.DisplayMode desktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode(primary);
 
-		if (Game.startInFullscreenMode)
+		if (Settings.START_IN_FULLSCREEN)
 			config.setFullscreenMode(desktopMode);
 
 		config.useVsync(true);
 		config.setForegroundFPS(desktopMode.refreshRate);
-		config.setWindowedMode(Game.gameWidth, Game.gameHeight);
+		config.setWindowedMode(Settings.windowWidth, Settings.windowHeight);
 		config.setResizable(false);
-		config.setTitle("Color Switching Shooter");
+		config.setTitle(Settings.GAME_TITLE);
 		new Lwjgl3Application(new Game(), config);
 	}
 

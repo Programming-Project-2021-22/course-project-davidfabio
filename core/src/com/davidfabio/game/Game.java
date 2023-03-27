@@ -2,7 +2,6 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -11,44 +10,30 @@ import java.util.Random;
 
 public class Game extends ApplicationAdapter {
 
-
-	public static boolean startInFullscreenMode = false;
-
-	public static int gameWidth  = 720;
-	public static int gameHeight = 540;
-	public static int frameCounter = 0; // for testing only
-	ShapeRenderer shape;
-
 	public static Player player;
-
 	public static final int MAX_ENEMIES = 256;
 	public static final int MAX_ENEMY_BULLETS = 256;
 	public static Enemy[] enemies;
 	public static EnemyBullet[] enemyBullets;
 
-
-	public static float sfxVolume = 0.33f; // range: 0 to 1
-	public static float musicVolume = 0.5f; // range: 0 to 1
-	static Sound sfxShoot, sfxExplosion, sfxHit;
-	static Sound musicTrack;
-
-	Random random;
-
+	private Random random;
+	private ShapeRenderer shape;
+	private Camera camera;
+	private Stage stage;
+	private static int frameCounter = 0; // for testing only
 
 
 
 	@Override public void create () {
 		random = new Random();
 
-		sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
-		sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/explosion1.wav"));
-		sfxHit = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot5.wav"));
-		//musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
-
 		shape = new ShapeRenderer();
+		this.camera = new Camera();
+		this.stage = new Stage();
+		Sounds.loadSounds();
 
 		player = new Player();
-		player.init(gameWidth / 2, gameHeight / 2, 16, 0, Entity.Polarity.RED, 260);
+		player.init(Settings.windowWidth / 2, Settings.windowHeight / 2, 16, 0, new Polarity(), 260);
 
 		enemies = new Enemy[MAX_ENEMIES];
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
@@ -57,9 +42,6 @@ public class Game extends ApplicationAdapter {
 		enemyBullets = new EnemyBullet[MAX_ENEMY_BULLETS];
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
 			enemyBullets[i] = new EnemyBullet();
-
-
-		//musicTrack.play(musicVolume);
 	}
 
 
@@ -79,6 +61,10 @@ public class Game extends ApplicationAdapter {
 			Gdx.app.exit();
 
 
+		// Reposition camera on player
+		this.camera.updateCameraPosition(deltaTime, this.player);
+		this.shape.setProjectionMatrix(this.camera.combined);
+
 
 		// ---------------- update game logic ----------------
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
@@ -97,23 +83,18 @@ public class Game extends ApplicationAdapter {
 		if (activeEnemyCount < maxEnemies) {
 			for (int i = 0; i < MAX_ENEMIES; i += 1) {
 				if (!enemies[i].getActive()) {
-					float randomX = (float)(Math.random() * Game.gameWidth);
-					float randomY = (float)(Math.random() * Game.gameHeight);
+					float randomX = (float)(Math.random() * Settings.windowWidth);
+					float randomY = (float)(Math.random() * Settings.windowHeight);
 					float minDistanceToPlayer = 240;
 
 					while(player.getDistanceTo(randomX, randomY) < minDistanceToPlayer) {
-						randomX = (float)(Math.random() * Game.gameWidth);
-						randomY = (float)(Math.random() * Game.gameHeight);
+						randomX = (float)(Math.random() * Settings.windowWidth);
+						randomY = (float)(Math.random() * Settings.windowHeight);
 					}
 
-					Entity.Polarity polarity = Entity.Polarity.RED;
-					int rand = random.nextInt(2);
-					if (rand == 1)
-						polarity = Entity.Polarity.BLUE;
+					int rand = random.nextInt(16) + 24;
 
-					rand = random.nextInt(16) + 24;
-
-					enemies[i].init(randomX, randomY, rand, 0, polarity, 80, 7);
+					enemies[i].init(randomX, randomY, rand, 0, new Polarity(), 80, 7);
 					break;
 				}
 			}
@@ -130,21 +111,27 @@ public class Game extends ApplicationAdapter {
 
 		// ---------------- rendering ----------------
 		ScreenUtils.clear(0, 0, 0, 1);
+		this.stage.render(this.shape);
 
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
-			enemies[i].render(shape, enemies[i].getColor());
+			if (enemies[i].getActive())
+				enemies[i].render(shape, enemies[i].getPolarity().getColor());
+        
+		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
+			if (enemies[i].getActive())
+				enemies[i].render(shape, enemies[i].getPolarity().getColor());
+        
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
-			enemyBullets[i].render(shape, enemyBullets[i].getColor());
+			if (enemyBullets[i].getActive())
+				enemyBullets[i].render(shape, enemyBullets[i].getPolarity().getColor());
 		}
 
-		player.render(shape, player.getColor()); // player bullets get rendered here as well
-
-
+		player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
 	}
 
 
 	@Override public void dispose () {
-		sfxShoot.dispose();
+
 	}
 
 }
