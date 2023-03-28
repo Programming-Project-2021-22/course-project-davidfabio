@@ -30,7 +30,7 @@ public class Game extends ApplicationAdapter {
 		shape = new ShapeRenderer();
 		this.camera = new Camera();
 		this.stage = new Stage();
-		//Sounds.loadSounds();
+		Sounds.loadSounds();
 
 		player = new Player();
 		player.init(Settings.windowWidth / 2, Settings.windowHeight / 2, 16, 0, new Polarity(), 260);
@@ -61,12 +61,14 @@ public class Game extends ApplicationAdapter {
 			Gdx.app.exit();
 
 
+
+		// ---------------- update game logic ----------------
+
 		// Reposition camera on player
 		this.camera.updateCameraPosition(deltaTime, this.player);
 		this.shape.setProjectionMatrix(this.camera.combined);
 
 
-		// ---------------- update game logic ----------------
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i].update(deltaTime);
 
@@ -79,7 +81,6 @@ public class Game extends ApplicationAdapter {
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			if (enemies[i].getActive())
 				activeEnemyCount += 1;
-
 
 		if (activeEnemyCount < maxEnemies) {
 			for (int i = 0; i < MAX_ENEMIES; i += 1) {
