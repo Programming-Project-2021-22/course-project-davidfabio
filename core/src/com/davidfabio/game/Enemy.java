@@ -103,7 +103,7 @@ public class Enemy extends Entity {
 
     void shoot() {
         for (int i = 0; i < Game.MAX_ENEMY_BULLETS; i += 1) {
-            EnemyBullet bullet = Game.enemyBullets[i];
+            BulletEnemy bullet = Game.enemyBullets[i];
             float dir = getAngleTowards(Game.player.getX(), Game.player.getY());
 
             if (!bullet.getActive() && !bullet.getToDestroyNextFrame()) {

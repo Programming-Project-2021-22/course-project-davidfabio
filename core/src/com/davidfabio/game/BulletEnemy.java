@@ -1,6 +1,6 @@
 package com.davidfabio.game;
 
-public class EnemyBullet extends Bullet {
+public class BulletEnemy extends Bullet {
 
     public void update(float deltaTime) {
         super.update(deltaTime);

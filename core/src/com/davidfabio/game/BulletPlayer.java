@@ -1,6 +1,6 @@
 package com.davidfabio.game;
 
-public class PlayerBullet extends Bullet {
+public class BulletPlayer extends Bullet {
 
     private float firePower = 1.0f;
 

@@ -14,13 +14,13 @@ public class Game extends ApplicationAdapter {
 	public static final int MAX_ENEMIES = 256;
 	public static final int MAX_ENEMY_BULLETS = 256;
 	public static Enemy[] enemies;
-	public static EnemyBullet[] enemyBullets;
+	public static BulletEnemy[] enemyBullets;
 
 	private Random random;
 	private ShapeRenderer shape;
 	private Camera camera;
 	private Stage stage;
-	private static int frameCounter = 0; // for testing only
+	private static float timeElapsed = 0; // for testing only
 
 
 
@@ -39,9 +39,9 @@ public class Game extends ApplicationAdapter {
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
 			enemies[i] = new Enemy();
 
-		enemyBullets = new EnemyBullet[MAX_ENEMY_BULLETS];
+		enemyBullets = new BulletEnemy[MAX_ENEMY_BULLETS];
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
-			enemyBullets[i] = new EnemyBullet();
+			enemyBullets[i] = new BulletEnemy();
 	}
 
 
@@ -52,6 +52,7 @@ public class Game extends ApplicationAdapter {
 
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
 		float deltaTime = Gdx.graphics.getDeltaTime();
+		timeElapsed += deltaTime;
 
 		// get user input
 		Inputs.update();
@@ -74,8 +75,7 @@ public class Game extends ApplicationAdapter {
 
 
 
-		// FOR TESTING ONLY
-		frameCounter += 1;
+		// FOR TESTING ONLY: enemy spawning
 		int activeEnemyCount = 0;
 		int maxEnemies = 4;
 		for (int i = 0; i < MAX_ENEMIES; i += 1)
@@ -113,7 +113,7 @@ public class Game extends ApplicationAdapter {
 
 
 		// ---------------- rendering ----------------
-		ScreenUtils.clear(0, 0, 0, 1);
+		ScreenUtils.clear(1, 1, 1, 1);
 		this.stage.render(this.shape);
 
 		for (int i = 0; i < MAX_ENEMIES; i += 1)

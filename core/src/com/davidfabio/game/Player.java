@@ -1,7 +1,6 @@
 package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 
 
 public class Player extends Entity {
@@ -11,7 +10,7 @@ public class Player extends Entity {
     private float bulletSpeed = 1600;
 
     private final int MAX_BULLETS = 64;
-    private PlayerBullet[] bullets = new PlayerBullet[MAX_BULLETS];
+    private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed)  {
@@ -19,7 +18,7 @@ public class Player extends Entity {
         this.setMoveSpeed(moveSpeed);
 
         for (int i = 0; i < MAX_BULLETS; i += 1)
-            bullets[i] = new PlayerBullet();
+            bullets[i] = new BulletPlayer();
     }
 
     @Override public void render(ShapeRenderer shape, Color _color) {
@@ -29,8 +28,7 @@ public class Player extends Entity {
 
         // draw dashed line from player to mouse position
         shape.begin(ShapeRenderer.ShapeType.Line);
-        //shape.setColor(_color);
-        shape.setColor(Color.WHITE);
+        shape.setColor(_color);
 
         float segmentLength = 12;
         float distance = getDistanceTo(Inputs.Mouse.getX(), Inputs.Mouse.getY());
