@@ -23,13 +23,15 @@ public class Camera extends OrthographicCamera {
     }
 
     private void moveTowards(float otherX, float otherY, float deltaTime) {
-        float dir = getAngleTowards(otherX, otherY);
+        float dir = this.getAngleTowards(otherX, otherY);
         // Increase camera speed when distance to player is large, so that the player never goes
         // out of view.
-        float distanceToPlayer = getDistanceTo(otherX, otherY);
-        float speedMultiplier = distanceToPlayer > 240 ? (distanceToPlayer / 240 * 2) : 1.0f;
-        float speed = Camera.MOVEMENT_SPEED * deltaTime * speedMultiplier;
-        moveTowardsWSpeed(dir, deltaTime, speed);
+        float distanceToPlayer = this.getDistanceTo(otherX, otherY);
+        if (distanceToPlayer * deltaTime > 0.5f) {
+            float speedMultiplier = distanceToPlayer > 240 ? (distanceToPlayer / 240 * 2) : 1.0f;
+            float speed = Camera.MOVEMENT_SPEED * deltaTime * speedMultiplier;
+            this.moveTowardsWSpeed(dir, speed);
+        }
     }
 
     private float getAngleTowards(float otherX, float otherY) {
@@ -42,7 +44,7 @@ public class Camera extends OrthographicCamera {
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
 
-    public void moveTowardsWSpeed(float direction, float deltaTime, float speed) {
+    public void moveTowardsWSpeed(float direction, float speed) {
         float deltaX = (float)Math.cos(direction) * speed;
         float deltaY = (float)Math.sin(direction) * speed;
 

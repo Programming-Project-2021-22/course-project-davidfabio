@@ -19,20 +19,23 @@ public class Game extends ApplicationAdapter {
 
 	private Random random;
 	private ShapeRenderer shape;
-	private Camera camera;
-	private Stage stage;
+	private static Camera camera;
+	private static Stage stage;
 
 	// for testing only
 	private static float timeElapsed = 0;
 	public static float getTimeElapsed() { return timeElapsed; }
+	public static Camera getCamera() {
+		return camera;
+	}
 
 
 	@Override public void create () {
 		random = new Random();
 
 		shape = new ShapeRenderer();
-		this.camera = new Camera();
-		this.stage = new Stage();
+		camera = new Camera();
+		stage = new Stage();
 		Sounds.loadSounds();
 
 		player = new Player();
