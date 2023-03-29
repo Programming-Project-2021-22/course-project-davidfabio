@@ -1,6 +1,6 @@
 package com.davidfabio.game;
 
-public class PlayerBullet extends Bullet {
+public class BulletPlayer extends Bullet {
 
     private float firePower = 1.0f;
 
@@ -8,16 +8,19 @@ public class PlayerBullet extends Bullet {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        // ---------------- collision detection ----------------
-        for (int i = 0; i < Game.MAX_ENEMIES; i += 1) {
-            Enemy enemy = Game.enemies[i];
+        if (!getIsActive())
+            return;
 
-            if (!enemy.getActive())
+
+        // ---------------- collision detection ----------------
+        for (Enemy enemy : Game.enemies) {
+            if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
                 continue;
 
             if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
+
                 float _firePower = firePower;
                 if (getPolarity() != enemy.getPolarity()) {
                     _firePower *= 2;

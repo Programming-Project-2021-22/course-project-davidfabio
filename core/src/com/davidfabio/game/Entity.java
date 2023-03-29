@@ -20,8 +20,8 @@ public class Entity {
     public float getDirection() { return direction; }
     public void setDirection(float direction) { this.direction = direction; }
     public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
-    public boolean getActive() { return isActive; }
-    public void setActive(boolean isActive) { this.isActive = isActive; }
+    public boolean getIsActive() { return isActive; }
+    public void setIsActive(boolean isActive) { this.isActive = isActive; }
     public Polarity getPolarity() { return polarity; }
 
 

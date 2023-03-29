@@ -15,13 +15,13 @@ public class Bullet extends Entity {
 
     public void update(float deltaTime) {
         if (!isInView())
-            setActive(false);
+            setIsActive(false);
 
         if (toDestroyNextFrame) {
             toDestroyNextFrame = false;
-            setActive(false);
+            setIsActive(false);
         }
-        if (!getActive())
+        if (!getIsActive())
             return;
 
         moveTowards(getDirection(), deltaTime);

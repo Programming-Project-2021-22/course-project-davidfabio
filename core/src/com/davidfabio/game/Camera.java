@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Camera extends OrthographicCamera {
-    private static final float MOVEMENT_SPEED = 80f;
+    private static final float MOVEMENT_SPEED = 200f;
     public Camera() {
         super();
         this.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

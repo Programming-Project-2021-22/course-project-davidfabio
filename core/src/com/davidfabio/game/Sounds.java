@@ -33,6 +33,8 @@ public class Sounds {
             System.out.println("Sound could not be loaded.\n" + ex.getMessage());
         }
 
+        // NOTE (David): this is commented out for now, because it makes the game load very slowly
+        /*
         try {
             musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
         }
@@ -40,6 +42,7 @@ public class Sounds {
             musicTrack = null;
             System.out.println("Sound could not be loaded.\n" + ex.getMessage());
         }
+        */
     }
 
     public static void playHitSfx() {
