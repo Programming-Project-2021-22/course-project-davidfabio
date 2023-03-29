@@ -89,6 +89,8 @@ public class Game extends ApplicationAdapter {
 				randomY = (float) (Math.random() * Settings.windowHeight);
 			}
 
+
+			// NOTE (David): here we are allocating memory to create an enemy; should ideally be avoided
 			int rand = random.nextInt(2);
 			switch (rand) {
 				case 0: {
