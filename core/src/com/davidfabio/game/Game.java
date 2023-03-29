@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -13,15 +14,17 @@ public class Game extends ApplicationAdapter {
 	public static Player player;
 	public static final int MAX_ENEMIES = 256;
 	public static final int MAX_ENEMY_BULLETS = 256;
-	public static Enemy[] enemies;
+	public static ArrayList<Enemy> enemies;
 	public static BulletEnemy[] enemyBullets;
 
 	private Random random;
 	private ShapeRenderer shape;
 	private Camera camera;
 	private Stage stage;
-	private static float timeElapsed = 0; // for testing only
 
+	// for testing only
+	private static float timeElapsed = 0;
+	public static float getTimeElapsed() { return timeElapsed; }
 
 
 	@Override public void create () {
@@ -35,9 +38,9 @@ public class Game extends ApplicationAdapter {
 		player = new Player();
 		player.init(Settings.windowWidth / 2, Settings.windowHeight / 2, 16, 0, new Polarity(), 260);
 
-		enemies = new Enemy[MAX_ENEMIES];
-		for (int i = 0; i < MAX_ENEMIES; i += 1)
-			enemies[i] = new Enemy();
+		enemies = new ArrayList<>();
+		//for (int i = 0; i < MAX_ENEMIES; i += 1)
+		//	enemies.add(new Enemy());
 
 		enemyBullets = new BulletEnemy[MAX_ENEMY_BULLETS];
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
@@ -70,38 +73,43 @@ public class Game extends ApplicationAdapter {
 		this.shape.setProjectionMatrix(this.camera.combined);
 
 
-		for (int i = 0; i < MAX_ENEMIES; i += 1)
-			enemies[i].update(deltaTime);
-
-
-
 		// FOR TESTING ONLY: enemy spawning
 		int activeEnemyCount = 0;
 		int maxEnemies = 4;
-		for (int i = 0; i < MAX_ENEMIES; i += 1)
-			if (enemies[i].getActive())
+		for (Enemy enemy : enemies)
+			if (enemy.getIsActive())
 				activeEnemyCount += 1;
 
 		if (activeEnemyCount < maxEnemies) {
-			for (int i = 0; i < MAX_ENEMIES; i += 1) {
-				if (!enemies[i].getActive()) {
-					float randomX = (float)(Math.random() * Settings.windowWidth);
-					float randomY = (float)(Math.random() * Settings.windowHeight);
-					float minDistanceToPlayer = 240;
+			float randomX = (float) (Math.random() * Settings.windowWidth);
+			float randomY = (float) (Math.random() * Settings.windowHeight);
+			float minDistanceToPlayer = 240;
+			while (player.getDistanceTo(randomX, randomY) < minDistanceToPlayer) {
+				randomX = (float) (Math.random() * Settings.windowWidth);
+				randomY = (float) (Math.random() * Settings.windowHeight);
+			}
 
-					while(player.getDistanceTo(randomX, randomY) < minDistanceToPlayer) {
-						randomX = (float)(Math.random() * Settings.windowWidth);
-						randomY = (float)(Math.random() * Settings.windowHeight);
-					}
-
-					int rand = random.nextInt(16) + 24;
-
-					enemies[i].init(randomX, randomY, rand, 0, new Polarity(), 80, 7);
+			int rand = random.nextInt(2);
+			switch (rand) {
+				case 0: {
+					EnemyChaser enemyChaser = new EnemyChaser();
+					enemyChaser.init(randomX, randomY, 20, 0, new Polarity(), 70, 7);
+					enemies.add(enemyChaser);
+					break;
+				}
+				case 1: {
+					EnemyStatic enemyStatic = new EnemyStatic();
+					enemyStatic.init(randomX, randomY, 28, 0, new Polarity(), 70, 7);
+					enemies.add(enemyStatic);
 					break;
 				}
 			}
 		}
 
+
+		// update enemies
+		for (Enemy enemy : enemies)
+			enemy.update(deltaTime);
 
 		// update enemy bullets
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
@@ -116,12 +124,12 @@ public class Game extends ApplicationAdapter {
 		ScreenUtils.clear(1, 1, 1, 1);
 		this.stage.render(this.shape);
 
-		for (int i = 0; i < MAX_ENEMIES; i += 1)
-			if (enemies[i].getActive())
-				enemies[i].render(shape, enemies[i].getPolarity().getColor());
+		for (Enemy enemy : enemies)
+			if (enemy.getIsActive())
+				enemy.render(shape, enemy.getPolarity().getColor());
 
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
-			if (enemyBullets[i].getActive())
+			if (enemyBullets[i].getIsActive())
 				enemyBullets[i].render(shape, enemyBullets[i].getPolarity().getColor());
 		}
 

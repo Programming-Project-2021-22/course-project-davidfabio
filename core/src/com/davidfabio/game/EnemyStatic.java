@@ -1,7 +1,6 @@
 package com.davidfabio.game;
 
-public class EnemyChaser extends Enemy {
-
+public class EnemyStatic extends Enemy {
 
     @Override public void update(float deltaTime) {
         super.update(deltaTime);
@@ -11,8 +10,11 @@ public class EnemyChaser extends Enemy {
         if (getIsSpawning())
             return;
 
-        moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
-    }
+        if (getFireRateCooldown() > 0)
+            setFireRateCooldown(getFireRateCooldown() - deltaTime);
 
+        if (getFireRateCooldown() <= 0)
+            shoot();
+    }
 
 }

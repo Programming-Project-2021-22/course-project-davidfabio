@@ -106,15 +106,14 @@ public class Player extends Entity {
 
 
         // ---------------- collision detection against enemies ----------------
-        for (int i = 0; i < Game.MAX_ENEMIES; i += 1) {
-            if (!Game.enemies[i].getActive())
+        for (Enemy enemy : Game.enemies) {
+            if (!enemy.getIsActive())
                 continue;
-            if (Game.enemies[i].getIsSpawning())
+            if (enemy.getIsSpawning())
                 continue;;
-            if (Collision.circleCircle(getX(), getY(), getRadius(), Game.enemies[i].getX(), Game.enemies[i].getY(), Game.enemies[i].getRadius()))
-                Game.enemies[i].hit(Game.enemies[i].getHealth());
+            if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius()))
+                enemy.hit(enemy.getHealth());
         }
-
 
     }
 
@@ -122,7 +121,7 @@ public class Player extends Entity {
 
     void shoot() {
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            if (!bullets[i].getActive() && !bullets[i].getToDestroyNextFrame()) {
+            if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
                 bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), bulletSpeed);
                 fireRateCooldown = fireRate;
                 Sounds.playShootSfx();

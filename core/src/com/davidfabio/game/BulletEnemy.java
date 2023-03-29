@@ -5,6 +5,9 @@ public class BulletEnemy extends Bullet {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
+        if (!getIsActive())
+            return;
+
         // ---------------- collision detection ----------------
         if (Collision.circleCircle(getX(), getY(), getRadius(), Game.player.getX(), Game.player.getY(), Game.player.getRadius())) {
 

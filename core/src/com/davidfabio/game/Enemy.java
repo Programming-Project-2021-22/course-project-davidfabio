@@ -14,9 +14,9 @@ public class Enemy extends Entity {
     private float hitDuration = 0.03f;
     private float hitCooldown;
 
-    private float fireRate = 0.1f;
+    private float fireRate = 0.2f;
     private float fireRateCooldown = 0.0f;
-    private float bulletSpeed = 200;
+    private float bulletSpeed = 150;
 
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
@@ -24,6 +24,8 @@ public class Enemy extends Entity {
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
+    public float getFireRateCooldown() { return fireRateCooldown; }
+    public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
@@ -40,7 +42,7 @@ public class Enemy extends Entity {
 
 
     public void update(float deltaTime) {
-        if (!getActive())
+        if (!getIsActive())
             return;
 
         if (isSpawning) {
@@ -57,23 +59,11 @@ public class Enemy extends Entity {
             if (hitCooldown < 0)
                 inHitState = false;
         }
-
-
-        // movement
-        //moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
-
-
-        // ---------------- shooting ----------------
-        if (fireRateCooldown > 0)
-            fireRateCooldown -= deltaTime;
-
-        if (fireRateCooldown <= 0)
-            shoot();
     }
 
 
     @Override public void render(ShapeRenderer shape, Color _color) {
-        if (!getActive())
+        if (!getIsActive())
             return;
 
         float _x = Math.round(getX());
@@ -106,7 +96,7 @@ public class Enemy extends Entity {
             BulletEnemy bullet = Game.enemyBullets[i];
             float dir = getAngleTowards(Game.player.getX(), Game.player.getY());
 
-            if (!bullet.getActive() && !bullet.getToDestroyNextFrame()) {
+            if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 bullet.init(getX(), getY(), 8, dir, getPolarity(), bulletSpeed);
                 fireRateCooldown = fireRate;
                 //Game.sfxShoot.play(Game.sfxVolume);
@@ -124,7 +114,7 @@ public class Enemy extends Entity {
         health -= attackPower;
 
         if (health <= 0) {
-            setActive(false);
+            setIsActive(false);
             Sounds.playExplosionSfx();
         }
     }
