@@ -78,7 +78,7 @@ public class Game extends ApplicationAdapter {
 
 		// FOR TESTING ONLY: enemy spawning
 		int activeEnemyCount = 0;
-		int maxEnemies = 4;
+		int maxEnemies = 5;
 		for (Enemy enemy : enemies)
 			if (enemy.getIsActive())
 				activeEnemyCount += 1;

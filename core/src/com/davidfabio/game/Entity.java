@@ -23,7 +23,7 @@ public class Entity {
     public boolean getIsActive() { return isActive; }
     public void setIsActive(boolean isActive) { this.isActive = isActive; }
     public Polarity getPolarity() { return polarity; }
-
+    public void setPolarity(Polarity polarity) { this.polarity = polarity; }
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
@@ -42,19 +42,12 @@ public class Entity {
         if (!isActive)
             return;
 
-        float _x = Math.round(x);
-        float _y = Math.round(y);
-
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(_color);
-        shape.circle(_x, _y, radius);
+        shape.circle(x, y, radius);
         shape.end();
     }
 
-
-    public void setPolarity(Polarity polarity) {
-        this.polarity = polarity;
-    }
 
     public boolean isInView() {
         if (x + radius < 0)
@@ -92,4 +85,9 @@ public class Entity {
         float distanceY = y - otherY;
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
+
+    public float radiansToDegrees(float angleRadians) {
+        return angleRadians * (float)(180 / Math.PI);
+    }
+
 }

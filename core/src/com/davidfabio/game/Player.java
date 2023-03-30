@@ -7,7 +7,7 @@ public class Player extends Entity {
 
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
-    private float bulletSpeed = 1600;
+    private float bulletSpeed = 800;
 
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
