@@ -126,7 +126,7 @@ public class Game extends ApplicationAdapter {
 
 
 		// ---------------- rendering ----------------
-		ScreenUtils.clear(1, 1, 1, 1);
+		ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
 		this.stage.render(this.shape);
 
 		for (Enemy enemy : enemies)
