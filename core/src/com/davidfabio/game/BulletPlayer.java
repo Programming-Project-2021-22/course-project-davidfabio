@@ -48,6 +48,7 @@ public class BulletPlayer extends Bullet {
                 enemy.hit(_firePower);
 
                 // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the enemy
+                // TODO (David): now that we changed player bullets to an ellipsis shape, we have to change the collision detection as well
                 setToDestroyNextFrame(true);
                 while (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
                     setX(getX() - (float)Math.cos(getDirection()));
