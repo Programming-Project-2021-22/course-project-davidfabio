@@ -83,7 +83,7 @@ public class Game extends ApplicationAdapter {
 
 		// FOR TESTING ONLY: enemy spawning
 		int activeEnemyCount = 0;
-		int maxEnemies = 5;
+		int maxEnemies = 10;
 		for (Enemy enemy : enemies)
 			if (enemy.getIsActive())
 				activeEnemyCount += 1;
@@ -99,7 +99,8 @@ public class Game extends ApplicationAdapter {
 
 
 			// NOTE (David): here we are allocating memory to create an enemy; should ideally be avoided
-			int rand = random.nextInt(2);
+			//int rand = random.nextInt(2);
+			int rand = 0;
 			switch (rand) {
 				case 0: {
 					EnemyChaser enemyChaser = new EnemyChaser();
