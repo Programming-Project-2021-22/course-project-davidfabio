@@ -17,17 +17,22 @@ public class Game extends ApplicationAdapter {
 	public static ArrayList<Enemy> enemies;
 	public static BulletEnemy[] enemyBullets;
 
-	private Random random;
+	private static Random random;
+	public static Random getRandom() { return random; }
+
 	private ShapeRenderer shape;
 	private static Camera camera;
 	private static Stage stage;
 
-	// for testing only
-	private static float timeElapsed = 0;
-	public static float getTimeElapsed() { return timeElapsed; }
 	public static Camera getCamera() {
 		return camera;
 	}
+
+	// for testing only
+	private static float timeElapsed = 0;
+	public static float getTimeElapsed() { return timeElapsed; }
+
+
 
 
 	@Override public void create () {
@@ -78,7 +83,7 @@ public class Game extends ApplicationAdapter {
 
 		// FOR TESTING ONLY: enemy spawning
 		int activeEnemyCount = 0;
-		int maxEnemies = 4;
+		int maxEnemies = 5;
 		for (Enemy enemy : enemies)
 			if (enemy.getIsActive())
 				activeEnemyCount += 1;
@@ -126,7 +131,7 @@ public class Game extends ApplicationAdapter {
 
 
 		// ---------------- rendering ----------------
-		ScreenUtils.clear(1, 1, 1, 1);
+		ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
 		this.stage.render(this.shape);
 
 		for (Enemy enemy : enemies)
