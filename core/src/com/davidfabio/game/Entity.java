@@ -90,4 +90,8 @@ public class Entity {
         return angleRadians * (float)(180 / Math.PI);
     }
 
+    public float degreesToRadians(float angleDegrees) {
+        return angleDegrees * (float)(Math.PI / 180);
+    }
+
 }

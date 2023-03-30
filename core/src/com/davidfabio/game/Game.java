@@ -17,17 +17,22 @@ public class Game extends ApplicationAdapter {
 	public static ArrayList<Enemy> enemies;
 	public static BulletEnemy[] enemyBullets;
 
-	private Random random;
+	private static Random random;
+	public static Random getRandom() { return random; }
+
 	private ShapeRenderer shape;
 	private static Camera camera;
 	private static Stage stage;
 
-	// for testing only
-	private static float timeElapsed = 0;
-	public static float getTimeElapsed() { return timeElapsed; }
 	public static Camera getCamera() {
 		return camera;
 	}
+
+	// for testing only
+	private static float timeElapsed = 0;
+	public static float getTimeElapsed() { return timeElapsed; }
+
+
 
 
 	@Override public void create () {

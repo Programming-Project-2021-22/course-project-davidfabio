@@ -8,6 +8,7 @@ public class Player extends Entity {
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
+    private float bulletSpreadMax = 8;
 
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
@@ -24,7 +25,6 @@ public class Player extends Entity {
     @Override public void render(ShapeRenderer shape, Color _color) {
 
         super.render(shape, getPolarity().getColor()); // draw player
-
 
         // draw dashed line from player to mouse position
         shape.begin(ShapeRenderer.ShapeType.Line);
@@ -122,7 +122,12 @@ public class Player extends Entity {
     void shoot() {
         for (int i = 0; i < MAX_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
-                bullets[i].init(getX(), getY(), 8, getDirection(), getPolarity(), bulletSpeed);
+
+                // add random spread to bullet direction
+                float random = Game.getRandom().nextFloat() - 0.5f;
+                float angleDelta = degreesToRadians(random * bulletSpreadMax);
+
+                bullets[i].init(getX(), getY(), 8, getDirection() + angleDelta, getPolarity(), bulletSpeed);
                 fireRateCooldown = fireRate;
                 Sounds.playShootSfx();
                 break;
