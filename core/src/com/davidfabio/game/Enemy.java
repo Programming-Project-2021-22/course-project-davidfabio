@@ -68,26 +68,18 @@ public class Enemy extends Entity {
 
         float _x = Math.round(getX());
         float _y = Math.round(getY());
-        Color outlineColor = getPolarity().getColor();
 
         if (isSpawning) {
             shape.begin(ShapeRenderer.ShapeType.Line);
-            shape.setColor(outlineColor);
+            shape.setColor(_color);
             shape.arc(_x, _y, getRadius(), 0, (spawnCounter * 360) / spawnDuration);
             shape.end();
             return;
         }
-
         if (inHitState)
             _color = new Color(0.5f, 0.5f, 0.5f, 1);
+
         super.render(shape, _color);
-
-
-        // draw outline
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(outlineColor);
-        shape.circle(_x, _y, getRadius());
-        shape.end();
     }
 
 
