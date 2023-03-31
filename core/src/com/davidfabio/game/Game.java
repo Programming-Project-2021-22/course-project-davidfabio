@@ -28,10 +28,13 @@ public class Game extends ApplicationAdapter {
 		return camera;
 	}
 
+	private static boolean isPaused = false;
+
 	// for testing only
 	private static float timeElapsed = 0;
 	public static float getTimeElapsed() { return timeElapsed; }
 
+	public static float displayRefreshRate;
 
 
 
@@ -53,25 +56,34 @@ public class Game extends ApplicationAdapter {
 		enemyBullets = new BulletEnemy[MAX_ENEMY_BULLETS];
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
 			enemyBullets[i] = new BulletEnemy();
+
+		isPaused = false;
 	}
 
 
 	// this is the main update and render loop; there is no separate update method
 	@Override public void render () {
 
-		// TODO (David): frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
-
-		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
-		float deltaTime = Gdx.graphics.getDeltaTime();
+		// TODO (David): frametimes are uneven when using deltaTime (with VSync enabled), so for now at least we are not using it
+		//float deltaTime = Gdx.graphics.getDeltaTime();
+		float deltaTime = 1.0f / displayRefreshRate;
 		timeElapsed += deltaTime;
+
 
 		// get user input
 		Inputs.update();
 
-		// close application
+		// pause/unpause
 		if (Inputs.esc.getWasPressed())
-			Gdx.app.exit();
+			isPaused = !isPaused;
 
+		// restart game
+		// TODO (David): quick and dirty solution; e.g. all the sounds get reloaded again, which is unnecessary
+		if (Inputs.tab.getWasPressed())
+			create();
+
+		if (isPaused)
+			return;
 
 
 		// ---------------- update game logic ----------------
@@ -83,7 +95,7 @@ public class Game extends ApplicationAdapter {
 
 		// FOR TESTING ONLY: enemy spawning
 		int activeEnemyCount = 0;
-		int maxEnemies = 5;
+		int maxEnemies = 10;
 		for (Enemy enemy : enemies)
 			if (enemy.getIsActive())
 				activeEnemyCount += 1;
@@ -99,7 +111,8 @@ public class Game extends ApplicationAdapter {
 
 
 			// NOTE (David): here we are allocating memory to create an enemy; should ideally be avoided
-			int rand = random.nextInt(2);
+			//int rand = random.nextInt(2);
+			int rand = 0;
 			switch (rand) {
 				case 0: {
 					EnemyChaser enemyChaser = new EnemyChaser();

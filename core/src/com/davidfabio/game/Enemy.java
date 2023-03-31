@@ -24,6 +24,8 @@ public class Enemy extends Entity {
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
+    public float getSpawnDuration() { return spawnDuration; }
+    public float getSpawnCounter() { return spawnCounter; }
     public float getFireRateCooldown() { return fireRateCooldown; }
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
 
@@ -66,13 +68,10 @@ public class Enemy extends Entity {
         if (!getIsActive())
             return;
 
-        float _x = Math.round(getX());
-        float _y = Math.round(getY());
-
         if (isSpawning) {
             shape.begin(ShapeRenderer.ShapeType.Line);
             shape.setColor(_color);
-            shape.arc(_x, _y, getRadius(), 0, (spawnCounter * 360) / spawnDuration);
+            shape.arc(getX(), getY(), getRadius(), 0, (spawnCounter * 360) / spawnDuration);
             shape.end();
             return;
         }

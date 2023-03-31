@@ -23,6 +23,7 @@ public class Inputs {
     public static Key right = new Key(Keys.D);
     public static Key esc   = new Key(Keys.ESCAPE);
     public static Key space = new Key(Keys.SPACE);
+    public static Key tab   = new Key(Keys.TAB);
     public static Key alt   = new Key(Keys.ALT_LEFT);
     public static Key enter = new Key(Keys.ENTER);
 

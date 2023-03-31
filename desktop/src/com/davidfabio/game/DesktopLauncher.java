@@ -20,6 +20,8 @@ public class DesktopLauncher {
 		if (Settings.START_IN_FULLSCREEN)
 			config.setFullscreenMode(desktopMode);
 
+		Game.displayRefreshRate = desktopMode.refreshRate;
+
 		config.useVsync(true);
 		config.setForegroundFPS(desktopMode.refreshRate);
 		config.setWindowedMode(Settings.windowWidth, Settings.windowHeight);

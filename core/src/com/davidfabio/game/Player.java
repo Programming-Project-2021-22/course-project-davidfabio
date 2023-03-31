@@ -26,6 +26,13 @@ public class Player extends Entity {
 
         super.render(shape, getPolarity().getColor()); // draw player
 
+        // draw inner white circle
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(Color.WHITE);
+        shape.circle(getX(), getY(), getRadius() - getRadius() / 3);
+        shape.end();
+
+
         // draw dashed line from player to mouse position
         shape.begin(ShapeRenderer.ShapeType.Line);
         shape.setColor(_color);
