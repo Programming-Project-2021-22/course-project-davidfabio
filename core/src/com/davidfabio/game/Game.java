@@ -34,6 +34,7 @@ public class Game extends ApplicationAdapter {
 	private static float timeElapsed = 0;
 	public static float getTimeElapsed() { return timeElapsed; }
 
+	public static float displayRefreshRate;
 
 
 
@@ -63,10 +64,11 @@ public class Game extends ApplicationAdapter {
 	// this is the main update and render loop; there is no separate update method
 	@Override public void render () {
 
-		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
-		// TODO (David): frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
-		float deltaTime = Gdx.graphics.getDeltaTime();
+		// TODO (David): frametimes are uneven when using deltaTime (with VSync enabled), so for now at least we are not using it
+		//float deltaTime = Gdx.graphics.getDeltaTime();
+		float deltaTime = 1.0f / displayRefreshRate;
 		timeElapsed += deltaTime;
+
 
 		// get user input
 		Inputs.update();
