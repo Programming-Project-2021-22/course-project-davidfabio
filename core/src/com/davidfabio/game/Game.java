@@ -28,6 +28,8 @@ public class Game extends ApplicationAdapter {
 		return camera;
 	}
 
+	private static boolean isPaused = false;
+
 	// for testing only
 	private static float timeElapsed = 0;
 	public static float getTimeElapsed() { return timeElapsed; }
@@ -53,25 +55,33 @@ public class Game extends ApplicationAdapter {
 		enemyBullets = new BulletEnemy[MAX_ENEMY_BULLETS];
 		for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
 			enemyBullets[i] = new BulletEnemy();
+
+		isPaused = false;
 	}
 
 
 	// this is the main update and render loop; there is no separate update method
 	@Override public void render () {
 
-		// TODO (David): frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
-
 		// time passed since last frame in seconds; with VSync on it should be ~16.6ms with a 60hz refresh rate
+		// TODO (David): frametimes are uneven, even if the render method is completely empty; VSync not working correctly?
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		timeElapsed += deltaTime;
 
 		// get user input
 		Inputs.update();
 
-		// close application
+		// pause/unpause
 		if (Inputs.esc.getWasPressed())
-			Gdx.app.exit();
+			isPaused = !isPaused;
 
+		// restart game
+		// TODO (David): quick and dirty solution; e.g. all the sounds get reloaded again, which is unnecessary
+		if (Inputs.tab.getWasPressed())
+			create();
+
+		if (isPaused)
+			return;
 
 
 		// ---------------- update game logic ----------------
