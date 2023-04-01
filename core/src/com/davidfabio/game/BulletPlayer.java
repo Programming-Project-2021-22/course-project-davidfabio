@@ -42,7 +42,7 @@ public class BulletPlayer extends Bullet {
             if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
 
                 float _firePower = firePower;
-                if (getPolarity() != enemy.getPolarity()) {
+                if (getPolarity().equals(enemy.getPolarity())) {
                     _firePower *= 2;
                 }
                 enemy.hit(_firePower);
