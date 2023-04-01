@@ -1,8 +1,8 @@
 package com.davidfabio.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -22,7 +22,9 @@ public class Game extends ApplicationAdapter {
 
 	private ShapeRenderer shape;
 	private static Camera camera;
+	private static Level level;
 	private static Stage stage;
+	private static UserInterface userInterface;
 
 	public static Camera getCamera() {
 		return camera;
@@ -44,10 +46,14 @@ public class Game extends ApplicationAdapter {
 		shape = new ShapeRenderer();
 		camera = new Camera();
 		stage = new Stage();
+		level = new Level();
 		Sounds.loadSounds();
 
 		player = new Player();
-		player.init(Settings.windowWidth / 2, Settings.windowHeight / 2, 16, 0, new Polarity(), 260);
+		player.init(Settings.windowWidth / 2, Settings.windowHeight / 2, 16, 0, new Polarity(), 260, 20);
+		this.userInterface = new UserInterface();
+		this.userInterface.init(player);
+		stage.addActor(this.userInterface);
 
 		enemies = new ArrayList<>();
 		//for (int i = 0; i < MAX_ENEMIES; i += 1)
@@ -140,12 +146,13 @@ public class Game extends ApplicationAdapter {
 
 
 		player.update(deltaTime); // player bullets get updated here as well
-
+		this.userInterface.update(this.player);
 
 
 		// ---------------- rendering ----------------
 		ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
-		this.stage.render(this.shape);
+		this.level.render(this.shape);
+		this.stage.draw();
 
 		for (Enemy enemy : enemies)
 			if (enemy.getIsActive())

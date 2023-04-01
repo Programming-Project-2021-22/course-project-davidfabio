@@ -21,6 +21,7 @@ public class Enemy extends Entity {
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
     private float spawnCounter;
+    private static float collisionDamage = 2f;
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
@@ -28,6 +29,9 @@ public class Enemy extends Entity {
     public float getSpawnCounter() { return spawnCounter; }
     public float getFireRateCooldown() { return fireRateCooldown; }
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
+    public float getCollisionDamage() {
+        return collisionDamage;
+    }
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {

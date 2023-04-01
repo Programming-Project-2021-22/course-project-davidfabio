@@ -3,8 +3,8 @@ package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Stage {
-    public Stage() {
+public class Level {
+    public Level() {
 
     }
 

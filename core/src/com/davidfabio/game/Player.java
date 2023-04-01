@@ -9,14 +9,18 @@ public class Player extends Entity {
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
     private float bulletSpreadMax = 8;
+    private float initialHealth;
+    private float health;
 
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed)  {
+    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float initialHealth)  {
         super.init(x, y, radius, direction, polarity);
         this.setMoveSpeed(moveSpeed);
+        this.initialHealth = initialHealth;
+        this.health = this.initialHealth;
 
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
@@ -118,8 +122,10 @@ public class Player extends Entity {
                 continue;
             if (enemy.getIsSpawning())
                 continue;;
-            if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius()))
+            if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
                 enemy.hit(enemy.getHealth());
+                this.health -= enemy.getCollisionDamage();
+            }
         }
 
     }
@@ -142,9 +148,15 @@ public class Player extends Entity {
         }
     }
 
-
-
     void switchPolarity() {
         getPolarity().togglePolarity();
+    }
+
+    public float getHealth() {
+        return this.health;
+    }
+
+    public float getInitialHealth() {
+        return this.initialHealth;
     }
 }
