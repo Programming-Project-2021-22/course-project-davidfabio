@@ -21,6 +21,7 @@ public class Enemy extends Entity {
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
     private float spawnCounter;
+    private static float collisionDamage = 2f;
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
@@ -28,6 +29,9 @@ public class Enemy extends Entity {
     public float getSpawnCounter() { return spawnCounter; }
     public float getFireRateCooldown() { return fireRateCooldown; }
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
+    public float getCollisionDamage() {
+        return collisionDamage;
+    }
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
@@ -83,9 +87,9 @@ public class Enemy extends Entity {
 
 
     void shoot() {
-        for (int i = 0; i < Game.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = Game.enemyBullets[i];
-            float dir = getAngleTowards(Game.player.getX(), Game.player.getY());
+        for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
+            BulletEnemy bullet = GameScreen.enemyBullets[i];
+            float dir = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
 
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 bullet.init(getX(), getY(), 8, dir, getPolarity(), bulletSpeed);

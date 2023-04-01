@@ -1,9 +1,9 @@
 package com.davidfabio.game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Vector3;
-
 import java.util.ArrayList;
 
 public class Inputs {
@@ -47,7 +47,7 @@ public class Inputs {
         public static int getY() { return y; }
 
         static void update() {
-            Camera gameCamera = Game.getCamera();
+            Camera gameCamera = GameScreen.getCamera();
             if (gameCamera != null) {
                 Vector3 unprojectedCoords = gameCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
                 x = (int)unprojectedCoords.x;

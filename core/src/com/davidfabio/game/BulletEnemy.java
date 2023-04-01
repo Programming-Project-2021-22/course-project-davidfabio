@@ -9,11 +9,11 @@ public class BulletEnemy extends Bullet {
             return;
 
         // ---------------- collision detection ----------------
-        if (Collision.circleCircle(getX(), getY(), getRadius(), Game.player.getX(), Game.player.getY(), Game.player.getRadius())) {
+        if (Collision.circleCircle(getX(), getY(), getRadius(), GameScreen.player.getX(), GameScreen.player.getY(), GameScreen.player.getRadius())) {
 
             // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the player
             setToDestroyNextFrame(true);
-            while (Collision.circleCircle(getX(), getY(), getRadius(), Game.player.getX(), Game.player.getY(), Game.player.getRadius())) {
+            while (Collision.circleCircle(getX(), getY(), getRadius(), GameScreen.player.getX(), GameScreen.player.getY(), GameScreen.player.getRadius())) {
                 setX(getX() - (float)Math.cos(getDirection()));
                 setY(getY() - (float)Math.sin(getDirection()));
             }

@@ -43,4 +43,13 @@ public class Polarity {
             this.color = Settings.FIRST_COLOR;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Polarity) {
+            return this.color.equals(((Polarity) obj).getColor());
+        } else {
+            return false;
+        }
+    }
 }

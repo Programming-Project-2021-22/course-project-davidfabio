@@ -46,25 +46,25 @@ public class Sounds {
     }
 
     public static void playHitSfx() {
-        if (sfxHit != null) {
+        if ((sfxHit != null) && (Settings.sfxEnabled)) {
             sfxHit.play(Settings.sfxVolume);
         }
     }
 
     public static void playShootSfx() {
-        if (sfxShoot != null) {
+        if ((sfxExplosion != null) && (Settings.sfxEnabled)) {
             sfxShoot.play(Settings.sfxVolume);
         }
     }
 
     public static void playExplosionSfx() {
-        if (sfxExplosion != null) {
+        if ((sfxExplosion != null) && (Settings.sfxEnabled)) {
             sfxExplosion.play(Settings.sfxVolume);
         }
     }
 
     public static void playBackgroundMusic() {
-        if (musicTrack != null) {
+        if ((musicTrack != null) && (Settings.musicEnabled)) {
             musicTrack.play(Settings.musicVolume);
         }
     }

@@ -36,7 +36,7 @@ public class EnemyChaser extends Enemy {
         widthCounter = Math.max(widthCounter, -widthStopsIncreasingAfter);
 
 
-        moveTowards(Game.player.getX(), Game.player.getY(), deltaTime);
+        moveTowards(GameScreen.player.getX(), GameScreen.player.getY(), deltaTime);
     }
 
 
