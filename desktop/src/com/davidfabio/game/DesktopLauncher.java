@@ -20,14 +20,14 @@ public class DesktopLauncher {
 		if (Settings.START_IN_FULLSCREEN)
 			config.setFullscreenMode(desktopMode);
 
-		Game.displayRefreshRate = desktopMode.refreshRate;
+		GameScreen.displayRefreshRate = desktopMode.refreshRate;
 
 		config.useVsync(true);
 		config.setForegroundFPS(desktopMode.refreshRate);
 		config.setWindowedMode(Settings.windowWidth, Settings.windowHeight);
 		config.setResizable(false);
 		config.setTitle(Settings.GAME_TITLE);
-		new Lwjgl3Application(new Game(), config);
+		new Lwjgl3Application(new Duality(), config);
 	}
 
 

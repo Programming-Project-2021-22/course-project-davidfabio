@@ -47,7 +47,7 @@ public class Inputs {
         public static int getY() { return y; }
 
         static void update() {
-            Camera gameCamera = Game.getCamera();
+            Camera gameCamera = GameScreen.getCamera();
             if (gameCamera != null) {
                 Vector3 unprojectedCoords = gameCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
                 x = (int)unprojectedCoords.x;

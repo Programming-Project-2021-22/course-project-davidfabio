@@ -87,9 +87,9 @@ public class Enemy extends Entity {
 
 
     void shoot() {
-        for (int i = 0; i < Game.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = Game.enemyBullets[i];
-            float dir = getAngleTowards(Game.player.getX(), Game.player.getY());
+        for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
+            BulletEnemy bullet = GameScreen.enemyBullets[i];
+            float dir = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
 
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 bullet.init(getX(), getY(), 8, dir, getPolarity(), bulletSpeed);

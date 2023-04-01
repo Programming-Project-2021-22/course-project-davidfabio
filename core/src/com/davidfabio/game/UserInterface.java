@@ -14,10 +14,7 @@ public class UserInterface extends Group {
     public UserInterface() {
         super();
         this.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        //this.atlas = new TextureAtlas(Gdx.files.internal("assets/ui/star-soldier/skin/star-soldier-ui.atlas"));
-        //TextureAtlas.AtlasRegion region = this.atlas.findRegion("progress-bar");
         this.skin = new Skin(Gdx.files.internal("assets/ui/shade/skin/uiskin.json"));
-        //this.skin.addRegions(this.atlas);
     }
 
     public void init(Player player) {

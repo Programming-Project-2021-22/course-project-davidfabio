@@ -117,7 +117,7 @@ public class Player extends Entity {
 
 
         // ---------------- collision detection against enemies ----------------
-        for (Enemy enemy : Game.enemies) {
+        for (Enemy enemy : GameScreen.enemies) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
@@ -137,7 +137,7 @@ public class Player extends Entity {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 
                 // add random spread to bullet direction
-                float random = Game.getRandom().nextFloat() - 0.5f;
+                float random = GameScreen.getRandom().nextFloat() - 0.5f;
                 float angleDelta = degreesToRadians(random * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), 8, getDirection() + angleDelta, getPolarity(), bulletSpeed);

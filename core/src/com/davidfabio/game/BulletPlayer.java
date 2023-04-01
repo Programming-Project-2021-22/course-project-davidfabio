@@ -33,7 +33,7 @@ public class BulletPlayer extends Bullet {
 
 
         // ---------------- collision detection ----------------
-        for (Enemy enemy : Game.enemies) {
+        for (Enemy enemy : GameScreen.enemies) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
