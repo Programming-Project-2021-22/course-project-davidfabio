@@ -5,9 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -28,13 +26,19 @@ public class MainMenuScreen extends ScreenAdapter {
         this.mainTable.setFillParent(true);
         this.stage.addActor(this.mainTable);
 
+        this.addLabel(Settings.GAME_TITLE);
         this.addButton("Play").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
             }
         });
-        this.addButton("Options");
+        this.addButton("Options").addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen());
+            }
+        });
         this.addButton("High Scores");
         this.addButton("Quit").addListener(new ClickListener() {
             @Override
@@ -58,6 +62,12 @@ public class MainMenuScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    private void addLabel(String text) {
+        Label label = new Label(text, this.skin);
+        this.mainTable.add(label).width(Gdx.graphics.getWidth()*0.75f).height(30f).padBottom(10);
+        this.mainTable.row();
     }
 
     private TextButton addButton(String name) {

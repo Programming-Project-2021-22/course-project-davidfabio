@@ -5,10 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,7 +26,7 @@ public class GameOverScreen extends ScreenAdapter {
         this.mainTable.setFillParent(true);
         this.stage.addActor(this.mainTable);
 
-        this.addText("GAME OVER!");
+        this.addLabel("GAME OVER!");
         this.addButton("Play again").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -66,9 +63,9 @@ public class GameOverScreen extends ScreenAdapter {
         viewport.update(width, height);
     }
 
-    private void addText(String text) {
-        TextField textField = new TextField(text, this.skin);
-        this.mainTable.add(textField).width(Gdx.graphics.getWidth()*0.75f).height(60f).padBottom(10);
+    private void addLabel(String text) {
+        Label label = new Label(text, this.skin);
+        this.mainTable.add(label).width(Gdx.graphics.getWidth()*0.75f).height(30f).padBottom(10);
         this.mainTable.row();
     }
 

@@ -7,8 +7,8 @@ public class Settings {
     public static boolean START_IN_FULLSCREEN = false;
     public static int windowWidth = 720;
     public static int windowHeight = 540;
+    public static boolean sfxEnabled = false;
     public static boolean musicEnabled = false;
-    public static boolean soundEnabled = false;
     public static float sfxVolume = 0.33f; // range: 0 to 1
     public static float musicVolume = 0.5f; // range: 0 to 1
     public static Color FIRST_COLOR = new Color(0.5f, 0, 0, 1);
