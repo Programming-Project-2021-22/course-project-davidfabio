@@ -1,9 +1,9 @@
 package com.davidfabio.game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Vector3;
-
 import java.util.ArrayList;
 
 public class Inputs {
