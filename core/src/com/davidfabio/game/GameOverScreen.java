@@ -13,33 +13,39 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class GameOverScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
-    private Skin skin;
     private Table mainTable;
+    private Score score;
+
+    public GameOverScreen(Score score) {
+        super();
+        this.score = score;
+    }
 
     @Override
     public void show() {
         this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        this.skin = new Skin(Gdx.files.internal("assets/ui/shade/skin/uiskin.json"));
         this.stage = new Stage(this.viewport);
 
         this.mainTable = new Table();
         this.mainTable.setFillParent(true);
         this.stage.addActor(this.mainTable);
 
-        this.addLabel("GAME OVER!");
-        this.addButton("Play again").addListener(new ClickListener() {
+        UIFactory.loadSkin();
+        UIFactory.addTitleLabel(this.mainTable,"GAME OVER!");
+        UIFactory.addSubtitleLabel(this.mainTable,"You scored a total of " + this.score.getPoints() + " points!");
+        UIFactory.addButton(this.mainTable,"Play again",new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
             }
         });
-        this.addButton("Main Menu").addListener(new ClickListener() {
+        UIFactory.addButton(this.mainTable,"Main Menu",new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
             }
         });
-        this.addButton("Quit").addListener(new ClickListener() {
+        UIFactory.addButton(this.mainTable,"Quit",new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
@@ -61,18 +67,5 @@ public class GameOverScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-    }
-
-    private void addLabel(String text) {
-        Label label = new Label(text, this.skin);
-        this.mainTable.add(label).width(Gdx.graphics.getWidth()*0.75f).height(30f).padBottom(10);
-        this.mainTable.row();
-    }
-
-    private TextButton addButton(String name) {
-        TextButton button = new TextButton(name, this.skin);
-        this.mainTable.add(button).width(Gdx.graphics.getWidth()*0.75f).height(60f).padBottom(10);
-        this.mainTable.row();
-        return button;
     }
 }

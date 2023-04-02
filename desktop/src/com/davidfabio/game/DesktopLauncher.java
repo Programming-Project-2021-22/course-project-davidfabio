@@ -25,7 +25,7 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setForegroundFPS(desktopMode.refreshRate);
 		config.setWindowedMode(Settings.windowWidth, Settings.windowHeight);
-		config.setResizable(false);
+		config.setResizable(true);
 		config.setTitle(Settings.GAME_TITLE);
 		new Lwjgl3Application(new Duality(), config);
 	}
