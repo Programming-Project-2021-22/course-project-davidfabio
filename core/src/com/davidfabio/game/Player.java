@@ -5,17 +5,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
 public class Player extends Entity {
-
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
     private float bulletSpreadMax = 8;
     private float initialHealth;
     private float health;
-
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
-
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float initialHealth)  {
         super.init(x, y, radius, direction, polarity);
