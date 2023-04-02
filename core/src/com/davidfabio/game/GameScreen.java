@@ -149,7 +149,7 @@ public class GameScreen extends ScreenAdapter {
         player.update(deltaTime); // player bullets get updated here as well
         this.userInterface.update(this.player,this.score);
         if (this.player.getHealth() <= 0) {
-            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.score));
         }
 
 

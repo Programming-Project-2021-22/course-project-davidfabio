@@ -1,7 +1,7 @@
 package com.davidfabio.game;
 
 public class Score {
-    private int score;
+    private int points;
     private long startTime;
     private long endTime;
     private long duration;
@@ -15,11 +15,11 @@ public class Score {
         this.duration = this.endTime - this.startTime;
     }
 
-    public int getScore() {
-        return this.score;
+    public int getPoints() {
+        return this.points;
     }
 
-    public void setScore(int newScore) {
-        this.score = newScore;
+    public void setPoints(int newScore) {
+        this.points = newScore;
     }
 }

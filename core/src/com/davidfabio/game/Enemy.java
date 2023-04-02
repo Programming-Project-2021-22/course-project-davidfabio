@@ -110,7 +110,7 @@ public class Enemy extends Entity {
         health -= attackPower;
 
         if (health <= 0) {
-            GameScreen.getScore().setScore(GameScreen.getScore().getScore() + Enemy.POINT_VALUE);
+            GameScreen.getScore().setPoints(GameScreen.getScore().getPoints() + Enemy.POINT_VALUE);
             setIsActive(false);
             Sounds.playExplosionSfx();
         }

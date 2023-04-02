@@ -14,6 +14,12 @@ public class GameOverScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
     private Table mainTable;
+    private Score score;
+
+    public GameOverScreen(Score score) {
+        super();
+        this.score = score;
+    }
 
     @Override
     public void show() {
@@ -26,6 +32,7 @@ public class GameOverScreen extends ScreenAdapter {
 
         UIFactory.loadSkin();
         UIFactory.addTitleLabel(this.mainTable,"GAME OVER!");
+        UIFactory.addSubtitleLabel(this.mainTable,"You scored a total of " + this.score.getPoints() + " points!");
         UIFactory.addButton(this.mainTable,"Play again",new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

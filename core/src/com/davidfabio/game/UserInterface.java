@@ -1,6 +1,5 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -42,6 +41,6 @@ public class UserInterface extends Group {
     }
 
     private String getScoreText(Score score) {
-        return "Score: " + score.getScore();
+        return "Score: " + score.getPoints();
     }
 }
