@@ -24,6 +24,7 @@ public class GameScreen extends ScreenAdapter {
     private static Level level;
     private static Stage stage;
     private static UserInterface userInterface;
+    private static Score score;
 
     public static Camera getCamera() {
         return camera;
@@ -45,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
         this.camera = new Camera();
         this.stage = new Stage();
         this.level = new Level();
+        this.score = new Score();
         Sounds.loadSounds();
 
         this.player = new Player();
@@ -145,7 +147,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         player.update(deltaTime); // player bullets get updated here as well
-        this.userInterface.update(this.player);
+        this.userInterface.update(this.player,this.score);
         if (this.player.getHealth() <= 0) {
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
         }
@@ -166,6 +168,10 @@ public class GameScreen extends ScreenAdapter {
         }
 
         player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
+    }
+
+    public static Score getScore() {
+        return score;
     }
 
     @Override

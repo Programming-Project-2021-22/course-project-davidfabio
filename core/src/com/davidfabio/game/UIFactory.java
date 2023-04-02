@@ -14,6 +14,10 @@ public class UIFactory {
         }
     }
 
+    public static Skin getSkin() {
+        return skin;
+    }
+
     public static void addTitleLabel(Table table, String text) {
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();

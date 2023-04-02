@@ -22,6 +22,7 @@ public class Enemy extends Entity {
     private float spawnDuration = 1.5f;
     private float spawnCounter;
     private static float collisionDamage = 2f;
+    private static final int POINT_VALUE = 1;
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
@@ -109,6 +110,7 @@ public class Enemy extends Entity {
         health -= attackPower;
 
         if (health <= 0) {
+            GameScreen.getScore().setScore(GameScreen.getScore().getScore() + Enemy.POINT_VALUE);
             setIsActive(false);
             Sounds.playExplosionSfx();
         }
