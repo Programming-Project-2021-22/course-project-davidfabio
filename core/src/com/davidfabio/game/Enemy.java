@@ -10,7 +10,7 @@ public class Enemy extends Entity {
     private float healthInitial;
     private float health;
 
-    private boolean inHitState;
+    private boolean isInHitState;
     private float hitDuration = 0.03f;
     private float hitCooldown;
 
@@ -33,13 +33,14 @@ public class Enemy extends Entity {
     public float getCollisionDamage() {
         return collisionDamage;
     }
+    public boolean getIsInHitState() { return isInHitState; }
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
         super.init(x, y, radius, direction, polarity);
         setMoveSpeed(moveSpeed);
         health = this.healthInitial = healthInitial;
-        inHitState = false;
+        isInHitState = false;
         hitCooldown = 0;
         isSpawning = true;
         spawnCounter = 0;
@@ -60,11 +61,11 @@ public class Enemy extends Entity {
             return;
         }
 
-        if (inHitState) {
+        if (isInHitState) {
             hitCooldown -= deltaTime;
 
             if (hitCooldown < 0)
-                inHitState = false;
+                isInHitState = false;
         }
     }
 
@@ -80,7 +81,7 @@ public class Enemy extends Entity {
             shape.end();
             return;
         }
-        if (inHitState)
+        if (isInHitState)
             _color = new Color(0.5f, 0.5f, 0.5f, 1);
 
         super.render(shape, _color);
@@ -105,7 +106,7 @@ public class Enemy extends Entity {
 
     public void hit(float attackPower) {
         Sounds.playHitSfx();
-        inHitState = true;
+        isInHitState = true;
         hitCooldown = hitDuration;
         health -= attackPower;
 

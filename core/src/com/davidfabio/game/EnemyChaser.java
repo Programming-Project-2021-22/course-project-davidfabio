@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class EnemyChaser extends Enemy {
 
 
-    private float width = 60;
+    private float scale = 60;
 
-    private float widthCounter = 0;
-    private float widthStopsIncreasingAfter = 0.125f;
-    private boolean widthIncreasing = true;
+    private float xScaleCounter = 0;
+    private float xScalingStopsAfter = 0.125f;
+    private boolean xScaleIncreasing = true;
 
 
     @Override public void update(float deltaTime) {
@@ -24,16 +24,16 @@ public class EnemyChaser extends Enemy {
 
         // stretching/squashing width
         float stretchSpeed = deltaTime / 3;
-        if (widthIncreasing)
-            widthCounter += stretchSpeed;
+        if (xScaleIncreasing)
+            xScaleCounter += stretchSpeed;
         else
-            widthCounter -= stretchSpeed;
+            xScaleCounter -= stretchSpeed;
 
-        if (widthCounter > widthStopsIncreasingAfter || widthCounter < -widthStopsIncreasingAfter)
-            widthIncreasing = !widthIncreasing;
+        if (xScaleCounter > xScalingStopsAfter || xScaleCounter < -xScalingStopsAfter)
+            xScaleIncreasing = !xScaleIncreasing;
 
-        widthCounter = Math.min(widthCounter, widthStopsIncreasingAfter);
-        widthCounter = Math.max(widthCounter, -widthStopsIncreasingAfter);
+        xScaleCounter = Math.min(xScaleCounter, xScalingStopsAfter);
+        xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
 
 
         moveTowards(GameScreen.player.getX(), GameScreen.player.getY(), deltaTime);
@@ -51,6 +51,10 @@ public class EnemyChaser extends Enemy {
             _color = Color.WHITE; // quick and dirty temp solution
         }
 
+        if (getIsInHitState())
+            _color = Color.WHITE;
+
+
 
         // TODO (David): shape changed from circle to polygon; collision detection needs to be updated!
 
@@ -58,12 +62,12 @@ public class EnemyChaser extends Enemy {
         shape.setColor(_color);
 
         float[] vertices = { 0, -0.5f,                  // top
-                             0.25f + widthCounter, 0,   // right
+                             0.25f + xScaleCounter, 0,   // right
                              0, 0.5f,                   // bottom
-                            -0.25f - widthCounter, 0 }; // left
+                            -0.25f - xScaleCounter, 0 }; // left
 
         for (int i = 0; i < vertices.length; i += 1) {
-            vertices[i] *= width;
+            vertices[i] *= scale;
             if (i % 2 == 0)
                 vertices[i] += getX();
             else
