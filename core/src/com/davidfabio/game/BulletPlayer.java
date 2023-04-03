@@ -39,7 +39,7 @@ public class BulletPlayer extends Bullet {
             if (enemy.getIsSpawning())
                 continue;
 
-            if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
+            if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
 
                 float _firePower = firePower;
                 if (!getPolarity().equals(enemy.getPolarity())) {
@@ -50,7 +50,7 @@ public class BulletPlayer extends Bullet {
                 // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the enemy
                 // TODO (David): shape changed from circle to ellipsis; collision detection needs to be updated!
                 setToDestroyNextFrame(true);
-                while (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
+                while (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
                     setX(getX() - (float)Math.cos(getDirection()));
                     setY(getY() - (float)Math.sin(getDirection()));
                 }

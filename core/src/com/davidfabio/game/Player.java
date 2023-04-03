@@ -14,8 +14,8 @@ public class Player extends Entity {
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
-    public void init(float x, float y, float radius, Polarity polarity, float moveSpeed)  {
-        super.init(x, y, radius, polarity);
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
+        super.init(x, y, scale, polarity);
         this.setMoveSpeed(moveSpeed);
         this.health = this.initialHealth;
 
@@ -30,7 +30,7 @@ public class Player extends Entity {
         // draw inner white circle
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.WHITE);
-        shape.circle(getX(), getY(), getRadius() - getRadius() / 3);
+        shape.circle(getX(), getY(), getScale() - getScale() / 3);
         shape.end();
 
 
@@ -44,8 +44,8 @@ public class Player extends Entity {
         float dirTowardsMouse = getAngleTowards(Inputs.Mouse.getX(), Inputs.Mouse.getY());
         float deltaX = (float)Math.cos(dirTowardsMouse) * segmentLength;
         float deltaY = (float)Math.sin(dirTowardsMouse) * segmentLength;
-        float startY = getY() + (float)Math.sin(getDirection()) * (getRadius() + segmentLength);
-        float startX = getX() + (float)Math.cos(getDirection()) * (getRadius() + segmentLength);
+        float startY = getY() + (float)Math.sin(getDirection()) * (getScale() + segmentLength);
+        float startX = getX() + (float)Math.cos(getDirection()) * (getScale() + segmentLength);
         float endX = startX + deltaX;
         float endY = startY + deltaY;
 
@@ -85,10 +85,10 @@ public class Player extends Entity {
         if (Inputs.right.getIsDown()) nextX += speed;
 
         // prevent player from going offscreen
-        nextX = Math.max(nextX, getRadius());
-        nextX = Math.min(nextX, Settings.windowWidth - getRadius());
-        nextY = Math.max(nextY, getRadius());
-        nextY = Math.min(nextY, Settings.windowHeight - getRadius());
+        nextX = Math.max(nextX, getScale());
+        nextX = Math.min(nextX, Settings.windowWidth - getScale());
+        nextY = Math.max(nextY, getScale());
+        nextY = Math.min(nextY, Settings.windowHeight - getScale());
 
         setX(nextX);
         setY(nextY);
@@ -119,7 +119,7 @@ public class Player extends Entity {
                 continue;
             if (enemy.getIsSpawning())
                 continue;;
-            if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
+            if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
                 enemy.hit(enemy.getHealth());
                 this.health -= enemy.getCollisionDamage();
             }

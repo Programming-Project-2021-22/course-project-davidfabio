@@ -71,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
         pixmap.fill();
         textureWhite = new Texture(pixmap);
 
-        pixmap.setColor(0xFFFF00FF); // red, green, blue, alpha
+        pixmap.setColor(0xFFFF0044); // red, green, blue, alpha
         pixmap.fill();
         textureYellow = new Texture(pixmap);
 
@@ -138,7 +138,7 @@ public class GameScreen extends ScreenAdapter {
 
         // FOR TESTING ONLY: enemy spawning
         int activeEnemyCount = 0;
-        int maxEnemies = 25;
+        int maxEnemies = 6;
         for (Enemy enemy : enemies)
             if (enemy.getIsActive())
                 activeEnemyCount += 1;
@@ -154,18 +154,17 @@ public class GameScreen extends ScreenAdapter {
 
 
             // NOTE (David): here we are allocating memory to create an enemy; should ideally be avoided
-            //int rand = random.nextInt(2);
-            int rand = 0;
+            int rand = random.nextInt(2);
             switch (rand) {
                 case 0: {
                     EnemyChaser enemyChaser = new EnemyChaser();
-                    enemyChaser.init(randomX, randomY, 20, 0, new Polarity(), 70, 7);
+                    enemyChaser.init(randomX, randomY, 50, 0, new Polarity(), 70, 6);
                     enemies.add(enemyChaser);
                     break;
                 }
                 case 1: {
                     EnemyStatic enemyStatic = new EnemyStatic();
-                    enemyStatic.init(randomX, randomY, 28, 0, new Polarity(), 70, 7);
+                    enemyStatic.init(randomX, randomY, 60, 0, new Polarity(), 70, 10);
                     enemies.add(enemyStatic);
                     break;
                 }
@@ -195,11 +194,8 @@ public class GameScreen extends ScreenAdapter {
         polygonSpriteBatch.begin();
         polygonSpriteBatch.setProjectionMatrix(camera.combined);
 
-
         for (Enemy enemy : enemies)
-            if (enemy.getIsActive())
-                ((EnemyChaser)enemy).renderTEST(polygonSpriteBatch);
-
+            enemy.render(polygonSpriteBatch);
 
         polygonSpriteBatch.end();
 
@@ -208,10 +204,6 @@ public class GameScreen extends ScreenAdapter {
 
         this.level.render(this.shape);
         this.stage.draw();
-
-        for (Enemy enemy : enemies)
-            if (enemy.getIsActive())
-                enemy.render(shape, enemy.getPolarity().getColor());
 
         for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
             if (enemyBullets[i].getIsActive())

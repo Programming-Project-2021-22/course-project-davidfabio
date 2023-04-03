@@ -14,8 +14,8 @@ public class Enemy extends Entity {
     private float hitDuration = 0.03f;
     private float hitCooldown;
 
-    private float fireRate = 0.2f;
-    private float fireRateCooldown = 0.0f;
+    private float fireRate = 2.0f;
+    private float fireRateCooldown;
     private float bulletSpeed = 150;
 
     private boolean isSpawning;
@@ -67,6 +67,19 @@ public class Enemy extends Entity {
             if (hitCooldown < 0)
                 isInHitState = false;
         }
+
+
+
+        // set texture
+        if (isSpawning) {
+            currentTexture = GameScreen.getTextureYellow();
+        }
+        else if (isInHitState)
+            currentTexture = GameScreen.getTextureWhite();
+        else if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            currentTexture = GameScreen.getTextureRed();
+        else
+            currentTexture = GameScreen.getTextureBlue();
     }
 
 
@@ -77,7 +90,7 @@ public class Enemy extends Entity {
         if (isSpawning) {
             shape.begin(ShapeRenderer.ShapeType.Line);
             shape.setColor(_color);
-            shape.arc(getX(), getY(), getRadius(), 0, (spawnCounter * 360) / spawnDuration);
+            shape.arc(getX(), getY(), getScale(), 0, (spawnCounter * 360) / spawnDuration);
             shape.end();
             return;
         }

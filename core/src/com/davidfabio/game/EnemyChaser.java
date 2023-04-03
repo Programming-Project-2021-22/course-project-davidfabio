@@ -11,35 +11,37 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.Set;
 
 public class EnemyChaser extends Enemy {
-
-
-    private float scale = 60;
-
     private float xScaleCounter = 0;
     private float xScalingStopsAfter = 0.125f;
     private boolean xScaleIncreasing = true;
 
-    private float[] verticesInitial = { 0, -0.5f,   // top
-                                        -0.25f, 0,  // left
-                                        0, 0.5f,    // bottom
-                                        0.25f, 0 }; // right
-    private float[] vertices;
 
+    @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
+        super.init(x, y, scale, direction, polarity, moveSpeed, healthInitial);
 
+        verticesInitial = new float[]{
+                0, -0.5f,  // top
+                -0.25f, 0, // left
+                0, 0.5f,   // bottom
+                0.25f, 0   // right
+        };
 
-    @Override public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
-        super.init(x, y, radius, direction, polarity, moveSpeed, healthInitial);
+        for (int i = 0; i < verticesInitial.length; i += 1) {
+            verticesInitial[i] *= getScale();
+        }
 
         vertices = new float[verticesInitial.length];
 
-        for (int i = 0; i < verticesInitial.length; i += 1) {
-            verticesInitial[i] *= scale;
-        }
+        triangles = new short[]{
+                0, 1, 2,
+                2, 3, 0
+        };
     }
 
 
 
-    @Override public void update(float deltaTime) {
+    //@Override public void update(float deltaTime) {
+    public void update(float deltaTime) {
         super.update(deltaTime);
 
         if (!getIsActive())
@@ -71,26 +73,10 @@ public class EnemyChaser extends Enemy {
 
 
 
-    public void renderTEST(PolygonSpriteBatch polygonSpriteBatch) {
+
+    @Override public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!getIsActive())
             return;
-
-
-        // TODO (David): implement spawning animation
-
-
-        Texture texture;
-        if (getIsSpawning()) {
-            texture = GameScreen.getTextureYellow();
-        }
-        else if (getIsInHitState())
-            texture = GameScreen.getTextureWhite();
-        else if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            texture = GameScreen.getTextureRed();
-        else
-            texture = GameScreen.getTextureBlue();
-
-
 
         for (int i = 0; i < vertices.length; i += 1) {
             vertices[i] = verticesInitial[i];
@@ -101,66 +87,21 @@ public class EnemyChaser extends Enemy {
             }
         }
 
-        // squishing/stretching
-        vertices[2] -= xScaleCounter * scale;
-        vertices[6] += xScaleCounter * scale;
+        // NOTE (David): these 2 lines are the only really we can't use the entity render method; maybe find some better solution than copying the whole method?
+        vertices[2] -= xScaleCounter * getScale();
+        vertices[6] += xScaleCounter * getScale();
 
 
-
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(texture),
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture),
                 vertices,
                 new short[] { // specify triangles in counter-clockwise direction
-                0, 1, 2, // triangle 1
-                2, 3, 0  // triangle 2
-        });
+                        0, 1, 2, // triangle 1
+                        2, 3, 0  // triangle 2
+                });
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(getX(), getY());
         polygonSprite.rotate(getDirection());
         polygonSprite.draw(polygonSpriteBatch);
-    }
-
-
-
-
-
-    @Override public void render(ShapeRenderer shape, Color _color) {
-        /*
-        if (!getIsActive())
-            return;
-
-
-        // TODO (David): implement spawning animation
-        if (getIsSpawning()) {
-            _color = Color.WHITE; // quick and dirty temp solution
-        }
-
-        if (getIsInHitState())
-            _color = Color.WHITE;
-
-
-
-        // TODO (David): shape changed from circle to polygon; collision detection needs to be updated!
-
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(_color);
-
-        float[] vertices = { 0, -0.5f,                  // top
-                             0.25f + xScaleCounter, 0,   // right
-                             0, 0.5f,                   // bottom
-                            -0.25f - xScaleCounter, 0 }; // left
-
-        for (int i = 0; i < vertices.length; i += 1) {
-            vertices[i] *= scale;
-            if (i % 2 == 0)
-                vertices[i] += getX();
-            else
-                vertices[i] += getY();
-        }
-
-        shape.polygon(vertices);
-        shape.end();
-
-        */
     }
 
 
