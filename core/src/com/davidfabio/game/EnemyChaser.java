@@ -19,6 +19,25 @@ public class EnemyChaser extends Enemy {
     private float xScalingStopsAfter = 0.125f;
     private boolean xScaleIncreasing = true;
 
+    private float[] verticesInitial = { 0, -0.5f,   // top
+                                        -0.25f, 0,  // left
+                                        0, 0.5f,    // bottom
+                                        0.25f, 0 }; // right
+    private float[] vertices;
+
+
+
+    @Override public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
+        super.init(x, y, radius, direction, polarity, moveSpeed, healthInitial);
+
+        vertices = new float[verticesInitial.length];
+
+        for (int i = 0; i < verticesInitial.length; i += 1) {
+            verticesInitial[i] *= scale;
+        }
+    }
+
+
 
     @Override public void update(float deltaTime) {
         super.update(deltaTime);
@@ -71,19 +90,22 @@ public class EnemyChaser extends Enemy {
         else
             texture = GameScreen.getTextureBlue();
 
-        float[] vertices = { 0, 0.5f,                    // bottom
-                             0.25f + xScaleCounter, 0,   // right
-                             0, -0.5f,                   // top
-                            -0.25f - xScaleCounter, 0 }; // left
+
 
         for (int i = 0; i < vertices.length; i += 1) {
-            vertices[i] *= scale;
+            vertices[i] = verticesInitial[i];
             if (i % 2 == 0)
                 vertices[i] += getX();
             else {
                 vertices[i] += getY();
             }
         }
+
+        // squishing/stretching
+        vertices[2] -= xScaleCounter * scale;
+        vertices[6] += xScaleCounter * scale;
+
+
 
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(texture),
                 vertices,

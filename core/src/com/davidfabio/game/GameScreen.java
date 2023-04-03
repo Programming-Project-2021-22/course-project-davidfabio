@@ -140,7 +140,7 @@ public class GameScreen extends ScreenAdapter {
 
         // FOR TESTING ONLY: enemy spawning
         int activeEnemyCount = 0;
-        int maxEnemies = 10;
+        int maxEnemies = 25;
         for (Enemy enemy : enemies)
             if (enemy.getIsActive())
                 activeEnemyCount += 1;
