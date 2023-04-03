@@ -2,6 +2,12 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -26,20 +32,52 @@ public class GameScreen extends ScreenAdapter {
     private static UserInterface userInterface;
     private static Score score;
 
-    public static Camera getCamera() {
-        return camera;
-    }
+    public static Camera getCamera() { return camera; }
 
     private static boolean isPaused = false;
+    public static float displayRefreshRate;
 
     // for testing only
     private static float timeElapsed = 0;
     public static float getTimeElapsed() { return timeElapsed; }
 
-    public static float displayRefreshRate;
+    private PolygonSprite polygonSprite;
+    private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
+    private Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    private static Texture textureRed, textureBlue, textureWhite, textureYellow;
+
+    public static Texture getTextureRed() { return textureRed; }
+    public static Texture getTextureBlue() { return textureBlue; }
+    public static Texture getTextureWhite() { return textureWhite; }
+    public static Texture getTextureYellow() { return textureYellow; }
+
+
+
+
+
 
     @Override
     public void show() {
+
+        pixmap.setColor(0xFF0000FF); // red, green, blue, alpha
+        pixmap.fill();
+        textureRed = new Texture(pixmap);
+
+        pixmap.setColor(0x0000FFFF); // red, green, blue, alpha
+        pixmap.fill();
+        textureBlue = new Texture(pixmap);
+
+        pixmap.setColor(0xFFFFFFFF); // red, green, blue, alpha
+        pixmap.fill();
+        textureWhite = new Texture(pixmap);
+
+        pixmap.setColor(0xFFFF00FF); // red, green, blue, alpha
+        pixmap.fill();
+        textureYellow = new Texture(pixmap);
+
+        polygonSpriteBatch = new PolygonSpriteBatch();
+
+
         this.random = new Random();
 
         this.shape = new ShapeRenderer();
@@ -155,6 +193,21 @@ public class GameScreen extends ScreenAdapter {
 
         // ---------------- rendering ----------------
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
+
+        polygonSpriteBatch.begin();
+        polygonSpriteBatch.setProjectionMatrix(camera.combined);
+
+
+        for (Enemy enemy : enemies)
+            if (enemy.getIsActive())
+                ((EnemyChaser)enemy).renderTEST(polygonSpriteBatch);
+
+
+        polygonSpriteBatch.end();
+
+
+
+
         this.level.render(this.shape);
         this.stage.draw();
 
@@ -168,6 +221,8 @@ public class GameScreen extends ScreenAdapter {
         }
 
         player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
+
+
     }
 
     public static Score getScore() {

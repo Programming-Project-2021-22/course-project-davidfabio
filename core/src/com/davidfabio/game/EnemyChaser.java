@@ -1,7 +1,14 @@
 package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Set;
 
 public class EnemyChaser extends Enemy {
 
@@ -20,6 +27,9 @@ public class EnemyChaser extends Enemy {
             return;
         if (getIsSpawning())
             return;
+
+        float angle = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
+        setDirection(radiansToDegrees(angle));
 
 
         // stretching/squashing width
@@ -41,7 +51,58 @@ public class EnemyChaser extends Enemy {
 
 
 
+
+    public void renderTEST(PolygonSpriteBatch polygonSpriteBatch) {
+        if (!getIsActive())
+            return;
+
+
+        // TODO (David): implement spawning animation
+
+
+        Texture texture;
+        if (getIsSpawning()) {
+            texture = GameScreen.getTextureYellow();
+        }
+        else if (getIsInHitState())
+            texture = GameScreen.getTextureWhite();
+        else if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            texture = GameScreen.getTextureRed();
+        else
+            texture = GameScreen.getTextureBlue();
+
+        float[] vertices = { 0, 0.5f,                    // bottom
+                             0.25f + xScaleCounter, 0,   // right
+                             0, -0.5f,                   // top
+                            -0.25f - xScaleCounter, 0 }; // left
+
+        for (int i = 0; i < vertices.length; i += 1) {
+            vertices[i] *= scale;
+            if (i % 2 == 0)
+                vertices[i] += getX();
+            else {
+                vertices[i] += getY();
+            }
+        }
+
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(texture),
+                vertices,
+                new short[] { // specify triangles in counter-clockwise direction
+                0, 1, 2, // triangle 1
+                2, 3, 0  // triangle 2
+        });
+        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setOrigin(getX(), getY());
+        polygonSprite.rotate(getDirection());
+        polygonSprite.draw(polygonSpriteBatch);
+    }
+
+
+
+
+
     @Override public void render(ShapeRenderer shape, Color _color) {
+        /*
         if (!getIsActive())
             return;
 
@@ -76,6 +137,8 @@ public class EnemyChaser extends Enemy {
 
         shape.polygon(vertices);
         shape.end();
+
+        */
     }
 
 
