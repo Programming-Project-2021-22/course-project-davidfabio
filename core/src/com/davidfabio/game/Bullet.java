@@ -7,9 +7,10 @@ public class Bullet extends Entity {
     public void setToDestroyNextFrame(boolean toDestroyNextFrame) { this.toDestroyNextFrame = toDestroyNextFrame; }
 
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed) {
-        super.init(x, y, radius, direction, polarity);
+    public void init(float x, float y, float radius, Polarity polarity, float moveSpeed, float direction) {
+        super.init(x, y, radius, polarity);
         setMoveSpeed(moveSpeed);
+        setDirection(direction);
     }
 
 

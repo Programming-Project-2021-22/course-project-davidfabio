@@ -88,14 +88,12 @@ public class GameScreen extends ScreenAdapter {
         Sounds.loadSounds();
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 16, 0, new Polarity(), 260, 20);
+        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 16, new Polarity(), 260);
         this.userInterface = new UserInterface();
         this.userInterface.init(player);
         this.stage.addActor(this.userInterface);
 
         this.enemies = new ArrayList<>();
-        //for (int i = 0; i < MAX_ENEMIES; i += 1)
-        //	enemies.add(new Enemy());
 
         this.enemyBullets = new BulletEnemy[GameScreen.MAX_ENEMY_BULLETS];
         for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1)

@@ -28,13 +28,13 @@ public class Entity {
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
     // we want to create all entities before the game begins to minimize garbage collection as much as possible
-    public void init(float x, float y, float radius, float direction, Polarity polarity) {
+    public void init(float x, float y, float radius, Polarity polarity) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.direction = direction;
         setPolarity(polarity);
         isActive = true;
+        direction = 0;
     }
 
 

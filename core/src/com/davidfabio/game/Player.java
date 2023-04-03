@@ -9,15 +9,14 @@ public class Player extends Entity {
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
     private float bulletSpreadMax = 8;
-    private float initialHealth;
+    private float initialHealth = 20;
     private float health;
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float initialHealth)  {
-        super.init(x, y, radius, direction, polarity);
+    public void init(float x, float y, float radius, Polarity polarity, float moveSpeed)  {
+        super.init(x, y, radius, polarity);
         this.setMoveSpeed(moveSpeed);
-        this.initialHealth = initialHealth;
         this.health = this.initialHealth;
 
         for (int i = 0; i < MAX_BULLETS; i += 1)
@@ -138,7 +137,7 @@ public class Player extends Entity {
                 float random = GameScreen.getRandom().nextFloat() - 0.5f;
                 float angleDelta = degreesToRadians(random * bulletSpreadMax);
 
-                bullets[i].init(getX(), getY(), 8, getDirection() + angleDelta, getPolarity(), bulletSpeed);
+                bullets[i].init(getX(), getY(), 8, getPolarity(), bulletSpeed, getDirection() + angleDelta);
                 fireRateCooldown = fireRate;
                 Sounds.playShootSfx();
                 break;

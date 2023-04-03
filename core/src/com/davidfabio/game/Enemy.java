@@ -37,7 +37,7 @@ public class Enemy extends Entity {
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
-        super.init(x, y, radius, direction, polarity);
+        super.init(x, y, radius, polarity);
         setMoveSpeed(moveSpeed);
         health = this.healthInitial = healthInitial;
         isInHitState = false;
@@ -94,7 +94,7 @@ public class Enemy extends Entity {
             float dir = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
 
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
-                bullet.init(getX(), getY(), 8, dir, getPolarity(), bulletSpeed);
+                bullet.init(getX(), getY(), 8, getPolarity(), bulletSpeed, dir);
                 fireRateCooldown = fireRate;
                 //Game.sfxShoot.play(Game.sfxVolume);
                 break;
