@@ -1,6 +1,7 @@
 package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
@@ -8,63 +9,56 @@ public class Player extends Entity {
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
+    private float bulletScale = 32;
     private float bulletSpreadMax = 8;
-    private float initialHealth;
+    private float initialHealth = 20;
     private float health;
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float initialHealth)  {
-        super.init(x, y, radius, direction, polarity);
+
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
+        super.init(x, y, scale, polarity);
         this.setMoveSpeed(moveSpeed);
-        this.initialHealth = initialHealth;
         this.health = this.initialHealth;
 
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
+
+        verticesInitial = new float[] {
+                0, -0.5f, // top
+                -0.5f, 0, // left
+                0, 0.5f,  // bottom
+                0.5f, 0,  // right
+                -0.3675f, -0.3675f,
+                -0.3675f, 0.3675f,
+                0.3675f, 0.3675f,
+                0.3675f, -0.3675f
+        };
+
+        for (int i = 0; i < verticesInitial.length; i += 1) {
+            verticesInitial[i] *= getScale();
+        }
+
+        vertices = new float[verticesInitial.length];
+
+        triangles = new short[] {
+                0, 1, 2,
+                2, 3, 0,
+                0, 4, 1,
+                1, 5, 2,
+                2, 6, 3,
+                3, 7, 0
+        };
     }
 
-    @Override public void render(ShapeRenderer shape, Color _color) {
+    @Override public void render(PolygonSpriteBatch polygonSpriteBatch) {
+        super.render(polygonSpriteBatch);
 
-        super.render(shape, getPolarity().getColor()); // draw player
-
-        // draw inner white circle
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(Color.WHITE);
-        shape.circle(getX(), getY(), getRadius() - getRadius() / 3);
-        shape.end();
-
-
-        // draw dashed line from player to mouse position
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(_color);
-
-        float segmentLength = 12;
-        float distance = getDistanceTo(Inputs.Mouse.getX(), Inputs.Mouse.getY());
-        int segmentCount = (int)(distance / segmentLength / 2);
-        float dirTowardsMouse = getAngleTowards(Inputs.Mouse.getX(), Inputs.Mouse.getY());
-        float deltaX = (float)Math.cos(dirTowardsMouse) * segmentLength;
-        float deltaY = (float)Math.sin(dirTowardsMouse) * segmentLength;
-        float startY = getY() + (float)Math.sin(getDirection()) * (getRadius() + segmentLength);
-        float startX = getX() + (float)Math.cos(getDirection()) * (getRadius() + segmentLength);
-        float endX = startX + deltaX;
-        float endY = startY + deltaY;
-
-        for (int i = 0; i < segmentCount - 1; i += 1) {
-            //shape.line(startX, Settings.windowHeight - startY, endX, Settings.windowHeight - endY);
-            shape.line(startX, startY, endX, endY);
-            startX = endX + deltaX;
-            startY = endY + deltaY;
-            endX = startX + deltaX;
-            endY = startY + deltaY;
-        }
-        shape.end();
-
-        // draw bullets
-        for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].render(shape, getPolarity().getColor());
-        }
+        for (int i = 0; i < MAX_BULLETS; i += 1)
+            bullets[i].render(polygonSpriteBatch);
     }
+
 
 
     public void update(float deltaTime) {
@@ -86,10 +80,10 @@ public class Player extends Entity {
         if (Inputs.right.getIsDown()) nextX += speed;
 
         // prevent player from going offscreen
-        nextX = Math.max(nextX, getRadius());
-        nextX = Math.min(nextX, Settings.windowWidth - getRadius());
-        nextY = Math.max(nextY, getRadius());
-        nextY = Math.min(nextY, Settings.windowHeight - getRadius());
+        nextX = Math.max(nextX, getScale());
+        nextX = Math.min(nextX, Settings.windowWidth - getScale());
+        nextY = Math.max(nextY, getScale());
+        nextY = Math.min(nextY, Settings.windowHeight - getScale());
 
         setX(nextX);
         setY(nextY);
@@ -98,6 +92,11 @@ public class Player extends Entity {
         // switch polarity
         if (Inputs.space.getWasPressed())
             switchPolarity();
+
+        if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            currentTexture = GameScreen.getTextureRed();
+        else
+            currentTexture = GameScreen.getTextureBlue();
 
 
 
@@ -120,7 +119,7 @@ public class Player extends Entity {
                 continue;
             if (enemy.getIsSpawning())
                 continue;;
-            if (Collision.circleCircle(getX(), getY(), getRadius(), enemy.getX(), enemy.getY(), enemy.getRadius())) {
+            if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
                 enemy.hit(enemy.getHealth());
                 this.health -= enemy.getCollisionDamage();
             }
@@ -138,7 +137,7 @@ public class Player extends Entity {
                 float random = GameScreen.getRandom().nextFloat() - 0.5f;
                 float angleDelta = degreesToRadians(random * bulletSpreadMax);
 
-                bullets[i].init(getX(), getY(), 8, getDirection() + angleDelta, getPolarity(), bulletSpeed);
+                bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getDirection() + angleDelta);
                 fireRateCooldown = fireRate;
                 Sounds.playShootSfx();
                 break;

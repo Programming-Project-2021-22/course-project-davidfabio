@@ -1,11 +1,16 @@
 package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Entity {
     private float x, y;
-    private float radius;
+    private float scale;
     private float moveSpeed;
     private float direction; // in radians
     private boolean isActive = false;
@@ -15,7 +20,7 @@ public class Entity {
     public float getY() { return y; }
     public void setX(float x) { this.x = x; }
     public void setY(float y) { this.y = y; }
-    public float getRadius() { return radius; }
+    public float getScale() { return scale; }
     public float getMoveSpeed() { return moveSpeed; }
     public float getDirection() { return direction; }
     public void setDirection(float direction) { this.direction = direction; }
@@ -25,38 +30,54 @@ public class Entity {
     public Polarity getPolarity() { return polarity; }
     public void setPolarity(Polarity polarity) { this.polarity = polarity; }
 
+    // TESTING
+    public float[] vertices, verticesInitial;
+    public short[] triangles; // in counter-clockwise direction
+    public Texture currentTexture = GameScreen.getTextureYellow();
+
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
     // we want to create all entities before the game begins to minimize garbage collection as much as possible
-    public void init(float x, float y, float radius, float direction, Polarity polarity) {
+    public void init(float x, float y, float scale, Polarity polarity) {
         this.x = x;
         this.y = y;
-        this.radius = radius;
-        this.direction = direction;
+        this.scale = scale;
         setPolarity(polarity);
         isActive = true;
+        direction = 0;
     }
 
 
-    public void render(ShapeRenderer shape, Color _color) {
+    public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
 
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(_color);
-        shape.circle(x, y, radius);
-        shape.end();
+        for (int i = 0; i < vertices.length; i += 1) {
+            vertices[i] = verticesInitial[i];
+            if (i % 2 == 0)
+                vertices[i] += getX();
+            else {
+                vertices[i] += getY();
+            }
+        }
+
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture), vertices, triangles);
+        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setOrigin(getX(), getY());
+        polygonSprite.rotate(radiansToDegrees(getDirection()));
+        polygonSprite.draw(polygonSpriteBatch);
     }
 
 
+
     public boolean isInView() {
-        if (x + radius < 0)
+        if (x + scale < 0)
             return false;
-        else if (x - radius > Settings.windowWidth)
+        else if (x - scale > Settings.windowWidth)
             return false;
-        else if (y + radius < 0)
+        else if (y + scale < 0)
             return false;
-        else if (y - radius > Settings.windowHeight)
+        else if (y - scale > Settings.windowHeight)
             return false;
 
         return true;

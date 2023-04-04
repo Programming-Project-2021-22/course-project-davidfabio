@@ -2,6 +2,12 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -26,20 +32,52 @@ public class GameScreen extends ScreenAdapter {
     private static UserInterface userInterface;
     private static Score score;
 
-    public static Camera getCamera() {
-        return camera;
-    }
+    public static Camera getCamera() { return camera; }
 
     private static boolean isPaused = false;
+    public static float displayRefreshRate;
 
     // for testing only
     private static float timeElapsed = 0;
     public static float getTimeElapsed() { return timeElapsed; }
 
-    public static float displayRefreshRate;
+    private PolygonSprite polygonSprite;
+    private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
+    private Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    private static Texture textureRed, textureBlue, textureWhite, textureYellow;
+
+    public static Texture getTextureRed() { return textureRed; }
+    public static Texture getTextureBlue() { return textureBlue; }
+    public static Texture getTextureWhite() { return textureWhite; }
+    public static Texture getTextureYellow() { return textureYellow; }
+
+
+
+
+
 
     @Override
     public void show() {
+
+        pixmap.setColor(0xFF0000FF); // red, green, blue, alpha
+        pixmap.fill();
+        textureRed = new Texture(pixmap);
+
+        pixmap.setColor(0x0000FFFF); // red, green, blue, alpha
+        pixmap.fill();
+        textureBlue = new Texture(pixmap);
+
+        pixmap.setColor(0xFFFFFFFF); // red, green, blue, alpha
+        pixmap.fill();
+        textureWhite = new Texture(pixmap);
+
+        pixmap.setColor(0xFFFF0044); // red, green, blue, alpha
+        pixmap.fill();
+        textureYellow = new Texture(pixmap);
+
+        polygonSpriteBatch = new PolygonSpriteBatch();
+
+
         this.random = new Random();
 
         this.shape = new ShapeRenderer();
@@ -50,14 +88,12 @@ public class GameScreen extends ScreenAdapter {
         Sounds.loadSounds();
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 16, 0, new Polarity(), 260, 20);
+        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, new Polarity(), 260);
         this.userInterface = new UserInterface();
         this.userInterface.init(player);
         this.stage.addActor(this.userInterface);
 
         this.enemies = new ArrayList<>();
-        //for (int i = 0; i < MAX_ENEMIES; i += 1)
-        //	enemies.add(new Enemy());
 
         this.enemyBullets = new BulletEnemy[GameScreen.MAX_ENEMY_BULLETS];
         for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1)
@@ -72,15 +108,11 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
 
         // TODO (David): frametimes are uneven when using deltaTime (with VSync enabled), so for now at least we are not using it
-        //float deltaTime = Gdx.graphics.getDeltaTime();
-        float deltaTime = 1.0f / displayRefreshRate;
+        float deltaTime = 1.0f / displayRefreshRate; // float deltaTime = Gdx.graphics.getDeltaTime();
         timeElapsed += deltaTime;
 
-
-        // get user input
         Inputs.update();
 
-        // pause/unpause
         if (Inputs.esc.getWasPressed())
             isPaused = !isPaused;
 
@@ -102,7 +134,7 @@ public class GameScreen extends ScreenAdapter {
 
         // FOR TESTING ONLY: enemy spawning
         int activeEnemyCount = 0;
-        int maxEnemies = 10;
+        int maxEnemies = 6;
         for (Enemy enemy : enemies)
             if (enemy.getIsActive())
                 activeEnemyCount += 1;
@@ -118,18 +150,17 @@ public class GameScreen extends ScreenAdapter {
 
 
             // NOTE (David): here we are allocating memory to create an enemy; should ideally be avoided
-            //int rand = random.nextInt(2);
-            int rand = 0;
+            int rand = random.nextInt(2);
             switch (rand) {
                 case 0: {
                     EnemyChaser enemyChaser = new EnemyChaser();
-                    enemyChaser.init(randomX, randomY, 20, 0, new Polarity(), 70, 7);
+                    enemyChaser.init(randomX, randomY, 50, 0, new Polarity(), 70, 6);
                     enemies.add(enemyChaser);
                     break;
                 }
                 case 1: {
                     EnemyStatic enemyStatic = new EnemyStatic();
-                    enemyStatic.init(randomX, randomY, 28, 0, new Polarity(), 70, 7);
+                    enemyStatic.init(randomX, randomY, 60, 0, new Polarity(), 70, 10);
                     enemies.add(enemyStatic);
                     break;
                 }
@@ -155,19 +186,28 @@ public class GameScreen extends ScreenAdapter {
 
         // ---------------- rendering ----------------
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
+
+        polygonSpriteBatch.begin();
+        polygonSpriteBatch.setProjectionMatrix(camera.combined);
+
+        for (Enemy enemy : enemies)
+            enemy.render(polygonSpriteBatch);
+
+        for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
+            enemyBullets[i].render(polygonSpriteBatch);
+
+        player.render(polygonSpriteBatch); // player bullets get rendered here as well
+
+        polygonSpriteBatch.end();
+
+
+
+
         this.level.render(this.shape);
         this.stage.draw();
 
-        for (Enemy enemy : enemies)
-            if (enemy.getIsActive())
-                enemy.render(shape, enemy.getPolarity().getColor());
 
-        for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
-            if (enemyBullets[i].getIsActive())
-                enemyBullets[i].render(shape, enemyBullets[i].getPolarity().getColor());
-        }
 
-        player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
     }
 
     public static Score getScore() {

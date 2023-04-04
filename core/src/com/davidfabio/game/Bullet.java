@@ -1,5 +1,7 @@
 package com.davidfabio.game;
 
+import java.util.Set;
+
 public class Bullet extends Entity {
 
     private boolean toDestroyNextFrame = false;
@@ -7,9 +9,15 @@ public class Bullet extends Entity {
     public void setToDestroyNextFrame(boolean toDestroyNextFrame) { this.toDestroyNextFrame = toDestroyNextFrame; }
 
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed) {
-        super.init(x, y, radius, direction, polarity);
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+        super.init(x, y, scale, polarity);
         setMoveSpeed(moveSpeed);
+        setDirection(direction);
+
+        if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            currentTexture = GameScreen.getTextureRed();
+        else
+            currentTexture = GameScreen.getTextureBlue();
     }
 
 
