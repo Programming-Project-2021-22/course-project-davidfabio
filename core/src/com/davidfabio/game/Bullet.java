@@ -1,7 +1,5 @@
 package com.davidfabio.game;
 
-import java.util.Set;
-
 public class Bullet extends Entity {
 
     private boolean toDestroyNextFrame = false;

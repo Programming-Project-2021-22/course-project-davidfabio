@@ -18,9 +18,9 @@ public class UserInterface extends Group {
     public void init(Player player) {
         // Player Score
         this.playerScore = new Label(getScoreText(GameScreen.getScore()), UIFactory.getSkin());
-        Label.LabelStyle style = new Label.LabelStyle();
-        style.font = UIFactory.getSkin().getFont("font-title");
-        this.playerScore.setStyle(style);
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = UIFactory.getSkin().getFont("font-title");
+        this.playerScore.setStyle(labelStyle);
         this.playerScore.setFontScale(0.75f);
         this.playerScore.setHeight(30f);
         this.playerScore.setWidth(Gdx.graphics.getWidth() * 0.5f);
@@ -29,8 +29,8 @@ public class UserInterface extends Group {
 
         // Player Health bar
         this.playerHealth = new ProgressBar(0,player.getInitialHealth(),0.5f,false, UIFactory.getSkin());
-        this.playerHealth.setHeight(40f);
-        this.playerHealth.setWidth(Gdx.graphics.getWidth() * 0.75f);
+        this.playerHealth.setHeight(20f);
+        this.playerHealth.setWidth(204f);
         this.playerHealth.setPosition((Gdx.graphics.getWidth() / 2) - (this.playerHealth.getWidth() / 2),Gdx.graphics.getHeight() * 0.1f);
         this.addActor(this.playerHealth);
     }
