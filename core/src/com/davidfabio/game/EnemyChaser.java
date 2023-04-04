@@ -19,7 +19,7 @@ public class EnemyChaser extends Enemy {
     @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
         super.init(x, y, scale, direction, polarity, moveSpeed, healthInitial);
 
-        verticesInitial = new float[]{
+        verticesInitial = new float[] {
                 0, -0.5f,  // top
                 -0.25f, 0, // left
                 0, 0.5f,   // bottom
@@ -32,7 +32,7 @@ public class EnemyChaser extends Enemy {
 
         vertices = new float[verticesInitial.length];
 
-        triangles = new short[]{
+        triangles = new short[] {
                 0, 1, 2,
                 2, 3, 0
         };
@@ -87,7 +87,7 @@ public class EnemyChaser extends Enemy {
             }
         }
 
-        // NOTE (David): these 2 lines are the only really we can't use the entity render method; maybe find some better solution than copying the whole method?
+        // NOTE (David): these 2 lines are the only reason we can't use the entity render method; maybe find some better solution than copying the whole method?
         vertices[2] -= xScaleCounter * getScale();
         vertices[6] += xScaleCounter * getScale();
 

@@ -197,6 +197,9 @@ public class GameScreen extends ScreenAdapter {
         for (Enemy enemy : enemies)
             enemy.render(polygonSpriteBatch);
 
+        for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
+            enemyBullets[i].render(polygonSpriteBatch);
+
         polygonSpriteBatch.end();
 
 
@@ -204,11 +207,6 @@ public class GameScreen extends ScreenAdapter {
 
         this.level.render(this.shape);
         this.stage.draw();
-
-        for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1) {
-            if (enemyBullets[i].getIsActive())
-                enemyBullets[i].render(shape, enemyBullets[i].getPolarity().getColor());
-        }
 
         player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
 

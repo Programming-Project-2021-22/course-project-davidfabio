@@ -6,7 +6,7 @@ public class EnemyStatic extends Enemy {
     @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
         super.init(x, y, scale, direction, polarity, moveSpeed, healthInitial);
 
-        verticesInitial = new float[]{
+        verticesInitial = new float[] {
                 0, -0.5f, // top
                 -0.5f, 0, // left
                 0, 0.5f,  // bottom
@@ -19,7 +19,7 @@ public class EnemyStatic extends Enemy {
 
         vertices = new float[verticesInitial.length];
 
-        triangles = new short[]{
+        triangles = new short[] {
                 0, 1, 2,
                 2, 3, 0
         };

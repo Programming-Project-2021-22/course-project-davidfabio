@@ -16,7 +16,8 @@ public class Enemy extends Entity {
 
     private float fireRate = 2.0f;
     private float fireRateCooldown;
-    private float bulletSpeed = 150;
+    private float bulletSpeed = 200;
+    private float bulletScale = 16;
 
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
@@ -69,7 +70,6 @@ public class Enemy extends Entity {
         }
 
 
-
         // set texture
         if (isSpawning) {
             currentTexture = GameScreen.getTextureYellow();
@@ -107,9 +107,8 @@ public class Enemy extends Entity {
             float dir = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
 
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
-                bullet.init(getX(), getY(), 8, getPolarity(), bulletSpeed, dir);
+                bullet.init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, dir);
                 fireRateCooldown = fireRate;
-                //Game.sfxShoot.play(Game.sfxVolume);
                 break;
             }
         }

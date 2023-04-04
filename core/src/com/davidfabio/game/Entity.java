@@ -72,12 +72,7 @@ public class Entity {
             }
         }
 
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture),
-                vertices,
-                new short[] { // specify triangles in counter-clockwise direction
-                        0, 1, 2, // triangle 1
-                        2, 3, 0  // triangle 2
-                });
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(getX(), getY());
         polygonSprite.rotate(getDirection());

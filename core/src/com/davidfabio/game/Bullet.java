@@ -1,5 +1,7 @@
 package com.davidfabio.game;
 
+import java.util.Set;
+
 public class Bullet extends Entity {
 
     private boolean toDestroyNextFrame = false;
@@ -11,6 +13,11 @@ public class Bullet extends Entity {
         super.init(x, y, scale, polarity);
         setMoveSpeed(moveSpeed);
         setDirection(direction);
+
+        if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            currentTexture = GameScreen.getTextureRed();
+        else
+            currentTexture = GameScreen.getTextureBlue();
     }
 
 
