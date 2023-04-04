@@ -135,7 +135,7 @@ public class Player extends Entity {
 
                 // add random spread to bullet direction
                 float random = GameScreen.getRandom().nextFloat() - 0.5f;
-                float angleDelta = degreesToRadians(random * bulletSpreadMax);
+                float angleDelta = Movable.degreesToRadians(random * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getDirection() + angleDelta);
                 fireRateCooldown = fireRate;

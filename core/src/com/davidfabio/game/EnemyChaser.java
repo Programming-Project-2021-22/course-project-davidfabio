@@ -49,7 +49,7 @@ public class EnemyChaser extends Enemy {
             return;
 
         float angle = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
-        setDirection(radiansToDegrees(angle));
+        setDirection(Movable.radiansToDegrees(angle));
 
 
         // stretching/squashing width

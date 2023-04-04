@@ -1,14 +1,12 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Entity {
+public class Entity implements Movable {
     private float x, y;
     private float scale;
     private float moveSpeed;
@@ -21,6 +19,7 @@ public class Entity {
     public void setX(float x) { this.x = x; }
     public void setY(float y) { this.y = y; }
     public float getScale() { return scale; }
+    public void setScale(float scale) { this.scale = scale; }
     public float getMoveSpeed() { return moveSpeed; }
     public float getDirection() { return direction; }
     public void setDirection(float direction) { this.direction = direction; }
@@ -64,55 +63,7 @@ public class Entity {
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(getX(), getY());
-        polygonSprite.rotate(radiansToDegrees(getDirection()));
+        polygonSprite.rotate(Movable.radiansToDegrees(getDirection()));
         polygonSprite.draw(polygonSpriteBatch);
     }
-
-
-
-    public boolean isInView() {
-        if (x + scale < 0)
-            return false;
-        else if (x - scale > Settings.windowWidth)
-            return false;
-        else if (y + scale < 0)
-            return false;
-        else if (y - scale > Settings.windowHeight)
-            return false;
-
-        return true;
-    }
-
-    public void moveTowards(float direction, float deltaTime) {
-        float speed = getMoveSpeed() * deltaTime;
-        float deltaX = (float)Math.cos(direction) * speed;
-        float deltaY = (float)Math.sin(direction) * speed;
-
-        setX(getX() + deltaX);
-        setY(getY() + deltaY);
-    }
-
-    public void moveTowards(float otherX, float otherY, float deltaTime) {
-        float dir = getAngleTowards(otherX, otherY);
-        moveTowards(dir, deltaTime);
-    }
-
-    public float getAngleTowards(float otherX, float otherY) {
-        return ((float)Math.atan2(otherY - y, otherX - x));
-    }
-
-    public float getDistanceTo(float otherX, float otherY) {
-        float distanceX = x - otherX;
-        float distanceY = y - otherY;
-        return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
-    }
-
-    public float radiansToDegrees(float angleRadians) {
-        return angleRadians * (float)(180 / Math.PI);
-    }
-
-    public float degreesToRadians(float angleDegrees) {
-        return angleDegrees * (float)(Math.PI / 180);
-    }
-
 }

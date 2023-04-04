@@ -1,8 +1,5 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 public class BulletPlayer extends Bullet {
 
     private float firePower = 1.0f;
