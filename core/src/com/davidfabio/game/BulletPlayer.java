@@ -9,20 +9,26 @@ public class BulletPlayer extends Bullet {
     private float width = 8;
     private float height = 32;
 
-    @Override public void render(ShapeRenderer shape, Color _color) {
-        if (!getIsActive())
-            return;
 
-        float _x = getX() - (width / 2);
-        float _y = getY() - (height / 2);
-        float angle = radiansToDegrees(getDirection() + (float)(Math.PI / 2));
+    @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+        super.init(x, y, scale, polarity, moveSpeed, direction);
 
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(_color);
-        shape.ellipse(_x, _y, width, height, angle);
-        shape.end();
+        verticesInitial = new float[] {
+                -0.5f, -0.25f,
+                -0.5f, 0.25f,
+                0.5f, 0
+        };
+
+        for (int i = 0; i < verticesInitial.length; i += 1) {
+            verticesInitial[i] *= getScale();
+        }
+
+        vertices = new float[verticesInitial.length];
+
+        triangles = new short[] {
+                0, 1, 2
+        };
     }
-
 
 
     public void update(float deltaTime) {

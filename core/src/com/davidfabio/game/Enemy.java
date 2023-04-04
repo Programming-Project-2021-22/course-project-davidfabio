@@ -27,14 +27,11 @@ public class Enemy extends Entity {
 
     public float getHealth() { return health; }
     public boolean getIsSpawning() { return isSpawning; }
-    public float getSpawnDuration() { return spawnDuration; }
-    public float getSpawnCounter() { return spawnCounter; }
     public float getFireRateCooldown() { return fireRateCooldown; }
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
     public float getCollisionDamage() {
         return collisionDamage;
     }
-    public boolean getIsInHitState() { return isInHitState; }
 
 
     public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
@@ -82,25 +79,6 @@ public class Enemy extends Entity {
             currentTexture = GameScreen.getTextureBlue();
     }
 
-
-    @Override public void render(ShapeRenderer shape, Color _color) {
-        if (!getIsActive())
-            return;
-
-        if (isSpawning) {
-            shape.begin(ShapeRenderer.ShapeType.Line);
-            shape.setColor(_color);
-            shape.arc(getX(), getY(), getScale(), 0, (spawnCounter * 360) / spawnDuration);
-            shape.end();
-            return;
-        }
-        if (isInHitState)
-            _color = new Color(0.5f, 0.5f, 0.5f, 1);
-
-        super.render(shape, _color);
-    }
-
-
     void shoot() {
         for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
             BulletEnemy bullet = GameScreen.enemyBullets[i];
@@ -113,7 +91,6 @@ public class Enemy extends Entity {
             }
         }
     }
-
 
 
     public void hit(float attackPower) {

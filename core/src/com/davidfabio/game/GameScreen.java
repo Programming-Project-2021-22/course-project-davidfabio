@@ -88,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
         Sounds.loadSounds();
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 16, new Polarity(), 260);
+        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, new Polarity(), 260);
         this.userInterface = new UserInterface();
         this.userInterface.init(player);
         this.stage.addActor(this.userInterface);
@@ -108,15 +108,11 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
 
         // TODO (David): frametimes are uneven when using deltaTime (with VSync enabled), so for now at least we are not using it
-        //float deltaTime = Gdx.graphics.getDeltaTime();
-        float deltaTime = 1.0f / displayRefreshRate;
+        float deltaTime = 1.0f / displayRefreshRate; // float deltaTime = Gdx.graphics.getDeltaTime();
         timeElapsed += deltaTime;
 
-
-        // get user input
         Inputs.update();
 
-        // pause/unpause
         if (Inputs.esc.getWasPressed())
             isPaused = !isPaused;
 
@@ -200,6 +196,8 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
             enemyBullets[i].render(polygonSpriteBatch);
 
+        player.render(polygonSpriteBatch); // player bullets get rendered here as well
+
         polygonSpriteBatch.end();
 
 
@@ -208,7 +206,6 @@ public class GameScreen extends ScreenAdapter {
         this.level.render(this.shape);
         this.stage.draw();
 
-        player.render(shape, player.getPolarity().getColor()); // player bullets get rendered here as well
 
 
     }

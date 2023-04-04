@@ -48,17 +48,6 @@ public class Entity {
     }
 
 
-    public void render(ShapeRenderer shape, Color _color) {
-        if (!isActive)
-            return;
-
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(_color);
-        shape.circle(x, y, scale);
-        shape.end();
-    }
-
-
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
@@ -75,7 +64,7 @@ public class Entity {
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(getX(), getY());
-        polygonSprite.rotate(getDirection());
+        polygonSprite.rotate(radiansToDegrees(getDirection()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 

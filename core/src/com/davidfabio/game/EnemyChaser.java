@@ -40,7 +40,6 @@ public class EnemyChaser extends Enemy {
 
 
 
-    //@Override public void update(float deltaTime) {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
