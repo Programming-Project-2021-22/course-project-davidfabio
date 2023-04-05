@@ -1,12 +1,10 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Entity {
     private float x, y;
@@ -30,10 +28,10 @@ public class Entity {
     public Polarity getPolarity() { return polarity; }
     public void setPolarity(Polarity polarity) { this.polarity = polarity; }
 
-    // TESTING
-    public float[] vertices, verticesInitial;
-    public short[] triangles; // in counter-clockwise direction
-    public Texture currentTexture = GameScreen.getTextureYellow();
+    public PolygonShape shape; // needs to be initialized in the child init method
+    private Texture texture = GameScreen.getTextureYellow();
+    public Texture getTexture() { return texture; }
+    public void setTexture(Texture texture) { this.texture = texture; }
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
@@ -51,23 +49,8 @@ public class Entity {
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
-
-        for (int i = 0; i < vertices.length; i += 1) {
-            vertices[i] = verticesInitial[i];
-            if (i % 2 == 0)
-                vertices[i] += getX();
-            else {
-                vertices[i] += getY();
-            }
-        }
-
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture), vertices, triangles);
-        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
-        polygonSprite.setOrigin(getX(), getY());
-        polygonSprite.rotate(radiansToDegrees(getDirection()));
-        polygonSprite.draw(polygonSpriteBatch);
+        shape.render(polygonSpriteBatch, this);
     }
-
 
 
     public boolean isInView() {

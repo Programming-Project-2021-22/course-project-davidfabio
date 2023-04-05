@@ -1,9 +1,5 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-
 
 public class Enemy extends Entity {
 
@@ -66,17 +62,16 @@ public class Enemy extends Entity {
                 isInHitState = false;
         }
 
-
         // set texture
         if (isSpawning) {
-            currentTexture = GameScreen.getTextureYellow();
+            setTexture(GameScreen.getTextureYellow());
         }
         else if (isInHitState)
-            currentTexture = GameScreen.getTextureWhite();
+            setTexture(GameScreen.getTextureWhite());
         else if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            currentTexture = GameScreen.getTextureRed();
+            setTexture(GameScreen.getTextureRed());
         else
-            currentTexture = GameScreen.getTextureBlue();
+            setTexture(GameScreen.getTextureBlue());
     }
 
     void shoot() {
