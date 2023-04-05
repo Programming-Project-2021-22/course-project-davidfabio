@@ -1,4 +1,4 @@
-´´´mermaid
+```mermaid
 ---
 title: Duality
 ---
@@ -113,4 +113,4 @@ note for World "Container for all World elements\nProvides functions to update a
         <<interface>>
         +attack(Attackable attackable)
     }
-´´´
+```
