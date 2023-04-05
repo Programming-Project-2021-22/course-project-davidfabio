@@ -1,5 +1,7 @@
 package com.davidfabio.game;
 
+import java.util.ArrayList;
+
 public class BulletPlayer extends Bullet implements Attacker {
     private float attackPower = 1.0f;
     private float width = 8;
@@ -22,7 +24,7 @@ public class BulletPlayer extends Bullet implements Attacker {
         shape = new PolygonShape(vertices, triangles, scale);
     }
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, ArrayList<Enemy> enemies, Score score) {
         super.update(deltaTime);
 
         if (!getIsActive())
@@ -30,7 +32,7 @@ public class BulletPlayer extends Bullet implements Attacker {
 
 
         // ---------------- collision detection ----------------
-        for (Enemy enemy : GameScreen.enemies) {
+        for (Enemy enemy : enemies) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
@@ -39,7 +41,7 @@ public class BulletPlayer extends Bullet implements Attacker {
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
                 this.attack(enemy);
                 if (!enemy.getIsActive())
-                    GameScreen.getScore().setPoints(GameScreen.getScore().getPoints() + Enemy.POINT_VALUE);
+                    score.setPoints(score.getPoints() + Enemy.POINT_VALUE);
 
                 // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the enemy
                 // TODO (David): shape changed from circle to ellipsis; collision detection needs to be updated!

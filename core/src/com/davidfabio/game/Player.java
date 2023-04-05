@@ -2,7 +2,9 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Player extends Entity implements Attackable {
     private float fireRate = 0.06f;
@@ -67,7 +69,7 @@ public class Player extends Entity implements Attackable {
 
 
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, ArrayList<Enemy> enemies, Score score) {
         // update direction
         setDirection((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
 
@@ -115,12 +117,12 @@ public class Player extends Entity implements Attackable {
             shoot();
 
         for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].update(deltaTime);
+            bullets[i].update(deltaTime,enemies,score);
         }
 
 
         // ---------------- collision detection against enemies ----------------
-        for (Enemy enemy : GameScreen.enemies) {
+        for (Enemy enemy : enemies) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
@@ -135,12 +137,13 @@ public class Player extends Entity implements Attackable {
 
 
     void shoot() {
+        Random random = new Random();
         for (int i = 0; i < MAX_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 
                 // add random spread to bullet direction
-                float random = GameScreen.getRandom().nextFloat() - 0.5f;
-                float angleDelta = Movable.degreesToRadians(random * bulletSpreadMax);
+                float randomFloat = random.nextFloat() - 0.5f;
+                float angleDelta = Movable.degreesToRadians(randomFloat * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getDirection() + angleDelta);
                 fireRateCooldown = fireRate;

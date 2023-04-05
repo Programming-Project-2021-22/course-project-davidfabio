@@ -49,7 +49,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
     }
 
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, BulletEnemy[] enemyBullets, Player player) {
         if (!getIsActive())
             return;
 
@@ -80,10 +80,10 @@ public class Enemy extends Entity implements Attackable, Attacker {
             setTexture(GameScreen.getTextureBlue());
     }
 
-    void shoot() {
-        for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = GameScreen.enemyBullets[i];
-            float dir = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
+    void shoot(BulletEnemy[] enemyBullets, Player player) {
+        for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
+            BulletEnemy bullet = enemyBullets[i];
+            float dir = getAngleTowards(player.getX(), player.getY());
 
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 bullet.init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, dir);

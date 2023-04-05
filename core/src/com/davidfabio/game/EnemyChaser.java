@@ -25,16 +25,16 @@ public class EnemyChaser extends Enemy {
     }
 
 
-
-    public void update(float deltaTime) {
-        super.update(deltaTime);
+    @Override
+    public void update(float deltaTime, BulletEnemy[] enemyBullets, Player player) {
+        super.update(deltaTime, enemyBullets, player);
 
         if (!getIsActive())
             return;
         if (getIsSpawning())
             return;
 
-        float angle = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
+        float angle = getAngleTowards(player.getX(), player.getY());
         setDirection(Movable.radiansToDegrees(angle));
 
 
@@ -52,7 +52,7 @@ public class EnemyChaser extends Enemy {
         xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
 
 
-        moveTowards(GameScreen.player.getX(), GameScreen.player.getY(), deltaTime);
+        moveTowards(player.getX(), player.getY(), deltaTime);
     }
 
     @Override public void render(PolygonSpriteBatch polygonSpriteBatch) {
@@ -62,11 +62,4 @@ public class EnemyChaser extends Enemy {
 
         shape.render(polygonSpriteBatch, this, vertices);
     }
-
-
-
-
-
-
-
 }

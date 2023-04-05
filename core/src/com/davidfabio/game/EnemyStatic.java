@@ -1,9 +1,8 @@
 package com.davidfabio.game;
 
 public class EnemyStatic extends Enemy {
-
-
-    @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
+    @Override
+    public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
         super.init(x, y, scale, direction, polarity, moveSpeed, newInitialHealth);
 
         float[] vertices = new float[]{
@@ -20,9 +19,9 @@ public class EnemyStatic extends Enemy {
         shape = new PolygonShape(vertices, triangles, scale);
     }
 
-
-    @Override public void update(float deltaTime) {
-        super.update(deltaTime);
+    @Override
+    public void update(float deltaTime, BulletEnemy[] enemyBullets, Player player) {
+        super.update(deltaTime, enemyBullets, player);
 
         if (!getIsActive())
             return;
@@ -33,7 +32,6 @@ public class EnemyStatic extends Enemy {
             setFireRateCooldown(getFireRateCooldown() - deltaTime);
 
         if (getFireRateCooldown() <= 0)
-            shoot();
+            shoot(enemyBullets,player);
     }
-
 }

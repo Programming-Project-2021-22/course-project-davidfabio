@@ -65,8 +65,4 @@ public class PolygonShape {
         polygonSprite.rotate(Movable.radiansToDegrees(entity.getDirection()));
         polygonSprite.draw(polygonSpriteBatch);
     }
-
-
-
-
 }

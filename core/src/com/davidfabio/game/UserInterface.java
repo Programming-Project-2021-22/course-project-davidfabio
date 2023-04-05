@@ -15,9 +15,9 @@ public class UserInterface extends Group {
         UIBuilder.loadSkin();
     }
 
-    public void init(Player player) {
+    public void init(Player player, Score score) {
         // Player Score
-        this.playerScore = new Label(getScoreText(GameScreen.getScore()), UIBuilder.getSkin());
+        this.playerScore = new Label(getScoreText(score), UIBuilder.getSkin());
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = UIBuilder.getSkin().getFont("font-title");
         this.playerScore.setStyle(labelStyle);

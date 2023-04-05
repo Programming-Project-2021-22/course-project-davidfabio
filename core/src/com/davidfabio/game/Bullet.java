@@ -31,5 +31,4 @@ public class Bullet extends Entity {
 
         moveTowards(getDirection(), deltaTime);
     }
-
 }
