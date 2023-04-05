@@ -8,7 +8,8 @@ public class BulletPlayer extends Bullet implements Attacker {
     public float getAttackPower() { return this.attackPower; }
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-    @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+    @Override
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
 
         float[] vertices = new float[] {

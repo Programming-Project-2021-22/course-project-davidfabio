@@ -90,7 +90,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         fireRateCooldown = fireRate;
     }
 
-    public BulletEnemy getBullet(BulletEnemy[] enemyBullets) {
+    private BulletEnemy getBullet(BulletEnemy[] enemyBullets) {
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
             BulletEnemy bullet = enemyBullets[i];
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {

@@ -32,9 +32,13 @@ mvn abc
 ### 4.1. Architectural Overview
 Describe the architecture of your application.
 
+
+Here's a Class Diagram of our most important classes: [Class Diagram](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/CLASSDIAGRAM.md)
+
 ### 4.2. Third-Party Libraries
 These are the Third-Party Libraries we've used:
 - **LibGDX**: This library provides us with some basic functionalities needed to create a game. We were able to use features like: Shape-Renderers, Cameras, Sound-players and more.
+- **Shade UI**: Skin for UI (Buttons, Progress Bars, and so on). It is freely available under [czyzby's GDX Skins GitHub Repository](https://github.com/czyzby/gdx-skins).
 
 ### 4.3. Programming Techniques
 List and explain how you used the 10 programming techniques required for this project.
