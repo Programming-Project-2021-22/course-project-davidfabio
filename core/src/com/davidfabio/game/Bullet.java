@@ -12,9 +12,9 @@ public class Bullet extends Entity {
         setDirection(direction);
 
         if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            currentTexture = GameScreen.getTextureRed();
+            setTexture(GameScreen.getTextureRed());
         else
-            currentTexture = GameScreen.getTextureBlue();
+            setTexture(GameScreen.getTextureBlue());
     }
 
 

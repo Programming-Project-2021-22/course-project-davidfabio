@@ -29,10 +29,12 @@ public class Entity implements Movable {
     public Polarity getPolarity() { return polarity; }
     public void setPolarity(Polarity polarity) { this.polarity = polarity; }
 
-    // TESTING
-    public float[] vertices, verticesInitial;
-    public short[] triangles; // in counter-clockwise direction
-    public Texture currentTexture = GameScreen.getTextureYellow();
+    private Texture texture = GameScreen.getTextureYellow();
+    public PolygonShape shape; // needs to be initialized in the child init method
+
+    public Texture getTexture() { return texture; }
+    public void setTexture(Texture texture) { this.texture = texture; }
+
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
@@ -50,20 +52,6 @@ public class Entity implements Movable {
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
-
-        for (int i = 0; i < vertices.length; i += 1) {
-            vertices[i] = verticesInitial[i];
-            if (i % 2 == 0)
-                vertices[i] += getX();
-            else {
-                vertices[i] += getY();
-            }
-        }
-
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(currentTexture), vertices, triangles);
-        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
-        polygonSprite.setOrigin(getX(), getY());
-        polygonSprite.rotate(Movable.radiansToDegrees(getDirection()));
-        polygonSprite.draw(polygonSpriteBatch);
+        shape.render(polygonSpriteBatch, this);
     }
 }

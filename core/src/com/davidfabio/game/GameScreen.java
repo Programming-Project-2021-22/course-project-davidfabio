@@ -134,7 +134,7 @@ public class GameScreen extends ScreenAdapter {
 
         // FOR TESTING ONLY: enemy spawning
         int activeEnemyCount = 0;
-        int maxEnemies = 6;
+        int maxEnemies = 5;
         for (Enemy enemy : enemies)
             if (enemy.getIsActive())
                 activeEnemyCount += 1;
@@ -191,7 +191,7 @@ public class GameScreen extends ScreenAdapter {
         polygonSpriteBatch.setProjectionMatrix(camera.combined);
 
         for (Enemy enemy : enemies)
-            enemy.render(polygonSpriteBatch);
+          enemy.render(polygonSpriteBatch);
 
         for (int i = 0; i < MAX_ENEMY_BULLETS; i += 1)
             enemyBullets[i].render(polygonSpriteBatch);

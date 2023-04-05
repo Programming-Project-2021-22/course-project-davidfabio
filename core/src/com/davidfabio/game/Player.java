@@ -2,6 +2,8 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
+import java.util.Arrays;
+
 public class Player extends Entity implements Attackable {
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
@@ -26,24 +28,17 @@ public class Player extends Entity implements Attackable {
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
 
-        verticesInitial = new float[] {
-                0, -0.5f, // top
-                -0.5f, 0, // left
-                0, 0.5f,  // bottom
-                0.5f, 0,  // right
+        float[] vertices = new float[] {
+                0, -0.5f,
+                -0.5f, 0,
+                0, 0.5f,
+                0.5f, 0,
                 -0.3675f, -0.3675f,
                 -0.3675f, 0.3675f,
                 0.3675f, 0.3675f,
                 0.3675f, -0.3675f
         };
-
-        for (int i = 0; i < verticesInitial.length; i += 1) {
-            verticesInitial[i] *= getScale();
-        }
-
-        vertices = new float[verticesInitial.length];
-
-        triangles = new short[] {
+        short[] triangles = new short[] {
                 0, 1, 2,
                 2, 3, 0,
                 0, 4, 1,
@@ -51,11 +46,21 @@ public class Player extends Entity implements Attackable {
                 2, 6, 3,
                 3, 7, 0
         };
+        shape = new PolygonShape(vertices, triangles, scale);
     }
 
-    @Override public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        super.render(polygonSpriteBatch);
 
+    public void render(PolygonSpriteBatch polygonSpriteBatch) {
+        shape.render(polygonSpriteBatch, this);
+
+        float[] vertices = shape.getVerticesInitial();
+        for (int i = 0; i < vertices.length; i += 1)
+            vertices[i] *= 0.75f;
+        setTexture(GameScreen.getTextureWhite());
+        shape.render(polygonSpriteBatch, this, vertices);
+
+
+        // render bullets
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i].render(polygonSpriteBatch);
     }
@@ -95,9 +100,9 @@ public class Player extends Entity implements Attackable {
             switchPolarity();
 
         if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            currentTexture = GameScreen.getTextureRed();
+            setTexture(GameScreen.getTextureRed());
         else
-            currentTexture = GameScreen.getTextureBlue();
+            setTexture(GameScreen.getTextureBlue());
 
 
 

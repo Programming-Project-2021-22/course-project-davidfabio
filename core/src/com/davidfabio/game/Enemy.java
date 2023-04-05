@@ -68,17 +68,16 @@ public class Enemy extends Entity implements Attackable, Attacker {
                 isInHitState = false;
         }
 
-
         // set texture
         if (isSpawning) {
-            currentTexture = GameScreen.getTextureYellow();
+            setTexture(GameScreen.getTextureYellow());
         }
         else if (isInHitState)
-            currentTexture = GameScreen.getTextureWhite();
+            setTexture(GameScreen.getTextureWhite());
         else if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            currentTexture = GameScreen.getTextureRed();
+            setTexture(GameScreen.getTextureRed());
         else
-            currentTexture = GameScreen.getTextureBlue();
+            setTexture(GameScreen.getTextureBlue());
     }
 
     void shoot() {

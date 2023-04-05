@@ -8,25 +8,18 @@ public class BulletPlayer extends Bullet implements Attacker {
     public float getAttackPower() { return this.attackPower; }
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-    @Override
-    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+    @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
 
-        verticesInitial = new float[] {
-                -0.5f, -0.25f,
-                -0.5f, 0.25f,
-                0.5f, 0
+        float[] vertices = new float[] {
+            -0.5f, -0.25f,
+            -0.5f, 0.25f,
+            0.5f, 0
         };
-
-        for (int i = 0; i < verticesInitial.length; i += 1) {
-            verticesInitial[i] *= getScale();
-        }
-
-        vertices = new float[verticesInitial.length];
-
-        triangles = new short[] {
-                0, 1, 2
+        short[] triangles = new short[] {
+            0, 1, 2
         };
+        shape = new PolygonShape(vertices, triangles, scale);
     }
 
     public void update(float deltaTime) {

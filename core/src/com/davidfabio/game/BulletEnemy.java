@@ -10,24 +10,17 @@ public class BulletEnemy extends Bullet implements Attacker {
     public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
 
-        verticesInitial = new float[] {
-            0, -0.5f, // top
-            -0.5f, 0, // left
-            0, 0.5f,  // bottom
-            0.5f, 0,  // right
+        float[] vertices = new float[] {
+            0, -0.5f,
+            -0.5f, 0,
+            0, 0.5f,
+            0.5f, 0,
             -0.3675f, -0.3675f,
             -0.3675f, 0.3675f,
             0.3675f, 0.3675f,
             0.3675f, -0.3675f
         };
-
-        for (int i = 0; i < verticesInitial.length; i += 1) {
-            verticesInitial[i] *= getScale();
-        }
-
-        vertices = new float[verticesInitial.length];
-
-        triangles = new short[] {
+        short[] triangles = new short[] {
             0, 1, 2,
             2, 3, 0,
             0, 4, 1,
@@ -35,6 +28,7 @@ public class BulletEnemy extends Bullet implements Attacker {
             2, 6, 3,
             3, 7, 0
         };
+        shape = new PolygonShape(vertices, triangles, scale);
     }
 
     public void update(float deltaTime) {
