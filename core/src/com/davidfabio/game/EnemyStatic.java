@@ -32,6 +32,20 @@ public class EnemyStatic extends Enemy {
             setFireRateCooldown(getFireRateCooldown() - deltaTime);
 
         if (getFireRateCooldown() <= 0)
-            shoot(enemyBullets,player);
+            shootTowardsPlayer();
     }
+
+    @Override
+    public void hit(float attackPower)  {
+        super.hit(attackPower);
+
+        // spawn bullets in all direction
+        if (getHealth() <= 0) {
+            for (int i = 0; i < 36; i += 1)
+                shoot(Helper.degreesToRadians(i * 10));
+        }
+    }
+
+
+
 }

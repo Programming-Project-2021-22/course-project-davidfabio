@@ -8,7 +8,8 @@ public class EnemyChaser extends Enemy {
     private boolean xScaleIncreasing = true;
 
 
-    @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
+    @Override
+    public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
         super.init(x, y, scale, direction, polarity, moveSpeed, newInitialHealth);
 
         float[] vertices = new float[] {
@@ -35,7 +36,7 @@ public class EnemyChaser extends Enemy {
             return;
 
         float angle = getAngleTowards(player.getX(), player.getY());
-        setDirection(Movable.radiansToDegrees(angle));
+        setAngle(angle);
 
 
         // stretching/squashing width

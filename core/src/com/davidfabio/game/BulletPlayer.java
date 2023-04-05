@@ -47,8 +47,8 @@ public class BulletPlayer extends Bullet implements Attacker {
                 // TODO (David): shape changed from circle to ellipsis; collision detection needs to be updated!
                 setToDestroyNextFrame(true);
                 while (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-                    setX(getX() - (float)Math.cos(getDirection()));
-                    setY(getY() - (float)Math.sin(getDirection()));
+                    setX(getX() - (float)Math.cos(getAngle()));
+                    setY(getY() - (float)Math.sin(getAngle()));
                 }
                 break;
             }

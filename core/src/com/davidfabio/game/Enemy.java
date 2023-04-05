@@ -45,7 +45,10 @@ public class Enemy extends Entity implements Attackable, Attacker {
         isSpawning = true;
         spawnCounter = 0;
 
-        setPolarity(polarity); // we call this again to set the color
+        if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            setTexture(GameScreen.getTextureRedTransparent());
+        else
+            setTexture(GameScreen.getTextureBlueTransparent());
     }
 
 
@@ -69,10 +72,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
 
         // set texture
-        if (isSpawning) {
-            setTexture(GameScreen.getTextureYellow());
-        }
-        else if (isInHitState)
+        if (isInHitState)
             setTexture(GameScreen.getTextureWhite());
         else if (getPolarity().getColor() == Settings.FIRST_COLOR)
             setTexture(GameScreen.getTextureRed());
@@ -80,16 +80,25 @@ public class Enemy extends Entity implements Attackable, Attacker {
             setTexture(GameScreen.getTextureBlue());
     }
 
-    void shoot(BulletEnemy[] enemyBullets, Player player) {
-        for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = enemyBullets[i];
-            float dir = getAngleTowards(player.getX(), player.getY());
+    void shootTowardsPlayer() {
+        float angle = getAngleTowards(player.getX(), player.getY());
+        getBullet().init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+        fireRateCooldown = fireRate;
+    }
 
+    void shoot(float angle) {
+        getBullet().init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+        fireRateCooldown = fireRate;
+    }
+
+
+    public BulletEnemy getBullet() {
+        for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
+            BulletEnemy bullet = GameScreen.enemyBullets[i];
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
-                bullet.init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, dir);
-                fireRateCooldown = fireRate;
-                break;
+                return bullet;
             }
         }
+        return null;
     }
 }

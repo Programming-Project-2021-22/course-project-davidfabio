@@ -22,6 +22,11 @@ public class Player extends Entity implements Attackable {
     public float getInitialHealth() { return this.initialHealth; }
     public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
 
+    // indicates shooting direction (purely cosmetic)
+    private PolygonShape shapeArrow;
+    private float arrowScale = 24;
+    private float arrowOffset = 32;
+
     public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
         super.init(x, y, scale, polarity);
         this.setMoveSpeed(moveSpeed);
@@ -49,20 +54,39 @@ public class Player extends Entity implements Attackable {
                 3, 7, 0
         };
         shape = new PolygonShape(vertices, triangles, scale);
+
+
+        float[] verticesArrow = new float[] {
+                0, 0,
+                -0.25f, 0.5f,
+                0.25f, 0,
+                -0.25f, -0.5f
+        };
+        short[] trianglesArrow = new short[] {
+                0, 1, 2,
+                2, 3, 0
+        };
+        shapeArrow = new PolygonShape(verticesArrow, trianglesArrow, arrowScale);
     }
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        shape.render(polygonSpriteBatch, this);
+        super.render(polygonSpriteBatch);
 
+        // arrow
+        float arrowX = Helper.translateX(getX(), getAngle(), arrowOffset);
+        float arrowY = Helper.translateY(getY(), getAngle(), arrowOffset);
+        float arrowAngle = Helper.radiansToDegrees(getAngle());
+        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, getTexture());
+
+        // inner white circle
         float[] vertices = shape.getVerticesInitial();
         for (int i = 0; i < vertices.length; i += 1)
             vertices[i] *= 0.75f;
         setTexture(GameScreen.getTextureWhite());
         shape.render(polygonSpriteBatch, this, vertices);
 
-
-        // render bullets
+        // bullets
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i].render(polygonSpriteBatch);
     }
@@ -71,7 +95,7 @@ public class Player extends Entity implements Attackable {
 
     public void update(float deltaTime, ArrayList<Enemy> enemies, Score score) {
         // update direction
-        setDirection((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
+        setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
 
         // ---------------- movement ----------------
         float speed = getMoveSpeed() * deltaTime;
@@ -145,7 +169,7 @@ public class Player extends Entity implements Attackable {
                 float randomFloat = random.nextFloat() - 0.5f;
                 float angleDelta = Movable.degreesToRadians(randomFloat * bulletSpreadMax);
 
-                bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getDirection() + angleDelta);
+                bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getAngle() + angleDelta);
                 fireRateCooldown = fireRate;
                 Sounds.playShootSfx();
                 break;
