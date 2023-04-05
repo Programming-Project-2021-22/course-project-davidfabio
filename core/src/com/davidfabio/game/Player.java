@@ -2,8 +2,6 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class Player extends Entity implements Attackable {

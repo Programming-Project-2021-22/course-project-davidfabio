@@ -1,7 +1,5 @@
 package com.davidfabio.game;
 
-import java.util.ArrayList;
-
 public class BulletPlayer extends Bullet implements Attacker {
     private float attackPower = 1.0f;
     private float width = 8;
