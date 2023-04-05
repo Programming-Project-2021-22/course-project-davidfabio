@@ -18,7 +18,7 @@ import java.util.Random;
 public class GameScreen extends ScreenAdapter {
     public static Player player;
     public static final int MAX_ENEMIES = 256;
-    public static final int MAX_ENEMY_BULLETS = 256;
+    public static final int MAX_ENEMY_BULLETS = 1024;
     public static ArrayList<Enemy> enemies;
     public static BulletEnemy[] enemyBullets;
 
@@ -44,9 +44,11 @@ public class GameScreen extends ScreenAdapter {
     private PolygonSprite polygonSprite;
     private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
     private Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    private static Texture textureRed, textureBlue, textureWhite, textureYellow;
+    private static Texture textureRed, textureBlue, textureRedTransparent, textureBlueTransparent, textureWhite, textureYellow;
 
     public static Texture getTextureRed() { return textureRed; }
+    public static Texture getTextureRedTransparent() { return textureRedTransparent; }
+    public static Texture getTextureBlueTransparent() { return textureBlueTransparent; }
     public static Texture getTextureBlue() { return textureBlue; }
     public static Texture getTextureWhite() { return textureWhite; }
     public static Texture getTextureYellow() { return textureYellow; }
@@ -63,15 +65,23 @@ public class GameScreen extends ScreenAdapter {
         pixmap.fill();
         textureRed = new Texture(pixmap);
 
+        pixmap.setColor(0xFF000044); // red, green, blue, alpha
+        pixmap.fill();
+        textureRedTransparent = new Texture(pixmap);
+
         pixmap.setColor(0x0000FFFF); // red, green, blue, alpha
         pixmap.fill();
         textureBlue = new Texture(pixmap);
+
+        pixmap.setColor(0x0000FF44); // red, green, blue, alpha
+        pixmap.fill();
+        textureBlueTransparent = new Texture(pixmap);
 
         pixmap.setColor(0xFFFFFFFF); // red, green, blue, alpha
         pixmap.fill();
         textureWhite = new Texture(pixmap);
 
-        pixmap.setColor(0xFFFF0044); // red, green, blue, alpha
+        pixmap.setColor(0xFFFF00FF); // red, green, blue, alpha
         pixmap.fill();
         textureYellow = new Texture(pixmap);
 
