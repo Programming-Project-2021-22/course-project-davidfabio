@@ -1,5 +1,6 @@
 package com.davidfabio.game;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -63,6 +64,24 @@ public class PolygonShape {
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
         polygonSprite.rotate(entity.radiansToDegrees(entity.getDirection()));
+        polygonSprite.draw(polygonSpriteBatch);
+    }
+
+
+    public void render(PolygonSpriteBatch polygonSpriteBatch, float x, float y, float angle, Texture texture) {
+        for (int i = 0; i < vertices.length; i += 1) {
+            vertices[i] = verticesInitial[i];
+
+            if (i % 2 == 0)
+                vertices[i] += x;
+            else
+                vertices[i] += y;
+        }
+
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(texture), vertices, triangles);
+        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setOrigin(x, y);
+        polygonSprite.rotate(angle);
         polygonSprite.draw(polygonSpriteBatch);
     }
 

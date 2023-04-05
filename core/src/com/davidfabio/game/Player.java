@@ -16,6 +16,7 @@ public class Player extends Entity {
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
+    private PolygonShape shapeArrow;
 
     public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
         super.init(x, y, scale, polarity);
@@ -44,12 +45,35 @@ public class Player extends Entity {
                 3, 7, 0
         };
         shape = new PolygonShape(vertices, triangles, scale);
+
+
+        float[] verticesArrow = new float[] {
+                0, 0,
+                -0.25f, 0.5f,
+                0.25f, 0,
+                -0.25f, -0.5f
+        };
+        short[] trianglesArrow = new short[] {
+                0, 1, 2,
+                2, 3, 0
+        };
+        shapeArrow = new PolygonShape(verticesArrow, trianglesArrow, scale);
     }
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        shape.render(polygonSpriteBatch, this);
+        super.render(polygonSpriteBatch);
 
+        // arrow
+        float arrowX = getX();
+        float arrowY = getY();
+
+
+
+        float arrowAngle = radiansToDegrees(getDirection());
+        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, getTexture());
+
+        // inner white circle
         float[] vertices = shape.getVerticesInitial();
         for (int i = 0; i < vertices.length; i += 1)
             vertices[i] *= 0.75f;
@@ -57,7 +81,7 @@ public class Player extends Entity {
         shape.render(polygonSpriteBatch, this, vertices);
 
 
-        // render bullets
+        // bullets
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i].render(polygonSpriteBatch);
     }
