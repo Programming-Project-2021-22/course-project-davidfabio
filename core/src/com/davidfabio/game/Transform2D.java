@@ -1,7 +1,6 @@
 package com.davidfabio.game;
 
-public class Helper {
-
+public class Transform2D {
     public static float translateX(float x, float angle, float length) {
         return x + (float)Math.cos(angle) * length;
     }
@@ -15,6 +14,4 @@ public class Helper {
     public static float degreesToRadians(float angleDegrees) {
         return angleDegrees * (float)(Math.PI / 180);
     }
-
-
 }

@@ -44,12 +44,4 @@ public interface Movable {
         float distanceY = this.getY() - otherY;
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
-
-    public static float radiansToDegrees(float angleRadians) {
-        return angleRadians * (float)(180 / Math.PI);
-    }
-
-    public static float degreesToRadians(float angleDegrees) {
-        return angleDegrees * (float)(Math.PI / 180);
-    }
 }

@@ -71,9 +71,9 @@ public class Player extends Entity implements Attackable {
         super.render(polygonSpriteBatch);
 
         // arrow
-        float arrowX = Helper.translateX(getX(), getAngle(), arrowOffset);
-        float arrowY = Helper.translateY(getY(), getAngle(), arrowOffset);
-        float arrowAngle = Helper.radiansToDegrees(getAngle());
+        float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
+        float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
+        float arrowAngle = Transform2D.radiansToDegrees(getAngle());
         shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, getTexture());
 
         // inner white circle
@@ -163,7 +163,7 @@ public class Player extends Entity implements Attackable {
 
                 // add random spread to bullet direction
                 float randomFloat = random.nextFloat() - 0.5f;
-                float angleDelta = Movable.degreesToRadians(randomFloat * bulletSpreadMax);
+                float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getAngle() + angleDelta);
                 fireRateCooldown = fireRate;

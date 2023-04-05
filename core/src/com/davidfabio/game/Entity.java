@@ -45,50 +45,9 @@ public class Entity implements Movable {
         angle = 0;
     }
 
-
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
         shape.render(polygonSpriteBatch, this);
     }
-
-
-    public boolean isInView() {
-        if (x + scale < 0)
-            return false;
-        else if (x - scale > Settings.windowWidth)
-            return false;
-        else if (y + scale < 0)
-            return false;
-        else if (y - scale > Settings.windowHeight)
-            return false;
-
-        return true;
-    }
-
-    public void moveTowards(float direction, float deltaTime) {
-        float speed = getMoveSpeed() * deltaTime;
-        float deltaX = (float)Math.cos(direction) * speed;
-        float deltaY = (float)Math.sin(direction) * speed;
-
-        setX(getX() + deltaX);
-        setY(getY() + deltaY);
-    }
-
-    public void moveTowards(float otherX, float otherY, float deltaTime) {
-        float dir = getAngleTowards(otherX, otherY);
-        moveTowards(dir, deltaTime);
-    }
-
-    public float getAngleTowards(float otherX, float otherY) {
-        return ((float)Math.atan2(otherY - y, otherX - x));
-    }
-
-    public float getDistanceTo(float otherX, float otherY) {
-        float distanceX = x - otherX;
-        float distanceY = y - otherY;
-        return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
-    }
-
-
 }
