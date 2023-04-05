@@ -1,8 +1,12 @@
 package com.davidfabio.game;
 
-public class BulletPlayer extends Bullet {
+public class BulletPlayer extends Bullet implements Attacker {
+    private float attackPower = 1.0f;
+    private float width = 8;
+    private float height = 32;
 
-    private float firePower = 1.0f;
+    public float getAttackPower() { return this.attackPower; }
+    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
     @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
@@ -18,8 +22,7 @@ public class BulletPlayer extends Bullet {
         shape = new PolygonShape(vertices, triangles, scale);
     }
 
-
-    public void update(float deltaTime) {
+    public void update(float deltaTime, World world) {
         super.update(deltaTime);
 
         if (!getIsActive())
@@ -27,19 +30,16 @@ public class BulletPlayer extends Bullet {
 
 
         // ---------------- collision detection ----------------
-        for (Enemy enemy : GameScreen.enemies) {
+        for (Enemy enemy : world.getEnemies()) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
                 continue;
 
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-
-                float _firePower = firePower;
-                if (!getPolarity().equals(enemy.getPolarity())) {
-                    _firePower *= 2;
-                }
-                enemy.hit(_firePower);
+                this.attack(enemy,world);
+                if (!enemy.getIsActive())
+                    world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
 
                 // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the enemy
                 // TODO (David): shape changed from circle to ellipsis; collision detection needs to be updated!
@@ -52,6 +52,4 @@ public class BulletPlayer extends Bullet {
             }
         }
     }
-
-
 }

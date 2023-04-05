@@ -8,8 +8,9 @@ public class EnemyChaser extends Enemy {
     private boolean xScaleIncreasing = true;
 
 
-    @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
-        super.init(x, y, scale, direction, polarity, moveSpeed, healthInitial);
+    @Override
+    public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
+        super.init(x, y, scale, direction, polarity, moveSpeed, newInitialHealth);
 
         float[] vertices = new float[] {
                 0, -0.5f,
@@ -25,16 +26,16 @@ public class EnemyChaser extends Enemy {
     }
 
 
-
-    public void update(float deltaTime) {
-        super.update(deltaTime);
+    @Override
+    public void update(float deltaTime, World world) {
+        super.update(deltaTime, world);
 
         if (!getIsActive())
             return;
         if (getIsSpawning())
             return;
 
-        float angle = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
+        float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
         setAngle(angle);
 
 
@@ -52,21 +53,15 @@ public class EnemyChaser extends Enemy {
         xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
 
 
-        moveTowards(GameScreen.player.getX(), GameScreen.player.getY(), deltaTime);
+        moveTowards(world.getPlayer().getX(), world.getPlayer().getY(), deltaTime);
     }
 
-    @Override public void render(PolygonSpriteBatch polygonSpriteBatch) {
+    @Override
+    public void render(PolygonSpriteBatch polygonSpriteBatch) {
         float[] vertices = shape.getVerticesInitial();
         vertices[2] -= xScaleCounter * getScale();
         vertices[6] += xScaleCounter * getScale();
 
         shape.render(polygonSpriteBatch, this, vertices);
     }
-
-
-
-
-
-
-
 }

@@ -1,10 +1,13 @@
 package com.davidfabio.game;
 
-public class BulletEnemy extends Bullet {
+public class BulletEnemy extends Bullet implements Attacker {
+    private float attackPower = 1.0f;
 
+    public float getAttackPower() { return this.attackPower; }
+    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-
-    @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+    @Override
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
 
         float[] vertices = new float[] {
@@ -28,26 +31,22 @@ public class BulletEnemy extends Bullet {
         shape = new PolygonShape(vertices, triangles, scale);
     }
 
-
-
-
-    public void update(float deltaTime) {
+    public void update(float deltaTime, World world) {
         super.update(deltaTime);
 
         if (!getIsActive())
             return;
 
         // ---------------- collision detection ----------------
-        if (Collision.circleCircle(getX(), getY(), getScale(), GameScreen.player.getX(), GameScreen.player.getY(), GameScreen.player.getScale())) {
+        if (Collision.circleCircle(getX(), getY(), getScale(), world.getPlayer().getX(), world.getPlayer().getY(), world.getPlayer().getScale())) {
 
             // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the player
             setToDestroyNextFrame(true);
-            while (Collision.circleCircle(getX(), getY(), getScale(), GameScreen.player.getX(), GameScreen.player.getY(), GameScreen.player.getScale())) {
+            while (Collision.circleCircle(getX(), getY(), getScale(), world.getPlayer().getX(), world.getPlayer().getY(), world.getPlayer().getScale())) {
                 setX(getX() - (float)Math.cos(getAngle()));
                 setY(getY() - (float)Math.sin(getAngle()));
             }
+            this.attack(world.getPlayer(),world);
         }
     }
-
-
 }

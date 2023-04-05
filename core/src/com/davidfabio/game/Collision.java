@@ -1,7 +1,5 @@
 package com.davidfabio.game;
 
-
-
 // TODO: remove this class and use libgdx's in-built collision detection methods
 
 

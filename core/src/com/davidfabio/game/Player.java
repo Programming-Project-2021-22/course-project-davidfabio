@@ -2,8 +2,9 @@ package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
+import java.util.Random;
 
-public class Player extends Entity {
+public class Player extends Entity implements Attackable {
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
@@ -11,8 +12,12 @@ public class Player extends Entity {
     private float bulletSpreadMax = 8;
     private float initialHealth = 20;
     private float health;
-    private final int MAX_BULLETS = 64;
-    private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
+    private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
+
+    public float getHealth() { return this.health; }
+    public void setHealth(float newHealth) { this.health = newHealth; }
+    public float getInitialHealth() { return this.initialHealth; }
+    public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
 
     // indicates shooting direction (purely cosmetic)
     private PolygonShape shapeArrow;
@@ -22,9 +27,9 @@ public class Player extends Entity {
     public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
         super.init(x, y, scale, polarity);
         this.setMoveSpeed(moveSpeed);
-        this.health = this.initialHealth;
+        this.initializeHealth();
 
-        for (int i = 0; i < MAX_BULLETS; i += 1)
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
 
         float[] vertices = new float[] {
@@ -66,9 +71,9 @@ public class Player extends Entity {
         super.render(polygonSpriteBatch);
 
         // arrow
-        float arrowX = Helper.translateX(getX(), getAngle(), arrowOffset);
-        float arrowY = Helper.translateY(getY(), getAngle(), arrowOffset);
-        float arrowAngle = Helper.radiansToDegrees(getAngle());
+        float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
+        float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
+        float arrowAngle = Transform2D.radiansToDegrees(getAngle());
         shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, getTexture());
 
         // inner white circle
@@ -79,13 +84,13 @@ public class Player extends Entity {
         shape.render(polygonSpriteBatch, this, vertices);
 
         // bullets
-        for (int i = 0; i < MAX_BULLETS; i += 1)
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i].render(polygonSpriteBatch);
     }
 
 
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, World world) {
         // update direction
         setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
 
@@ -132,34 +137,33 @@ public class Player extends Entity {
         if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
             shoot();
 
-        for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].update(deltaTime);
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
+            bullets[i].update(deltaTime,world);
         }
 
 
         // ---------------- collision detection against enemies ----------------
-        for (Enemy enemy : GameScreen.enemies) {
+        for (Enemy enemy : world.getEnemies()) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
-                continue;;
+                continue;
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-                enemy.hit(enemy.getHealth());
-                this.health -= enemy.getCollisionDamage();
+                // Enemy collided with Player
+                enemy.attack(this, world);
+                enemy.destroy(world);
             }
         }
-
     }
 
-
-
     void shoot() {
-        for (int i = 0; i < MAX_BULLETS; i += 1) {
+        Random random = new Random();
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 
                 // add random spread to bullet direction
-                float random = GameScreen.getRandom().nextFloat() - 0.5f;
-                float angleDelta = Helper.degreesToRadians(random * bulletSpreadMax);
+                float randomFloat = random.nextFloat() - 0.5f;
+                float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getAngle() + angleDelta);
                 fireRateCooldown = fireRate;
@@ -171,13 +175,5 @@ public class Player extends Entity {
 
     void switchPolarity() {
         getPolarity().togglePolarity();
-    }
-
-    public float getHealth() {
-        return this.health;
-    }
-
-    public float getInitialHealth() {
-        return this.initialHealth;
     }
 }
