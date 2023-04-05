@@ -1,7 +1,5 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.audio.Sound;
-
 public interface Attackable {
     public float getInitialHealth();
     public void setInitialHealth(float newInitialHealth);

@@ -1,9 +1,6 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 
 public class Player extends Entity implements Attackable {
     private float fireRate = 0.06f;

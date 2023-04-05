@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class UIFactory {
+public class UIBuilder {
     private static Skin skin;
 
     public static void loadSkin() {
@@ -21,7 +21,7 @@ public class UIFactory {
     public static void addTitleLabel(Table table, String text) {
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = UIFactory.skin.getFont("font-title");
+        style.font = UIBuilder.skin.getFont("font-title");
         label.setStyle(style);
         table.add(label).width(Gdx.graphics.getWidth()*0.75f).height(60f).padBottom(10);
         table.row();
@@ -30,7 +30,7 @@ public class UIFactory {
     public static void addSubtitleLabel(Table table, String text) {
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = UIFactory.skin.getFont("font-title");
+        style.font = UIBuilder.skin.getFont("font-title");
         label.setStyle(style);
         label.setFontScale(0.75f);
         table.add(label).width(Gdx.graphics.getWidth()*0.75f).height(40f).padBottom(10);

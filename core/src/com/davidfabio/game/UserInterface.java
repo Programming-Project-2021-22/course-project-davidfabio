@@ -12,14 +12,14 @@ public class UserInterface extends Group {
     public UserInterface() {
         super();
         this.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        UIFactory.loadSkin();
+        UIBuilder.loadSkin();
     }
 
     public void init(Player player) {
         // Player Score
-        this.playerScore = new Label(getScoreText(GameScreen.getScore()), UIFactory.getSkin());
+        this.playerScore = new Label(getScoreText(GameScreen.getScore()), UIBuilder.getSkin());
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = UIFactory.getSkin().getFont("font-title");
+        labelStyle.font = UIBuilder.getSkin().getFont("font-title");
         this.playerScore.setStyle(labelStyle);
         this.playerScore.setFontScale(0.75f);
         this.playerScore.setHeight(30f);
@@ -28,7 +28,7 @@ public class UserInterface extends Group {
         this.addActor(this.playerScore);
 
         // Player Health bar
-        this.playerHealth = new ProgressBar(0,player.getInitialHealth(),0.5f,false, UIFactory.getSkin());
+        this.playerHealth = new ProgressBar(0,player.getInitialHealth(),0.5f,false, UIBuilder.getSkin());
         this.playerHealth.setHeight(20f);
         this.playerHealth.setWidth(204f);
         this.playerHealth.setPosition((Gdx.graphics.getWidth() / 2) - (this.playerHealth.getWidth() / 2),Gdx.graphics.getHeight() * 0.1f);
