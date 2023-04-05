@@ -39,7 +39,10 @@ public class Enemy extends Entity {
         isSpawning = true;
         spawnCounter = 0;
 
-        setPolarity(polarity); // we call this again to set the color
+        if (getPolarity().getColor() == Settings.FIRST_COLOR)
+            setTexture(GameScreen.getTextureRedTransparent());
+        else
+            setTexture(GameScreen.getTextureBlueTransparent());
     }
 
 
@@ -63,10 +66,7 @@ public class Enemy extends Entity {
         }
 
         // set texture
-        if (isSpawning) {
-            setTexture(GameScreen.getTextureYellow());
-        }
-        else if (isInHitState)
+        if (isInHitState)
             setTexture(GameScreen.getTextureWhite());
         else if (getPolarity().getColor() == Settings.FIRST_COLOR)
             setTexture(GameScreen.getTextureRed());
@@ -74,18 +74,28 @@ public class Enemy extends Entity {
             setTexture(GameScreen.getTextureBlue());
     }
 
-    void shoot() {
+    void shootTowardsPlayer() {
+        float angle = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
+        getBullet().init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+        fireRateCooldown = fireRate;
+    }
+
+    void shoot(float angle) {
+        getBullet().init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+        fireRateCooldown = fireRate;
+    }
+
+
+    public BulletEnemy getBullet() {
         for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
             BulletEnemy bullet = GameScreen.enemyBullets[i];
-            float dir = getAngleTowards(GameScreen.player.getX(), GameScreen.player.getY());
-
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
-                bullet.init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, dir);
-                fireRateCooldown = fireRate;
-                break;
+                return bullet;
             }
         }
+        return null;
     }
+
 
 
     public void hit(float attackPower) {
