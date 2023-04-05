@@ -45,7 +45,7 @@ public class PolygonShape {
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(entity.radiansToDegrees(entity.getDirection()));
+        polygonSprite.rotate(Helper.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 
@@ -63,7 +63,7 @@ public class PolygonShape {
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), newVertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(entity.radiansToDegrees(entity.getDirection()));
+        polygonSprite.rotate(Helper.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 

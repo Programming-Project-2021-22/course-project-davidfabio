@@ -10,7 +10,7 @@ public class Bullet extends Entity {
     public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity);
         setMoveSpeed(moveSpeed);
-        setDirection(direction);
+        setAngle(direction);
 
         if (getPolarity().getColor() == Settings.FIRST_COLOR)
             setTexture(GameScreen.getTextureRed());
@@ -30,7 +30,7 @@ public class Bullet extends Entity {
         if (!getIsActive())
             return;
 
-        moveTowards(getDirection(), deltaTime);
+        moveTowards(getAngle(), deltaTime);
     }
 
 }

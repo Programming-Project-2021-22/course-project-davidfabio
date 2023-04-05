@@ -1,16 +1,13 @@
 package com.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.PolygonRegion;
-import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Entity {
     private float x, y;
     private float scale;
     private float moveSpeed;
-    private float direction; // in radians
+    private float angle; // in radians
     private boolean isActive = false;
     private Polarity polarity;
 
@@ -20,8 +17,8 @@ public class Entity {
     public void setY(float y) { this.y = y; }
     public float getScale() { return scale; }
     public float getMoveSpeed() { return moveSpeed; }
-    public float getDirection() { return direction; }
-    public void setDirection(float direction) { this.direction = direction; }
+    public float getAngle() { return angle; }
+    public void setAngle(float angle) { this.angle = angle; }
     public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
     public boolean getIsActive() { return isActive; }
     public void setIsActive(boolean isActive) { this.isActive = isActive; }
@@ -44,7 +41,7 @@ public class Entity {
         this.scale = scale;
         setPolarity(polarity);
         isActive = true;
-        direction = 0;
+        angle = 0;
     }
 
 
@@ -92,12 +89,5 @@ public class Entity {
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
 
-    public float radiansToDegrees(float angleRadians) {
-        return angleRadians * (float)(180 / Math.PI);
-    }
-
-    public float degreesToRadians(float angleDegrees) {
-        return angleDegrees * (float)(Math.PI / 180);
-    }
 
 }

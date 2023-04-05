@@ -1,8 +1,5 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 public class BulletPlayer extends Bullet {
 
     private float firePower = 1.0f;
@@ -48,8 +45,8 @@ public class BulletPlayer extends Bullet {
                 // TODO (David): shape changed from circle to ellipsis; collision detection needs to be updated!
                 setToDestroyNextFrame(true);
                 while (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-                    setX(getX() - (float)Math.cos(getDirection()));
-                    setY(getY() - (float)Math.sin(getDirection()));
+                    setX(getX() - (float)Math.cos(getAngle()));
+                    setY(getY() - (float)Math.sin(getAngle()));
                 }
                 break;
             }
