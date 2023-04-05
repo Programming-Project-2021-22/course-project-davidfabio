@@ -28,10 +28,12 @@ public class Entity {
     public Polarity getPolarity() { return polarity; }
     public void setPolarity(Polarity polarity) { this.polarity = polarity; }
 
-    public PolygonShape shape; // needs to be initialized in the child init method
     private Texture texture = GameScreen.getTextureYellow();
+    public PolygonShape shape; // needs to be initialized in the child init method
+
     public Texture getTexture() { return texture; }
     public void setTexture(Texture texture) { this.texture = texture; }
+
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:

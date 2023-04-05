@@ -46,6 +46,7 @@ public class Player extends Entity {
         shape = new PolygonShape(vertices, triangles, scale);
     }
 
+
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         shape.render(polygonSpriteBatch, this);
 
@@ -55,6 +56,8 @@ public class Player extends Entity {
         setTexture(GameScreen.getTextureWhite());
         shape.render(polygonSpriteBatch, this, vertices);
 
+
+        // render bullets
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i].render(polygonSpriteBatch);
     }
