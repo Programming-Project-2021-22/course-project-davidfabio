@@ -1,7 +1,6 @@
 package com.davidfabio.game;
 
 public class Bullet extends Entity {
-
     private boolean toDestroyNextFrame = false;
     public boolean getToDestroyNextFrame() { return toDestroyNextFrame; }
     public void setToDestroyNextFrame(boolean toDestroyNextFrame) { this.toDestroyNextFrame = toDestroyNextFrame; }

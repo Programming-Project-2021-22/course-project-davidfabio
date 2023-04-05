@@ -3,6 +3,7 @@ package com.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 
 public class Polarity {
+    public final static float OPPOSITE_POLARITY_MULTIPLIER = 2.0f;
     private Color color;
 
     /**

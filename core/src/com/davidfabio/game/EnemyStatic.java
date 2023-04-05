@@ -3,8 +3,8 @@ package com.davidfabio.game;
 public class EnemyStatic extends Enemy {
 
 
-    @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
-        super.init(x, y, scale, direction, polarity, moveSpeed, healthInitial);
+    @Override public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
+        super.init(x, y, scale, direction, polarity, moveSpeed, newInitialHealth);
 
         verticesInitial = new float[] {
                 0, -0.5f, // top

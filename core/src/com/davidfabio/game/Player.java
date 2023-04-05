@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
-public class Player extends Entity {
+public class Player extends Entity implements Attackable {
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
@@ -16,11 +16,15 @@ public class Player extends Entity {
     private final int MAX_BULLETS = 64;
     private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
 
+    public float getHealth() { return this.health; }
+    public void setHealth(float newHealth) { this.health = newHealth; }
+    public float getInitialHealth() { return this.initialHealth; }
+    public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
 
     public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
         super.init(x, y, scale, polarity);
         this.setMoveSpeed(moveSpeed);
-        this.health = this.initialHealth;
+        this.initializeHealth();
 
         for (int i = 0; i < MAX_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
@@ -118,13 +122,12 @@ public class Player extends Entity {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
-                continue;;
+                continue;
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-                enemy.hit(enemy.getHealth());
-                this.health -= enemy.getCollisionDamage();
+                enemy.attack(this);
+                enemy.destroy();
             }
         }
-
     }
 
 
@@ -147,13 +150,5 @@ public class Player extends Entity {
 
     void switchPolarity() {
         getPolarity().togglePolarity();
-    }
-
-    public float getHealth() {
-        return this.health;
-    }
-
-    public float getInitialHealth() {
-        return this.initialHealth;
     }
 }

@@ -1,14 +1,11 @@
 package com.davidfabio.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-
-
-public class Enemy extends Entity {
-
-    private float healthInitial;
+public class Enemy extends Entity implements Attackable, Attacker {
+    private float initialHealth;
     private float health;
+
+    private float attackPower = 2.0f;  // This is actually the damage an Enemy causes when hitting the player
 
     private boolean isInHitState;
     private float hitDuration = 0.03f;
@@ -22,22 +19,27 @@ public class Enemy extends Entity {
     private boolean isSpawning;
     private float spawnDuration = 1.5f;
     private float spawnCounter;
-    private static float collisionDamage = 2f;
-    private static final int POINT_VALUE = 1;
 
-    public float getHealth() { return health; }
+    public static final int POINT_VALUE = 1;
+
+    public float getHealth() { return this.health; }
+    public void setHealth(float newHealth) { this.health = newHealth; }
+    public float getInitialHealth() { return this.initialHealth; }
+    public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
+
     public boolean getIsSpawning() { return isSpawning; }
     public float getFireRateCooldown() { return fireRateCooldown; }
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
-    public float getCollisionDamage() {
-        return collisionDamage;
-    }
+    public float getAttackPower() { return this.attackPower; }
+    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float healthInitial) {
+    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
         super.init(x, y, radius, polarity);
         setMoveSpeed(moveSpeed);
-        health = this.healthInitial = healthInitial;
+        if (this.initialHealth == 0)
+            this.initialHealth = newInitialHealth;
+        this.initializeHealth();
+
         isInHitState = false;
         hitCooldown = 0;
         isSpawning = true;
@@ -91,19 +93,4 @@ public class Enemy extends Entity {
             }
         }
     }
-
-
-    public void hit(float attackPower) {
-        Sounds.playHitSfx();
-        isInHitState = true;
-        hitCooldown = hitDuration;
-        health -= attackPower;
-
-        if (health <= 0) {
-            GameScreen.getScore().setPoints(GameScreen.getScore().getPoints() + Enemy.POINT_VALUE);
-            setIsActive(false);
-            Sounds.playExplosionSfx();
-        }
-    }
-
 }

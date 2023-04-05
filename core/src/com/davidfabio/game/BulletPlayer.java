@@ -1,13 +1,15 @@
 package com.davidfabio.game;
 
-public class BulletPlayer extends Bullet {
-
-    private float firePower = 1.0f;
+public class BulletPlayer extends Bullet implements Attacker {
+    private float attackPower = 1.0f;
     private float width = 8;
     private float height = 32;
 
+    public float getAttackPower() { return this.attackPower; }
+    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-    @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+    @Override
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
 
         verticesInitial = new float[] {
@@ -27,7 +29,6 @@ public class BulletPlayer extends Bullet {
         };
     }
 
-
     public void update(float deltaTime) {
         super.update(deltaTime);
 
@@ -43,12 +44,9 @@ public class BulletPlayer extends Bullet {
                 continue;
 
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-
-                float _firePower = firePower;
-                if (!getPolarity().equals(enemy.getPolarity())) {
-                    _firePower *= 2;
-                }
-                enemy.hit(_firePower);
+                this.attack(enemy);
+                if (!enemy.getIsActive())
+                    GameScreen.getScore().setPoints(GameScreen.getScore().getPoints() + Enemy.POINT_VALUE);
 
                 // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the enemy
                 // TODO (David): shape changed from circle to ellipsis; collision detection needs to be updated!
@@ -61,6 +59,4 @@ public class BulletPlayer extends Bullet {
             }
         }
     }
-
-
 }

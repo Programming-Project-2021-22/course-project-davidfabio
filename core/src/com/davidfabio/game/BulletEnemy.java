@@ -1,10 +1,13 @@
 package com.davidfabio.game;
 
-public class BulletEnemy extends Bullet {
+public class BulletEnemy extends Bullet implements Attacker {
+    private float attackPower = 1.0f;
 
+    public float getAttackPower() { return this.attackPower; }
+    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-
-    @Override public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
+    @Override
+    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
         super.init(x, y, scale, polarity, moveSpeed, direction);
 
         verticesInitial = new float[] {
@@ -34,9 +37,6 @@ public class BulletEnemy extends Bullet {
         };
     }
 
-
-
-
     public void update(float deltaTime) {
         super.update(deltaTime);
 
@@ -52,8 +52,7 @@ public class BulletEnemy extends Bullet {
                 setX(getX() - (float)Math.cos(getDirection()));
                 setY(getY() - (float)Math.sin(getDirection()));
             }
+            this.attack(GameScreen.player);
         }
     }
-
-
 }
