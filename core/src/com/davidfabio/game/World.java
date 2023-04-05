@@ -21,6 +21,8 @@ public class World {
     private Random random;
 
     public Player getPlayer() { return this.player; }
+    public ArrayList<Enemy> getEnemies() { return this.enemies; }
+    public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
     public Score getScore() { return this.score; }
 
     public World() {
@@ -76,14 +78,14 @@ public class World {
 
         // update enemies
         for (Enemy enemy : this.enemies)
-            enemy.update(deltaTime,this.enemyBullets,this.player);
+            enemy.update(deltaTime,this);
 
         // update enemy bullets
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
-            this.enemyBullets[i].update(deltaTime,this.player);
+            this.enemyBullets[i].update(deltaTime,this);
 
 
-        this.player.update(deltaTime,this.enemies,this.score); // player bullets get updated here as well
+        this.player.update(deltaTime,this); // player bullets get updated here as well
         if (this.player.getHealth() <= 0) {
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.score));
         }

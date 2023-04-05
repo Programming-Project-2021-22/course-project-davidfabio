@@ -6,22 +6,20 @@ public interface Attacker {
     public Polarity getPolarity();
     public void setPolarity(Polarity newPolarity);
 
-    public default void attack(Attackable hittable) {
-        if (!hittable.getIsActive())
+    public default void attack(Attackable attackable, World world) {
+        if (!attackable.getIsActive())
             return;
 
-        if (!this.getPolarity().equals(hittable.getPolarity())) {
-            hittable.setHealth(hittable.getHealth() - (this.getAttackPower() * Polarity.OPPOSITE_POLARITY_MULTIPLIER));
+        if (!this.getPolarity().equals(attackable.getPolarity())) {
+            attackable.setHealth(attackable.getHealth() - (this.getAttackPower() * Polarity.OPPOSITE_POLARITY_MULTIPLIER));
         } else {
-            hittable.setHealth(hittable.getHealth() - this.getAttackPower());
+            attackable.setHealth(attackable.getHealth() - this.getAttackPower());
         }
 
-        if (hittable.getHealth() < 0) {
-            hittable.setHealth(0);
-            hittable.setIsActive(false);
-            hittable.playDestructionSound();
+        if (attackable.getHealth() < 0) {
+            attackable.destroy(world);
         } else {
-            hittable.playHitSound();
+            attackable.playHitSound();
         }
     }
 }

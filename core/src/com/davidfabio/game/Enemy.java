@@ -51,8 +51,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
             setTexture(GameScreen.getTextureBlueTransparent());
     }
 
-
-    public void update(float deltaTime, BulletEnemy[] enemyBullets, Player player) {
+    public void update(float deltaTime, World world) {
         if (!getIsActive())
             return;
 
@@ -80,21 +79,20 @@ public class Enemy extends Entity implements Attackable, Attacker {
             setTexture(GameScreen.getTextureBlue());
     }
 
-    void shootTowardsPlayer() {
-        float angle = getAngleTowards(player.getX(), player.getY());
-        getBullet().init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+    public void shootTowardsPlayer(World world) {
+        float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
+        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
         fireRateCooldown = fireRate;
     }
 
-    void shoot(float angle) {
-        getBullet().init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+    public void shoot(World world, float angle) {
+        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
         fireRateCooldown = fireRate;
     }
 
-
-    public BulletEnemy getBullet() {
-        for (int i = 0; i < GameScreen.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = GameScreen.enemyBullets[i];
+    public BulletEnemy getBullet(BulletEnemy[] enemyBullets) {
+        for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
+            BulletEnemy bullet = enemyBullets[i];
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 return bullet;
             }

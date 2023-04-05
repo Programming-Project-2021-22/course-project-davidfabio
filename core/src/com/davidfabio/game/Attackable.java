@@ -20,7 +20,7 @@ public interface Attackable {
         this.setHealth(this.getInitialHealth());
     }
 
-    public default void destroy() {
+    public default void destroy(World world) {
         this.setHealth(0f);
         this.setIsActive(false);
         this.playDestructionSound();

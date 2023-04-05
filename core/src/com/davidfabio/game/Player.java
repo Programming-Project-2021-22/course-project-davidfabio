@@ -14,8 +14,7 @@ public class Player extends Entity implements Attackable {
     private float bulletSpreadMax = 8;
     private float initialHealth = 20;
     private float health;
-    private final int MAX_BULLETS = 64;
-    private BulletPlayer[] bullets = new BulletPlayer[MAX_BULLETS];
+    private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
     public float getHealth() { return this.health; }
     public void setHealth(float newHealth) { this.health = newHealth; }
@@ -32,7 +31,7 @@ public class Player extends Entity implements Attackable {
         this.setMoveSpeed(moveSpeed);
         this.initializeHealth();
 
-        for (int i = 0; i < MAX_BULLETS; i += 1)
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
 
         float[] vertices = new float[] {
@@ -87,13 +86,13 @@ public class Player extends Entity implements Attackable {
         shape.render(polygonSpriteBatch, this, vertices);
 
         // bullets
-        for (int i = 0; i < MAX_BULLETS; i += 1)
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i].render(polygonSpriteBatch);
     }
 
 
 
-    public void update(float deltaTime, ArrayList<Enemy> enemies, Score score) {
+    public void update(float deltaTime, World world) {
         // update direction
         setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
 
@@ -140,29 +139,28 @@ public class Player extends Entity implements Attackable {
         if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
             shoot();
 
-        for (int i = 0; i < MAX_BULLETS; i += 1) {
-            bullets[i].update(deltaTime,enemies,score);
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
+            bullets[i].update(deltaTime,world);
         }
 
 
         // ---------------- collision detection against enemies ----------------
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : world.getEnemies()) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
                 continue;
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-                enemy.attack(this);
-                enemy.destroy();
+                // Enemy collided with Player
+                enemy.attack(this, world);
+                enemy.destroy(world);
             }
         }
     }
 
-
-
     void shoot() {
         Random random = new Random();
-        for (int i = 0; i < MAX_BULLETS; i += 1) {
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 
                 // add random spread to bullet direction

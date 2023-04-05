@@ -10,14 +10,12 @@ import java.util.Arrays;
 
 
 public class PolygonShape {
-
     private float[] vertices, verticesInitial;
     private short[] triangles; // in counter-clockwise direction
 
     public float[] getVerticesInitial() {
         return Arrays.copyOf(verticesInitial, verticesInitial.length);
     }
-
 
     public PolygonShape(float[] vertices, short[] triangles, float scale) {
         this.vertices = vertices;
@@ -27,7 +25,6 @@ public class PolygonShape {
         for (int i = 0; i < vertices.length; i += 1)
             verticesInitial[i] = vertices[i] * scale;
     }
-
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity) {
         if (!entity.getIsActive())
@@ -45,7 +42,7 @@ public class PolygonShape {
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(Movable.radiansToDegrees(entity.getDirection()));
+        polygonSprite.rotate(Movable.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 
@@ -63,11 +60,9 @@ public class PolygonShape {
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), newVertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(Movable.radiansToDegrees(entity.getDirection()));
-        polygonSprite.rotate(Helper.radiansToDegrees(entity.getAngle()));
+        polygonSprite.rotate(Movable.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
-
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, float x, float y, float angle, Texture texture) {
         for (int i = 0; i < vertices.length; i += 1) {
