@@ -33,7 +33,8 @@ mvn abc
 Describe the architecture of your application.
 
 
-Here's a Class Diagram of our most important classes: [Class Diagram](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/CLASSDIAGRAM.md)
+Here's a Class Diagram of our most important classes: [Game Class Diagram](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/GAME-CLASS-DIAGRAM.md)
+Here's a Flowchart of our UI: [UI Flowchart](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/UI-FLOWCHART.md)
 
 ### 4.2. Third-Party Libraries
 These are the Third-Party Libraries we've used:
