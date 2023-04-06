@@ -1,5 +1,6 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
@@ -41,6 +42,7 @@ public class PolygonShape {
 
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        //polygonSprite.setColor(Color.BLUE);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
         polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);

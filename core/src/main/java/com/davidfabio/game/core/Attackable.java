@@ -5,8 +5,6 @@ public interface Attackable {
     public void setInitialHealth(float newInitialHealth);
     public float getHealth();
     public void setHealth(float newHealth);
-    public Polarity getPolarity();
-    public void setPolarity(Polarity newPolarity);
     public boolean getIsActive();
     public void setIsActive(boolean newIsActive);
 

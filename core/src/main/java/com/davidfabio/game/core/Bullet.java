@@ -6,15 +6,10 @@ public class Bullet extends Entity {
     public void setToDestroyNextFrame(boolean toDestroyNextFrame) { this.toDestroyNextFrame = toDestroyNextFrame; }
 
 
-    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed, float direction) {
-        super.init(x, y, scale, polarity);
+    public void init(float x, float y, float scale, float moveSpeed, float direction) {
+        super.init(x, y, scale);
         setMoveSpeed(moveSpeed);
         setAngle(direction);
-
-        if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            setTexture(GameScreen.getTextureRed());
-        else
-            setTexture(GameScreen.getTextureBlue());
     }
 
 

@@ -28,7 +28,7 @@ public class World {
         this.score = new Score();
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, new Polarity(), 260);
+        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 260);
 
         this.enemies = new ArrayList<>();
 
@@ -59,13 +59,13 @@ public class World {
             switch (rand) {
                 case 0: {
                     EnemyChaser enemyChaser = new EnemyChaser();
-                    enemyChaser.init(randomX, randomY, 50, 0, new Polarity(), 70, 6);
+                    enemyChaser.init(randomX, randomY, 50, 0, 70, 6);
                     this.enemies.add(enemyChaser);
                     break;
                 }
                 case 1: {
                     EnemyStatic enemyStatic = new EnemyStatic();
-                    enemyStatic.init(randomX, randomY, 60, 0, new Polarity(), 70, 10);
+                    enemyStatic.init(randomX, randomY, 60, 0, 70, 10);
                     this.enemies.add(enemyStatic);
                     break;
                 }

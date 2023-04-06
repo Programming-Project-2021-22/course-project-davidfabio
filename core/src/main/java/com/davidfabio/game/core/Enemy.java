@@ -33,8 +33,8 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public float getAttackPower() { return this.attackPower; }
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
-    public void init(float x, float y, float radius, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
-        super.init(x, y, radius, polarity);
+    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth) {
+        super.init(x, y, scale);
         setMoveSpeed(moveSpeed);
         if (this.initialHealth == 0)
             this.initialHealth = newInitialHealth;
@@ -44,11 +44,6 @@ public class Enemy extends Entity implements Attackable, Attacker {
         hitCooldown = 0;
         isSpawning = true;
         spawnCounter = 0;
-
-        if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            setTexture(GameScreen.getTextureRedTransparent());
-        else
-            setTexture(GameScreen.getTextureBlueTransparent());
     }
 
     public void update(float deltaTime, World world) {
@@ -69,24 +64,16 @@ public class Enemy extends Entity implements Attackable, Attacker {
             if (hitCooldown < 0)
                 isInHitState = false;
         }
-
-        // set texture
-        if (isInHitState)
-            setTexture(GameScreen.getTextureWhite());
-        else if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            setTexture(GameScreen.getTextureRed());
-        else
-            setTexture(GameScreen.getTextureBlue());
     }
 
     public void shootTowardsPlayer(World world) {
         float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle);
         fireRateCooldown = fireRate;
     }
 
     public void shoot(World world, float angle) {
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, angle);
+        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle);
         fireRateCooldown = fireRate;
     }
 

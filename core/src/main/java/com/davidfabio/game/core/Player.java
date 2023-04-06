@@ -24,8 +24,8 @@ public class Player extends Entity implements Attackable {
     private float arrowScale = 24;
     private float arrowOffset = 32;
 
-    public void init(float x, float y, float scale, Polarity polarity, float moveSpeed)  {
-        super.init(x, y, scale, polarity);
+    public void init(float x, float y, float scale, float moveSpeed)  {
+        super.init(x, y, scale);
         this.setMoveSpeed(moveSpeed);
         this.initializeHealth();
 
@@ -118,18 +118,6 @@ public class Player extends Entity implements Attackable {
         setY(nextY);
 
 
-        // switch polarity
-        if (Inputs.space.getWasPressed())
-            switchPolarity();
-
-        if (getPolarity().getColor() == Settings.FIRST_COLOR)
-            setTexture(GameScreen.getTextureRed());
-        else
-            setTexture(GameScreen.getTextureBlue());
-
-
-
-
         // ---------------- shooting ----------------
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
@@ -165,7 +153,7 @@ public class Player extends Entity implements Attackable {
                 float randomFloat = random.nextFloat() - 0.5f;
                 float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
 
-                bullets[i].init(getX(), getY(), bulletScale, getPolarity(), bulletSpeed, getAngle() + angleDelta);
+                bullets[i].init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta);
                 fireRateCooldown = fireRate;
                 Sounds.playShootSfx();
                 break;
@@ -173,7 +161,5 @@ public class Player extends Entity implements Attackable {
         }
     }
 
-    void switchPolarity() {
-        getPolarity().togglePolarity();
-    }
+
 }
