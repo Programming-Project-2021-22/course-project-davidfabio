@@ -1,6 +1,6 @@
 ```mermaid
 ---
-title: Duality
+title: Duality (Game Class Diagram)
 ---
 classDiagram
 Entity <|-- Player
