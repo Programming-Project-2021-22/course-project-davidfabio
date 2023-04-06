@@ -1,6 +1,7 @@
 package com.davidfabio.game.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -28,7 +29,7 @@ public class World {
         this.score = new Score();
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 260);
+        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 260, Color.GOLD);
 
         this.enemies = new ArrayList<>();
 
@@ -59,13 +60,13 @@ public class World {
             switch (rand) {
                 case 0: {
                     EnemyChaser enemyChaser = new EnemyChaser();
-                    enemyChaser.init(randomX, randomY, 50, 0, 70, 6);
+                    enemyChaser.init(randomX, randomY, 50, 0, 70, 6, Color.RED);
                     this.enemies.add(enemyChaser);
                     break;
                 }
                 case 1: {
                     EnemyStatic enemyStatic = new EnemyStatic();
-                    enemyStatic.init(randomX, randomY, 60, 0, 70, 10);
+                    enemyStatic.init(randomX, randomY, 60, 0, 70, 10, Color.BLUE);
                     this.enemies.add(enemyStatic);
                     break;
                 }

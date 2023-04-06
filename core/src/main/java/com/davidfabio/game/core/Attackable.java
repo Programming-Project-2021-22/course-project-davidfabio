@@ -1,5 +1,7 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
+
 public interface Attackable {
     public float getInitialHealth();
     public void setInitialHealth(float newInitialHealth);
@@ -7,6 +9,10 @@ public interface Attackable {
     public void setHealth(float newHealth);
     public boolean getIsActive();
     public void setIsActive(boolean newIsActive);
+    public void setColor(Color color);
+    public void setInHitState(boolean isInHitState);
+    public void setHitCooldown(float hitCooldown);
+    public float getHitDuration();
 
     public default void playHitSound() {
         Sounds.playHitSfx();
@@ -23,4 +29,5 @@ public interface Attackable {
         this.setIsActive(false);
         this.playDestructionSound();
     }
+
 }

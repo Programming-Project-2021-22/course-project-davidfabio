@@ -1,5 +1,6 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 public class EnemyChaser extends Enemy {
@@ -9,8 +10,8 @@ public class EnemyChaser extends Enemy {
 
 
     @Override
-    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth) {
-        super.init(x, y, scale, direction, moveSpeed, newInitialHealth);
+    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth, Color color) {
+        super.init(x, y, scale, direction, moveSpeed, newInitialHealth, color);
 
         float[] vertices = new float[] {
                 0, -0.5f,
@@ -56,12 +57,13 @@ public class EnemyChaser extends Enemy {
         moveTowards(world.getPlayer().getX(), world.getPlayer().getY(), deltaTime);
     }
 
+
     @Override
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         float[] vertices = shape.getVerticesInitial();
         vertices[2] -= xScaleCounter * getScale();
         vertices[6] += xScaleCounter * getScale();
 
-        shape.render(polygonSpriteBatch, this, vertices);
+        shape.render(polygonSpriteBatch, this, vertices, getColor());
     }
 }

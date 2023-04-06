@@ -1,5 +1,7 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class BulletEnemy extends Bullet implements Attacker {
     private float attackPower = 1.0f;
 
@@ -7,8 +9,8 @@ public class BulletEnemy extends Bullet implements Attacker {
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
 
     @Override
-    public void init(float x, float y, float scale, float moveSpeed, float angle) {
-        super.init(x, y, scale, moveSpeed, angle);
+    public void init(float x, float y, float scale, float moveSpeed, float angle, Color color) {
+        super.init(x, y, scale, moveSpeed, angle, color);
 
         float[] vertices = new float[] {
             0, -0.5f,

@@ -1,6 +1,8 @@
 package com.davidfabio.game.core;
 
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Enemy extends Entity implements Attackable, Attacker {
     private float initialHealth;
     private float health;
@@ -32,10 +34,15 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
     public float getAttackPower() { return this.attackPower; }
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
+    public void setInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
 
-    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth) {
-        super.init(x, y, scale);
+    public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
+    public float getHitDuration() { return hitDuration; }
+
+    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth, Color color) {
+        super.init(x, y, scale, color);
         setMoveSpeed(moveSpeed);
+        setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
         if (this.initialHealth == 0)
             this.initialHealth = newInitialHealth;
         this.initializeHealth();
@@ -53,27 +60,31 @@ public class Enemy extends Entity implements Attackable, Attacker {
         if (isSpawning) {
             spawnCounter += deltaTime;
 
-            if (spawnCounter > spawnDuration)
+            if (spawnCounter > spawnDuration) {
+                setColor(getColorInitial());
                 isSpawning = false;
+            }
             return;
         }
 
         if (isInHitState) {
             hitCooldown -= deltaTime;
 
-            if (hitCooldown < 0)
+            if (hitCooldown < 0) {
+                setColor(getColorInitial());
                 isInHitState = false;
+            }
         }
     }
 
     public void shootTowardsPlayer(World world) {
         float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle);
+        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
         fireRateCooldown = fireRate;
     }
 
     public void shoot(World world, float angle) {
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle);
+        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
         fireRateCooldown = fireRate;
     }
 

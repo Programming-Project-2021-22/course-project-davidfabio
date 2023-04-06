@@ -1,5 +1,6 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
@@ -23,19 +24,22 @@ public class Entity implements Movable {
     public boolean getIsActive() { return isActive; }
     public void setIsActive(boolean isActive) { this.isActive = isActive; }
 
-    private Texture texture = GameScreen.getTextureWhite();
-    public PolygonShape shape; // needs to be initialized in the child init method
+    private Color color, colorInitial;
+    public Color getColor() { return color; }
+    public Color getColorInitial() { return colorInitial; }
+    public void setColor(Color color) { this.color = color; }
 
-    public Texture getTexture() { return texture; }
-    public void setTexture(Texture texture) { this.texture = texture; }
+
+    public PolygonShape shape; // needs to be initialized in the child init method
 
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
     // we want to create all entities before the game begins to minimize garbage collection as much as possible
-    public void init(float x, float y, float scale) {
+    public void init(float x, float y, float scale, Color color) {
         this.x = x;
         this.y = y;
+        this.colorInitial = this.color = color;
         this.scale = scale;
         isActive = true;
         angle = 0;
@@ -44,6 +48,6 @@ public class Entity implements Movable {
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
-        shape.render(polygonSpriteBatch, this);
+        shape.render(polygonSpriteBatch, this, getColor());
     }
 }

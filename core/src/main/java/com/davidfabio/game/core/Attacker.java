@@ -1,5 +1,7 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
+
 public interface Attacker {
     public float getAttackPower();
     public void setAttackPower(float newAttackPower);
@@ -7,6 +9,10 @@ public interface Attacker {
     public default void attack(Attackable attackable, World world) {
         if (!attackable.getIsActive())
             return;
+
+        attackable.setInHitState(true);
+        attackable.setColor(Color.WHITE);
+        attackable.setHitCooldown(attackable.getHitDuration());
 
         attackable.setHealth(attackable.getHealth() - this.getAttackPower());
 

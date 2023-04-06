@@ -1,9 +1,11 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class EnemyStatic extends Enemy {
     @Override
-    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth) {
-        super.init(x, y, scale, direction, moveSpeed, newInitialHealth);
+    public void init(float x, float y, float scale, float angle, float moveSpeed, float newInitialHealth, Color color) {
+        super.init(x, y, scale, angle, moveSpeed, newInitialHealth, color);
 
         float[] vertices = new float[]{
                 0, -0.5f,
