@@ -43,8 +43,8 @@ These are the Third-Party Libraries we've used:
 ### 4.3. Programming Techniques
 List and explain how you used the 10 programming techniques required for this project.
 - **Graphical User Interface**: We used the built-in Libraries of LibGDX in order to create various User Interfaces for Game Menus, Settings, Highscores and User Interface in Game. 
-- **Technique 2**: ...
-- ...
+- **Method Overriding**: Since we're using inheritance and interfaces we predefine a few methods at a high level (Example `Entity` provides `init()`, `update()`, `render()` methods.). However, some Entities require special behaviour and therefore need to override the original implementation of the method. For example the `Player` class requires a different `update()` method than the `EnemyChaser` class.
+- **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces _**...to be explained...**_
 
 ### 4.4. Tests
 Briefly describe and motivate your test suite.
