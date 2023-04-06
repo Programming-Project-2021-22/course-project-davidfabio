@@ -43,8 +43,8 @@ These are the Third-Party Libraries we've used:
 ### 4.3. Programming Techniques
 List and explain how you used the 10 programming techniques required for this project.
 - **Graphical User Interface**: We used the built-in Libraries of LibGDX in order to create various User Interfaces for Game Menus, Settings, Highscores and User Interface in Game. 
-- **Technique 2**: ...
-- ...
+- **Method Overriding**: Since we're using inheritance and interfaces we predefine a few methods at a high level (Example `Entity` provides `init()`, `update()`, `render()` methods.). However, some Entities require special behaviour and therefore need to override the original implementation of the method. For example the `Player` class requires a different `update()` method than the `EnemyChaser` class.
+- **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces _**...to be explained...**_
 
 ### 4.4. Tests
 Briefly describe and motivate your test suite.
@@ -61,7 +61,7 @@ Describe the roles and responsibilities each member had in this project.
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.
 - **David Pittracher:** ...
-- **Fabio Vitalba:** ...
+- **Fabio Vitalba:** Migrating from gradle (LibGDX's prefered Bundler) to Maven was quite painful. Coordinating the work was difficult at first, but once we figured out how to use the GitHub Issues it was a lot better.
 
 ### 5.4. Learning Outcomes
 Describe what you learned with this project.
