@@ -61,7 +61,7 @@ Describe the roles and responsibilities each member had in this project.
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.
 - **David Pittracher:** ...
-- **Fabio Vitalba:** ...
+- **Fabio Vitalba:** Migrating from gradle (LibGDX's prefered Bundler) to Maven was quite painful. Coordinating the work was difficult at first, but once we figured out how to use the GitHub Issues it was a lot better.
 
 ### 5.4. Learning Outcomes
 Describe what you learned with this project.
