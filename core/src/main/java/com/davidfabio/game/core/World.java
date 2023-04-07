@@ -60,13 +60,13 @@ public class World {
             switch (rand) {
                 case 0: {
                     EnemyChaser enemyChaser = new EnemyChaser();
-                    enemyChaser.init(randomX, randomY, 50, 0, 70, 6, Color.RED);
+                    enemyChaser.init(randomX, randomY, 50, 70, 6, Color.RED);
                     this.enemies.add(enemyChaser);
                     break;
                 }
                 case 1: {
                     EnemyStatic enemyStatic = new EnemyStatic();
-                    enemyStatic.init(randomX, randomY, 60, 0, 70, 10, Color.BLUE);
+                    enemyStatic.init(randomX, randomY, 60, 70, 10, Color.BLUE);
                     this.enemies.add(enemyStatic);
                     break;
                 }
