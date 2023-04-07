@@ -1,20 +1,22 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
+
 public interface Attacker {
     public float getAttackPower();
     public void setAttackPower(float newAttackPower);
-    public Polarity getPolarity();
-    public void setPolarity(Polarity newPolarity);
 
     public default void attack(Attackable attackable, World world) {
         if (!attackable.getIsActive())
             return;
+        if (attackable.getClass() == Player.class && attackable.getIsInHitState())
+            return;
 
-        if (!this.getPolarity().equals(attackable.getPolarity())) {
-            attackable.setHealth(attackable.getHealth() - (this.getAttackPower() * Polarity.OPPOSITE_POLARITY_MULTIPLIER));
-        } else {
-            attackable.setHealth(attackable.getHealth() - this.getAttackPower());
-        }
+        attackable.setIsInHitState(true);
+        attackable.setColor(Color.WHITE);
+        attackable.setHitCooldown(attackable.getHitDuration());
+
+        attackable.setHealth(attackable.getHealth() - this.getAttackPower());
 
         if (attackable.getHealth() < 0) {
             attackable.destroy(world);

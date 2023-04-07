@@ -1,5 +1,6 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
@@ -9,7 +10,6 @@ public class Entity implements Movable {
     private float moveSpeed;
     private float angle; // in radians
     private boolean isActive = false;
-    private Polarity polarity;
 
     public float getX() { return x; }
     public float getY() { return y; }
@@ -23,24 +23,24 @@ public class Entity implements Movable {
     public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
     public boolean getIsActive() { return isActive; }
     public void setIsActive(boolean isActive) { this.isActive = isActive; }
-    public Polarity getPolarity() { return polarity; }
-    public void setPolarity(Polarity polarity) { this.polarity = polarity; }
 
-    private Texture texture = GameScreen.getTextureYellow();
+    private Color color, colorInitial;
+    public Color getColor() { return color; }
+    public Color getColorInitial() { return colorInitial; }
+    public void setColor(Color color) { this.color = color; }
+
+
     public PolygonShape shape; // needs to be initialized in the child init method
-
-    public Texture getTexture() { return texture; }
-    public void setTexture(Texture texture) { this.texture = texture; }
 
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
     // we want to create all entities before the game begins to minimize garbage collection as much as possible
-    public void init(float x, float y, float scale, Polarity polarity) {
+    public void init(float x, float y, float scale, Color color) {
         this.x = x;
         this.y = y;
+        this.colorInitial = this.color = color;
         this.scale = scale;
-        setPolarity(polarity);
         isActive = true;
         angle = 0;
     }
@@ -48,6 +48,6 @@ public class Entity implements Movable {
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
-        shape.render(polygonSpriteBatch, this);
+        shape.render(polygonSpriteBatch, this, getColor());
     }
 }

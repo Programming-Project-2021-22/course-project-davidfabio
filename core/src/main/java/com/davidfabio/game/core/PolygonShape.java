@@ -1,5 +1,6 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
@@ -26,7 +27,7 @@ public class PolygonShape {
             verticesInitial[i] = vertices[i] * scale;
     }
 
-    public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity) {
+    public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, Color color) {
         if (!entity.getIsActive())
             return;
 
@@ -39,14 +40,15 @@ public class PolygonShape {
                 vertices[i] += entity.getY();
         }
 
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), vertices, triangles);
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setColor(color);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
         polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 
-    public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, float[] newVertices) {
+    public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, float[] newVertices, Color color) {
         if (!entity.getIsActive())
             return;
 
@@ -57,14 +59,15 @@ public class PolygonShape {
                 newVertices[i] += entity.getY();
         }
 
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(entity.getTexture()), newVertices, triangles);
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), newVertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setColor(color);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
         polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 
-    public void render(PolygonSpriteBatch polygonSpriteBatch, float x, float y, float angle, Texture texture) {
+    public void render(PolygonSpriteBatch polygonSpriteBatch, float x, float y, float angle, Color color) {
         for (int i = 0; i < vertices.length; i += 1) {
             vertices[i] = verticesInitial[i];
 
@@ -74,10 +77,13 @@ public class PolygonShape {
                 vertices[i] += y;
         }
 
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(texture), vertices, triangles);
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setColor(color);
         polygonSprite.setOrigin(x, y);
         polygonSprite.rotate(angle);
         polygonSprite.draw(polygonSpriteBatch);
     }
+
+
 }

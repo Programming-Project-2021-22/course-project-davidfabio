@@ -1,9 +1,11 @@
 package com.davidfabio.game.core;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class EnemyStatic extends Enemy {
     @Override
-    public void init(float x, float y, float scale, float direction, Polarity polarity, float moveSpeed, float newInitialHealth) {
-        super.init(x, y, scale, direction, polarity, moveSpeed, newInitialHealth);
+    public void init(float x, float y, float scale, float angle, float moveSpeed, float newInitialHealth, Color color) {
+        super.init(x, y, scale, angle, moveSpeed, newInitialHealth, color);
 
         float[] vertices = new float[]{
                 0, -0.5f,
@@ -43,8 +45,8 @@ public class EnemyStatic extends Enemy {
 
         // spawn bullets in all direction
         if (getHealth() <= 0) {
-            for (int i = 0; i < 36; i += 1)
-                shoot(world, Transform2D.degreesToRadians(i * 10));
+            for (int i = 0; i < 12; i += 1)
+                shoot(world, Transform2D.degreesToRadians(i * 30));
         }
     }
 }
