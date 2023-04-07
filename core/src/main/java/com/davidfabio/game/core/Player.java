@@ -175,7 +175,7 @@ public class Player extends Entity implements Attackable {
 
                 // add random spread to bullet direction
                 float randomFloat = random.nextFloat() - 0.5f;
-                float angleDelta = 0; //Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
+                float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD);
                 fireRateCooldown = fireRate;

@@ -14,4 +14,7 @@ public class Transform2D {
     public static float degreesToRadians(float angleDegrees) {
         return angleDegrees * (float)(Math.PI / 180);
     }
+
+    public static float getRandomX() { return (float)(Math.random() * Settings.windowWidth); }
+    public static float getRandomY() { return (float)(Math.random() * Settings.windowHeight); }
 }

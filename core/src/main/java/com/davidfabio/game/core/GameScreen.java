@@ -23,10 +23,6 @@ public class GameScreen extends ScreenAdapter {
     private static boolean isPaused = false;
     public static float displayRefreshRate;
 
-    // for testing only
-    private static float timeElapsed = 0;
-    public static float getTimeElapsed() { return timeElapsed; }
-
     private PolygonSprite polygonSprite;
     private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
     private Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -63,7 +59,6 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         // TODO (David): frametimes are uneven when using deltaTime (with VSync enabled), so for now at least we are not using it
         float deltaTime = 1.0f / displayRefreshRate; // float deltaTime = Gdx.graphics.getDeltaTime();
-        timeElapsed += deltaTime;
 
         Inputs.update();
 
