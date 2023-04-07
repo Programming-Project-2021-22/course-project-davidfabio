@@ -16,14 +16,16 @@ public class Player extends Entity implements Attackable {
     private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
     private boolean isInHitState;
-    private float hitDuration = 0.5f;
+    private float hitDuration = 1.0f;
     private float hitCooldown;
 
     public float getHealth() { return this.health; }
     public void setHealth(float newHealth) { this.health = newHealth; }
     public float getInitialHealth() { return this.initialHealth; }
     public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
-    public void setInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+    public boolean getIsInHitState() { return isInHitState; }
+
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
 

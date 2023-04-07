@@ -34,7 +34,9 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
     public float getAttackPower() { return this.attackPower; }
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
-    public void setInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+    public boolean getIsInHitState() { return isInHitState; }
+
 
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }

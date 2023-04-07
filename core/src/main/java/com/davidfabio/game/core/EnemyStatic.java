@@ -45,8 +45,8 @@ public class EnemyStatic extends Enemy {
 
         // spawn bullets in all direction
         if (getHealth() <= 0) {
-            for (int i = 0; i < 36; i += 1)
-                shoot(world, Transform2D.degreesToRadians(i * 10));
+            for (int i = 0; i < 12; i += 1)
+                shoot(world, Transform2D.degreesToRadians(i * 30));
         }
     }
 }

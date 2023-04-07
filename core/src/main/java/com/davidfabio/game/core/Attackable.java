@@ -10,7 +10,8 @@ public interface Attackable {
     public boolean getIsActive();
     public void setIsActive(boolean newIsActive);
     public void setColor(Color color);
-    public void setInHitState(boolean isInHitState);
+    public void setIsInHitState(boolean isInHitState);
+    public boolean getIsInHitState();
     public void setHitCooldown(float hitCooldown);
     public float getHitDuration();
 
