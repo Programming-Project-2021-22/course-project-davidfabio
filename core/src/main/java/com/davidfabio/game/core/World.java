@@ -12,6 +12,7 @@ public class World {
     private Player player;
     private ArrayList<Enemy> enemies;
     private BulletEnemy[] enemyBullets;
+    private EnemySpawner enemySpawner;
     private Level level;
     private Score score;
 
@@ -21,6 +22,9 @@ public class World {
     public ArrayList<Enemy> getEnemies() { return this.enemies; }
     public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
     public Score getScore() { return this.score; }
+
+    private float timeElapsed = 0;
+    public float getTimeElapsed() { return timeElapsed; }
 
     public World() {
         this.random = new Random();
@@ -32,6 +36,7 @@ public class World {
         this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 40, 260, Color.GOLD);
 
         this.enemies = new ArrayList<>();
+        this.enemySpawner = new EnemySpawner();
 
         this.enemyBullets = new BulletEnemy[Settings.MAX_ENEMY_BULLETS];
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
@@ -39,48 +44,18 @@ public class World {
     }
 
     public void update(float deltaTime) {
-        // FOR TESTING ONLY: enemy spawning
-        int activeEnemyCount = 0;
-        int maxEnemies = 5;
-        for (Enemy enemy : this.enemies)
-            if (enemy.getIsActive())
-                activeEnemyCount += 1;
+        timeElapsed += deltaTime;
 
-        if (activeEnemyCount < maxEnemies) {
-            float randomX = (float) (Math.random() * Settings.windowWidth);
-            float randomY = (float) (Math.random() * Settings.windowHeight);
-            float minDistanceToPlayer = 240;
-            while (this.player.getDistanceTo(randomX, randomY) < minDistanceToPlayer) {
-                randomX = (float) (Math.random() * Settings.windowWidth);
-                randomY = (float) (Math.random() * Settings.windowHeight);
-            }
-
-            // NOTE (David): here we are allocating memory to create an enemy; should ideally be avoided
-            int rand = this.random.nextInt(2);
-            switch (rand) {
-                case 0: {
-                    EnemyChaser enemyChaser = new EnemyChaser();
-                    enemyChaser.init(randomX, randomY, 50, 0, 70, 6, Color.RED);
-                    this.enemies.add(enemyChaser);
-                    break;
-                }
-                case 1: {
-                    EnemyStatic enemyStatic = new EnemyStatic();
-                    enemyStatic.init(randomX, randomY, 60, 0, 70, 10, Color.BLUE);
-                    this.enemies.add(enemyStatic);
-                    break;
-                }
-            }
-        }
+        // spawn new enemies
+        enemySpawner.update(deltaTime, this);
 
         // update enemies
         for (Enemy enemy : this.enemies)
-            enemy.update(deltaTime,this);
+            enemy.update(deltaTime, this);
 
         // update enemy bullets
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
-            this.enemyBullets[i].update(deltaTime,this);
-
+            this.enemyBullets[i].update(deltaTime, this);
 
         this.player.update(deltaTime,this); // player bullets get updated here as well
         if (this.player.getHealth() <= 0) {

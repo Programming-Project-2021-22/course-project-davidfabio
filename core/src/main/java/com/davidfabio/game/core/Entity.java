@@ -29,7 +29,6 @@ public class Entity implements Movable {
     public Color getColorInitial() { return colorInitial; }
     public void setColor(Color color) { this.color = color; }
 
-
     public PolygonShape shape; // needs to be initialized in the child init method
 
 

@@ -62,7 +62,7 @@ public class Player extends Entity implements Attackable {
         };
         shape = new PolygonShape(vertices, triangles, scale);
 
-
+        /*
         float[] verticesArrow = new float[] {
                 0, 0,
                 -0.25f, 0.5f,
@@ -73,6 +73,17 @@ public class Player extends Entity implements Attackable {
                 0, 1, 2,
                 2, 3, 0
         };
+        */
+        float[] verticesArrow = new float[] {
+                0, -0.5f,
+                0.5f, 0,
+                0, 0.5f
+        };
+        short[] trianglesArrow = new short[] {
+                0, 1, 2
+        };
+
+
         shapeArrow = new PolygonShape(verticesArrow, trianglesArrow, arrowScale);
     }
 
@@ -164,7 +175,7 @@ public class Player extends Entity implements Attackable {
 
                 // add random spread to bullet direction
                 float randomFloat = random.nextFloat() - 0.5f;
-                float angleDelta = 0; //Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
+                float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
 
                 bullets[i].init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD);
                 fireRateCooldown = fireRate;

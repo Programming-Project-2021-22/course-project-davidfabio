@@ -41,7 +41,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
 
-    public void init(float x, float y, float scale, float direction, float moveSpeed, float newInitialHealth, Color color) {
+    public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
         super.init(x, y, scale, color);
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
