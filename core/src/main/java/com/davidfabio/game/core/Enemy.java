@@ -32,6 +32,8 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public boolean getIsInHitState() { return isInHitState; }
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
+    public float getBulletScale() { return bulletScale; }
+    public float getBulletSpeed() { return bulletSpeed; }
 
 
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
@@ -67,18 +69,20 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     public void shootTowardsPlayer(World world) {
         float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
+        Bullet bullet = getBullet(world);
+        bullet.init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
         fireRateCooldown = fireRate;
     }
 
     public void shoot(World world, float angle) {
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
+        Bullet bullet = getBullet(world);
+        bullet.init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
         fireRateCooldown = fireRate;
     }
 
-    private BulletEnemy getBullet(BulletEnemy[] enemyBullets) {
+    public BulletEnemy getBullet(World world) {
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = enemyBullets[i];
+            BulletEnemy bullet = world.getEnemyBullets()[i];
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 return bullet;
             }

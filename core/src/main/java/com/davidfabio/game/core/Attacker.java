@@ -9,7 +9,7 @@ public interface Attacker {
     public default void attack(Attackable attackable, World world) {
         if (!attackable.getIsActive())
             return;
-        if (attackable.getIsInHitState())
+        if (attackable.getClass() == Player.class && attackable.getIsInHitState())
             return;
 
         attackable.setIsInHitState(true);
