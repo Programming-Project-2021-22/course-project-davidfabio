@@ -14,7 +14,8 @@ public class Bullet extends Entity {
         setAngle(angle);
     }
 
-    public void update(float deltaTime) {
+    @Override
+    public void update(float deltaTime, World world) {
         if (!isInView())
             setIsActive(false);
 

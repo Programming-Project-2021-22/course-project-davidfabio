@@ -83,11 +83,11 @@ public class Player extends Entity implements Attackable {
                 0, 1, 2
         };
 
-
         shapeArrow = new PolygonShape(verticesArrow, trianglesArrow, arrowScale);
     }
 
 
+    @Override
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         super.render(polygonSpriteBatch);
 
@@ -105,6 +105,8 @@ public class Player extends Entity implements Attackable {
 
 
     public void update(float deltaTime, World world) {
+        super.update(deltaTime, world);
+
         if (isInHitState) {
             hitCooldown -= deltaTime;
 
@@ -134,9 +136,9 @@ public class Player extends Entity implements Attackable {
 
         // prevent player from going offscreen
         nextX = Math.max(nextX, getScale() / 2);
-        nextX = Math.min(nextX, Settings.windowWidth - getScale() / 2);
+        nextX = Math.min(nextX, Settings.windowWidth - (getScale() / 2));
         nextY = Math.max(nextY, getScale() / 2);
-        nextY = Math.min(nextY, Settings.windowHeight - getScale() / 2);
+        nextY = Math.min(nextY, Settings.windowHeight - (getScale() / 2));
 
         setX(nextX);
         setY(nextY);

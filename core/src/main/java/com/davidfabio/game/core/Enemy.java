@@ -18,28 +18,21 @@ public class Enemy extends Entity implements Attackable, Attacker {
     private float bulletSpeed = 200;
     private float bulletScale = 16;
 
-    private boolean isSpawning;
-    private float spawnDuration = 1.5f;
-    private float spawnCounter;
-
     public static final int POINT_VALUE = 1;
 
     public float getHealth() { return this.health; }
     public void setHealth(float newHealth) { this.health = newHealth; }
     public float getInitialHealth() { return this.initialHealth; }
     public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
-
-    public boolean getIsSpawning() { return isSpawning; }
     public float getFireRateCooldown() { return fireRateCooldown; }
     public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
     public float getAttackPower() { return this.attackPower; }
     public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
-
-
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
+
 
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
         super.init(x, y, scale, color);
@@ -51,23 +44,16 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
         isInHitState = false;
         hitCooldown = 0;
-        isSpawning = true;
-        spawnCounter = 0;
+        setIsSpawning(true);
+        setSpawnCounter(0);
+        setSpawnDuration(2f);
     }
 
     public void update(float deltaTime, World world) {
+        super.update(deltaTime, world);
+
         if (!getIsActive())
             return;
-
-        if (isSpawning) {
-            spawnCounter += deltaTime;
-
-            if (spawnCounter > spawnDuration) {
-                setColor(getColorInitial());
-                isSpawning = false;
-            }
-            return;
-        }
 
         if (isInHitState) {
             hitCooldown -= deltaTime;
