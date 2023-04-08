@@ -11,12 +11,6 @@ public class Entity implements Movable {
     private float angle; // in radians
     private boolean isActive = false;
 
-    private boolean isSpawning;
-    private float spawnDuration;
-    private float spawnCounter;
-    private float transparencyWhileSpawning;
-    private boolean transparencyWhileSpawningIncreasing = true;
-
     public float getX() { return x; }
     public void setX(float x) { this.x = x; }
     public float getY() { return y; }
@@ -29,18 +23,19 @@ public class Entity implements Movable {
     public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
     public boolean getIsActive() { return isActive; }
     public void setIsActive(boolean isActive) { this.isActive = isActive; }
-    public boolean getIsSpawning() { return isSpawning; }
-    public void setIsSpawning(boolean isSpawning) { this.isSpawning = isSpawning; }
-    public float getSpawnDuration() { return spawnDuration; }
-    public void setSpawnDuration(float spawnDuration) { this.spawnDuration = spawnDuration; }
-    public float getSpawnCounter() { return spawnCounter; }
-    public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
-    public float getTransparencyWhileSpawning() { return transparencyWhileSpawning; }
 
     private Color color, colorInitial;
     public Color getColor() { return color; }
-    public Color getColorInitial() { return colorInitial; }
-    public void setColor(Color color) { this.color = color; }
+    public Color getColorInitial() { return new Color(colorInitial.r, colorInitial.g, colorInitial.b, colorInitial.a); }
+    public void setColor(Color color) {
+        this.color.r = color.r;
+        this.color.g = color.g;
+        this.color.b = color.b;
+        this.color.a = color.a;
+    }
+    public void setTransparency(float transparency) {
+        this.color.a = transparency;
+    }
 
     public PolygonShape shape; // needs to be initialized in the child init method
 
@@ -51,44 +46,18 @@ public class Entity implements Movable {
     public void init(float x, float y, float scale, Color color) {
         this.x = x;
         this.y = y;
-        this.colorInitial = this.color = color;
         this.scale = scale;
-        isActive = true;
-        angle = 0;
-        transparencyWhileSpawning = 0.6f;
-    }
+        this.colorInitial = color;
+        this.color = getColorInitial();
 
-    public void update(float deltaTime, World world) {
-        if (isSpawning) {
-            if (transparencyWhileSpawningIncreasing)
-                transparencyWhileSpawning += deltaTime;
-            else
-                transparencyWhileSpawning -= deltaTime;
-
-            if (transparencyWhileSpawning > 0.6f)
-                transparencyWhileSpawningIncreasing = false;
-            else if (transparencyWhileSpawning < 0.1f)
-                transparencyWhileSpawningIncreasing = true;
-        }
-
-        if (getIsSpawning()) {
-            setSpawnCounter(getSpawnCounter() + deltaTime);
-
-            if (getSpawnCounter() > getSpawnDuration()) {
-                setColor(getColorInitial());
-                setIsSpawning(false);
-            }
-        }
+        this.angle = 0;
+        this.isActive = true;
     }
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
         if (!isActive)
             return;
-
-        Color color = getColor();
-        if (isSpawning)
-            color.a = transparencyWhileSpawning;
 
         shape.render(polygonSpriteBatch, this, color);
     }

@@ -16,8 +16,10 @@ public class Player extends Entity implements Attackable {
     private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
     private boolean isInHitState;
-    private float hitDuration = 1.0f;
+    private float hitDuration = 2.5f;
     private float hitCooldown;
+    private float transparencyWhileInHitState;
+    private boolean transparencyWhileInHitStateIncreasing;
 
     public float getHealth() { return this.health; }
     public void setHealth(float newHealth) { this.health = newHealth; }
@@ -38,6 +40,8 @@ public class Player extends Entity implements Attackable {
         super.init(x, y, scale, color);
         this.setMoveSpeed(moveSpeed);
         this.initializeHealth();
+
+        transparencyWhileInHitStateIncreasing = true;
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
@@ -76,13 +80,18 @@ public class Player extends Entity implements Attackable {
 
     @Override
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        super.render(polygonSpriteBatch);
+
+        // player
+        Color color = getColor();
+        if (isInHitState)
+            color.a = transparencyWhileInHitState;
+        shape.render(polygonSpriteBatch, this, color);
 
         // arrow
         float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
         float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
         float arrowAngle = Transform2D.radiansToDegrees(getAngle());
-        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.WHITE);
+        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.LIGHT_GRAY);
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
@@ -92,8 +101,6 @@ public class Player extends Entity implements Attackable {
 
 
     public void update(float deltaTime, World world) {
-        super.update(deltaTime, world);
-
         if (isInHitState) {
             hitCooldown -= deltaTime;
 
@@ -101,6 +108,16 @@ public class Player extends Entity implements Attackable {
                 setColor(getColorInitial());
                 isInHitState = false;
             }
+
+            if (transparencyWhileInHitStateIncreasing)
+                transparencyWhileInHitState += deltaTime * 4;
+            else
+                transparencyWhileInHitState -= deltaTime * 4;
+
+            if (transparencyWhileInHitState > 0.6f)
+                transparencyWhileInHitStateIncreasing = false;
+            else if (transparencyWhileInHitState < 0.1f)
+                transparencyWhileInHitStateIncreasing = true;
         }
 
 

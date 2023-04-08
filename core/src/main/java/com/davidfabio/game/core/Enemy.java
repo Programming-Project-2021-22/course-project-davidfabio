@@ -2,12 +2,19 @@ package com.davidfabio.game.core;
 
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 public class Enemy extends Entity implements Attackable, Attacker {
     private float initialHealth;
     private float health;
 
     private float attackPower = 2.0f;  // This is actually the damage an Enemy causes when hitting the player
+
+    private boolean isSpawning;
+    private float spawnDuration = 2.0f;
+    private float spawnCounter;
+    private float transparencyWhileSpawning;
+    private boolean transparencyWhileSpawningIncreasing;
 
     private boolean isInHitState;
     private float hitDuration = 0.03f;
@@ -35,6 +42,14 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public float getBulletScale() { return bulletScale; }
     public float getBulletSpeed() { return bulletSpeed; }
 
+    public boolean getIsSpawning() { return isSpawning; }
+    public void setIsSpawning(boolean isSpawning) { this.isSpawning = isSpawning; }
+    public float getSpawnDuration() { return spawnDuration; }
+    public void setSpawnDuration(float spawnDuration) { this.spawnDuration = spawnDuration; }
+    public float getSpawnCounter() { return spawnCounter; }
+    public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
+    public float getTransparencyWhileSpawning() { return transparencyWhileSpawning; }
+
 
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
         super.init(x, y, scale, color);
@@ -46,14 +61,12 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
         isInHitState = false;
         hitCooldown = 0;
-        setIsSpawning(true);
-        setSpawnCounter(0);
-        setSpawnDuration(2f);
+        isSpawning = true;
+        spawnCounter = 0;
+        transparencyWhileSpawningIncreasing = true;
     }
 
     public void update(float deltaTime, World world) {
-        super.update(deltaTime, world);
-
         if (!getIsActive())
             return;
 
@@ -64,6 +77,26 @@ public class Enemy extends Entity implements Attackable, Attacker {
                 setColor(getColorInitial());
                 isInHitState = false;
             }
+        }
+
+        if (isSpawning) {
+            setTransparency(transparencyWhileSpawning);
+            setSpawnCounter(getSpawnCounter() + deltaTime);
+
+            if (getSpawnCounter() > getSpawnDuration()) {
+                setColor(getColorInitial());
+                setIsSpawning(false);
+            }
+
+            if (transparencyWhileSpawningIncreasing)
+                transparencyWhileSpawning += deltaTime;
+            else
+                transparencyWhileSpawning -= deltaTime;
+
+            if (transparencyWhileSpawning > 0.6f)
+                transparencyWhileSpawningIncreasing = false;
+            else if (transparencyWhileSpawning < 0.1f)
+                transparencyWhileSpawningIncreasing = true;
         }
     }
 
