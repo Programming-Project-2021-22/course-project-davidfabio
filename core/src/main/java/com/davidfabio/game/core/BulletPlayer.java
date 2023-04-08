@@ -26,7 +26,7 @@ public class BulletPlayer extends Bullet implements Attacker {
     }
 
     public void update(float deltaTime, World world) {
-        super.update(deltaTime);
+        super.update(deltaTime, world);
 
         if (!getIsActive())
             return;

@@ -15,11 +15,11 @@ public class EnemySpawner {
             switch(type) {
                 case CHASER:
                     enemy = new EnemyChaser();
-                    enemy.init(Transform2D.getRandomX(), Transform2D.getRandomY(), 50, 70, 6, Color.RED);
+                    enemy.init(Transform2D.getRandomX(), Transform2D.getRandomY(), 50, 100, 3, new Color(1, 0, 0, 0.75f));
                     break;
                 case STATIC:
                     enemy = new EnemyStatic();
-                    enemy.init(Transform2D.getRandomX(), Transform2D.getRandomY(), 60, 70, 10, Color.BLUE);
+                    enemy.init(Transform2D.getRandomX(), Transform2D.getRandomY(), 60, 0, 10, Color.BLUE);
                     break;
             }
             world.getEnemies().add(enemy);

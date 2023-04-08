@@ -85,7 +85,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         // ---------------- rendering ----------------
-        ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
+        ScreenUtils.clear(0, 0, 0.2f, 1);
 
         // Reposition camera on player
         this.camera.updateCameraPosition(deltaTime, this.world.getPlayer());
