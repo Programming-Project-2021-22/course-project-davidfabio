@@ -2,12 +2,19 @@ package com.davidfabio.game.core;
 
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 public class Enemy extends Entity implements Attackable, Attacker {
     private float initialHealth;
     private float health;
 
     private float attackPower = 2.0f;  // This is actually the damage an Enemy causes when hitting the player
+
+    private boolean isSpawning;
+    private float spawnDuration = 2.0f;
+    private float spawnCounter;
+    private float transparencyWhileSpawning;
+    private boolean transparencyWhileSpawningIncreasing;
 
     private boolean isInHitState;
     private float hitDuration = 0.03f;
@@ -32,6 +39,16 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public boolean getIsInHitState() { return isInHitState; }
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
+    public float getBulletScale() { return bulletScale; }
+    public float getBulletSpeed() { return bulletSpeed; }
+
+    public boolean getIsSpawning() { return isSpawning; }
+    public void setIsSpawning(boolean isSpawning) { this.isSpawning = isSpawning; }
+    public float getSpawnDuration() { return spawnDuration; }
+    public void setSpawnDuration(float spawnDuration) { this.spawnDuration = spawnDuration; }
+    public float getSpawnCounter() { return spawnCounter; }
+    public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
+    public float getTransparencyWhileSpawning() { return transparencyWhileSpawning; }
 
 
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
@@ -44,14 +61,12 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
         isInHitState = false;
         hitCooldown = 0;
-        setIsSpawning(true);
-        setSpawnCounter(0);
-        setSpawnDuration(2f);
+        isSpawning = true;
+        spawnCounter = 0;
+        transparencyWhileSpawningIncreasing = true;
     }
 
     public void update(float deltaTime, World world) {
-        super.update(deltaTime, world);
-
         if (!getIsActive())
             return;
 
@@ -63,22 +78,44 @@ public class Enemy extends Entity implements Attackable, Attacker {
                 isInHitState = false;
             }
         }
+
+        if (isSpawning) {
+            setTransparency(transparencyWhileSpawning);
+            setSpawnCounter(getSpawnCounter() + deltaTime);
+
+            if (getSpawnCounter() > getSpawnDuration()) {
+                setColor(getColorInitial());
+                setIsSpawning(false);
+            }
+
+            if (transparencyWhileSpawningIncreasing)
+                transparencyWhileSpawning += deltaTime;
+            else
+                transparencyWhileSpawning -= deltaTime;
+
+            if (transparencyWhileSpawning > 0.6f)
+                transparencyWhileSpawningIncreasing = false;
+            else if (transparencyWhileSpawning < 0.1f)
+                transparencyWhileSpawningIncreasing = true;
+        }
     }
 
     public void shootTowardsPlayer(World world) {
         float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
+        Bullet bullet = getBullet(world);
+        bullet.init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
         fireRateCooldown = fireRate;
     }
 
     public void shoot(World world, float angle) {
-        getBullet(world.getEnemyBullets()).init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
+        Bullet bullet = getBullet(world);
+        bullet.init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
         fireRateCooldown = fireRate;
     }
 
-    private BulletEnemy getBullet(BulletEnemy[] enemyBullets) {
+    public BulletEnemy getBullet(World world) {
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = enemyBullets[i];
+            BulletEnemy bullet = world.getEnemyBullets()[i];
             if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
                 return bullet;
             }

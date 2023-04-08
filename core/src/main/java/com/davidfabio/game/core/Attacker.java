@@ -4,18 +4,16 @@ import com.badlogic.gdx.graphics.Color;
 
 public interface Attacker {
     public float getAttackPower();
-    public void setAttackPower(float newAttackPower);
 
     public default void attack(Attackable attackable, World world) {
         if (!attackable.getIsActive())
             return;
-        if (attackable.getIsInHitState())
+        if (attackable.getClass() == Player.class && attackable.getIsInHitState())
             return;
 
         attackable.setIsInHitState(true);
-        attackable.setColor(Color.WHITE);
+        attackable.setColor(Color.LIGHT_GRAY);
         attackable.setHitCooldown(attackable.getHitDuration());
-
         attackable.setHealth(attackable.getHealth() - this.getAttackPower());
 
         if (attackable.getHealth() < 0) {

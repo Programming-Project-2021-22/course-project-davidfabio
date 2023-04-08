@@ -37,7 +37,7 @@ public class EnemySpawner {
 
 
     public void update(float deltaTime, World world) {
-        spawnAt(EnemyType.CHASER, 10, 1f, deltaTime, world);
+        spawnAt(EnemyType.CHASER, 10, 0.5f, deltaTime, world);
         spawnAt(EnemyType.STATIC, 3, 4f, deltaTime, world);
         spawnAt(EnemyType.STATIC, 3, 8f, deltaTime, world);
         spawnAt(EnemyType.CHASER, 15, 15f, deltaTime, world);

@@ -64,10 +64,6 @@ public class EnemyChaser extends Enemy {
         vertices[2] -= xScaleCounter * getScale();
         vertices[6] += xScaleCounter * getScale();
 
-        Color color = getColor();
-        if (getIsSpawning())
-            color.a = getTransparencyWhileSpawning();
-
-        shape.render(polygonSpriteBatch, this, vertices, color);
+        shape.render(polygonSpriteBatch, this, vertices, getColor());
     }
 }

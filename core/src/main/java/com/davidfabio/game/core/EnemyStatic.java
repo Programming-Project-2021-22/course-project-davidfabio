@@ -3,6 +3,7 @@ package com.davidfabio.game.core;
 import com.badlogic.gdx.graphics.Color;
 
 public class EnemyStatic extends Enemy {
+
     @Override
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
