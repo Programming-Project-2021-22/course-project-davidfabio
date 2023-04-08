@@ -31,8 +31,8 @@ public class Player extends Entity implements Attackable {
 
     // indicates shooting direction (purely cosmetic)
     private PolygonShape shapeArrow;
-    private float arrowScale = 24;
-    private float arrowOffset = 32;
+    private float arrowScale = 16;
+    private float arrowOffset = 24;
 
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
         super.init(x, y, scale, color);
@@ -95,7 +95,7 @@ public class Player extends Entity implements Attackable {
         float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
         float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
         float arrowAngle = Transform2D.radiansToDegrees(getAngle());
-        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, getColor());
+        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.WHITE);
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
@@ -133,10 +133,10 @@ public class Player extends Entity implements Attackable {
         if (Inputs.right.getIsDown()) nextX += speed;
 
         // prevent player from going offscreen
-        nextX = Math.max(nextX, getScale());
-        nextX = Math.min(nextX, Settings.windowWidth - getScale());
-        nextY = Math.max(nextY, getScale());
-        nextY = Math.min(nextY, Settings.windowHeight - getScale());
+        nextX = Math.max(nextX, getScale() / 2);
+        nextX = Math.min(nextX, Settings.windowWidth - getScale() / 2);
+        nextY = Math.max(nextY, getScale() / 2);
+        nextY = Math.min(nextY, Settings.windowHeight - getScale() / 2);
 
         setX(nextX);
         setY(nextY);
