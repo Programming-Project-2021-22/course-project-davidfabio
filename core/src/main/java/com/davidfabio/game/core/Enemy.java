@@ -100,6 +100,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
+
     public void shootTowardsPlayer(World world) {
         float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
         Bullet bullet = getBullet(world);

@@ -9,41 +9,75 @@ public class EnemySpawner {
         STATIC
     }
 
-    private void spawn(EnemyType type, int count, World world) {
+    private float timeElapsed = 0;
+    private float timeLastFrame;
+    private float centerX, centerY, rightBorder, bottomBorder;
+    private World worldReference;
+
+
+    public EnemySpawner(World world) {
+        worldReference = world;
+        centerX = Settings.windowWidth / 2;
+        centerY = Settings.windowHeight / 2;
+        rightBorder = Settings.windowWidth;
+        bottomBorder = Settings.windowHeight;
+    }
+
+
+
+
+    private void spawn(EnemyType type, float x, float y, float spawnTime) {
+        if (timeLastFrame >= spawnTime || timeElapsed < spawnTime)
+            return;
+
+        Enemy enemy = null;
+        switch(type) {
+            case CHASER:
+                enemy = new EnemyChaser();
+                enemy.init(x, y, 50, 100, 3, new Color(1, 0, 0, 0.75f));
+                break;
+            case STATIC:
+                enemy = new EnemyStatic();
+                enemy.init(x, y, 60, 0, 10, Color.BLUE);
+                break;
+        }
+        worldReference.getEnemies().add(enemy);
+    }
+
+    private void spawnGroupInCircle(EnemyType type, int count, float centerX, float centerY, float radius, float spawnTime, float timeDeltaBetweenEnemies) {
+        float angleDelta = (float)(2 * Math.PI) / count;
         for (int i = 0; i < count; i += 1) {
-            Enemy enemy = null;
-            switch(type) {
-                case CHASER:
-                    enemy = new EnemyChaser();
-                    enemy.init(Transform2D.getRandomX(), Transform2D.getRandomY(), 50, 100, 3, new Color(1, 0, 0, 0.75f));
-                    break;
-                case STATIC:
-                    enemy = new EnemyStatic();
-                    enemy.init(Transform2D.getRandomX(), Transform2D.getRandomY(), 60, 0, 10, Color.BLUE);
-                    break;
-            }
-            world.getEnemies().add(enemy);
+            float x = Transform2D.translateX(centerX, (i * angleDelta), radius);
+            float y = Transform2D.translateY(centerY, (i * angleDelta), radius);
+            spawn(type, x, y, spawnTime + (i * timeDeltaBetweenEnemies));
         }
     }
 
-    private void spawnAt(EnemyType type, int count, float spawnTime, float deltaTime, World world) {
-        float time = world.getTimeElapsed();
-        float timeLastFrame = time - deltaTime;
-
-        if (timeLastFrame < spawnTime && time >= spawnTime)
-            spawn(type, count, world);
+    private void spawnGroupAtPoint(EnemyType type, int count, float x, float y, float spawnTime, float timeDeltaBetweenEnemies) {
+        for (int i = 0; i < count; i += 1) {
+            spawn(type, x, y, spawnTime + (i * timeDeltaBetweenEnemies));
+        }
     }
 
 
 
-    public void update(float deltaTime, World world) {
-        spawnAt(EnemyType.CHASER, 10, 0.5f, deltaTime, world);
-        spawnAt(EnemyType.STATIC, 3, 4f, deltaTime, world);
-        spawnAt(EnemyType.STATIC, 3, 8f, deltaTime, world);
-        spawnAt(EnemyType.CHASER, 15, 15f, deltaTime, world);
-        spawnAt(EnemyType.STATIC, 3, 22f, deltaTime, world);
-        spawnAt(EnemyType.CHASER, 5, 22f, deltaTime, world);
-        spawnAt(EnemyType.CHASER, 5, 25f, deltaTime, world);
+    public void update(float deltaTime) {
+        timeElapsed += deltaTime;
+        timeLastFrame = timeElapsed - deltaTime;
+
+        spawnGroupInCircle(EnemyType.CHASER, 6, centerX, centerY, 200, 1, 0);
+        spawnGroupInCircle(EnemyType.CHASER, 10, centerX, centerY, 230, 5, 0.07f);
+        spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
+
+        spawn(EnemyType.STATIC, 50, 50, 10f);
+        spawn(EnemyType.STATIC, rightBorder - 50, 50, 15f);
+        spawn(EnemyType.STATIC, 50, bottomBorder - 50, 17f);
+        spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
+
+        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, bottomBorder - 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, bottomBorder - 100, 20, 0.5f);
     }
 
 
