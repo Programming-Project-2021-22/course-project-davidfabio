@@ -35,7 +35,7 @@ public class World {
         this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 32, 240, Color.GOLD);
 
         this.enemies = new ArrayList<>();
-        this.enemySpawner = new EnemySpawner();
+        this.enemySpawner = new EnemySpawner(this);
 
         this.enemyBullets = new BulletEnemy[Settings.MAX_ENEMY_BULLETS];
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
@@ -44,7 +44,7 @@ public class World {
 
     public void update(float deltaTime) {
         // spawn new enemies
-        enemySpawner.update(deltaTime, this);
+        enemySpawner.update(deltaTime);
 
         // update enemies
         for (Enemy enemy : this.enemies)

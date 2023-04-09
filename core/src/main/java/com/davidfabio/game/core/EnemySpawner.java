@@ -11,71 +11,73 @@ public class EnemySpawner {
 
     private float timeElapsed = 0;
     private float timeLastFrame;
+    private float centerX, centerY, rightBorder, bottomBorder;
+    private World worldReference;
 
 
-    private void spawn(EnemyType type, float x, float y, World world) {
-            Enemy enemy = null;
-            switch(type) {
-                case CHASER:
-                    enemy = new EnemyChaser();
-                    enemy.init(x, y, 50, 100, 3, new Color(1, 0, 0, 0.75f));
-                    break;
-                case STATIC:
-                    enemy = new EnemyStatic();
-                    enemy.init(x, y, 60, 0, 10, Color.BLUE);
-                    break;
-            }
-            world.getEnemies().add(enemy);
-    }
-
-
-    private void spawnAt(EnemyType type, float x, float y, float spawnTime, World world) {
-        if (timeLastFrame < spawnTime && timeElapsed >= spawnTime)
-            spawn(type, x, y, world);
+    public EnemySpawner(World world) {
+        worldReference = world;
+        centerX = Settings.windowWidth / 2;
+        centerY = Settings.windowHeight / 2;
+        rightBorder = Settings.windowWidth;
+        bottomBorder = Settings.windowHeight;
     }
 
 
 
-    public void update(float deltaTime, World world) {
+
+    private void spawn(EnemyType type, float x, float y, float spawnTime) {
+        if (timeLastFrame >= spawnTime || timeElapsed < spawnTime)
+            return;
+
+        Enemy enemy = null;
+        switch(type) {
+            case CHASER:
+                enemy = new EnemyChaser();
+                enemy.init(x, y, 50, 100, 3, new Color(1, 0, 0, 0.75f));
+                break;
+            case STATIC:
+                enemy = new EnemyStatic();
+                enemy.init(x, y, 60, 0, 10, Color.BLUE);
+                break;
+        }
+        worldReference.getEnemies().add(enemy);
+    }
+
+    private void spawnGroupInCircle(EnemyType type, int count, float centerX, float centerY, float radius, float spawnTime, float timeDeltaBetweenEnemies) {
+        float angleDelta = (float)(2 * Math.PI) / count;
+        for (int i = 0; i < count; i += 1) {
+            float x = Transform2D.translateX(centerX, (i * angleDelta), radius);
+            float y = Transform2D.translateY(centerY, (i * angleDelta), radius);
+            spawn(type, x, y, spawnTime + (i * timeDeltaBetweenEnemies));
+        }
+    }
+
+    private void spawnGroupAtPoint(EnemyType type, int count, float x, float y, float spawnTime, float timeDeltaBetweenEnemies) {
+        for (int i = 0; i < count; i += 1) {
+            spawn(type, x, y, spawnTime + (i * timeDeltaBetweenEnemies));
+        }
+    }
+
+
+
+    public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
+        spawnGroupInCircle(EnemyType.CHASER, 6, centerX, centerY, 200, 1, 0);
+        spawnGroupInCircle(EnemyType.CHASER, 10, centerX, centerY, 230, 5, 0.07f);
+        spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
 
-        for (int i = 0; i < 5; i += 1) {
-            spawnAt(EnemyType.CHASER, 0, 0, i * 0.5f, world);
-            spawnAt(EnemyType.CHASER, Settings.windowWidth, Settings.windowHeight, i * 0.5f, world);
-            spawnAt(EnemyType.CHASER, 0, Settings.windowHeight, i * 0.5f, world);
-            spawnAt(EnemyType.CHASER, Settings.windowWidth, 0, i * 0.5f, world);
-        }
+        spawn(EnemyType.STATIC, 50, 50, 10f);
+        spawn(EnemyType.STATIC, rightBorder - 50, 50, 15f);
+        spawn(EnemyType.STATIC, 50, bottomBorder - 50, 17f);
+        spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
 
-
-
-        float delta = (float)(2 * Math.PI) / 36;
-        float centerX = Settings.windowWidth / 2;
-        float centerY = Settings.windowHeight / 2;
-        for (int i = 0; i < 36; i += 2) {
-            float x = Transform2D.translateX(centerX, (i * delta), 200);
-            float y = Transform2D.translateY(centerY, (i * delta), 200);
-            spawnAt(EnemyType.CHASER, x, y, 10f + (i * 0.05f), world);
-        }
-
-        spawnAt(EnemyType.STATIC, 100, 100, 15f, world);
-        spawnAt(EnemyType.STATIC, Settings.windowWidth - 100, 100, 15f, world);
-        spawnAt(EnemyType.STATIC, 100, Settings.windowHeight - 100, 15f, world);
-        spawnAt(EnemyType.STATIC, Settings.windowWidth - 100, Settings.windowHeight - 100, 15f, world);
-
-
-        for (int i = 0; i < 18; i += 2) {
-            float x = Transform2D.translateX(centerX, (i * delta), 300);
-            float y = Transform2D.translateY(centerY, (i * delta), 300);
-            spawnAt(EnemyType.CHASER, x, y, 18f + (i * 0.1f), world);
-        }
-
-        for (int i = 18; i < 36; i += 2) {
-            float x = Transform2D.translateX(centerX, (i * delta), 300);
-            float y = Transform2D.translateY(centerY, (i * delta), 300);
-            spawnAt(EnemyType.CHASER, x, y, 22f + (i * 0.1f), world);
-        }
+        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, bottomBorder - 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, bottomBorder - 100, 20, 0.5f);
     }
 
 
