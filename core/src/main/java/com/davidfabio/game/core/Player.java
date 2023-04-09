@@ -131,6 +131,9 @@ public class Player extends Entity implements Attackable {
         if ((Inputs.up.getIsDown() || Inputs.down.getIsDown()) && (Inputs.left.getIsDown() || Inputs.right.getIsDown()))
             speed *= 0.707106f;
 
+        float oldX = getX();
+        float oldY = getY();
+
         float nextX = getX();
         float nextY = getY();
         if (Inputs.up.getIsDown())    nextY -= speed;
@@ -138,14 +141,10 @@ public class Player extends Entity implements Attackable {
         if (Inputs.left.getIsDown())  nextX -= speed;
         if (Inputs.right.getIsDown()) nextX += speed;
 
-        // prevent player from going offscreen
-        nextX = Math.max(nextX, getScale() / 2);
-        nextX = Math.min(nextX, Settings.windowWidth - (getScale() / 2));
-        nextY = Math.max(nextY, getScale() / 2);
-        nextY = Math.min(nextY, Settings.windowHeight - (getScale() / 2));
-
         setX(nextX);
         setY(nextY);
+        restrictToLevel();
+
 
 
         // ---------------- shooting ----------------

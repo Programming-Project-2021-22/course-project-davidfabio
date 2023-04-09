@@ -9,22 +9,36 @@ public interface Movable {
     public void setScale(float newScale);
     public float getMoveSpeed();
 
+
     public default boolean isInView() {
-        if (this.getX() + this.getScale() < 0)
+        float halfScale = getScale() / 2;
+        if (this.getX() - halfScale < 0)
             return false;
-        else if (this.getX() - this.getScale() > Settings.windowWidth)
+        else if (this.getX() + halfScale > Settings.windowWidth)
             return false;
-        else if (this.getY() + this.getScale() < 0)
+        else if (this.getY() - halfScale < 0)
             return false;
-        else if (this.getY() - this.getScale() > Settings.windowHeight)
+        else if (this.getY() + halfScale > Settings.windowHeight)
             return false;
         return true;
     }
 
-    public default void moveTowards(float direction, float deltaTime) {
+    public default void restrictToLevel() {
+        float x = getX();
+        float y = getY();
+        float halfScale = getScale() / 2;
+        x = Math.max(x, halfScale); // set x minimum to halfScale
+        x = Math.min(x, Settings.windowWidth - halfScale); // set x maximum to game width - halfScale
+        y = Math.max(y, halfScale); // set y minimum to halfScale
+        y = Math.min(y, Settings.windowHeight - halfScale); // set y maximum to game height - halfScale
+        setX(x);
+        setY(y);
+    }
+
+    public default void moveTowards(float angle, float deltaTime) {
         float speed = getMoveSpeed() * deltaTime;
-        float deltaX = (float)Math.cos(direction) * speed;
-        float deltaY = (float)Math.sin(direction) * speed;
+        float deltaX = (float)Math.cos(angle) * speed;
+        float deltaY = (float)Math.sin(angle) * speed;
 
         this.setX(getX() + deltaX);
         this.setY(getY() + deltaY);

@@ -11,23 +11,24 @@ import java.util.Random;
 public class World {
     private Player player;
     private ArrayList<Enemy> enemies;
+    private ArrayList<Enemy> enemiesTemp; // this is needed so we can add new enemies during the update loop (e.g. when an enemy dies, he spawns new enemies)
     private BulletEnemy[] enemyBullets;
     private EnemySpawner enemySpawner;
     private Level level;
     private Score score;
 
-    private Random random;
-
     public Player getPlayer() { return this.player; }
     public ArrayList<Enemy> getEnemies() { return this.enemies; }
+
     public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
 
     public Score getScore() { return this.score; }
 
+    public void addEnemyTemp(Enemy enemy) { enemiesTemp.add(enemy); }
+
+
 
     public World() {
-        this.random = new Random();
-
         this.level = new Level();
         this.score = new Score();
 
@@ -35,6 +36,7 @@ public class World {
         this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 32, 240, Color.GOLD);
 
         this.enemies = new ArrayList<>();
+        this.enemiesTemp = new ArrayList<>();
         this.enemySpawner = new EnemySpawner(this);
 
         this.enemyBullets = new BulletEnemy[Settings.MAX_ENEMY_BULLETS];
@@ -43,22 +45,29 @@ public class World {
     }
 
     public void update(float deltaTime) {
-        // spawn new enemies
+        // ---------------- update enemies ----------------
+        for (Enemy enemy : enemiesTemp)
+            enemies.add(enemy);
+        enemiesTemp.clear();
+
         enemySpawner.update(deltaTime);
 
-        // update enemies
         for (Enemy enemy : this.enemies)
             enemy.update(deltaTime, this);
 
-        // update enemy bullets
+
+        // ---------------- update enemy bullets ----------------
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
             this.enemyBullets[i].update(deltaTime, this);
 
+
+        // ---------------- update player --------------------
         this.player.update(deltaTime,this); // player bullets get updated here as well
         if (this.player.getHealth() <= 0) {
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.score));
         }
     }
+
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // Render Enemies
