@@ -9,7 +9,7 @@ public class EnemySpawner {
         STATIC
     }
 
-
+    private float timeElapsed = 0;
     private float timeLastFrame;
 
 
@@ -30,17 +30,15 @@ public class EnemySpawner {
 
 
     private void spawnAt(EnemyType type, float x, float y, float spawnTime, World world) {
-        float time = world.getTimeElapsed();
-
-        if (timeLastFrame < spawnTime && time >= spawnTime)
+        if (timeLastFrame < spawnTime && timeElapsed >= spawnTime)
             spawn(type, x, y, world);
     }
 
 
 
     public void update(float deltaTime, World world) {
-        float time = world.getTimeElapsed();
-        timeLastFrame = time - deltaTime;
+        timeElapsed += deltaTime;
+        timeLastFrame = timeElapsed - deltaTime;
 
 
         for (int i = 0; i < 5; i += 1) {
@@ -65,6 +63,19 @@ public class EnemySpawner {
         spawnAt(EnemyType.STATIC, Settings.windowWidth - 100, 100, 15f, world);
         spawnAt(EnemyType.STATIC, 100, Settings.windowHeight - 100, 15f, world);
         spawnAt(EnemyType.STATIC, Settings.windowWidth - 100, Settings.windowHeight - 100, 15f, world);
+
+
+        for (int i = 0; i < 18; i += 2) {
+            float x = Transform2D.translateX(centerX, (i * delta), 300);
+            float y = Transform2D.translateY(centerY, (i * delta), 300);
+            spawnAt(EnemyType.CHASER, x, y, 18f + (i * 0.1f), world);
+        }
+
+        for (int i = 18; i < 36; i += 2) {
+            float x = Transform2D.translateX(centerX, (i * delta), 300);
+            float y = Transform2D.translateY(centerY, (i * delta), 300);
+            spawnAt(EnemyType.CHASER, x, y, 22f + (i * 0.1f), world);
+        }
     }
 
 

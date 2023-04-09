@@ -24,8 +24,6 @@ public class World {
 
     public Score getScore() { return this.score; }
 
-    private float timeElapsed = 0;
-    public float getTimeElapsed() { return timeElapsed; }
 
     public World() {
         this.random = new Random();
@@ -45,8 +43,6 @@ public class World {
     }
 
     public void update(float deltaTime) {
-        timeElapsed += deltaTime;
-
         // spawn new enemies
         enemySpawner.update(deltaTime, this);
 
