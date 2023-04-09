@@ -6,7 +6,8 @@ public class EnemySpawner {
 
     public enum EnemyType {
         CHASER,
-        STATIC
+        STATIC,
+        BUBBLE
     }
 
     private float timeElapsed = 0;
@@ -40,6 +41,10 @@ public class EnemySpawner {
                 enemy = new EnemyStatic();
                 enemy.init(x, y, 60, 0, 10, Color.BLUE);
                 break;
+            case BUBBLE:
+                enemy = new EnemyBubble();
+                enemy.init(x, y, 160, 20, 8, new Color(1, 0.75f, 0.8f, 0.75f));
+                break;
         }
         worldReference.getEnemies().add(enemy);
     }
@@ -70,14 +75,17 @@ public class EnemySpawner {
         spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
 
         spawn(EnemyType.STATIC, 50, 50, 10f);
+        spawnGroupInCircle(EnemyType.BUBBLE, 3, centerX, centerY, 150, 17f, 1.5f);
+        spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
         spawn(EnemyType.STATIC, rightBorder - 50, 50, 15f);
         spawn(EnemyType.STATIC, 50, bottomBorder - 50, 17f);
-        spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
 
-        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, 100, 20, 0.5f);
-        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, 100, 20, 0.5f);
-        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, bottomBorder - 100, 20, 0.5f);
-        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, bottomBorder - 100, 20, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, 100, 25, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, 100, 28, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, bottomBorder - 100, 32, 0.5f);
+        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, bottomBorder - 100, 32, 0.5f);
+
+        spawnGroupInCircle(EnemyType.BUBBLE, 2, centerX, centerY, 150, 32, 1.5f);
     }
 
 
