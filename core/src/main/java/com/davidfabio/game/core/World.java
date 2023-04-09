@@ -34,7 +34,7 @@ public class World {
         this.score = new Score();
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 32, 260, Color.GOLD);
+        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 32, 240, Color.GOLD);
 
         this.enemies = new ArrayList<>();
         this.enemySpawner = new EnemySpawner();

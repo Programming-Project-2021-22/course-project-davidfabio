@@ -1,9 +1,7 @@
 package com.davidfabio.game.core;
 
 public class Transform2D {
-    public static float translateX(float x, float angle, float length) {
-        return x + (float)Math.cos(angle) * length;
-    }
+    public static float translateX(float x, float angle, float length) { return x + (float)Math.cos(angle) * length; }
     public static float translateY(float y, float angle, float length) {
         return y + (float)Math.sin(angle) * length;
     }
