@@ -35,7 +35,7 @@ public class EnemySpawner {
         switch(type) {
             case CHASER:
                 enemy = new EnemyChaser();
-                enemy.init(x, y, 50, 100, 3, new Color(1, 0, 0, 0.75f));
+                enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f));
                 break;
             case STATIC:
                 enemy = new EnemyStatic();
@@ -69,6 +69,10 @@ public class EnemySpawner {
     public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
+
+        spawnGroupInCircle(EnemyType.BUBBLE, 3, centerX, centerY, 150, 0.1f, 1.5f);
+
+
 
         spawnGroupInCircle(EnemyType.CHASER, 6, centerX, centerY, 200, 1, 0);
         spawnGroupInCircle(EnemyType.CHASER, 10, centerX, centerY, 230, 5, 0.07f);

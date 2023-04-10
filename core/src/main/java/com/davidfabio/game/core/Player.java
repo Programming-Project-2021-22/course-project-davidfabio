@@ -46,25 +46,8 @@ public class Player extends Entity implements Attackable {
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
 
-        float[] vertices = new float[] {
-                0, -0.5f,
-                -0.5f, 0,
-                0, 0.5f,
-                0.5f, 0,
-                -0.3675f, -0.3675f,
-                -0.3675f, 0.3675f,
-                0.3675f, 0.3675f,
-                0.3675f, -0.3675f
-        };
-        short[] triangles = new short[] {
-                0, 1, 2,
-                2, 3, 0,
-                0, 4, 1,
-                1, 5, 2,
-                2, 6, 3,
-                3, 7, 0
-        };
-        shape = new PolygonShape(vertices, triangles, scale);
+
+        shape = new PolygonShape(64, scale);
 
         float[] verticesArrow = new float[] {
                 0, -0.5f,
