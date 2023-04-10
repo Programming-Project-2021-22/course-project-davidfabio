@@ -18,6 +18,29 @@ public class PolygonShape {
         return Arrays.copyOf(verticesInitial, verticesInitial.length);
     }
 
+
+    // polygon circle constructor
+    public PolygonShape(int triangleCount, float scale) {
+        verticesInitial = new float[(triangleCount + 1) * 2];
+        vertices = new float[verticesInitial.length];
+
+        float angleDelta = (float)(Math.PI / triangleCount);
+        for (int i = 0; i < verticesInitial.length; i += 2) {
+            float x = Transform2D.translateX(0, (i * angleDelta), scale / 2);
+            float y = Transform2D.translateY(0, (i * angleDelta), scale / 2);
+            verticesInitial[i] = x;
+            verticesInitial[i + 1] = y;
+        }
+
+        triangles = new short[triangleCount * 3];
+        for (int i = 0; i < triangleCount; i += 1) {
+            triangles[i * 3] = 0;
+            triangles[(i * 3) + 1] = (short)(i + 1);
+            triangles[(i * 3) + 2] = (short)(i + 2);
+        }
+    }
+
+
     public PolygonShape(float[] vertices, short[] triangles, float scale) {
         this.vertices = vertices;
         this.triangles = triangles;
@@ -31,7 +54,7 @@ public class PolygonShape {
         if (!entity.getIsActive())
             return;
 
-        for (int i = 0; i < vertices.length; i += 1) {
+        for (int i = 0; i < verticesInitial.length; i += 1) {
             vertices[i] = verticesInitial[i];
 
             if (i % 2 == 0)

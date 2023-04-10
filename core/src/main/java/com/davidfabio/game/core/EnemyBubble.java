@@ -9,25 +9,7 @@ public class EnemyBubble extends Enemy {
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
-        float[] vertices = new float[] {
-                0, -0.5f,
-                -0.5f, 0,
-                0, 0.5f,
-                0.5f, 0,
-                -0.3675f, -0.3675f,
-                -0.3675f, 0.3675f,
-                0.3675f, 0.3675f,
-                0.3675f, -0.3675f
-        };
-        short[] triangles = new short[] {
-                0, 1, 2,
-                2, 3, 0,
-                0, 4, 1,
-                1, 5, 2,
-                2, 6, 3,
-                3, 7, 0
-        };
-        shape = new PolygonShape(vertices, triangles, scale);
+        shape = new PolygonShape(64, scale);
 
         float randomAngle = (float)(Math.PI * 2 * Math.random());
         setAngle(randomAngle);

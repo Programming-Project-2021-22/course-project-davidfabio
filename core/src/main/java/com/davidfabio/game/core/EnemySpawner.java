@@ -35,7 +35,7 @@ public class EnemySpawner {
         switch(type) {
             case CHASER:
                 enemy = new EnemyChaser();
-                enemy.init(x, y, 50, 100, 3, new Color(1, 0, 0, 0.75f));
+                enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f));
                 break;
             case STATIC:
                 enemy = new EnemyStatic();
