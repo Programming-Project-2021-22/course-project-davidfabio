@@ -7,7 +7,8 @@ public class EnemySpawner {
     public enum EnemyType {
         CHASER,
         STATIC,
-        BUBBLE
+        BUBBLE,
+        KAMIKAZE
     }
 
     private float timeElapsed = 0;
@@ -45,6 +46,10 @@ public class EnemySpawner {
                 enemy = new EnemyBubble();
                 enemy.init(x, y, 160, 20, 8, new Color(1, 0.75f, 0.8f, 0.75f));
                 break;
+            case KAMIKAZE:
+                enemy = new EnemyKamikaze();
+                enemy.init(x, y, 30, 100, 1, Color.ORANGE);
+                break;
         }
         worldReference.getEnemies().add(enemy);
     }
@@ -71,21 +76,24 @@ public class EnemySpawner {
         timeLastFrame = timeElapsed - deltaTime;
 
         spawnGroupInCircle(EnemyType.CHASER, 6, centerX, centerY, 200, 1, 0);
-        spawnGroupInCircle(EnemyType.CHASER, 10, centerX, centerY, 230, 5, 0.07f);
+        spawnGroupInCircle(EnemyType.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
         spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
 
         spawn(EnemyType.STATIC, 50, 50, 10f);
-        spawnGroupInCircle(EnemyType.BUBBLE, 3, centerX, centerY, 150, 17f, 1.5f);
+        spawnGroupInCircle(EnemyType.BUBBLE, 2, centerX, centerY, 150, 17f, 1.5f);
         spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
         spawn(EnemyType.STATIC, rightBorder - 50, 50, 15f);
         spawn(EnemyType.STATIC, 50, bottomBorder - 50, 17f);
 
-        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, 100, 25, 0.5f);
-        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, 100, 28, 0.5f);
-        spawnGroupAtPoint(EnemyType.CHASER, 4, 100, bottomBorder - 100, 32, 0.5f);
-        spawnGroupAtPoint(EnemyType.CHASER, 4, rightBorder - 100, bottomBorder - 100, 32, 0.5f);
+        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, 100, 100, 25, 0.5f);
+        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, rightBorder - 100, 100, 28, 0.5f);
+        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, 100, bottomBorder - 100, 32, 0.5f);
+        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, rightBorder - 100, bottomBorder - 100, 32, 0.5f);
 
-        spawnGroupInCircle(EnemyType.BUBBLE, 2, centerX, centerY, 150, 32, 1.5f);
+        spawn(EnemyType.BUBBLE, centerX, centerY, 32);
+        spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
+        spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
+        spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
     }
 
 
