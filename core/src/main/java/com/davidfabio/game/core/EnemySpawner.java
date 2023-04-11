@@ -39,7 +39,7 @@ public class EnemySpawner {
                 enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f));
                 break;
             case STATIC:
-                enemy = new EnemyStatic();
+                enemy = new EnemyTurret();
                 enemy.init(x, y, 60, 0, 10, Color.BLUE);
                 break;
             case BUBBLE:

@@ -1,9 +1,8 @@
 package com.davidfabio.game.core;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-public class EnemyStatic extends Enemy {
+public class EnemyTurret extends Enemy {
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
