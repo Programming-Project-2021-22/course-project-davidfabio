@@ -6,9 +6,10 @@ public class EnemySpawner {
 
     public enum EnemyType {
         CHASER,
-        STATIC,
+        TURRET,
         BUBBLE,
-        KAMIKAZE
+        KAMIKAZE,
+        SPINNER
     }
 
     private float timeElapsed = 0;
@@ -38,8 +39,8 @@ public class EnemySpawner {
                 enemy = new EnemyChaser();
                 enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f));
                 break;
-            case STATIC:
-                enemy = new EnemyStatic();
+            case TURRET:
+                enemy = new EnemyTurret();
                 enemy.init(x, y, 60, 0, 10, Color.BLUE);
                 break;
             case BUBBLE:
@@ -49,6 +50,10 @@ public class EnemySpawner {
             case KAMIKAZE:
                 enemy = new EnemyKamikaze();
                 enemy.init(x, y, 30, 100, 1, Color.ORANGE);
+                break;
+            case SPINNER:
+                enemy = new EnemySpinner();
+                enemy.init(x, y, 70, 100, 10, Color.GREEN);
                 break;
         }
         worldReference.getEnemies().add(enemy);
@@ -79,11 +84,11 @@ public class EnemySpawner {
         spawnGroupInCircle(EnemyType.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
         spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
 
-        spawn(EnemyType.STATIC, 50, 50, 10f);
+        spawn(EnemyType.TURRET, 50, 50, 10f);
         spawnGroupInCircle(EnemyType.BUBBLE, 2, centerX, centerY, 150, 17f, 1.5f);
-        spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
-        spawn(EnemyType.STATIC, rightBorder - 50, 50, 15f);
-        spawn(EnemyType.STATIC, 50, bottomBorder - 50, 17f);
+        spawn(EnemyType.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
+        spawn(EnemyType.TURRET, rightBorder - 50, 50, 15f);
+        spawn(EnemyType.TURRET, 50, bottomBorder - 50, 17f);
 
         spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, 100, 100, 25, 0.5f);
         spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, rightBorder - 100, 100, 28, 0.5f);

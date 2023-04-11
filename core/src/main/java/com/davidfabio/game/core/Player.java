@@ -36,10 +36,15 @@ public class Player extends Entity implements Attackable {
     private float arrowScale = 16;
     private float arrowOffset = 24;
 
+    private Random random;
+
+
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
         super.init(x, y, scale, color);
         this.setMoveSpeed(moveSpeed);
         this.initializeHealth();
+
+        random = new Random();
 
         transparencyWhileInHitStateIncreasing = true;
 
@@ -157,11 +162,10 @@ public class Player extends Entity implements Attackable {
     }
 
     void shoot() {
-        Random random = new Random();
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 
-                // add random spread to bullet direction
+                // add random spread
                 float randomFloat = random.nextFloat() - 0.5f;
                 float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
 

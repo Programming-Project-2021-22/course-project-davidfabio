@@ -1,15 +1,17 @@
 package com.davidfabio.game.core;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-public class EnemyStatic extends Enemy {
+public class EnemyTurret extends Enemy {
+
+    BulletEnemySpawner bulletSpawner;
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         shape = new PolygonShape(4, scale);
+        bulletSpawner = new BulletEnemySpawner(BulletEnemySpawner.ShootType.TOWARDS_PLAYER, 0.04f, 1, 6, 400, 16);
     }
 
 
@@ -22,11 +24,7 @@ public class EnemyStatic extends Enemy {
         if (getIsSpawning())
             return;
 
-        if (getFireRateCooldown() > 0)
-            setFireRateCooldown(getFireRateCooldown() - deltaTime);
-
-        if (getFireRateCooldown() <= 0)
-            shootTowardsPlayer(world);
+        bulletSpawner.update(deltaTime, world, this);
     }
 
 
@@ -36,10 +34,10 @@ public class EnemyStatic extends Enemy {
         this.setIsActive(false);
         this.playDestructionSound();
 
-        // spawn bullets in all direction
+        // spawn bullets in all direction (suicide bullets)
         if (getHealth() <= 0) {
             for (int i = 0; i < 12; i += 1)
-                shoot(world, Transform2D.degreesToRadians(i * 30));
+                bulletSpawner.shoot(world, this, Transform2D.degreesToRadians(i * 30));
         }
     }
 }

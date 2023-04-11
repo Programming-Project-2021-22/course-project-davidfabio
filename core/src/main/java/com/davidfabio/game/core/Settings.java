@@ -21,6 +21,6 @@ public class Settings {
 
     // Game Difficulty Settings
     public static final int MAX_ENEMIES = 256;
-    public static final int MAX_ENEMY_BULLETS = 1024;
+    public static final int MAX_ENEMY_BULLETS = 2048;
     public static final int MAX_PLAYER_BULLETS = 64;
 }
