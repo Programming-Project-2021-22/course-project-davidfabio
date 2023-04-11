@@ -53,7 +53,7 @@ public class EnemySpawner {
                 break;
             case SPINNER:
                 enemy = new EnemySpinner();
-                enemy.init(x, y, 70, 100, 1, Color.GREEN);
+                enemy.init(x, y, 70, 100, 10, Color.GREEN);
                 break;
         }
         worldReference.getEnemies().add(enemy);
@@ -80,20 +80,15 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawn(EnemyType.SPINNER, 200, 200, 0.1f);
-
-
-
-        /*
         spawnGroupInCircle(EnemyType.CHASER, 6, centerX, centerY, 200, 1, 0);
         spawnGroupInCircle(EnemyType.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
         spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
 
-        spawn(EnemyType.STATIC, 50, 50, 10f);
+        spawn(EnemyType.TURRET, 50, 50, 10f);
         spawnGroupInCircle(EnemyType.BUBBLE, 2, centerX, centerY, 150, 17f, 1.5f);
-        spawn(EnemyType.STATIC, rightBorder - 50, bottomBorder - 50, 19f);
-        spawn(EnemyType.STATIC, rightBorder - 50, 50, 15f);
-        spawn(EnemyType.STATIC, 50, bottomBorder - 50, 17f);
+        spawn(EnemyType.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
+        spawn(EnemyType.TURRET, rightBorder - 50, 50, 15f);
+        spawn(EnemyType.TURRET, 50, bottomBorder - 50, 17f);
 
         spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, 100, 100, 25, 0.5f);
         spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, rightBorder - 100, 100, 28, 0.5f);
@@ -104,8 +99,6 @@ public class EnemySpawner {
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
-
-         */
     }
 
 

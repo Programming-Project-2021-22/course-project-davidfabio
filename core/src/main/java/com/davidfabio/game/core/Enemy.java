@@ -101,27 +101,4 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
-
-    public void shootTowardsPlayer(World world) {
-        float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        Bullet bullet = getBullet(world);
-        bullet.init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
-        fireRateCooldown = fireRate;
-    }
-
-    public void shoot(World world, float angle) {
-        Bullet bullet = getBullet(world);
-        bullet.init(getX(), getY(), bulletScale, bulletSpeed, angle, getColorInitial());
-        fireRateCooldown = fireRate;
-    }
-
-    public BulletEnemy getBullet(World world) {
-        for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
-            BulletEnemy bullet = world.getEnemyBullets()[i];
-            if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
-                return bullet;
-            }
-        }
-        return null;
-    }
 }

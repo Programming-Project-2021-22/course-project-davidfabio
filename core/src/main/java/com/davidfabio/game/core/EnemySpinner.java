@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 public class EnemySpinner extends Enemy {
 
 
-    private float rotationSpeed = 600; //1200f;
-    private float rotationAngle;
+    private float rotationSpeed = 40;
+    private float rotationAngle ;
 
 
     @Override
@@ -26,14 +26,17 @@ public class EnemySpinner extends Enemy {
         };
         shape = new PolygonShape(vertices, triangles, scale);
 
-        setFireRate(0.0003f);
+        rotationAngle = 0;
     }
 
 
 
     @Override
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        shape.render(polygonSpriteBatch, getX(), getY(), rotationAngle, getColor());
+        if (!getIsActive())
+            return;
+
+        shape.render(polygonSpriteBatch, getX(), getY(), rotationAngle * rotationSpeed, getColor());
     }
 
 
@@ -48,18 +51,10 @@ public class EnemySpinner extends Enemy {
 
         rotationAngle += rotationSpeed * deltaTime;
 
-
-        if (getFireRateCooldown() > 0)
-            setFireRateCooldown(getFireRateCooldown() - deltaTime);
-
-        if (getFireRateCooldown() <= 0)
-            shoot(world, rotationAngle);
-
-
         float angleTowardsPlayer = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
         setAngle(angleTowardsPlayer);
 
-        //moveTowards(getAngle(), deltaTime);
+        moveTowards(getAngle(), deltaTime);
     }
 
 }
