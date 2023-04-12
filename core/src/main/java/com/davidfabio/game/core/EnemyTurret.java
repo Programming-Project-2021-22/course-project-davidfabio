@@ -30,14 +30,12 @@ public class EnemyTurret extends Enemy {
 
     @Override
     public void destroy(World world) {
-        this.setHealth(0f);
-        this.setIsActive(false);
-        this.playDestructionSound();
-
         // spawn bullets in all direction (suicide bullets)
         if (getHealth() <= 0) {
             for (int i = 0; i < 12; i += 1)
                 bulletSpawner.shoot(world, this, Transform2D.degreesToRadians(i * 30));
         }
+
+        super.destroy(world);
     }
 }

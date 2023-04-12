@@ -47,9 +47,7 @@ public class EnemyBubble extends Enemy {
             }
         }
 
-        this.setHealth(0f);
-        this.setIsActive(false);
-        this.playDestructionSound();
+        super.destroy(world);
     }
 
 

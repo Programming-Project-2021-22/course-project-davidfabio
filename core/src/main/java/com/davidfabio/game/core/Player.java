@@ -159,6 +159,16 @@ public class Player extends Entity implements Attackable {
                 enemy.destroy(world);
             }
         }
+
+
+        // ---------------- collision detection against pickups ----------------
+        for (Pickup pickup : world.getPickups()) {
+            if (!pickup.getIsActive())
+                continue;
+            if (Collision.circleCircle(getX(), getY(), getScale(), pickup.getX(), pickup.getY(), pickup.getScale())) {
+                pickup.setIsActive(false);
+            }
+        }
     }
 
     void shoot() {

@@ -9,7 +9,6 @@ public class BulletEnemySpawner {
     private float fireRateCooldown;
     private int bulletsPerAttack;
     private int bulletsPerAttackCounter;
-    private int attackCounter; // currently only used for changing rotation
 
     private float angle;
     private float rotationSpeed;
@@ -32,7 +31,6 @@ public class BulletEnemySpawner {
         angle = 0;
         fireRateCooldown = 0;
         bulletsPerAttackCounter = 0;
-        attackCounter = 0;
         attackRateCooldown = attackRate;
         rotateClockwise = true;
         isAttacking = false;
@@ -69,7 +67,6 @@ public class BulletEnemySpawner {
                 isAttacking = false;
                 attackRateCooldown = attackRate;
                 bulletsPerAttackCounter = 0;
-                attackCounter += 1;
             }
         }
         else {
