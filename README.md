@@ -25,7 +25,7 @@ mvn package -Pdesktop
 To play the game, run:
 
 ```shell
-java -XstartOnFirstThread -jar ./desktop/course-project-davidfabio-desktop-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -XstartOnFirstThread -jar ./target/duality-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 > Note: The flag `-XstartOnFirstThread` is only required for MacOS, if you're on any other Operating system, you can omit this flag.
 
