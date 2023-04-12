@@ -2,11 +2,6 @@ package com.davidfabio.game.core;
 
 public class BulletEnemySpawner {
 
-    public enum ShootType {
-        TOWARDS_PLAYER,
-        CIRLCE
-    }
-
     private float bulletSpeed;
     private float bulletScale;
 
@@ -19,19 +14,16 @@ public class BulletEnemySpawner {
     private float angle;
     private float rotationSpeed;
     private boolean rotateClockwise;
-    private int changeRotationAfterXAttacks;
+    private boolean targetPlayer;
 
     private float attackRate;
     private float attackRateCooldown;
 
     private boolean isAttacking;
 
-    private ShootType type;
 
-
-
-    public BulletEnemySpawner(ShootType type, float fireRate, float attackRate, int bulletsPerAttack, float bulletSpeed, float bulletScale) {
-        this.type = type;
+    public BulletEnemySpawner(boolean targetPlayer, float fireRate, float attackRate, int bulletsPerAttack, float bulletSpeed, float bulletScale) {
+        this.targetPlayer = targetPlayer;
         this.fireRate = fireRate;
         this.attackRate = attackRate;
         this.bulletsPerAttack = bulletsPerAttack;
@@ -40,7 +32,7 @@ public class BulletEnemySpawner {
         angle = 0;
         fireRateCooldown = 0;
         bulletsPerAttackCounter = 0;
-        attackCounter =0;
+        attackCounter = 0;
         attackRateCooldown = attackRate;
         rotateClockwise = true;
         isAttacking = false;
@@ -48,12 +40,12 @@ public class BulletEnemySpawner {
         rotationSpeed = 0;
     }
 
-    public BulletEnemySpawner(ShootType type, float fireRate, float attackRate, int bulletsPerAttack, float bulletSpeed, float bulletScale,
-                              float rotationSpeed, int changeRotationAfterXAttacks) {
-        this(type, fireRate, attackRate, bulletsPerAttack, bulletSpeed, bulletScale);
+    public BulletEnemySpawner(boolean targetPlayer, float fireRate, float attackRate, int bulletsPerAttack, float bulletSpeed, float bulletScale,
+                              float rotationSpeed, boolean rotateClockwise) {
+        this(targetPlayer, fireRate, attackRate, bulletsPerAttack, bulletSpeed, bulletScale);
 
         this.rotationSpeed = rotationSpeed;
-        this.changeRotationAfterXAttacks = changeRotationAfterXAttacks;
+        this.rotateClockwise = rotateClockwise;
     }
 
 
@@ -66,15 +58,11 @@ public class BulletEnemySpawner {
 
                 if (fireRateCooldown <= 0) {
                     if (rotateClockwise)
-                        angle -= rotationSpeed * deltaTime;
-                    else
                         angle += rotationSpeed * deltaTime;
+                    else
+                        angle -= rotationSpeed * deltaTime;
 
-                    if (type == ShootType.TOWARDS_PLAYER)
-                        shootTowardsPlayer(world, enemy);
-                    else if (type == ShootType.CIRLCE) {
-                        shoot(world, enemy);
-                    }
+                    shoot(world, enemy);
                 }
             }
             else {
@@ -90,26 +78,18 @@ public class BulletEnemySpawner {
 
             if (attackRateCooldown <= 0) {
                 isAttacking = true;
-
-                if (type == ShootType.CIRLCE && attackCounter % changeRotationAfterXAttacks == 0) {
-                    rotateClockwise = !rotateClockwise;
-                }
             }
         }
     }
 
 
-    public void shootTowardsPlayer(World world, Entity enemy) {
-        BulletEnemy bullet = getBullet(world);
-        float angleTowardsPlayer = enemy.getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        bullet.init(enemy.getX(), enemy.getY(), bulletScale, bulletSpeed, angleTowardsPlayer, enemy.getColorInitial());
-
-        bulletsPerAttackCounter += 1;
-        fireRateCooldown = fireRate;
-    }
 
     public void shoot(World world, Entity enemy) {
         BulletEnemy bullet = getBullet(world);
+
+        if (targetPlayer)
+            angle = enemy.getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
+
         bullet.init(enemy.getX(), enemy.getY(), bulletScale, bulletSpeed, angle, enemy.getColorInitial());
 
         bulletsPerAttackCounter += 1;

@@ -10,7 +10,7 @@ public class Settings {
     public static int windowHeight = 540;
 
     // Music & Sound Settings
-    public static boolean sfxEnabled = true;
+    public static boolean sfxEnabled = false;
     public static boolean musicEnabled = false;
     public static float sfxVolume = 0.1f; // range: 0 to 1
     public static float musicVolume = 0.5f; // range: 0 to 1
