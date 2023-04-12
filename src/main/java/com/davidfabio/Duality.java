@@ -2,6 +2,7 @@ package com.davidfabio;
 
 import com.badlogic.gdx.Game;
 import com.davidfabio.ui.GameScreen;
+import com.davidfabio.ui.MainMenuScreen;
 
 public class Duality extends Game {
 	@Override
