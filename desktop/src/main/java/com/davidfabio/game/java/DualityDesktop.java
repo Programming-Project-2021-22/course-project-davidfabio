@@ -8,6 +8,7 @@ import com.davidfabio.game.core.Duality;
 import com.davidfabio.game.core.GameScreen;
 import com.davidfabio.game.core.Settings;
 
+// Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DualityDesktop {
 	public static void main (String[] args) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
