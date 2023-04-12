@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class World {
     private Player player;
@@ -14,6 +15,7 @@ public class World {
     private ArrayList<Enemy> enemiesTemp; // this is needed so we can add new enemies during the update loop (e.g. when an enemy dies, he spawns new enemies)
     private BulletEnemy[] enemyBullets;
     private EnemySpawner enemySpawner;
+    private Pickup[] pickups;
     private Level level;
     private Score score;
 
@@ -21,6 +23,8 @@ public class World {
     public ArrayList<Enemy> getEnemies() { return this.enemies; }
 
     public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
+
+    public Pickup[] getPickups() { return pickups; }
 
     public Score getScore() { return this.score; }
 
@@ -42,6 +46,10 @@ public class World {
         this.enemyBullets = new BulletEnemy[Settings.MAX_ENEMY_BULLETS];
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
             this.enemyBullets[i] = new BulletEnemy();
+
+        this.pickups = new Pickup[Settings.MAX_PICKUPS];
+        for (int i = 0; i < pickups.length; i += 1)
+            this.pickups[i] = new Pickup();
     }
 
     public void update(float deltaTime) {
@@ -60,9 +68,13 @@ public class World {
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
             this.enemyBullets[i].update(deltaTime, this);
 
+        // ---------------- update pickups ----------------
+        for (int i = 0; i < Settings.MAX_PICKUPS; i += 1)
+            this.pickups[i].update(deltaTime, this);
+
 
         // ---------------- update player --------------------
-        this.player.update(deltaTime,this); // player bullets get updated here as well
+        this.player.update(deltaTime, this); // player bullets get updated here as well
         if (this.player.getHealth() <= 0) {
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.score));
         }
@@ -77,6 +89,10 @@ public class World {
         // Render Enemy Bullets
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
             this.enemyBullets[i].render(polygonSpriteBatch);
+
+        // Render Pickups
+        for (int i = 0; i < Settings.MAX_PICKUPS; i += 1)
+            this.pickups[i].render(polygonSpriteBatch);
 
         // Render Player & their Bullets
         this.player.render(polygonSpriteBatch);

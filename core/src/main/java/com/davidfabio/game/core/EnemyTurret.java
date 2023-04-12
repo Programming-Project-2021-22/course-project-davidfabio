@@ -11,7 +11,7 @@ public class EnemyTurret extends Enemy {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         shape = new PolygonShape(4, scale);
-        bulletSpawner = new BulletEnemySpawner(BulletEnemySpawner.ShootType.TOWARDS_PLAYER, 0.04f, 1, 6, 400, 16);
+        bulletSpawner = new BulletEnemySpawner(false, 0.04f, 0.25f, 6, 400, 16, 10, true);
     }
 
 
@@ -30,14 +30,12 @@ public class EnemyTurret extends Enemy {
 
     @Override
     public void destroy(World world) {
-        this.setHealth(0f);
-        this.setIsActive(false);
-        this.playDestructionSound();
-
         // spawn bullets in all direction (suicide bullets)
         if (getHealth() <= 0) {
             for (int i = 0; i < 12; i += 1)
                 bulletSpawner.shoot(world, this, Transform2D.degreesToRadians(i * 30));
         }
+
+        super.destroy(world);
     }
 }

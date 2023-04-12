@@ -20,36 +20,23 @@ public class Enemy extends Entity implements Attackable, Attacker {
     private float hitDuration = 0.03f;
     private float hitCooldown;
 
-    private float fireRate = 2.0f;
-    private float fireRateCooldown;
-    private float bulletSpeed = 200;
-    private float bulletScale = 16;
-
     public static final int POINT_VALUE = 1;
 
     public float getHealth() { return this.health; }
     public void setHealth(float newHealth) { this.health = newHealth; }
     public float getInitialHealth() { return this.initialHealth; }
     public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
-    public float getFireRateCooldown() { return fireRateCooldown; }
-    public void setFireRateCooldown(float fireRateCooldown) { this.fireRateCooldown = fireRateCooldown; }
-    public void setFireRate(float fireRate) { this.fireRate = fireRate; }
     public float getAttackPower() { return this.attackPower; }
-    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
-    public float getBulletScale() { return bulletScale; }
-    public float getBulletSpeed() { return bulletSpeed; }
 
     public boolean getIsSpawning() { return isSpawning; }
     public void setIsSpawning(boolean isSpawning) { this.isSpawning = isSpawning; }
     public float getSpawnDuration() { return spawnDuration; }
-    public void setSpawnDuration(float spawnDuration) { this.spawnDuration = spawnDuration; }
     public float getSpawnCounter() { return spawnCounter; }
     public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
-    public float getTransparencyWhileSpawning() { return transparencyWhileSpawning; }
 
 
     public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
@@ -100,5 +87,29 @@ public class Enemy extends Entity implements Attackable, Attacker {
                 transparencyWhileSpawningIncreasing = true;
         }
     }
+
+    public void spawnPickup(World world) {
+        Pickup pickup = null;
+        for (int i = 0; i < Settings.MAX_PICKUPS; i += 1) {
+            if (!world.getPickups()[i].getIsActive()) {
+                pickup = world.getPickups()[i];
+                break;
+            }
+        }
+
+        if (pickup != null) {
+            pickup.init(getX(), getY(), 8, Color.GREEN);
+        }
+    }
+
+    @Override
+    public void destroy(World world) {
+        this.setHealth(0f);
+        this.setIsActive(false);
+        this.playDestructionSound();
+
+        spawnPickup(world);
+    }
+
 
 }
