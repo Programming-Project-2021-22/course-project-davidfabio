@@ -105,6 +105,7 @@ Thumbs.db
 
 ## Maven
 */target/
+target/
 */out/
 pom.xml.tag
 pom.xml.releaseBackup

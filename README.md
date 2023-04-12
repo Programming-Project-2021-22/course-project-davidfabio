@@ -14,19 +14,20 @@ This project was created by:
 * Fabio Vitalba
 
 ## 3. Usage
-Describe how to compile, package, and run your project here.
+Unfortunately LibGDX only has unofficial maven support. So in order to run the game you will have to execute the steps below.
 
 To build the project, run:
 
 ```shell
-mvn package
+mvn package -Pdesktop
 ```
 
-To do X, run:
+To play the game, run:
 
+```shell
+java -XstartOnFirstThread -jar ./desktop/course-project-davidfabio-desktop-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
-mvn abc
-```
+> Note: The flag `-XstartOnFirstThread` is only required for MacOS, if you're on any other Operating system, you can omit this flag.
 
 ## 4. Implementation
 ### 4.1. Architectural Overview
@@ -56,8 +57,8 @@ Describe your overall experience in developing this project.
 
 ### 5.2. Division of Responsibilities
 Describe the roles and responsibilities each member had in this project.
-- **David Pittracher:** ...
-- **Fabio Vitalba:** ...
+- **David Pittracher:** Game Design
+- **Fabio Vitalba:** UI Design, Documentation, Project structure
 
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.

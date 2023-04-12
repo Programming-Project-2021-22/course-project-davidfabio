@@ -9,11 +9,10 @@
 	<name>Duality Parent</name>
 
 	<properties>
-		<android.version>4.1.1.4</android.version>
-		<android.maven.version>3.8.1</android.maven.version>
 		<gwt.version>2.6.0</gwt.version>
 		<gwt.maven.version>2.6.0</gwt.maven.version>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- core dependencies -->
@@ -107,24 +106,6 @@
 			<id>desktop</id>
 			<modules>
 				<module>desktop</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>android</id>
-			<modules>
-				<module>android</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>html</id>
-			<modules>
-				<module>html</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>ios</id>
-			<modules>
-				<module>ios</module>
 			</modules>
 		</profile>
 	</profiles>
