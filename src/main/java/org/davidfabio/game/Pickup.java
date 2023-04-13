@@ -8,8 +8,6 @@ public class Pickup extends Entity implements Movable {
 
 
     private float stopMovingDistance = 80;
-    private float speedMultiplier = 300;
-
     private float lifespanCounter;
     private float lifespan = 3.0f;
 
@@ -67,9 +65,12 @@ public class Pickup extends Entity implements Movable {
         float distanceToPlayer = getDistanceTo(playerX, playerY);
 
         if (distanceToPlayer < stopMovingDistance) {
-            float speed = (stopMovingDistance - distanceToPlayer) * speedMultiplier * deltaTime;
+            float speed = (stopMovingDistance - distanceToPlayer + world.getPlayer().getMoveSpeed());
+
             setMoveSpeed(speed);
             moveTowards(playerX, playerY, deltaTime);
         }
+
+
     }
 }
