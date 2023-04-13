@@ -15,11 +15,25 @@ public class Player extends Entity implements Attackable {
     private float health;
     private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
+    private float dashSpeed = 800;
+    private float dashDuration = 0.25f;
+    private float dashAngle;
+    private float dashDurationCooldown;
+    private boolean isDashing;
+    private boolean inDashChooseDirectionState;
+
     private boolean isInHitState;
     private float hitDuration = 2.5f;
     private float hitCooldown;
     private float transparencyWhileInHitState;
     private boolean transparencyWhileInHitStateIncreasing;
+
+    // indicates shooting direction (purely cosmetic)
+    private PolygonShape shapeArrow;
+    private float arrowScale = 16;
+    private float arrowOffset = 24;
+
+    private Random random;
 
     public float getHealth() { return this.health; }
     public void setHealth(float newHealth) { this.health = newHealth; }
@@ -31,13 +45,6 @@ public class Player extends Entity implements Attackable {
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
 
-    // indicates shooting direction (purely cosmetic)
-    private PolygonShape shapeArrow;
-    private float arrowScale = 16;
-    private float arrowOffset = 24;
-
-    private Random random;
-
 
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
         super.init(x, y, scale, color);
@@ -47,6 +54,8 @@ public class Player extends Entity implements Attackable {
         random = new Random();
 
         transparencyWhileInHitStateIncreasing = true;
+        isDashing = false;
+        inDashChooseDirectionState = false;
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
@@ -109,8 +118,8 @@ public class Player extends Entity implements Attackable {
         }
 
 
-        // update direction
-        setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
+
+        setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX())); // update direction
 
         // ---------------- movement ----------------
         float speed = getMoveSpeed() * deltaTime;
@@ -119,9 +128,6 @@ public class Player extends Entity implements Attackable {
         if ((Inputs.up.getIsDown() || Inputs.down.getIsDown()) && (Inputs.left.getIsDown() || Inputs.right.getIsDown()))
             speed *= 0.707106f;
 
-        float oldX = getX();
-        float oldY = getY();
-
         float nextX = getX();
         float nextY = getY();
         if (Inputs.up.getIsDown())    nextY -= speed;
@@ -129,9 +135,39 @@ public class Player extends Entity implements Attackable {
         if (Inputs.left.getIsDown())  nextX -= speed;
         if (Inputs.right.getIsDown()) nextX += speed;
 
-        setX(nextX);
-        setY(nextY);
-        restrictToLevel();
+
+        // moving normally
+        if (!isDashing && !inDashChooseDirectionState) {
+            setX(nextX);
+            setY(nextY);
+            restrictToLevel();
+
+            if (Inputs.Mouse.right.getWasPressed())
+                inDashChooseDirectionState = true;
+        }
+
+        // start dashing
+        else if (Inputs.Mouse.right.getWasReleased()) {
+            isDashing = true;
+            dashDurationCooldown = dashDuration;
+            inDashChooseDirectionState = false;
+            dashAngle = getAngle();
+        }
+        // while dashing
+        else if (isDashing) {
+            dashDurationCooldown -= deltaTime;
+
+            if (dashDurationCooldown < 0)
+                isDashing = false;
+
+            float _speed = dashSpeed * deltaTime;
+
+            float _nextX = Transform2D.translateX(getX(), dashAngle, _speed);
+            float _nextY = Transform2D.translateY(getY(), dashAngle, _speed);
+            setX(_nextX);
+            setY(_nextY);
+            restrictToLevel();
+        }
 
 
 
@@ -139,7 +175,7 @@ public class Player extends Entity implements Attackable {
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
+        if (!isDashing && !inDashChooseDirectionState && Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
             shoot();
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
@@ -171,7 +207,7 @@ public class Player extends Entity implements Attackable {
         }
     }
 
-    void shoot() {
+    private void shoot() {
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 
@@ -186,6 +222,37 @@ public class Player extends Entity implements Attackable {
             }
         }
     }
+
+
+    /*
+    private void dash() {
+        isDashing = true;
+        dashDurationCooldown = dashDuration;
+        inDashChooseDirectionState = false;
+        dashAngle = getAngle();
+
+        if (Inputs.down.getIsDown() && Inputs.left.getIsDown())
+            dashAngle = 135;
+        else if (Inputs.down.getIsDown() && Inputs.right.getIsDown())
+            dashAngle = 45;
+        else if (Inputs.up.getIsDown() && Inputs.left.getIsDown())
+            dashAngle = 225;
+        else if (Inputs.up.getIsDown() && Inputs.right.getIsDown())
+            dashAngle = 315;
+        else if (Inputs.down.getIsDown())
+            dashAngle = 90;
+        else if (Inputs.up.getIsDown())
+            dashAngle = 270;
+        else if (Inputs.left.getIsDown())
+            dashAngle = 180;
+        else if (Inputs.right.getIsDown())
+            dashAngle = 0;
+
+        dashAngle = Transform2D.degreesToRadians(dashAngle);
+    }
+    */
+
+
 
 
 }
