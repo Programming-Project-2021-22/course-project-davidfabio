@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.utils.Settings;
 
 public class Enemy extends Entity implements Attackable, Attacker {
-    private float initialHealth;
-    private float health;
+    private int initialHealth;
+    private int health;
 
-    private float attackPower = 2.0f;  // This is actually the damage an Enemy causes when hitting the player
+    private int attackPower = 1;  // This is actually the damage an Enemy causes when hitting the player
 
     private boolean isSpawning;
     private float spawnDuration = 2.0f;
@@ -22,11 +22,11 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     public static final int POINT_VALUE = 1;
 
-    public float getHealth() { return this.health; }
-    public void setHealth(float newHealth) { this.health = newHealth; }
-    public float getInitialHealth() { return this.initialHealth; }
-    public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
-    public float getAttackPower() { return this.attackPower; }
+    public int getHealth() { return this.health; }
+    public void setHealth(int newHealth) { this.health = newHealth; }
+    public int getInitialHealth() { return this.initialHealth; }
+    public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
+    public int getAttackPower() { return this.attackPower; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
@@ -39,7 +39,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
 
 
-    public void init(float x, float y, float scale, float moveSpeed, float newInitialHealth, Color color) {
+    public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
         super.init(x, y, scale, color);
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
@@ -104,7 +104,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     @Override
     public void destroy(World world) {
-        this.setHealth(0f);
+        this.setHealth(0);
         this.setIsActive(false);
         this.playDestructionSound();
 

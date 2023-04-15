@@ -13,8 +13,8 @@ public class Player extends Entity implements Attackable {
     private float bulletSpeed = 800;
     private float bulletScale = 32;
     private float bulletSpreadMax = 8;
-    private float initialHealth = 20;
-    private float health;
+    private int initialHealth = 5;
+    private int health;
     private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
     private boolean isInHitState;
@@ -23,10 +23,10 @@ public class Player extends Entity implements Attackable {
     private float transparencyWhileInHitState;
     private boolean transparencyWhileInHitStateIncreasing;
 
-    public float getHealth() { return this.health; }
-    public void setHealth(float newHealth) { this.health = newHealth; }
-    public float getInitialHealth() { return this.initialHealth; }
-    public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
+    public int getHealth() { return this.health; }
+    public void setHealth(int newHealth) { this.health = newHealth; }
+    public int getInitialHealth() { return this.initialHealth; }
+    public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
 
