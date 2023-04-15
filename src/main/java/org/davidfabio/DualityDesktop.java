@@ -16,7 +16,7 @@ public class DualityDesktop {
 		Graphics.Monitor primary = Lwjgl3ApplicationConfiguration.getPrimaryMonitor();
 		Graphics.DisplayMode desktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode(primary);
 
-		if (Settings.START_IN_FULLSCREEN)
+		if (Settings.fullscreenEnabled)
 			config.setFullscreenMode(desktopMode);
 
 		GameScreen.displayRefreshRate = desktopMode.refreshRate;

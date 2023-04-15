@@ -1,13 +1,15 @@
 package org.davidfabio.utils;
 
-import com.badlogic.gdx.graphics.Color;
-
 public class Settings {
     // Game Setup Settings
     public static final String GAME_TITLE = "Duality";
-    public static boolean START_IN_FULLSCREEN = false;
-    public static int windowWidth = 720;
-    public static int windowHeight = 540;
+    public static float levelWidth = 800;
+    public static float levelHeight = 640;
+
+    // Display Settings
+    public static boolean fullscreenEnabled = false;
+    public static int windowWidth = 1024;
+    public static int windowHeight = 768;
 
     // Music & Sound Settings
     public static boolean sfxEnabled = false;

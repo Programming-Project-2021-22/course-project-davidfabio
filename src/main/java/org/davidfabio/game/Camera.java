@@ -5,16 +5,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Camera extends OrthographicCamera {
     private static final float MOVEMENT_SPEED = 200f;
-    public Camera() {
+    private float finalZoom;
+
+    public Camera(Level level) {
         super();
         this.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.position.set(this.viewportWidth / 2f, this.viewportHeight / 2f, 0);
-        this.zoom = 0.5f;   // We start zoomed in
+        this.finalZoom = calcOptimalZoom(level);    // calculates the optimal zoom to show a little less than the whole level
+        this.zoom = 0.5f * this.finalZoom;   // We start zoomed in
     }
 
     public void updateCameraPosition(float deltaTime, Player player) {
         // First we zoom out
-        if (this.zoom <= 1.0f) {
+        if (this.zoom < finalZoom) {
             this.zoom += 0.2f * deltaTime;
         }
         // Then we move towards the player
@@ -32,6 +35,17 @@ public class Camera extends OrthographicCamera {
             float speed = Camera.MOVEMENT_SPEED * deltaTime * speedMultiplier;
             this.moveTowardsWSpeed(dir, speed);
         }
+    }
+
+    private float calcOptimalZoom(Level level) {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float levelWidth = level.getWidth();
+        float levelHeight = level.getHeight();
+
+        float optimalXZoom = levelWidth / screenWidth * 0.9f;
+        float optimalYZoom = levelHeight / screenHeight * 0.9f;
+        return Math.min(optimalXZoom,optimalYZoom);
     }
 
     private float getAngleTowards(float otherX, float otherY) {

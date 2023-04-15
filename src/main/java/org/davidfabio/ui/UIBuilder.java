@@ -18,52 +18,58 @@ public class UIBuilder {
         return skin;
     }
 
-    public static void addTitleLabel(Table table, String text) {
+    public static void addTitleLabel(Table table, String text, boolean newRow) {
+        if (newRow)
+            table.row();
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = UIBuilder.skin.getFont("font-title");
         label.setStyle(style);
-        table.add(label).width(Gdx.graphics.getWidth()*0.75f).height(60f).padBottom(10);
-        table.row();
+        table.add(label).minWidth(Gdx.graphics.getWidth()*0.4f).height(60f).padBottom(10).expandX();
     }
 
-    public static void addSubtitleLabel(Table table, String text) {
+    public static void addSubtitleLabel(Table table, String text, boolean newRow) {
+        if (newRow)
+            table.row();
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = UIBuilder.skin.getFont("font-title");
         label.setStyle(style);
         label.setFontScale(0.75f);
-        table.add(label).width(Gdx.graphics.getWidth()*0.75f).height(40f).padBottom(10);
-        table.row();
+        table.add(label).minWidth(Gdx.graphics.getWidth()*0.4f).height(40f).padBottom(10).expandX();
     }
 
-    public static void addLabel(Table table, String text) {
+    public static void addLabel(Table table, String text, boolean newRow) {
+        if (newRow)
+            table.row();
         Label label = new Label(text, skin);
-        table.add(label).width(Gdx.graphics.getWidth()*0.75f).height(30f).padBottom(10);
-        table.row();
+        table.add(label).minWidth(Gdx.graphics.getWidth()*0.4f).height(30f).padBottom(10).expandX();
     }
 
-    public static void addButton(Table table, String name, ClickListener listener) {
+    public static void addButton(Table table, String name, boolean newRow, ClickListener listener) {
+        if (newRow)
+            table.row();
         TextButton button = new TextButton(name, skin);
         button.addListener(listener);
-        table.add(button).width(Gdx.graphics.getWidth()*0.75f).height(60f).padBottom(10);
-        table.row();
+        table.add(button).minWidth(Gdx.graphics.getWidth()*0.4f).height(60f).padBottom(10).expandX();
     }
 
-    public static void addCheckBox(Table table, String name, boolean initialValue, ClickListener listener) {
+    public static void addCheckBox(Table table, String name, boolean initialValue, boolean newRow, ClickListener listener) {
+        if (newRow)
+            table.row();
         CheckBox checkBox = new CheckBox(name, skin);
         checkBox.setChecked(initialValue);
         checkBox.addListener(listener);
         checkBox.left();
-        table.add(checkBox).width(Gdx.graphics.getWidth()*0.75f).height(30f).padBottom(10);
-        table.row();
+        table.add(checkBox).minWidth(Gdx.graphics.getWidth()*0.4f).height(30f).padBottom(10).expandX();
     }
 
-    public static void addSlider(Table table, float minimum, float maximum, float step, float initialValue, ChangeListener listener) {
+    public static void addSlider(Table table, float minimum, float maximum, float step, float initialValue, boolean newRow, ChangeListener listener) {
+        if (newRow)
+            table.row();
         Slider slider = new Slider(minimum, maximum, step, false, skin);
         slider.setValue(initialValue);
         slider.addListener(listener);
-        table.add(slider).width(Gdx.graphics.getWidth()*0.75f).height(30f).padBottom(10);
-        table.row();
+        table.add(slider).minWidth(Gdx.graphics.getWidth()*0.4f).height(30f).padBottom(10).expandX();
     }
 }

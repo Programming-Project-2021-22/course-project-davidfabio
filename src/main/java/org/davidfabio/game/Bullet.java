@@ -15,7 +15,7 @@ public class Bullet extends Entity {
     }
 
     public void update(float deltaTime, World world) {
-        if (!isInView())
+        if (!isInView(world.getLevel()))
             setIsActive(false);
 
         if (toDestroyNextFrame) {

@@ -25,9 +25,9 @@ public class EnemyBubble extends Enemy {
         if (getIsSpawning())
             return;
 
-        if (!isInView()) {
+        if (!isInView(world.getLevel())) {
             setAngle(getAngle() + (float)Math.PI); // flip angle
-            restrictToLevel();
+            restrictToLevel(world.getLevel());
         }
 
         moveTowards(getAngle(), deltaTime);

@@ -33,21 +33,21 @@ public class GameOverScreen extends ScreenAdapter {
         this.stage.addActor(this.mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable,"GAME OVER!");
-        UIBuilder.addSubtitleLabel(this.mainTable,"You scored a total of " + this.score.getPoints() + " points!");
-        UIBuilder.addButton(this.mainTable,"Play again",new ClickListener() {
+        UIBuilder.addTitleLabel(this.mainTable,"GAME OVER!",true);
+        UIBuilder.addSubtitleLabel(this.mainTable,"You scored a total of " + this.score.getPoints() + " points!",true);
+        UIBuilder.addButton(this.mainTable,"Play again",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
             }
         });
-        UIBuilder.addButton(this.mainTable,"Main Menu",new ClickListener() {
+        UIBuilder.addButton(this.mainTable,"Main Menu",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
             }
         });
-        UIBuilder.addButton(this.mainTable,"Quit",new ClickListener() {
+        UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
