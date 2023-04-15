@@ -62,10 +62,18 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
         UIBuilder.addSubtitleLabel(this.mainTable,"Music",true);
+        UIBuilder.addSubtitleLabel(this.mainTable,"Username",false);
         UIBuilder.addCheckBox(this.mainTable,"Music", Settings.musicEnabled,true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.musicEnabled = !Settings.musicEnabled;
+            }
+        });
+        UIBuilder.addTextInput(this.mainTable, Settings.username, false, new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                TextField textField = (TextField)event.getListenerActor();
+                Settings.username = textField.getText();
             }
         });
         UIBuilder.addLabel(this.mainTable,"Music Volume",true);

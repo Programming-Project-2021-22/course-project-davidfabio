@@ -1,6 +1,9 @@
 package org.davidfabio.game;
 
-public class Score {
+import org.davidfabio.utils.Settings;
+
+public class Score implements Comparable {
+    private String username;
     private int points;
     private long startTime;
     private long endTime;
@@ -8,6 +11,7 @@ public class Score {
 
     public Score() {
         this.startTime = System.currentTimeMillis();
+        this.username = Settings.username;
     }
 
     public void end() {
@@ -25,5 +29,18 @@ public class Score {
 
     public long getDuration() {
         return this.duration;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Score) {
+            return ((Score) o).getPoints() - this.getPoints();
+        } else {
+            return 0;
+        }
     }
 }

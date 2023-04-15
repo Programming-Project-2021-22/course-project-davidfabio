@@ -1,6 +1,7 @@
 package org.davidfabio.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,58 +19,90 @@ public class UIBuilder {
         return skin;
     }
 
-    public static void addTitleLabel(Table table, String text, boolean newRow) {
+    private static void addActorToTable(Table table, Actor actor, float height, boolean newRow) {
+        addActorToTable(table,actor,height,Gdx.graphics.getWidth()*0.4f,newRow);
+    }
+
+    private static void addActorToTable(Table table, Actor actor, float height, float width, boolean newRow) {
         if (newRow)
             table.row();
+        table.add(actor).minWidth(width).height(height).padBottom(10).expandX();
+    }
+
+    public static void addTitleLabel(Table table, String text, boolean newRow) {
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = UIBuilder.skin.getFont("font-title");
         label.setStyle(style);
-        table.add(label).minWidth(Gdx.graphics.getWidth()*0.4f).height(60f).padBottom(10).expandX();
+        addActorToTable(table,label,60f,newRow);
     }
 
-    public static void addSubtitleLabel(Table table, String text, boolean newRow) {
-        if (newRow)
-            table.row();
+    public static void addSubtitleLabel(Table table, String text, float width, boolean newRow) {
         Label label = new Label(text, skin);
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = UIBuilder.skin.getFont("font-title");
         label.setStyle(style);
         label.setFontScale(0.75f);
-        table.add(label).minWidth(Gdx.graphics.getWidth()*0.4f).height(40f).padBottom(10).expandX();
+        addActorToTable(table,label,40f,width,newRow);
+    }
+
+    public static void addSubtitleLabel(Table table, String text, boolean newRow) {
+        Label label = new Label(text, skin);
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = UIBuilder.skin.getFont("font-title");
+        label.setStyle(style);
+        label.setFontScale(0.75f);
+        addActorToTable(table,label,30f,newRow);
+    }
+
+    public static void addLabel(Table table, String text, float width, boolean newRow) {
+        Label label = new Label(text, skin);
+        addActorToTable(table,label,30f,width,newRow);
     }
 
     public static void addLabel(Table table, String text, boolean newRow) {
-        if (newRow)
-            table.row();
         Label label = new Label(text, skin);
-        table.add(label).minWidth(Gdx.graphics.getWidth()*0.4f).height(30f).padBottom(10).expandX();
+        addActorToTable(table,label,30f,newRow);
     }
 
     public static void addButton(Table table, String name, boolean newRow, ClickListener listener) {
-        if (newRow)
-            table.row();
         TextButton button = new TextButton(name, skin);
         button.addListener(listener);
-        table.add(button).minWidth(Gdx.graphics.getWidth()*0.4f).height(60f).padBottom(10).expandX();
+        addActorToTable(table,button,60f,newRow);
     }
 
-    public static void addCheckBox(Table table, String name, boolean initialValue, boolean newRow, ClickListener listener) {
-        if (newRow)
-            table.row();
+    public static void addCheckBox(Table table, String name, boolean initialValue, float width, boolean newRow, ClickListener listener) {
         CheckBox checkBox = new CheckBox(name, skin);
         checkBox.setChecked(initialValue);
         checkBox.addListener(listener);
         checkBox.left();
-        table.add(checkBox).minWidth(Gdx.graphics.getWidth()*0.4f).height(30f).padBottom(10).expandX();
+        addActorToTable(table,checkBox,30f,width,newRow);
+    }
+
+    public static void addCheckBox(Table table, String name, boolean initialValue, boolean newRow, ClickListener listener) {
+        CheckBox checkBox = new CheckBox(name, skin);
+        checkBox.setChecked(initialValue);
+        checkBox.addListener(listener);
+        checkBox.left();
+        addActorToTable(table,checkBox,30f,newRow);
     }
 
     public static void addSlider(Table table, float minimum, float maximum, float step, float initialValue, boolean newRow, ChangeListener listener) {
-        if (newRow)
-            table.row();
         Slider slider = new Slider(minimum, maximum, step, false, skin);
         slider.setValue(initialValue);
         slider.addListener(listener);
-        table.add(slider).minWidth(Gdx.graphics.getWidth()*0.4f).height(30f).padBottom(10).expandX();
+        addActorToTable(table,slider,30f,newRow);
+    }
+
+    public static void addTextInput(Table table, String defaultValue, float width, boolean newRow, ChangeListener listener) {
+        TextField textField = new TextField(defaultValue, skin);
+        textField.addListener(listener);
+        addActorToTable(table,textField,30f,width,newRow);
+    }
+
+    public static void addTextInput(Table table, String defaultValue, boolean newRow, ChangeListener listener) {
+        TextField textField = new TextField(defaultValue, skin);
+        textField.addListener(listener);
+        addActorToTable(table,textField,30f,newRow);
     }
 }

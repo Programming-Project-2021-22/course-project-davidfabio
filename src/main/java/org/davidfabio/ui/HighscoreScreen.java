@@ -31,19 +31,20 @@ public class HighscoreScreen extends ScreenAdapter {
 
         this.mainTable = new Table();
         this.mainTable.setFillParent(true);
-        this.mainTable.setDebug(true);
         this.stage.addActor(this.mainTable);
+        float columnWidth = Gdx.graphics.getWidth() * 0.4f / 3;
 
         UIBuilder.loadSkin();
         UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES",true);
         Table highScoresTable = new Table();
-        highScoresTable.setDebug(true);
-        UIBuilder.addSubtitleLabel(highScoresTable,"Score",true);
-        UIBuilder.addSubtitleLabel(highScoresTable,"Time played",false);
-        for(Score score : scores) {
+        UIBuilder.addSubtitleLabel(highScoresTable,"Score",columnWidth,true);
+        UIBuilder.addSubtitleLabel(highScoresTable,"Username",columnWidth,false);
+        UIBuilder.addSubtitleLabel(highScoresTable,"Time played",columnWidth,false);
+        for(Score score : getHighscores()) {
             long durationInSeconds = score.getDuration() / 1000;
-            UIBuilder.addLabel(highScoresTable,"" + score.getPoints(),true);
-            UIBuilder.addLabel(highScoresTable, String.format("%02d:%02d", durationInSeconds / 60, (durationInSeconds % 60)), false);
+            UIBuilder.addLabel(highScoresTable,"" + score.getPoints(),columnWidth,true);
+            UIBuilder.addLabel(highScoresTable,score.getUsername(),columnWidth,false);
+            UIBuilder.addLabel(highScoresTable,String.format("%02d:%02d", durationInSeconds / 60, (durationInSeconds % 60)),columnWidth,false);
         }
         this.mainTable.row();
         this.mainTable.add(highScoresTable).minWidth(Gdx.graphics.getWidth()*0.4f).padBottom(10);
@@ -69,5 +70,17 @@ public class HighscoreScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    private ArrayList<Score> getHighscores() {
+        ArrayList<Score> highscores = new ArrayList<>();
+        highscores.addAll(this.scores);
+        highscores.sort(Score::compareTo);
+        if (highscores.size() > 5) {
+            for(int i = 5; i < highscores.size(); i++) {
+                highscores.remove(i);
+            }
+        }
+        return highscores;
     }
 }
