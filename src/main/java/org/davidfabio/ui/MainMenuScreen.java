@@ -37,6 +37,9 @@ public class MainMenuScreen extends ScreenAdapter {
         UIBuilder.loadSkin();
         UIBuilder.addTitleLabel(this.mainTable, Settings.GAME_TITLE,true);
         UIBuilder.addSubtitleLabel(this.mainTable,"80's Arcade for a modern audience.",true);
+        UIBuilder.addLabel(this.mainTable,"",true);
+        UIBuilder.addLabel(this.mainTable,"Welcome, " + Settings.username + "!",true);
+        UIBuilder.addLabel(this.mainTable,"",true);
         UIBuilder.addButton(this.mainTable,"Play",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
