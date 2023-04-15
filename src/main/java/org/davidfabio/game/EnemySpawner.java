@@ -1,24 +1,17 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
-import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
 public class EnemySpawner {
 
-    public enum EnemyType {
-        CHASER,
-        TURRET,
-        BUBBLE,
-        KAMIKAZE,
-        SPINNER
-    }
-
     private float timeElapsed = 0;
     private float timeLastFrame;
-    private float centerX, centerY, rightBorder, bottomBorder;
-    private World worldReference;
-
+    private final float centerX;
+    private final float centerY;
+    private final float rightBorder;
+    private final float bottomBorder;
+    private final World worldReference;
     public EnemySpawner(World world) {
         worldReference = world;
         centerX = worldReference.getLevel().getWidth() / 2;
@@ -72,8 +65,6 @@ public class EnemySpawner {
         }
     }
 
-
-
     public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
@@ -97,5 +88,15 @@ public class EnemySpawner {
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
+    }
+
+
+
+    public enum EnemyType {
+        CHASER,
+        TURRET,
+        BUBBLE,
+        KAMIKAZE,
+        SPINNER
     }
 }

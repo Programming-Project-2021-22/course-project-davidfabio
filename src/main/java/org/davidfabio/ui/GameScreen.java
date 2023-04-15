@@ -1,6 +1,5 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.game.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -10,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import java.util.ArrayList;
+import org.davidfabio.game.*;
 
 public class GameScreen extends ScreenAdapter {
     private static World world;

@@ -1,17 +1,16 @@
 package org.davidfabio.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import java.util.ArrayList;
 import org.davidfabio.game.Player;
 import org.davidfabio.game.Score;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
-import java.util.ArrayList;
 
 public class UserInterface extends Group {
     private Label playerScore;

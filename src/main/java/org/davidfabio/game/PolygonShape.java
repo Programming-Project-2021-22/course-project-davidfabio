@@ -5,20 +5,14 @@ import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.util.Arrays;
 import org.davidfabio.ui.GameScreen;
 import org.davidfabio.utils.Transform2D;
 
-import java.util.Arrays;
-
-
 public class PolygonShape {
-    private float[] vertices, verticesInitial;
-    private short[] triangles; // in counter-clockwise direction
-
-    public float[] getVerticesInitial() {
-        return Arrays.copyOf(verticesInitial, verticesInitial.length);
-    }
-
+    private final float[] vertices;
+    private final float[] verticesInitial;
+    private final short[] triangles; // in counter-clockwise direction
 
     // polygon circle constructor
     public PolygonShape(int triangleCount, float scale) {
@@ -49,6 +43,10 @@ public class PolygonShape {
         verticesInitial = new float[vertices.length];
         for (int i = 0; i < vertices.length; i += 1)
             verticesInitial[i] = vertices[i] * scale;
+    }
+
+    public float[] getVerticesInitial() {
+        return Arrays.copyOf(verticesInitial, verticesInitial.length);
     }
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, Color color) {

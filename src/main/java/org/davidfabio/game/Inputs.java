@@ -1,12 +1,11 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
-import org.davidfabio.ui.GameScreen;
-
 import java.util.ArrayList;
+import org.davidfabio.ui.GameScreen;
 
 public class Inputs {
 
@@ -40,10 +39,10 @@ public class Inputs {
 
 
     public static class Mouse {
-        private static int x, y; // top-left of the window is 0,0 -- bottom-right is windowWidth,windowHeight
         public static Button left   = new Button(Buttons.LEFT);
         public static Button right  = new Button(Buttons.RIGHT);
         public static Button middle = new Button(Buttons.MIDDLE);
+        private static int x, y; // top-left of the window is 0,0 -- bottom-right is windowWidth,windowHeight
 
         public static int getX() { return x; }
         public static int getY() { return y; }
@@ -66,21 +65,28 @@ public class Inputs {
 
 
     public static class Input {
-        private int binding;
+        private final int binding;
         private boolean isDown, wasPressed, wasReleased, wasDownLastFrame;
-
-        public int getBinding() { return binding; }
-        public boolean getIsDown() { return isDown; }
-        public boolean getWasPressed() { return wasPressed; }
-        public boolean getWasReleased() { return wasReleased; }
-        public boolean getWasDownLastFrame() { return wasDownLastFrame; }
-        public void setIsDown(boolean isDown) { this.isDown = isDown; }
-        public void setWasPressed(boolean wasPressed) { this.wasPressed = wasPressed; }
-        public void setWasReleased(boolean wasReleased) { this.wasReleased = wasReleased; }
 
         public Input(int binding) {
             this.binding = binding;
         }
+
+        public int getBinding() { return binding; }
+
+        public boolean getIsDown() { return isDown; }
+
+        public void setIsDown(boolean isDown) { this.isDown = isDown; }
+
+        public boolean getWasPressed() { return wasPressed; }
+
+        public void setWasPressed(boolean wasPressed) { this.wasPressed = wasPressed; }
+
+        public boolean getWasReleased() { return wasReleased; }
+
+        public void setWasReleased(boolean wasReleased) { this.wasReleased = wasReleased; }
+
+        public boolean getWasDownLastFrame() { return wasDownLastFrame; }
 
         void update() {
             wasDownLastFrame = isDown;

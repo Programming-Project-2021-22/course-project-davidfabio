@@ -1,18 +1,17 @@
 package org.davidfabio.game;
 
-import org.davidfabio.utils.Settings;
 
 public interface Movable {
-    public float getX();
-    public void setX(float newX);
-    public float getY();
-    public void setY(float newY);
-    public float getScale();
-    public void setScale(float newScale);
-    public float getMoveSpeed();
+    float getX();
+    void setX(float newX);
+    float getY();
+    void setY(float newY);
+    float getScale();
+    void setScale(float newScale);
+    float getMoveSpeed();
 
 
-    public default boolean isInView(Level level) {
+    default boolean isInView(Level level) {
         float halfScale = getScale() / 2;
         if (this.getX() - halfScale < 0)
             return false;
@@ -20,12 +19,10 @@ public interface Movable {
             return false;
         else if (this.getY() - halfScale < 0)
             return false;
-        else if (this.getY() + halfScale > level.getHeight())
-            return false;
-        return true;
+        else return !(this.getY() + halfScale > level.getHeight());
     }
 
-    public default void restrictToLevel(Level level) {
+    default void restrictToLevel(Level level) {
         float x = getX();
         float y = getY();
         float halfScale = getScale() / 2;
@@ -37,7 +34,7 @@ public interface Movable {
         setY(y);
     }
 
-    public default void moveTowards(float angle, float deltaTime) {
+    default void moveTowards(float angle, float deltaTime) {
         float speed = getMoveSpeed() * deltaTime;
         float deltaX = (float)Math.cos(angle) * speed;
         float deltaY = (float)Math.sin(angle) * speed;
@@ -46,16 +43,16 @@ public interface Movable {
         this.setY(getY() + deltaY);
     }
 
-    public default void moveTowards(float otherX, float otherY, float deltaTime) {
+    default void moveTowards(float otherX, float otherY, float deltaTime) {
         float dir = getAngleTowards(otherX, otherY);
         moveTowards(dir, deltaTime);
     }
 
-    public default float getAngleTowards(float otherX, float otherY) {
+    default float getAngleTowards(float otherX, float otherY) {
         return ((float)Math.atan2(otherY - this.getY(), otherX - this.getX()));
     }
 
-    public default float getDistanceTo(float otherX, float otherY) {
+    default float getDistanceTo(float otherX, float otherY) {
         float distanceX = this.getX() - otherX;
         float distanceY = this.getY() - otherY;
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));

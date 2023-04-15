@@ -4,32 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import java.util.ArrayList;
 import org.davidfabio.Duality;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
 
-import java.util.ArrayList;
-
 public class World {
-    private Player player;
-    private ArrayList<Enemy> enemies;
-    private ArrayList<Enemy> enemiesTemp; // this is needed so we can add new enemies during the update loop (e.g. when an enemy dies, he spawns new enemies)
-    private BulletEnemy[] enemyBullets;
-    private EnemySpawner enemySpawner;
-    private Pickup[] pickups;
-    private Level level;
-    private Score score;
-    private ArrayList<Score> scores;
-
-    public Player getPlayer() { return this.player; }
-    public ArrayList<Enemy> getEnemies() { return this.enemies; }
-    public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
-    public Pickup[] getPickups() { return pickups; }
-    public Level getLevel() { return this.level; }
-    public Score getScore() { return this.score; }
-    public void addEnemyTemp(Enemy enemy) { enemiesTemp.add(enemy); }
-
-
+    private final Player player;
+    private final ArrayList<Enemy> enemies;
+    private final ArrayList<Enemy> enemiesTemp; // this is needed so we can add new enemies during the update loop (e.g. when an enemy dies, he spawns new enemies)
+    private final BulletEnemy[] enemyBullets;
+    private final EnemySpawner enemySpawner;
+    private final Pickup[] pickups;
+    private final Level level;
+    private final Score score;
+    private final ArrayList<Score> scores;
 
     public World(ArrayList<Score> scores) {
         this.level = new Level(Settings.levelWidth, Settings.levelHeight);
@@ -51,6 +40,20 @@ public class World {
         for (int i = 0; i < pickups.length; i += 1)
             this.pickups[i] = new Pickup();
     }
+
+    public Player getPlayer() { return this.player; }
+
+    public ArrayList<Enemy> getEnemies() { return this.enemies; }
+
+    public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
+
+    public Pickup[] getPickups() { return pickups; }
+
+    public Level getLevel() { return this.level; }
+
+    public Score getScore() { return this.score; }
+
+    public void addEnemyTemp(Enemy enemy) { enemiesTemp.add(enemy); }
 
     public void update(float deltaTime) {
         // ---------------- update enemies ----------------

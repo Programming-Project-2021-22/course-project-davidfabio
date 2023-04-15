@@ -1,7 +1,5 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.Duality;
-import org.davidfabio.game.Score;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,8 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.ArrayList;
+import org.davidfabio.Duality;
+import org.davidfabio.game.Score;
 
 public class GameOverScreen extends ScreenAdapter {
     private Stage stage;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Camera extends OrthographicCamera {
     private static final float MOVEMENT_SPEED = 200f;
-    private float finalZoom;
+    private final float finalZoom;
 
     public Camera(Level level) {
         super();

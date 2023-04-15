@@ -4,20 +4,20 @@ import org.davidfabio.utils.Settings;
 
 public class BulletEnemySpawner {
 
-    private float bulletSpeed;
-    private float bulletScale;
+    private final float bulletSpeed;
+    private final float bulletScale;
 
-    private float fireRate;
+    private final float fireRate;
     private float fireRateCooldown;
-    private int bulletsPerAttack;
+    private final int bulletsPerAttack;
     private int bulletsPerAttackCounter;
 
     private float angle;
     private float rotationSpeed;
     private boolean rotateClockwise;
-    private boolean targetPlayer;
+    private final boolean targetPlayer;
 
-    private float attackRate;
+    private final float attackRate;
     private float attackRateCooldown;
 
     private boolean isAttacking;

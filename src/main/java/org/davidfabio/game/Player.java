@@ -2,44 +2,46 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import java.util.Random;
 import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
-import java.util.Random;
-
 public class Player extends Entity implements Attackable {
-    private float fireRate = 0.06f;
+    private final float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
-    private float bulletSpeed = 800;
-    private float bulletScale = 32;
-    private float bulletSpreadMax = 8;
+    private final float bulletSpeed = 800;
+    private final float bulletScale = 32;
+    private final float bulletSpreadMax = 8;
     private int initialHealth = 5;
     private int health;
-    private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
+    private final BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
     private boolean isInHitState;
-    private float hitDuration = 2.5f;
+    private final float hitDuration = 2.5f;
     private float hitCooldown;
     private float transparencyWhileInHitState;
     private boolean transparencyWhileInHitStateIncreasing;
-
-    public int getHealth() { return this.health; }
-    public void setHealth(int newHealth) { this.health = newHealth; }
-    public int getInitialHealth() { return this.initialHealth; }
-    public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
-    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
-    public boolean getIsInHitState() { return isInHitState; }
-
-    public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
-    public float getHitDuration() { return hitDuration; }
-
     // indicates shooting direction (purely cosmetic)
     private PolygonShape shapeArrow;
-    private float arrowScale = 16;
-    private float arrowOffset = 24;
-
+    private final float arrowScale = 16;
+    private final float arrowOffset = 24;
     private Random random;
 
+    public int getHealth() { return this.health; }
+
+    public void setHealth(int newHealth) { this.health = newHealth; }
+
+    public int getInitialHealth() { return this.initialHealth; }
+
+    public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
+
+    public boolean getIsInHitState() { return isInHitState; }
+
+    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+
+    public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
+
+    public float getHitDuration() { return hitDuration; }
 
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
         super.init(x, y, scale, color);

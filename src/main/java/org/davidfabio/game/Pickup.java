@@ -3,15 +3,14 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-
 public class Pickup extends Entity implements Movable {
 
 
-    private float stopMovingDistance = 80;
+    private final float stopMovingDistance = 80;
     private float lifespanCounter;
-    private float lifespan = 3.0f;
+    private final float lifespan = 3.0f;
 
-    private float startBlinkingAfter = 2.0f;
+    private final float startBlinkingAfter = 2.0f;
     private boolean transparencyWhileBlinkingIncreasing;
     private float transparencyWhileBlinking;
 

@@ -3,29 +3,32 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 
 public interface Attackable {
-    public int getInitialHealth();
-    public void setInitialHealth(int newInitialHealth);
-    public int getHealth();
-    public void setHealth(int newHealth);
-    public boolean getIsActive();
-    public void setIsActive(boolean newIsActive);
-    public void setColor(Color color);
-    public void setIsInHitState(boolean isInHitState);
-    public boolean getIsInHitState();
-    public void setHitCooldown(float hitCooldown);
-    public float getHitDuration();
+    int getInitialHealth();
+    void setInitialHealth(int newInitialHealth);
+    int getHealth();
+    void setHealth(int newHealth);
+    boolean getIsActive();
+    void setIsActive(boolean newIsActive);
+    void setColor(Color color);
 
-    public default void playHitSound() {
+    boolean getIsInHitState();
+
+    void setIsInHitState(boolean isInHitState);
+
+    void setHitCooldown(float hitCooldown);
+    float getHitDuration();
+
+    default void playHitSound() {
         Sounds.playHitSfx();
     }
-    public default void playDestructionSound() {
+    default void playDestructionSound() {
         Sounds.playExplosionSfx();
     }
-    public default void initializeHealth() {
+    default void initializeHealth() {
         this.setHealth(this.getInitialHealth());
     }
 
-    public default void destroy(World world) {
+    default void destroy(World world) {
         this.setHealth(0);
         this.setIsActive(false);
         this.playDestructionSound();

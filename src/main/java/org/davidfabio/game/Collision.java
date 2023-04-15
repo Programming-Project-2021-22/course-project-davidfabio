@@ -15,10 +15,7 @@ public class Collision {
         float distanceY = y1 - y2;
         float distance = (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
 
-        if (distance <= radius1 + radius2)
-            return true;
-
-        return false;
+        return distance <= radius1 + radius2;
     }
 
 }

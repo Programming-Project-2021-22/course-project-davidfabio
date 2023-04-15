@@ -3,7 +3,6 @@ package org.davidfabio;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-
 import org.davidfabio.ui.GameScreen;
 import org.davidfabio.utils.Settings;
 

@@ -1,9 +1,9 @@
 package org.davidfabio.game;
 
-import org.davidfabio.utils.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import org.davidfabio.utils.Settings;
 
 public class Sounds {
     private static Sound sfxShoot, sfxExplosion, sfxHit;

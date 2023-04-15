@@ -2,7 +2,7 @@ package org.davidfabio.game;
 
 public class Score {
     private int points;
-    private long startTime;
+    private final long startTime;
     private long endTime;
     private long duration;
 

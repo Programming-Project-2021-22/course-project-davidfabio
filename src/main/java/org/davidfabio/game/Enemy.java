@@ -5,30 +5,29 @@ import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.utils.Settings;
 
 public class Enemy extends Entity implements Attackable, Attacker {
+    public static final int POINT_VALUE = 1;
     private int initialHealth;
     private int health;
-
-    private int attackPower = 1;  // This is actually the damage an Enemy causes when hitting the player
-
+    private final int attackPower = 1;  // This is actually the damage an Enemy causes when hitting the player
     private boolean isSpawning;
-    private float spawnDuration = 2.0f;
+    private final float spawnDuration = 2.0f;
     private float spawnCounter;
     private float transparencyWhileSpawning;
     private boolean transparencyWhileSpawningIncreasing;
-
     private boolean isInHitState;
-    private float hitDuration = 0.03f;
+    private final float hitDuration = 0.03f;
     private float hitCooldown;
-
-    public static final int POINT_VALUE = 1;
 
     public int getHealth() { return this.health; }
     public void setHealth(int newHealth) { this.health = newHealth; }
     public int getInitialHealth() { return this.initialHealth; }
     public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
     public int getAttackPower() { return this.attackPower; }
-    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+
     public boolean getIsInHitState() { return isInHitState; }
+
+    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
+
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
 

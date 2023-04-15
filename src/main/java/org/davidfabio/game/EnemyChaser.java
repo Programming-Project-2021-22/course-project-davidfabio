@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 public class EnemyChaser extends Enemy {
     private float xScaleCounter = 0;
-    private float xScalingStopsAfter = 0.1f;
+    private final float xScalingStopsAfter = 0.1f;
     private boolean xScaleIncreasing = true;
 
 

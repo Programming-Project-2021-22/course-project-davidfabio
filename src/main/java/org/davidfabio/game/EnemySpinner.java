@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 public class EnemySpinner extends Enemy {
 
 
-    private float rotationSpeed = 40;
+    private final float rotationSpeed = 40;
     private float rotationAngle ;
 
 

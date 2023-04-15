@@ -1,6 +1,5 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.Duality;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import org.davidfabio.game.Score;
-
 import java.util.ArrayList;
+import org.davidfabio.Duality;
+import org.davidfabio.game.Score;
 
 public class HighscoreScreen extends ScreenAdapter {
     private Stage stage;
@@ -31,13 +30,11 @@ public class HighscoreScreen extends ScreenAdapter {
 
         this.mainTable = new Table();
         this.mainTable.setFillParent(true);
-        this.mainTable.setDebug(true);
         this.stage.addActor(this.mainTable);
 
         UIBuilder.loadSkin();
         UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES",true);
         Table highScoresTable = new Table();
-        highScoresTable.setDebug(true);
         UIBuilder.addSubtitleLabel(highScoresTable,"Score",true);
         UIBuilder.addSubtitleLabel(highScoresTable,"Time played",false);
         for(Score score : scores) {

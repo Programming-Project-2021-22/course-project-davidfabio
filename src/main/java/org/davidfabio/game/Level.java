@@ -2,11 +2,10 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.davidfabio.utils.Settings;
 
 public class Level {
-    private float width;
-    private float height;
+    private final float width;
+    private final float height;
 
     public Level(float width, float height) {
         this.width = width;

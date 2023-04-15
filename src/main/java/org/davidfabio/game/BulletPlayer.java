@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public class BulletPlayer extends Bullet implements Attacker {
     private int attackPower = 1;
-    private float width = 8;
-    private float height = 32;
+    private final float width = 8;
+    private final float height = 32;
 
     public int getAttackPower() { return this.attackPower; }
     public void setAttackPower(int newAttackPower) { this.attackPower = newAttackPower; }
