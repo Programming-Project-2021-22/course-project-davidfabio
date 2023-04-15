@@ -10,12 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.davidfabio.game.Score;
 import org.davidfabio.utils.Settings;
+
+import java.util.ArrayList;
 
 public class MainMenuScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
     private Table mainTable;
+    private ArrayList<Score> scores;
+
+    public MainMenuScreen(ArrayList<Score> scores) {
+        this.scores = scores;
+    }
 
     @Override
     public void show() {
@@ -32,19 +40,19 @@ public class MainMenuScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Play",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Options",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"High Scores",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new HighscoreScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new HighscoreScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {

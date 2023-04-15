@@ -12,15 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class GameOverScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
     private Table mainTable;
+    private ArrayList<Score> scores;
     private Score score;
 
-    public GameOverScreen(Score score) {
+    public GameOverScreen(ArrayList<Score> scores, Score score) {
         super();
         this.score = score;
+        this.scores = scores;
+        scores.add(score);
     }
 
     @Override
@@ -38,13 +43,13 @@ public class GameOverScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Play again",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Main Menu",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {

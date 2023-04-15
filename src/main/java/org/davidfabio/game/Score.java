@@ -22,4 +22,8 @@ public class Score {
     public void setPoints(int newScore) {
         this.points = newScore;
     }
+
+    public long getDuration() {
+        return this.duration;
+    }
 }

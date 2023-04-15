@@ -1,9 +1,6 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.game.Camera;
-import org.davidfabio.game.Inputs;
-import org.davidfabio.game.Sounds;
-import org.davidfabio.game.World;
+import org.davidfabio.game.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -13,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
     private static World world;
@@ -31,9 +30,13 @@ public class GameScreen extends ScreenAdapter {
     private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
     private Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
     private static Texture textureWhite;
+    private ArrayList<Score> scores;
+
     public static Texture getTextureWhite() { return textureWhite; }
 
-
+    public GameScreen(ArrayList<Score> scores) {
+        this.scores = scores;
+    }
 
     @Override
     public void show() {
@@ -43,7 +46,7 @@ public class GameScreen extends ScreenAdapter {
 
         polygonSpriteBatch = new PolygonSpriteBatch();
 
-        this.world = new World();
+        this.world = new World(scores);
 
         this.shapeRenderer = new ShapeRenderer();
         this.camera = new Camera(this.world.getLevel());

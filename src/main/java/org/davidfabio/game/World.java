@@ -19,6 +19,7 @@ public class World {
     private Pickup[] pickups;
     private Level level;
     private Score score;
+    private ArrayList<Score> scores;
 
     public Player getPlayer() { return this.player; }
     public ArrayList<Enemy> getEnemies() { return this.enemies; }
@@ -30,9 +31,10 @@ public class World {
 
 
 
-    public World() {
+    public World(ArrayList<Score> scores) {
         this.level = new Level(Settings.levelWidth, Settings.levelHeight);
         this.score = new Score();
+        this.scores = scores;
 
         this.player = new Player();
         this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 32, 240, Color.GOLD);
@@ -74,7 +76,8 @@ public class World {
         // ---------------- update player --------------------
         this.player.update(deltaTime, this); // player bullets get updated here as well
         if (this.player.getHealth() <= 0) {
-            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.score));
+            this.score.end();
+            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.scores,this.score));
         }
     }
 
