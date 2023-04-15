@@ -10,11 +10,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.davidfabio.game.Score;
+
+import java.util.ArrayList;
 
 public class HighscoreScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
     private Table mainTable;
+    private ArrayList<Score> scores;
+
+    public HighscoreScreen(ArrayList<Score> scores) {
+        this.scores = scores;
+    }
 
     @Override
     public void show() {
@@ -23,14 +31,26 @@ public class HighscoreScreen extends ScreenAdapter {
 
         this.mainTable = new Table();
         this.mainTable.setFillParent(true);
+        this.mainTable.setDebug(true);
         this.stage.addActor(this.mainTable);
 
         UIBuilder.loadSkin();
         UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES",true);
+        Table highScoresTable = new Table();
+        highScoresTable.setDebug(true);
+        UIBuilder.addSubtitleLabel(highScoresTable,"Score",true);
+        UIBuilder.addSubtitleLabel(highScoresTable,"Time played",false);
+        for(Score score : scores) {
+            long durationInSeconds = score.getDuration() / 1000;
+            UIBuilder.addLabel(highScoresTable,"" + score.getPoints(),true);
+            UIBuilder.addLabel(highScoresTable, String.format("%02d:%02d", durationInSeconds / 60, (durationInSeconds % 60)), false);
+        }
+        this.mainTable.row();
+        this.mainTable.add(highScoresTable).minWidth(Gdx.graphics.getWidth()*0.4f).padBottom(10);
         UIBuilder.addButton(this.mainTable,"Back",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
 

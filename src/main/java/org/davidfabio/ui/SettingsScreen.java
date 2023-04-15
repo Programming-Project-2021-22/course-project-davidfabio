@@ -1,6 +1,7 @@
 package org.davidfabio.ui;
 
 import org.davidfabio.Duality;
+import org.davidfabio.game.Score;
 import org.davidfabio.utils.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -14,10 +15,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class SettingsScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
     private Table mainTable;
+    private ArrayList<Score> scores;
+
+    public SettingsScreen(ArrayList<Score> scores) {
+        this.scores = scores;
+    }
 
     @Override
     public void show() {
@@ -72,7 +80,7 @@ public class SettingsScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Back",false,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
 
