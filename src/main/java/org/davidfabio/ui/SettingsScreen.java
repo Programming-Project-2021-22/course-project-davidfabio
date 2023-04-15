@@ -29,38 +29,47 @@ public class SettingsScreen extends ScreenAdapter {
         this.stage.addActor(this.mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable,"SETTINGS");
-        UIBuilder.addSubtitleLabel(this.mainTable,"Sound Effects");
-        UIBuilder.addCheckBox(this.mainTable,"Sound Effects", Settings.sfxEnabled, new ClickListener() {
+        UIBuilder.addTitleLabel(this.mainTable,"SETTINGS",true);
+        UIBuilder.addSubtitleLabel(this.mainTable,"Sound Effects",true);
+        UIBuilder.addSubtitleLabel(this.mainTable,"Graphics",false);
+        UIBuilder.addCheckBox(this.mainTable,"Sound Effects", Settings.sfxEnabled,true, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.sfxEnabled = !Settings.sfxEnabled;
             }
         });
-        UIBuilder.addLabel(this.mainTable,"Sound Effect Volume");
-        UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.sfxVolume,new ChangeListener() {
+        UIBuilder.addCheckBox(this.mainTable,"Fullscreen", Settings.fullscreenEnabled,false, new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Settings.fullscreenEnabled = !Settings.fullscreenEnabled;
+            }
+        });
+        UIBuilder.addLabel(this.mainTable,"Sound Effect Volume",true);
+        UIBuilder.addLabel(this.mainTable,"Changing this setting requires a Restart of the Application.",false);
+        UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.sfxVolume,true,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Slider slider = (Slider)event.getListenerActor();
                 Settings.sfxVolume = slider.getValue();
             }
         });
-        UIBuilder.addSubtitleLabel(this.mainTable,"Music");
-        UIBuilder.addCheckBox(this.mainTable,"Music", Settings.musicEnabled,new ClickListener() {
+        UIBuilder.addSubtitleLabel(this.mainTable,"Music",true);
+        UIBuilder.addCheckBox(this.mainTable,"Music", Settings.musicEnabled,true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.musicEnabled = !Settings.musicEnabled;
             }
         });
-        UIBuilder.addLabel(this.mainTable,"Music Volume");
-        UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.musicVolume,new ChangeListener() {
+        UIBuilder.addLabel(this.mainTable,"Music Volume",true);
+        UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.musicVolume,true,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Slider slider = (Slider)event.getListenerActor();
                 Settings.musicVolume = slider.getValue();
             }
         });
-        UIBuilder.addButton(this.mainTable,"Back",new ClickListener() {
+        UIBuilder.addLabel(this.mainTable,"",true);
+        UIBuilder.addButton(this.mainTable,"Back",false,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());

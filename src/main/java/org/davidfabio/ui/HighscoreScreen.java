@@ -26,8 +26,8 @@ public class HighscoreScreen extends ScreenAdapter {
         this.stage.addActor(this.mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES");
-        UIBuilder.addButton(this.mainTable,"Back",new ClickListener() {
+        UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES",true);
+        UIBuilder.addButton(this.mainTable,"Back",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());

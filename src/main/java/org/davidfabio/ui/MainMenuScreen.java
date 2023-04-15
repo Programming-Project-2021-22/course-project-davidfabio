@@ -27,27 +27,27 @@ public class MainMenuScreen extends ScreenAdapter {
         this.stage.addActor(this.mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable, Settings.GAME_TITLE);
-        UIBuilder.addSubtitleLabel(this.mainTable,"80's Arcade for a modern audience.");
-        UIBuilder.addButton(this.mainTable,"Play",new ClickListener() {
+        UIBuilder.addTitleLabel(this.mainTable, Settings.GAME_TITLE,true);
+        UIBuilder.addSubtitleLabel(this.mainTable,"80's Arcade for a modern audience.",true);
+        UIBuilder.addButton(this.mainTable,"Play",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
             }
         });
-        UIBuilder.addButton(this.mainTable,"Options",new ClickListener() {
+        UIBuilder.addButton(this.mainTable,"Options",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen());
             }
         });
-        UIBuilder.addButton(this.mainTable,"High Scores",new ClickListener() {
+        UIBuilder.addButton(this.mainTable,"High Scores",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Duality)Gdx.app.getApplicationListener()).setScreen(new HighscoreScreen());
             }
         });
-        UIBuilder.addButton(this.mainTable,"Quit",new ClickListener() {
+        UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
