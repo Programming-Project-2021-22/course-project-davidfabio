@@ -3,10 +3,10 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 
 public class BulletEnemy extends Bullet implements Attacker {
-    private float attackPower = 1.0f;
+    private int attackPower = 1;
 
-    public float getAttackPower() { return this.attackPower; }
-    public void setAttackPower(float newAttackPower) { this.attackPower = newAttackPower; }
+    public int getAttackPower() { return this.attackPower; }
+    public void setAttackPower(int newAttackPower) { this.attackPower = newAttackPower; }
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, float angle, Color color) {
