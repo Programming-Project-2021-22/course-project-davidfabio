@@ -22,19 +22,16 @@ public class World {
 
     public Player getPlayer() { return this.player; }
     public ArrayList<Enemy> getEnemies() { return this.enemies; }
-
     public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
-
     public Pickup[] getPickups() { return pickups; }
-
+    public Level getLevel() { return this.level; }
     public Score getScore() { return this.score; }
-
     public void addEnemyTemp(Enemy enemy) { enemiesTemp.add(enemy); }
 
 
 
     public World() {
-        this.level = new Level();
+        this.level = new Level(Settings.levelWidth, Settings.levelHeight);
         this.score = new Score();
 
         this.player = new Player();

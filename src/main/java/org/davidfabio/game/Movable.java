@@ -12,27 +12,27 @@ public interface Movable {
     public float getMoveSpeed();
 
 
-    public default boolean isInView() {
+    public default boolean isInView(Level level) {
         float halfScale = getScale() / 2;
         if (this.getX() - halfScale < 0)
             return false;
-        else if (this.getX() + halfScale > Settings.windowWidth)
+        else if (this.getX() + halfScale > level.getWidth())
             return false;
         else if (this.getY() - halfScale < 0)
             return false;
-        else if (this.getY() + halfScale > Settings.windowHeight)
+        else if (this.getY() + halfScale > level.getHeight())
             return false;
         return true;
     }
 
-    public default void restrictToLevel() {
+    public default void restrictToLevel(Level level) {
         float x = getX();
         float y = getY();
         float halfScale = getScale() / 2;
         x = Math.max(x, halfScale); // set x minimum to halfScale
-        x = Math.min(x, Settings.windowWidth - halfScale); // set x maximum to game width - halfScale
+        x = Math.min(x, level.getWidth() - halfScale); // set x maximum to game width - halfScale
         y = Math.max(y, halfScale); // set y minimum to halfScale
-        y = Math.min(y, Settings.windowHeight - halfScale); // set y maximum to game height - halfScale
+        y = Math.min(y, level.getHeight() - halfScale); // set y maximum to game height - halfScale
         setX(x);
         setY(y);
     }

@@ -133,7 +133,7 @@ public class Player extends Entity implements Attackable {
 
         setX(nextX);
         setY(nextY);
-        restrictToLevel();
+        restrictToLevel(world.getLevel());
 
 
 

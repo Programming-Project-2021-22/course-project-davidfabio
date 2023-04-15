@@ -19,17 +19,13 @@ public class EnemySpawner {
     private float centerX, centerY, rightBorder, bottomBorder;
     private World worldReference;
 
-
     public EnemySpawner(World world) {
         worldReference = world;
-        centerX = Settings.windowWidth / 2;
-        centerY = Settings.windowHeight / 2;
-        rightBorder = Settings.windowWidth;
-        bottomBorder = Settings.windowHeight;
+        centerX = worldReference.getLevel().getWidth() / 2;
+        centerY = worldReference.getLevel().getHeight() / 2;
+        rightBorder = worldReference.getLevel().getWidth();
+        bottomBorder = worldReference.getLevel().getHeight();
     }
-
-
-
 
     private void spawn(EnemyType type, float x, float y, float spawnTime) {
         if (timeLastFrame >= spawnTime || timeElapsed < spawnTime)
@@ -102,7 +98,4 @@ public class EnemySpawner {
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
     }
-
-
-
 }

@@ -46,7 +46,7 @@ public class GameScreen extends ScreenAdapter {
         this.world = new World();
 
         this.shapeRenderer = new ShapeRenderer();
-        this.camera = new Camera();
+        this.camera = new Camera(this.world.getLevel());
         this.stage = new Stage();
         Sounds.loadSounds();
 
