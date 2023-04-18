@@ -37,7 +37,7 @@ public class World {
         this.scores = scores;
 
         this.player = new Player();
-        this.player.init(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 32, 240, Color.GOLD);
+        this.player.init(this.level.getWidth() / 2, this.level.getHeight() / 2, 32, 240, Color.GOLD);
 
         this.enemies = new ArrayList<>();
         this.enemiesTemp = new ArrayList<>();

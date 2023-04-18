@@ -10,7 +10,7 @@ public class Camera extends OrthographicCamera {
     public Camera(Level level) {
         super();
         this.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.position.set(this.viewportWidth / 2f, this.viewportHeight / 2f, 0);
+        this.position.set(level.getWidth() / 2f, level.getHeight() / 2f, 0);
         this.finalZoom = calcOptimalZoom(level);    // calculates the optimal zoom to show a little less than the whole level
         this.zoom = 0.5f * this.finalZoom;   // We start zoomed in
     }
