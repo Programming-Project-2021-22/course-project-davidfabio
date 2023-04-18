@@ -173,7 +173,7 @@ public class Player extends Entity implements Attackable {
         }
     }
 
-    void shoot() {
+    public void shoot() {
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
 

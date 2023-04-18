@@ -3,114 +3,80 @@
 title: Duality (Game Class Diagram)
 ---
 classDiagram
-Entity <|-- Player
-Entity <|-- Enemy
-Enemy <|-- EnemyChaser
-Enemy <|-- EnemyStatic
-Entity <|-- Bullet
-Bullet <|-- BulletPlayer
-Bullet <|-- BulletEnemy
 class World {
-+Player player
-+ArrayList<Enemy> enemies
-+BulletEnemy[] enemyBullets
-+Level level
-+Score score
-+World()
-+update()
-+render()
+    +Player player
+    +EnemySpawner enemySpawner
+    +ArrayList~Enemy~ enemies
+    +Bullet[] enemyBullets
+    +Pickup[] pickups
+    +Level level
+    +Score score
+    +World()
+    +update()
+    +render()
 }
+World "1" --> "1" Player
+World "1" --> "1" EnemySpawner
+World "1" --> "*" Enemy
+World "1" --> "*" Bullet
+World "1" --> "1" Level
+World "1" --> "1" Score
+World "1" --> "*" Pickup
+
 note for World "Container for all World elements\nProvides functions to update and Render World State."
+note for Player "Player class that the user controls."
+class Player {
+    +float health
+    +Bullet[] bullets
+    +init()
+    +render()
+    +update()
+    +shoot()
+}
 
-    Entity ..|> Movable
-    BulletPlayer ..|> Attacker
-    Enemy ..|> Attacker
-    Player ..|> Attackable
-    Enemy ..|> Attackable
+note for EnemySpawner "The EnemySpawner-class is\nin charge of periodically spawning new enemies."
+class EnemySpawner {
+    +spawn()
+    +update()
+}
 
-    class Entity {
-        +int x
-        +int y
-        +Polarity polarity
-        +float moveSpeed
-        +init()
-        +render()
-    }
+note for Enemy "Enemy 'parent'-class that stores any\nEnemies that are fighting the player."
+class Enemy {
+    +float health
+    +float attackPower
+    +int POINT_VALUE
+    +init()
+    +update()
+    +spawnPickup()
+    +destroy()
+}
 
-    note for Player "Player class that the user controls."
-    class Player {
-        +float health
-        +BulletPlayer[] bullets
-        +init()
-        +render()
-        +update(float deltaTime)
-        +shoot()
-        +switchPolarity()
-    }
+note for Bullet "Bullet 'parent'-class that stores any\nprojectiles flying through the world."
+class Bullet {
+    +init()
+    +update()
+}
 
-    class Enemy {
-        +float health
-        +float attackPower
-        +int POINT_VALUE
-        +init()
-        +update(float deltaTime)
-        +shootTowardsPlayer()
-        +shoot()
-    }
+note for Level "Contains the level boundaries in\nwhich the world exists."
+class Level {
+    +float width
+    +float height
+    +render()
+}
 
-    note for EnemyChaser "Enemies that chase the Player."
-    class EnemyChaser {
-        +init()
-        +update(float deltaTime)
-        +render()
-    }
+note for Score "Contains the Points gained by the\nplayer in a single game run."
+class Score {
+    +int points
+    +Score()
+    +end()
+    +compareTo()
+}
 
-    note for EnemyStatic "Still enemies that explode on death."
-    class EnemyStatic {
-        +init()
-        +update(float deltaTime)
-        +destroy()
-    }
-
-    class Bullet {
-        +boolean toDestroyNextFrame
-        +init()
-        +update(float deltaTime)
-    }
-
-    class BulletEnemy {
-        +float attackPower
-        +init()
-        +update(float deltaTime)
-    }
-
-    class BulletPlayer {
-        +float attackPower
-        +init()
-        +update(float deltaTime)
-    }
-
-    note for Movable "Used to position and move Objects towards something."
-    class Movable {
-        <<interface>>
-        +isInView()
-        +moveTowards()
-        +getAngleTowards()
-        +getDistanceTo()
-    }
-
-    note for Attackable "Used to track health, hit damage and death."
-    class Attackable {
-        <<interface>>
-        +playHitSound()
-        +playDestructionSound()
-        +initializeHealth()
-        +destroy(World world)
-    }
-
-    note for Attacker "Used to attack Attackables."
-    class Attacker {
-        <<interface>>
-        +attack(Attackable attackable)
-    }
+note for Pickup "This class tracks any consumables\nthat are dropped by the enemies."
+class Pickup {
+    +float lifespan
+    +init()
+    +render()
+    +update()
+}
 ```
