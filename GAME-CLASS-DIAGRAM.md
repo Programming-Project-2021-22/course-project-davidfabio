@@ -23,7 +23,7 @@ World "1" --> "1" Level
 World "1" --> "1" Score
 World "1" --> "*" Pickup
 
-note for World "Container for all World elements\nProvides functions to update and Render World State."
+note for World "Container for all World elements\nProvides functions to update and\nRender World State."
 note for Player "Player class that the user controls."
 class Player {
     +float health
@@ -34,7 +34,7 @@ class Player {
     +shoot()
 }
 
-note for EnemySpawner "The EnemySpawner-class is\nin charge of periodically spawning new enemies."
+note for EnemySpawner "The EnemySpawner-class is\nin charge of periodically\nspawning new enemies."
 class EnemySpawner {
     +spawn()
     +update()
