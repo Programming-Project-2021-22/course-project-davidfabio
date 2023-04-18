@@ -37,11 +37,24 @@ java -jar -XstartOnFirstThread ./target/duality-1.0-SNAPSHOT-jar-with-dependenci
 
 ## 4. Implementation
 ### 4.1. Architectural Overview
-Describe the architecture of your application.
+Our Project is divided into three main Java Packages:
+- org.davidfabio.**game**
+  - Contains anything that represents the Game-World and Game-Flow.
+- org.davidfabio.**ui**
+  - Contains anything that creates User Interfaces (Main Menu, In-game UI, ...)
+- org.davidfabio.**utils**
+  - Contains anything that is useful for all packages or is not strictly Game-World-specific.
 
-
-Here's a Class Diagram of our most important classes: [Game Class Diagram](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/GAME-CLASS-DIAGRAM.md)
-Here's a Flowchart of our UI: [UI Flowchart](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/UI-FLOWCHART.md)
+We have some diagrams showing the relationship between our implemented classes. Please have a look at these diagrams before delving into our codebase.
+- **UI Flowchart**
+  - This flowchart explains very well how the Programm is started and which classes are called to reach the actual Game.
+  - [UI Flowchart](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/UI-FLOWCHART.md)
+- **Game Class-Diagram**
+  - This Class Diagram illustrates how the Game-World is composed. It does not contain all specific classes and subclasses, but it's a good start to understand what is present in a Game-World and how it's connected.
+  - [Game Class Diagram](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/GAME-CLASS-DIAGRAM.md)
+- **World Class-Diagram**
+  - This Class Diagram shows all the main classes like `player`, `enemy`, `entity`, `bullet` and all their derivatives.
+  - [World Class Diagram](https://github.com/Programming-Project-2021-22/course-project-davidfabio/blob/main/WORLD-CLASS-DIAGRAM.md)
 
 ### 4.2. Third-Party Libraries
 These are the Third-Party Libraries we've used:
@@ -53,6 +66,13 @@ List and explain how you used the 10 programming techniques required for this pr
 - **Graphical User Interface**: We used the built-in Libraries of LibGDX in order to create various User Interfaces for Game Menus, Settings, Highscores and User Interface in Game. 
 - **Method Overriding**: Since we're using inheritance and interfaces we predefine a few methods at a high level (Example `Entity` provides `init()`, `update()`, `render()` methods.). However, some Entities require special behaviour and therefore need to override the original implementation of the method. For example the `Player` class requires a different `update()` method than the `EnemyChaser` class.
 - **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces _**...to be explained...**_
+- **Method Overloading**: Various methods use the overloading technique to provide easy-to-use methods. For example:
+  - In the `UIBuilder` class we use method overloading to provide various functions to create UI-controls in default settings, or by overloading, with specific settings.
+- **Collections**: In order to store various data we use collections. For example:
+  - When storing past `Score`s in order to list the highscores.
+  - When storing enemies in the `World`-class to periodically update their behaviour and spawn new ones.
+- **Try-Catch-Blocks**: In order to safely load the sounds and music we rely on Try-Catch blocks to avoid any errors on missing files.
+
 
 ### 4.4. Tests
 Briefly describe and motivate your test suite.
