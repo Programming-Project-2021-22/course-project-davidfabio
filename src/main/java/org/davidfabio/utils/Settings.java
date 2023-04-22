@@ -18,6 +18,7 @@ public class Settings {
     public static float sfxVolume = 0.1f; // range: 0 to 1
     public static float musicVolume = 0.5f; // range: 0 to 1
 
+    // Reserve memory for x amount of bullets/pickups
     public static final int MAX_ENEMY_BULLETS = 2048;
     public static final int MAX_PLAYER_BULLETS = 64;
     public static final int MAX_PICKUPS = 64;

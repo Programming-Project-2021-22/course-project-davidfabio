@@ -83,6 +83,9 @@ public class World {
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
+        // Render Level
+        this.level.render(shapeRenderer);
+
         // Render Enemies
         for (Enemy enemy : this.enemies)
             enemy.render(polygonSpriteBatch);
@@ -98,8 +101,5 @@ public class World {
         // Render Player & their Bullets
         this.player.render(polygonSpriteBatch, shapeRenderer);
         polygonSpriteBatch.end();
-
-        // Render Level
-        this.level.render(shapeRenderer);
     }
 }
