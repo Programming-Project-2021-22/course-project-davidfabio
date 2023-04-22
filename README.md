@@ -16,24 +16,44 @@ This project was created by:
 ## 3. Usage
 Unfortunately LibGDX only has unofficial maven support. So in order to run the game you will have to execute the steps below.
 
+### Build
 To build the project, run:
-
 ```shell
 mvn package
 ```
 
-To play the game, run:
+You can also compile
+```shell
+mvn compile
+```
+or test the project
+```shell
+mvn test
+```
 
+### Execution
+To play the game, run:
+```shell
+mvn exec:exec
+```
+
+Alternatively you can also run the jar-directly, in this case run the following:
 #### On Windows & Linux:
 ```shell
-java -jar ./target/duality-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar ./target/duality-1.0.0-jar-with-dependencies.jar
 ```
 
 #### On MacOS:
 ```shell
-java -jar -XstartOnFirstThread ./target/duality-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar -XstartOnFirstThread ./target/duality-1.0.0-jar-with-dependencies.jar
 ```
 > Note: The flag `-XstartOnFirstThread` is only required for MacOS, if you're on any other Operating system, you should omit this flag.
+
+### Documentation
+In order to generate the documentation for the project use the following command:
+```shell
+mvn javadoc:javadoc
+```
 
 ## 4. Implementation
 ### 4.1. Architectural Overview

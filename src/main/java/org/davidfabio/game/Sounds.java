@@ -11,7 +11,7 @@ public class Sounds {
 
     public static void loadSounds() {
         try {
-            sfxShoot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot1.wav"));
+            sfxShoot = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/shoot1.wav"));
         }
         catch (GdxRuntimeException ex) {
             sfxShoot = null;
@@ -19,7 +19,7 @@ public class Sounds {
         }
 
         try {
-            sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/explosion1.wav"));
+            sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/explosion1.wav"));
         }
         catch (GdxRuntimeException ex) {
             sfxExplosion = null;
@@ -27,7 +27,7 @@ public class Sounds {
         }
 
         try {
-            sfxHit = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/shoot5.wav"));
+            sfxHit = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/shoot5.wav"));
         }
         catch (GdxRuntimeException ex) {
             sfxHit = null;
@@ -37,7 +37,7 @@ public class Sounds {
         // NOTE (David): this is commented out for now, because it makes the game load very slowly
         /*
         try {
-            musicTrack = Gdx.audio.newSound(Gdx.files.internal("assets/music/track1.mp3"));
+            musicTrack = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/music/track1.mp3"));
         }
         catch (GdxRuntimeException ex) {
             musicTrack = null;
