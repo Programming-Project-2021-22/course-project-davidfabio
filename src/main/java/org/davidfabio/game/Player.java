@@ -2,6 +2,7 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
@@ -16,6 +17,14 @@ public class Player extends Entity implements Attackable {
     private int initialHealth = 5;
     private int health;
     private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
+
+    private float dashSpeed = 800;
+    private float dashDuration = 0.2f;
+    private float dashAngle;
+    private float dashDurationCooldown;
+    private float dashLineLength = dashSpeed * dashDuration;
+    private boolean isDashing;
+    private boolean inDashChooseDirectionState;
 
     private boolean isInHitState;
     private float hitDuration = 2.5f;
@@ -32,6 +41,7 @@ public class Player extends Entity implements Attackable {
 
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
+    public boolean getIsDashing() { return isDashing; }
 
     // indicates shooting direction (purely cosmetic)
     private PolygonShape shapeArrow;
@@ -49,6 +59,8 @@ public class Player extends Entity implements Attackable {
         random = new Random();
 
         transparencyWhileInHitStateIncreasing = true;
+        isDashing = false;
+        inDashChooseDirectionState = false;
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
@@ -68,9 +80,8 @@ public class Player extends Entity implements Attackable {
     }
 
 
-    @Override
-    public void render(PolygonSpriteBatch polygonSpriteBatch) {
 
+    public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // player
         Color color = getColor();
         if (isInHitState)
@@ -82,6 +93,16 @@ public class Player extends Entity implements Attackable {
         float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
         float arrowAngle = Transform2D.radiansToDegrees(getAngle());
         shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.LIGHT_GRAY);
+
+        // dash line
+        if (inDashChooseDirectionState) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(getColorInitial());
+            float endX = Transform2D.translateX(getX(), getAngle(), dashLineLength);
+            float endY = Transform2D.translateY(getY(), getAngle(), dashLineLength);
+            shapeRenderer.line(getX(), getY(), endX, endY);
+            shapeRenderer.end();
+        }
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
@@ -111,8 +132,8 @@ public class Player extends Entity implements Attackable {
         }
 
 
-        // update direction
-        setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX()));
+
+        setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX())); // update direction
 
         // ---------------- movement ----------------
         float speed = getMoveSpeed() * deltaTime;
@@ -121,9 +142,6 @@ public class Player extends Entity implements Attackable {
         if ((Inputs.up.getIsDown() || Inputs.down.getIsDown()) && (Inputs.left.getIsDown() || Inputs.right.getIsDown()))
             speed *= 0.707106f;
 
-        float oldX = getX();
-        float oldY = getY();
-
         float nextX = getX();
         float nextY = getY();
         if (Inputs.up.getIsDown())    nextY -= speed;
@@ -131,17 +149,44 @@ public class Player extends Entity implements Attackable {
         if (Inputs.left.getIsDown())  nextX -= speed;
         if (Inputs.right.getIsDown()) nextX += speed;
 
-        setX(nextX);
-        setY(nextY);
-        restrictToLevel(world.getLevel());
+        // moving normally
+        if (!isDashing && !inDashChooseDirectionState) {
+            setX(nextX);
+            setY(nextY);
+            restrictToLevel(world.getLevel());
 
+            if (Inputs.Mouse.right.getWasPressed())
+                inDashChooseDirectionState = true;
+        }
 
+        // start dashing
+        else if (Inputs.Mouse.right.getWasReleased()) {
+            isDashing = true;
+            dashDurationCooldown = dashDuration;
+            inDashChooseDirectionState = false;
+            dashAngle = getAngle();
+        }
+        // while dashing
+        else if (isDashing) {
+            dashDurationCooldown -= deltaTime;
+
+            if (dashDurationCooldown < 0)
+                isDashing = false;
+
+            float _speed = dashSpeed * deltaTime;
+
+            float _nextX = Transform2D.translateX(getX(), dashAngle, _speed);
+            float _nextY = Transform2D.translateY(getY(), dashAngle, _speed);
+            setX(_nextX);
+            setY(_nextY);
+            restrictToLevel(world.getLevel());
+        }
 
         // ---------------- shooting ----------------
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
+        if (!isDashing && !inDashChooseDirectionState && Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
             shoot();
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
@@ -173,6 +218,7 @@ public class Player extends Entity implements Attackable {
         }
     }
 
+
     public void shoot() {
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
             if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
@@ -188,4 +234,5 @@ public class Player extends Entity implements Attackable {
             }
         }
     }
+
 }

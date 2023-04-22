@@ -8,8 +8,14 @@ public interface Attacker {
     public default void attack(Attackable attackable, World world) {
         if (!attackable.getIsActive())
             return;
-        if (attackable.getClass() == Player.class && attackable.getIsInHitState())
-            return;
+
+        // player is invincible under certain circumstances
+        if (attackable.getClass() == Player.class) {
+            if (attackable.getIsInHitState())
+                return;
+            if (((Player)attackable).getIsDashing())
+                return;
+        }
 
         attackable.setIsInHitState(true);
         attackable.setColor(Color.LIGHT_GRAY);
