@@ -1,18 +1,11 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
-import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
 public class EnemySpawner {
 
-    public enum EnemyType {
-        CHASER,
-        TURRET,
-        BUBBLE,
-        KAMIKAZE,
-        SPINNER
-    }
+
 
     private float timeElapsed = 0;
     private float timeLastFrame;
@@ -27,7 +20,7 @@ public class EnemySpawner {
         bottomBorder = worldReference.getLevel().getHeight();
     }
 
-    private void spawn(EnemyType type, float x, float y, float spawnTime) {
+    private void spawn(Enemy.Type type, float x, float y, float spawnTime) {
         if (timeLastFrame >= spawnTime || timeElapsed < spawnTime)
             return;
 
@@ -57,7 +50,7 @@ public class EnemySpawner {
         worldReference.getEnemies().add(enemy);
     }
 
-    private void spawnGroupInCircle(EnemyType type, int count, float centerX, float centerY, float radius, float spawnTime, float timeDeltaBetweenEnemies) {
+    private void spawnGroupInCircle(Enemy.Type type, int count, float centerX, float centerY, float radius, float spawnTime, float timeDeltaBetweenEnemies) {
         float angleDelta = (float)(2 * Math.PI) / count;
         for (int i = 0; i < count; i += 1) {
             float x = Transform2D.translateX(centerX, (i * angleDelta), radius);
@@ -66,7 +59,7 @@ public class EnemySpawner {
         }
     }
 
-    private void spawnGroupAtPoint(EnemyType type, int count, float x, float y, float spawnTime, float timeDeltaBetweenEnemies) {
+    private void spawnGroupAtPoint(Enemy.Type type, int count, float x, float y, float spawnTime, float timeDeltaBetweenEnemies) {
         for (int i = 0; i < count; i += 1) {
             spawn(type, x, y, spawnTime + (i * timeDeltaBetweenEnemies));
         }
@@ -78,24 +71,24 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawnGroupInCircle(EnemyType.CHASER, 6, centerX, centerY, 200, 1, 0);
-        spawnGroupInCircle(EnemyType.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
-        spawnGroupInCircle(EnemyType.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
+        spawnGroupInCircle(Enemy.Type.CHASER, 6, centerX, centerY, 200, 1, 0);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
+        spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
 
-        spawn(EnemyType.TURRET, 50, 50, 10f);
-        spawnGroupInCircle(EnemyType.BUBBLE, 2, centerX, centerY, 150, 17f, 1.5f);
-        spawn(EnemyType.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
-        spawn(EnemyType.TURRET, rightBorder - 50, 50, 15f);
-        spawn(EnemyType.TURRET, 50, bottomBorder - 50, 17f);
+        spawn(Enemy.Type.TURRET, 50, 50, 10f);
+        spawnGroupInCircle(Enemy.Type.BUBBLE, 2, centerX, centerY, 150, 17f, 1.5f);
+        spawn(Enemy.Type.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
+        spawn(Enemy.Type.TURRET, rightBorder - 50, 50, 15f);
+        spawn(Enemy.Type.TURRET, 50, bottomBorder - 50, 17f);
 
-        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, 100, 100, 25, 0.5f);
-        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, rightBorder - 100, 100, 28, 0.5f);
-        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, 100, bottomBorder - 100, 32, 0.5f);
-        spawnGroupAtPoint(EnemyType.KAMIKAZE, 6, rightBorder - 100, bottomBorder - 100, 32, 0.5f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, 100, 100, 25, 0.5f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, rightBorder - 100, 100, 28, 0.5f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, 100, bottomBorder - 100, 32, 0.5f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, rightBorder - 100, bottomBorder - 100, 32, 0.5f);
 
-        spawn(EnemyType.BUBBLE, centerX, centerY, 32);
-        spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
-        spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
-        spawnGroupInCircle(EnemyType.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
+        spawn(Enemy.Type.BUBBLE, centerX, centerY, 32);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
     }
 }

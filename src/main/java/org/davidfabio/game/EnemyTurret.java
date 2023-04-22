@@ -10,6 +10,8 @@ public class EnemyTurret extends Enemy {
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
+        setType(Type.TURRET);
+        shape = PolygonShape.getEnemyShape(getType(), scale);
 
         shape = new PolygonShape(4, scale);
         bulletSpawner = new BulletEnemySpawner(false, 0.04f, 0.66f, 6, 200, 16, 10, true);
