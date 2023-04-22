@@ -5,18 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.davidfabio</groupId>
     <artifactId>duality</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Duality</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <mainClass>org.davidfabio.DualityDesktop</mainClass>
+        <exec.mainClass>org.davidfabio.DualityDesktop</exec.mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gwt.version>2.8.1</gwt.version>
         <gwt.maven.version>2.6.0</gwt.maven.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencyManagement>
@@ -124,7 +123,6 @@
                 <directory>./assets</directory>
             </resource>
         </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -139,40 +137,21 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- this run the game when you invoke: mvn integration-test -Pdesktop -->
+
             <plugin>
-                <groupId>com.googlecode.mavennatives</groupId>
-                <artifactId>maven-nativedependencies-plugin</artifactId>
-                <version>0.0.6</version>
-                <executions>
-                    <execution>
-                        <id>unpacknatives</id>
-                        <phase>pre-integration-test</phase>
-                        <goals><goal>copy</goal></goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <target>
-                                <java fork="true" classname="${mainClass}" classpathref="maven.test.classpath">
-                                    <sysproperty key="java.library.path" value="target/natives"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-jar</argument>
+                        <argument>target/${name}-${version}-jar-with-dependencies.jar</argument>
+                    </arguments>
+                </configuration>
             </plugin>
 
-            <!-- this builds a totally standalone jar file when you invoke: mvn package -Pdesktop -->
+            <!-- this builds a totally standalone jar file when you invoke: mvn package -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4</version>
@@ -182,7 +161,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${exec.mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -198,4 +177,32 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>platform-mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>-XstartOnFirstThread</argument>
+                                <argument>target/${name}-${version}-jar-with-dependencies.jar</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
