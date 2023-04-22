@@ -11,7 +11,7 @@ public class UIBuilder {
 
     public static void loadSkin() {
         if (skin == null) {
-            skin = new Skin(Gdx.files.internal("assets/ui/shade/skin/uiskin.json"));
+            skin = new Skin(Gdx.files.internal("src/main/resources/ui/shade/skin/uiskin.json"));
         }
     }
 
