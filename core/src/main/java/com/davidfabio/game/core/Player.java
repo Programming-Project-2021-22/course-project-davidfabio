@@ -2,6 +2,7 @@ package com.davidfabio.game.core;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.Random;
 
@@ -16,9 +17,10 @@ public class Player extends Entity implements Attackable {
     private BulletPlayer[] bullets = new BulletPlayer[Settings.MAX_PLAYER_BULLETS];
 
     private float dashSpeed = 800;
-    private float dashDuration = 0.25f;
+    private float dashDuration = 0.2f;
     private float dashAngle;
     private float dashDurationCooldown;
+    private float dashLineLength = dashSpeed * dashDuration;
     private boolean isDashing;
     private boolean inDashChooseDirectionState;
 
@@ -75,9 +77,8 @@ public class Player extends Entity implements Attackable {
     }
 
 
-    @Override
-    public void render(PolygonSpriteBatch polygonSpriteBatch) {
 
+    public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // player
         Color color = getColor();
         if (isInHitState)
@@ -89,6 +90,16 @@ public class Player extends Entity implements Attackable {
         float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
         float arrowAngle = Transform2D.radiansToDegrees(getAngle());
         shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.LIGHT_GRAY);
+
+        // dash line
+        if (inDashChooseDirectionState) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(getColorInitial());
+            float endX = Transform2D.translateX(getX(), getAngle(), dashLineLength);
+            float endY = Transform2D.translateY(getY(), getAngle(), dashLineLength);
+            shapeRenderer.line(getX(), getY(), endX, endY);
+            shapeRenderer.end();
+        }
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)

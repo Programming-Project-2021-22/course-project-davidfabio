@@ -95,7 +95,7 @@ public class World {
             this.pickups[i].render(polygonSpriteBatch);
 
         // Render Player & their Bullets
-        this.player.render(polygonSpriteBatch);
+        this.player.render(polygonSpriteBatch, shapeRenderer);
         polygonSpriteBatch.end();
 
         // Render Level
