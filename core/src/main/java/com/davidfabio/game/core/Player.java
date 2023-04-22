@@ -43,9 +43,9 @@ public class Player extends Entity implements Attackable {
     public void setInitialHealth(float newInitialHealth) { this.initialHealth = newInitialHealth; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
-
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
+    public boolean getIsDashing() { return isDashing; }
 
 
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
