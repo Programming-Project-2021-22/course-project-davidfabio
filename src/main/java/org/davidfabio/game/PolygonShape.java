@@ -51,6 +51,72 @@ public class PolygonShape {
             verticesInitial[i] = vertices[i] * scale;
     }
 
+
+    public static PolygonShape getEnemyShape(Enemy.Type enemyType, float scale) {
+        PolygonShape shape = null;
+        float[] vertices;
+        short[] triangles;
+
+        switch (enemyType) {
+            case BUBBLE:
+                shape = new PolygonShape(64, scale);
+                break;
+
+            case CHASER: {
+                vertices = new float[] {
+                        0, -0.5f,
+                        -0.25f, 0,
+                        0, 0.5f,
+                        0.25f, 0
+                };
+                triangles = new short[] {
+                        0, 1, 2,
+                        2, 3, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+
+            case KAMIKAZE: {
+                vertices = new float[] {
+                        0.5f, 0,
+                        -0.5f, -0.5f,
+                        -0.25f, 0,
+                        -0.5f, 0.5f
+                };
+                triangles = new short[] {
+                        0, 1, 2,
+                        2, 3, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+
+            case SPINNER: {
+                vertices = new float[] {
+                        0.5f, 0,
+                        0, -0.125f,
+                        -0.5f, 0,
+                        0, 0.125f
+                };
+                triangles = new short[] {
+                        0, 1, 2,
+                        2, 3, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+
+            case TURRET:
+                shape = new PolygonShape(4, scale);
+                break;
+        }
+
+        return shape;
+    }
+
+
+
     public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, Color color) {
         if (!entity.getIsActive())
             return;

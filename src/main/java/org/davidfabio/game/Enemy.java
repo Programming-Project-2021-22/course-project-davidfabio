@@ -5,6 +5,17 @@ import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.utils.Settings;
 
 public class Enemy extends Entity implements Attackable, Attacker {
+
+    public enum Type {
+        CHASER,
+        TURRET,
+        BUBBLE,
+        KAMIKAZE,
+        SPINNER
+    }
+
+    private Type type;
+
     private int initialHealth;
     private int health;
 
@@ -37,10 +48,14 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public float getSpawnDuration() { return spawnDuration; }
     public float getSpawnCounter() { return spawnCounter; }
     public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
+    public void setType(Type type) { this.type = type; }
+    public Type getType() { return type; }
 
 
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
         super.init(x, y, scale, color);
+        shape = PolygonShape.getEnemyShape(getType(), scale);
+
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
         if (this.initialHealth == 0)
