@@ -12,7 +12,7 @@ public class EnemyTurret extends Enemy {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         shape = new PolygonShape(4, scale);
-        bulletSpawner = new BulletEnemySpawner(false, 0.04f, 0.25f, 6, 400, 16, 10, true);
+        bulletSpawner = new BulletEnemySpawner(false, 0.04f, 0.66f, 6, 200, 16, 10, true);
     }
 
 
@@ -32,9 +32,11 @@ public class EnemyTurret extends Enemy {
     @Override
     public void destroy(World world) {
         // spawn bullets in all direction (suicide bullets)
+        int bulletCount = 128;
+        float angleDelta = 360f / bulletCount;
         if (getHealth() <= 0) {
-            for (int i = 0; i < 12; i += 1)
-                bulletSpawner.shoot(world, this, Transform2D.degreesToRadians(i * 30));
+            for (int i = 0; i < bulletCount; i += 1)
+                bulletSpawner.shoot(world, this, Transform2D.degreesToRadians(i * angleDelta));
         }
 
         super.destroy(world);

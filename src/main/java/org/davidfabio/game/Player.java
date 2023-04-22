@@ -3,6 +3,8 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.davidfabio.input.Inputs;
+import org.davidfabio.input.Mouse;
 import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
@@ -22,7 +24,6 @@ public class Player extends Entity implements Attackable {
     private float dashDuration = 0.2f;
     private float dashAngle;
     private float dashDurationCooldown;
-    private float dashLineLength = dashSpeed * dashDuration;
     private boolean isDashing;
     private boolean inDashChooseDirectionState;
 
@@ -98,6 +99,7 @@ public class Player extends Entity implements Attackable {
         if (inDashChooseDirectionState) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(getColorInitial());
+            float dashLineLength = dashSpeed * dashDuration;
             float endX = Transform2D.translateX(getX(), getAngle(), dashLineLength);
             float endY = Transform2D.translateY(getY(), getAngle(), dashLineLength);
             shapeRenderer.line(getX(), getY(), endX, endY);
@@ -133,7 +135,7 @@ public class Player extends Entity implements Attackable {
 
 
 
-        setAngle((float)Math.atan2(Inputs.Mouse.getY() - getY(), Inputs.Mouse.getX() - getX())); // update direction
+        setAngle((float)Math.atan2(Mouse.getY() - getY(), Mouse.getX() - getX())); // update direction
 
         // ---------------- movement ----------------
         float speed = getMoveSpeed() * deltaTime;
@@ -155,12 +157,12 @@ public class Player extends Entity implements Attackable {
             setY(nextY);
             restrictToLevel(world.getLevel());
 
-            if (Inputs.Mouse.right.getWasPressed())
+            if (Mouse.right.getWasPressed())
                 inDashChooseDirectionState = true;
         }
 
         // start dashing
-        else if (Inputs.Mouse.right.getWasReleased()) {
+        else if (Mouse.right.getWasReleased()) {
             isDashing = true;
             dashDurationCooldown = dashDuration;
             inDashChooseDirectionState = false;
@@ -186,7 +188,7 @@ public class Player extends Entity implements Attackable {
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (!isDashing && !inDashChooseDirectionState && Inputs.Mouse.left.getIsDown() && fireRateCooldown <= 0)
+        if (!isDashing && !inDashChooseDirectionState && Mouse.left.getIsDown() && fireRateCooldown <= 0)
             shoot();
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
