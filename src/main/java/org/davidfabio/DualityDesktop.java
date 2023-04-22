@@ -24,7 +24,7 @@ public class DualityDesktop {
 		config.useVsync(true);
 		config.setForegroundFPS(desktopMode.refreshRate);
 		config.setWindowedMode(Settings.windowWidth, Settings.windowHeight);
-		config.setResizable(true);
+		config.setResizable(false);
 		config.setTitle(Settings.GAME_TITLE);
 		new Lwjgl3Application(new Duality(), config);
 	}

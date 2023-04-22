@@ -7,9 +7,8 @@ public class EnemyBubble extends Enemy {
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
+        setType(Type.BUBBLE); // NOTE (David): type needs to be set BEFORE calling the super contstructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
-        setType(Type.BUBBLE);
-        shape = PolygonShape.getEnemyShape(getType(), scale);
 
         float randomAngle = (float)(Math.PI * 2 * Math.random());
         setAngle(randomAngle);
