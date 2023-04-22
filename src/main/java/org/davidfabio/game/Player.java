@@ -106,7 +106,7 @@ public class Player extends Entity implements Attackable {
         float arrowAngle = Transform2D.radiansToDegrees(getAngle());
         shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.LIGHT_GRAY);
 
-        // dash "preview" line
+        // dash "preview" line + circle outline
         if (inDashChooseDirectionState) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(getColorInitial());
@@ -114,6 +114,9 @@ public class Player extends Entity implements Attackable {
             float endX = Transform2D.translateX(getX(), getAngle(), dashLineLength);
             float endY = Transform2D.translateY(getY(), getAngle(), dashLineLength);
             shapeRenderer.line(getX(), getY(), endX, endY);
+
+            shapeRenderer.circle(endX, endY, getScale() / 2);
+
             shapeRenderer.end();
         }
 
