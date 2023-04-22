@@ -118,26 +118,8 @@
     </repositories>
 
     <build>
-        <resources>
-            <resource>
-                <directory>./assets</directory>
-            </resource>
-        </resources>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
+            <!-- mvn exec:exec - This is used for running the executable jar generated in mvn package -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -151,7 +133,7 @@
                 </configuration>
             </plugin>
 
-            <!-- this builds a totally standalone jar file when you invoke: mvn package -->
+            <!-- mvn package - This builds a standalone JAR package -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4</version>
@@ -175,10 +157,18 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- mvn javadoc:javadoc - No special settings required yet -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.5.0</version>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
+        <!-- This profile is required since on MacOS the JAR-package has to be run using the -XstartOnFirstThread JVM flag. -->
         <profile>
             <id>platform-mac</id>
             <activation>
