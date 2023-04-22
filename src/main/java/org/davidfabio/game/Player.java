@@ -26,6 +26,8 @@ public class Player extends Entity implements Attackable {
     private float dashDurationCooldown;
     private boolean isDashing;
     private boolean inDashChooseDirectionState;
+    private float[] dashPositionsX, dashPositionsY, dashTrailTransparencies;
+    private int dashPositionsCount = 0;
 
     private boolean isInHitState;
     private float hitDuration = 2.5f;
@@ -52,6 +54,9 @@ public class Player extends Entity implements Attackable {
     private Random random;
 
 
+
+
+
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
         super.init(x, y, scale, color);
         this.setMoveSpeed(moveSpeed);
@@ -62,6 +67,12 @@ public class Player extends Entity implements Attackable {
         transparencyWhileInHitStateIncreasing = true;
         isDashing = false;
         inDashChooseDirectionState = false;
+
+        int dashPositionMax = 32;
+        dashPositionsX = new float[dashPositionMax];
+        dashPositionsY = new float[dashPositionMax];
+        dashTrailTransparencies = new float[dashPositionMax];
+
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new BulletPlayer();
@@ -89,13 +100,13 @@ public class Player extends Entity implements Attackable {
             color.a = transparencyWhileInHitState;
         shape.render(polygonSpriteBatch, this, color);
 
-        // arrow
+        // direction arrow
         float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
         float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
         float arrowAngle = Transform2D.radiansToDegrees(getAngle());
         shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.LIGHT_GRAY);
 
-        // dash line
+        // dash "preview" line
         if (inDashChooseDirectionState) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(getColorInitial());
@@ -104,6 +115,14 @@ public class Player extends Entity implements Attackable {
             float endY = Transform2D.translateY(getY(), getAngle(), dashLineLength);
             shapeRenderer.line(getX(), getY(), endX, endY);
             shapeRenderer.end();
+        }
+
+        // dash trail effect
+        if (isDashing) {
+            for (int i = dashPositionsCount; i > 0; i -= 1) {
+                Color _color = new Color(getColor().r, getColor().g, getColor().b, dashTrailTransparencies[i]);
+                shape.render(polygonSpriteBatch, dashPositionsX[i], dashPositionsY[i], getAngle(), _color);
+            }
         }
 
         // bullets
@@ -170,10 +189,16 @@ public class Player extends Entity implements Attackable {
         }
         // while dashing
         else if (isDashing) {
+            dashPositionsCount += 1;
+            dashPositionsX[dashPositionsCount] = getX();
+            dashPositionsY[dashPositionsCount] = getY();
             dashDurationCooldown -= deltaTime;
+            dashTrailTransparencies[dashPositionsCount] = dashPositionsCount * deltaTime * 2;
 
-            if (dashDurationCooldown < 0)
+            if (dashDurationCooldown < 0) {
                 isDashing = false;
+                dashPositionsCount = 0;
+            }
 
             float _speed = dashSpeed * deltaTime;
 
