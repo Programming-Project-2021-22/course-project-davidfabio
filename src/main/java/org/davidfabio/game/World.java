@@ -100,6 +100,7 @@ public class World {
 
         // Render Player & their Bullets
         this.player.render(polygonSpriteBatch, shapeRenderer);
+
         polygonSpriteBatch.end();
     }
 }

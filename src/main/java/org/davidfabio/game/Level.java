@@ -26,7 +26,7 @@ public class Level {
             starsX[i] = Transform2D.getRandomX(this);
             starsY[i] = Transform2D.getRandomY(this);
             starsRadii[i] = (float)Math.random() + 0.25f;
-            starsColors[i] = new Color((float)Math.random(), (float)Math.random(), (float)Math.random(), (float)Math.random() - 0.5f);
+            starsColors[i] = new Color(0, 0, (float)Math.random(), (float)Math.random());
         }
     }
 
