@@ -32,12 +32,15 @@ public class Level {
 
     public void render(ShapeRenderer renderer) {
         // background stars
+        //TODO: with the way rendering is setup right now, the stars get drawn on top of all the entities
+        /*
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         for (int i = 0; i < starsCount; i += 1) {
             renderer.setColor(starsColors[i]);
             renderer.circle(starsX[i], starsY[i], starsRadii[i]);
         }
         renderer.end();
+         */
 
         // level border
         renderer.begin(ShapeRenderer.ShapeType.Line);
