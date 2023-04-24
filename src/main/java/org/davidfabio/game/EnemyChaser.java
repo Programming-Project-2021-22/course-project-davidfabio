@@ -2,6 +2,7 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import org.davidfabio.utils.Transform2D;
 
 public class EnemyChaser extends Enemy {
     private float xScaleCounter = 0;
@@ -29,6 +30,16 @@ public class EnemyChaser extends Enemy {
         setAngle(angle);
 
 
+        // TEST: UPDATE VERTICES
+        // TEST: UPDATE VERTICES
+        // TEST: UPDATE VERTICES
+        // TEST: UPDATE VERTICES
+        // TEST: UPDATE VERTICES
+        float[] newVertices = shape.getVerticesInitial();
+        newVertices[2] -= xScaleCounter * getScale();
+        newVertices[6] += xScaleCounter * getScale();
+        newVertices = shape.rotateVertices(angle, newVertices);
+
         // stretching/squashing width
         float stretchSpeed = deltaTime / 3;
         if (xScaleIncreasing)
@@ -38,21 +49,22 @@ public class EnemyChaser extends Enemy {
 
         if (xScaleCounter > xScalingStopsAfter || xScaleCounter < -xScalingStopsAfter)
             xScaleIncreasing = !xScaleIncreasing;
-
         xScaleCounter = Math.min(xScaleCounter, xScalingStopsAfter);
         xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
 
+        shape.setVertices(newVertices);
 
-        moveTowards(world.getPlayer().getX(), world.getPlayer().getY(), deltaTime);
+
+
+        //moveTowards(world.getPlayer().getX(), world.getPlayer().getY(), deltaTime);
     }
 
 
     @Override
     public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        float[] vertices = shape.getVerticesInitial();
-        vertices[2] -= xScaleCounter * getScale();
-        vertices[6] += xScaleCounter * getScale();
-
-        shape.render(polygonSpriteBatch, this, vertices, getColor());
+        if (getIsSpawning())
+            super.render(polygonSpriteBatch);
+        else
+            shape.render(polygonSpriteBatch, this, shape.getVertices(), getColor());
     }
 }

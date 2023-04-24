@@ -71,7 +71,7 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawn(Enemy.Type.KAMIKAZE, 200, 200, 0.1f);
+        spawn(Enemy.Type.CHASER, 200, 200, 0.1f);
 
         /*
         spawnGroupInCircle(Enemy.Type.CHASER, 6, centerX, centerY, 200, 1, 0);

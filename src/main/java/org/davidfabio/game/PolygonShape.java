@@ -18,7 +18,12 @@ public class PolygonShape {
     public float[] getVerticesInitial() {
         return Arrays.copyOf(verticesInitial, verticesInitial.length);
     }
+    public float[] getVertices() { return vertices; }
 
+    public void setVertices(float[] newVertices) {
+        for (int i = 0; i < vertices.length; i += 1)
+            vertices[i] = newVertices[i];
+    }
 
     // polygon circle constructor
     public PolygonShape(int triangleCount, float scale) {
@@ -113,6 +118,20 @@ public class PolygonShape {
         }
 
         return shape;
+    }
+
+    public float[] rotateVertices(float angle, float[] vertices) {
+        float[] newVertices = Arrays.copyOf(vertices, vertices.length);
+        for (int i = 0; i < newVertices.length; i += 2) {
+            float xOld = newVertices[i];
+            float yOld = newVertices[i + 1];
+            float x = (float)(xOld * Math.cos(angle) - yOld * Math.sin(angle));
+            float y = (float)(yOld * Math.cos(angle) + xOld * Math.sin(angle));
+            newVertices[i] = x;
+            newVertices[i + 1] = y;
+        }
+
+        return newVertices;
     }
 
 

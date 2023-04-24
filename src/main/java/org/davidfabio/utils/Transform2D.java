@@ -17,4 +17,10 @@ public class Transform2D {
 
     public static float getRandomX(Level level) { return (float)(Math.random() * level.getWidth()); }
     public static float getRandomY(Level level) { return (float)(Math.random() * level.getHeight()); }
+
+    public static float getDistance(float x1, float y1, float x2, float y2) {
+        float distanceX = x1 - x2;
+        float distanceY = y1 - y2;
+        return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
+    }
 }
