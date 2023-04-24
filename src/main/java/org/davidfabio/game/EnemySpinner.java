@@ -12,7 +12,7 @@ public class EnemySpinner extends Enemy {
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
-        setType(Type.SPINNER); // NOTE (David): type needs to be set BEFORE calling the super contstructor!
+        setType(Type.SPINNER); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         rotationAngle = 0;

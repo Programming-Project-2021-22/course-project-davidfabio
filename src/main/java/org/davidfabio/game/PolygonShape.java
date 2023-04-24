@@ -59,7 +59,7 @@ public class PolygonShape {
 
         switch (enemyType) {
             case BUBBLE:
-                shape = new PolygonShape(64, scale);
+                shape = new PolygonShape(12, scale);
                 break;
 
             case CHASER: {
@@ -153,7 +153,7 @@ public class PolygonShape {
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setColor(color);
         polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
+        //polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
         polygonSprite.draw(polygonSpriteBatch);
     }
 
