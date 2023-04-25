@@ -18,7 +18,12 @@ public class PolygonShape {
     public float[] getVerticesInitial() {
         return Arrays.copyOf(verticesInitial, verticesInitial.length);
     }
+    public float[] getVertices() { return vertices; }
 
+    public void setVertices(float[] newVertices) {
+        for (int i = 0; i < vertices.length; i += 1)
+            vertices[i] = newVertices[i];
+    }
 
     // polygon circle constructor
     public PolygonShape(int triangleCount, float scale) {
@@ -41,7 +46,6 @@ public class PolygonShape {
         }
     }
 
-
     public PolygonShape(float[] vertices, short[] triangles, float scale) {
         this.vertices = vertices;
         this.triangles = triangles;
@@ -52,6 +56,46 @@ public class PolygonShape {
     }
 
 
+    public void resetPosition() {
+        for (int i = 0; i < verticesInitial.length; i += 2) {
+            vertices[i] = verticesInitial[i];
+            vertices[i + 1] = verticesInitial[i + 1];
+        }
+    }
+
+    public void translatePosition(Entity entity) {
+        for (int i = 0; i < vertices.length; i += 2) {
+            vertices[i] += entity.getX();
+            vertices[i + 1] += entity.getY();
+        }
+    }
+
+    public void translatePosition(float x, float y) {
+        for (int i = 0; i < verticesInitial.length; i += 2) {
+            vertices[i] += x;
+            vertices[i + 1] += y;
+        }
+    }
+
+    public void rotate(float angle) {
+        for (int i = 0; i < vertices.length; i += 2) {
+            float xOld = vertices[i];
+            float yOld = vertices[i + 1];
+            float x = (float)(xOld * Math.cos(angle) - yOld * Math.sin(angle));
+            float y = (float)(yOld * Math.cos(angle) + xOld * Math.sin(angle));
+            vertices[i] = x;
+            vertices[i + 1] = y;
+        }
+    }
+
+    public void render(PolygonSpriteBatch polygonSpriteBatch, Color color) {
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
+        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
+        polygonSprite.setColor(color);
+        polygonSprite.draw(polygonSpriteBatch);
+    }
+
+
     public static PolygonShape getEnemyShape(Enemy.Type enemyType, float scale) {
         PolygonShape shape = null;
         float[] vertices;
@@ -59,7 +103,7 @@ public class PolygonShape {
 
         switch (enemyType) {
             case BUBBLE:
-                shape = new PolygonShape(64, scale);
+                shape = new PolygonShape(12, scale);
                 break;
 
             case CHASER: {
@@ -92,21 +136,6 @@ public class PolygonShape {
                 break;
             }
 
-            case SPINNER: {
-                vertices = new float[] {
-                        0.5f, 0,
-                        0, -0.125f,
-                        -0.5f, 0,
-                        0, 0.125f
-                };
-                triangles = new short[] {
-                        0, 1, 2,
-                        2, 3, 0
-                };
-                shape = new PolygonShape(vertices, triangles, scale);
-                break;
-            }
-
             case TURRET:
                 shape = new PolygonShape(4, scale);
                 break;
@@ -115,63 +144,4 @@ public class PolygonShape {
         return shape;
     }
 
-
-
-    public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, Color color) {
-        if (!entity.getIsActive())
-            return;
-
-        for (int i = 0; i < verticesInitial.length; i += 1) {
-            vertices[i] = verticesInitial[i];
-
-            if (i % 2 == 0)
-                vertices[i] += entity.getX();
-            else
-                vertices[i] += entity.getY();
-        }
-
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
-        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
-        polygonSprite.setColor(color);
-        polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
-        polygonSprite.draw(polygonSpriteBatch);
-    }
-
-    public void render(PolygonSpriteBatch polygonSpriteBatch, Entity entity, float[] newVertices, Color color) {
-        if (!entity.getIsActive())
-            return;
-
-        for (int i = 0; i < newVertices.length; i += 1) {
-            if (i % 2 == 0)
-                newVertices[i] += entity.getX();
-            else
-                newVertices[i] += entity.getY();
-        }
-
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), newVertices, triangles);
-        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
-        polygonSprite.setColor(color);
-        polygonSprite.setOrigin(entity.getX(), entity.getY());
-        polygonSprite.rotate(Transform2D.radiansToDegrees(entity.getAngle()));
-        polygonSprite.draw(polygonSpriteBatch);
-    }
-
-    public void render(PolygonSpriteBatch polygonSpriteBatch, float x, float y, float angle, Color color) {
-        for (int i = 0; i < vertices.length; i += 1) {
-            vertices[i] = verticesInitial[i];
-
-            if (i % 2 == 0)
-                vertices[i] += x;
-            else
-                vertices[i] += y;
-        }
-
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
-        PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
-        polygonSprite.setColor(color);
-        polygonSprite.setOrigin(x, y);
-        polygonSprite.rotate(angle);
-        polygonSprite.draw(polygonSpriteBatch);
-    }
 }

@@ -2,6 +2,7 @@ package org.davidfabio.game;
 
 
 import com.badlogic.gdx.graphics.Color;
+import org.davidfabio.input.Mouse;
 import org.davidfabio.utils.Settings;
 
 public class Enemy extends Entity implements Attackable, Attacker {
@@ -10,8 +11,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         CHASER,
         TURRET,
         BUBBLE,
-        KAMIKAZE,
-        SPINNER
+        KAMIKAZE
     }
 
     private Type type;
@@ -72,6 +72,31 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void update(float deltaTime, World world) {
         if (!getIsActive())
             return;
+
+        shape.resetPosition();
+        shape.rotate(getAngle());
+        shape.translatePosition(this);
+
+
+        // COLLISION TEST
+        // COLLISION TEST
+        // COLLISION TEST
+        // COLLISION TEST
+        float[] vertices = shape.getVerticesInitial();
+        for (int i = 0; i < vertices.length; i += 1) {
+            if (i % 2 == 0)
+                vertices[i] += getX();
+            else
+                vertices[i] += getY();
+        }
+        if (Collision.pointPolygon(Mouse.getX(), Mouse.getY(), vertices, world)) {
+            setColor(Color.GREEN);
+        }
+        else
+            setColor(getColorInitial());
+
+
+
 
         if (isInHitState) {
             hitCooldown -= deltaTime;

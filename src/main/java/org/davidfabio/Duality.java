@@ -13,7 +13,7 @@ public class Duality extends Game {
 	@Override
 	public void create() {
 		scores = new ArrayList<>();
-		setScreen(new MainMenuScreen(scores));
-		//for David: setScreen(new GameScreen(scores));
+		//setScreen(new MainMenuScreen(scores));
+		setScreen(new GameScreen(scores));
 	}
 }

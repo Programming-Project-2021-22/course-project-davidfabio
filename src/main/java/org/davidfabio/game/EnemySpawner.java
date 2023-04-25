@@ -42,10 +42,6 @@ public class EnemySpawner {
                 enemy = new EnemyKamikaze();
                 enemy.init(x, y, 30, 100, 1, Color.ORANGE);
                 break;
-            case SPINNER:
-                enemy = new EnemySpinner();
-                enemy.init(x, y, 70, 100, 10, Color.GREEN);
-                break;
         }
         worldReference.getEnemies().add(enemy);
     }

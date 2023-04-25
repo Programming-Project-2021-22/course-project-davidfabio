@@ -26,5 +26,9 @@ public class Bullet extends Entity {
             return;
 
         moveTowards(getAngle(), deltaTime);
+
+        shape.resetPosition();
+        shape.rotate(getAngle());
+        shape.translatePosition(this);
     }
 }

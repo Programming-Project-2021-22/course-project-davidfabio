@@ -32,7 +32,7 @@ public class Pickup extends Entity implements Movable {
         if (lifespanCounter > startBlinkingAfter) {
             Color _color = getColorInitial();
             _color.a = transparencyWhileBlinking;
-            shape.render(polygonSpriteBatch, this, _color);
+            shape.render(polygonSpriteBatch, _color);
         }
         else
             super.render(polygonSpriteBatch);

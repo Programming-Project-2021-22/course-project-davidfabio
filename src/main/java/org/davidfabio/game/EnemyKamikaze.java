@@ -7,7 +7,7 @@ public class EnemyKamikaze extends Enemy {
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
-        setType(Type.KAMIKAZE); // NOTE (David): type needs to be set BEFORE calling the super contstructor!
+        setType(Type.KAMIKAZE); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
     }
 
@@ -21,11 +21,11 @@ public class EnemyKamikaze extends Enemy {
         if (getIsSpawning()) {
             float angleTowardsPlayer = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
             setAngle(angleTowardsPlayer);
-            return;
         }
-
-        moveTowards(getAngle(), deltaTime);
-        setMoveSpeed(getMoveSpeed() + (deltaTime * 600.0f));
+        else {
+            moveTowards(getAngle(), deltaTime);
+            setMoveSpeed(getMoveSpeed() + (deltaTime * 600.0f));
+        }
 
         if (!isInView(world.getLevel()))
             destroy(world);

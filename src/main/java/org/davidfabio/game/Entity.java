@@ -59,6 +59,6 @@ public class Entity implements Movable {
         if (!isActive)
             return;
 
-        shape.render(polygonSpriteBatch, this, color);
+        shape.render(polygonSpriteBatch, color);
     }
 }
