@@ -26,20 +26,6 @@ public class EnemyChaser extends Enemy {
         if (getIsSpawning())
             return;
 
-        float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
-        setAngle(angle);
-
-
-        // TEST: UPDATE VERTICES
-        // TEST: UPDATE VERTICES
-        // TEST: UPDATE VERTICES
-        // TEST: UPDATE VERTICES
-        // TEST: UPDATE VERTICES
-        float[] newVertices = shape.getVerticesInitial();
-        newVertices[2] -= xScaleCounter * getScale();
-        newVertices[6] += xScaleCounter * getScale();
-        newVertices = shape.rotateVertices(angle, newVertices);
-
         // stretching/squashing width
         float stretchSpeed = deltaTime / 3;
         if (xScaleIncreasing)
@@ -52,19 +38,16 @@ public class EnemyChaser extends Enemy {
         xScaleCounter = Math.min(xScaleCounter, xScalingStopsAfter);
         xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
 
+        shape.resetPosition();
+        float[] newVertices = shape.getVertices();
+        newVertices[2] -= xScaleCounter * getScale();
+        newVertices[6] += xScaleCounter * getScale();
         shape.setVertices(newVertices);
+        shape.rotate(getAngle());
+        shape.translatePosition(this);
 
-
-
-        //moveTowards(world.getPlayer().getX(), world.getPlayer().getY(), deltaTime);
-    }
-
-
-    @Override
-    public void render(PolygonSpriteBatch polygonSpriteBatch) {
-        if (getIsSpawning())
-            super.render(polygonSpriteBatch);
-        else
-            shape.render(polygonSpriteBatch, this, shape.getVertices(), getColor());
+        float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
+        setAngle(angle);
+        moveTowards(world.getPlayer().getX(), world.getPlayer().getY(), deltaTime);
     }
 }

@@ -29,7 +29,7 @@ public class EnemyBubble extends Enemy {
             restrictToLevel(world.getLevel());
         }
 
-        //moveTowards(getAngle(), deltaTime);
+        moveTowards(getAngle(), deltaTime);
     }
 
 

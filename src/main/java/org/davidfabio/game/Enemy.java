@@ -11,8 +11,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         CHASER,
         TURRET,
         BUBBLE,
-        KAMIKAZE,
-        SPINNER
+        KAMIKAZE
     }
 
     private Type type;
@@ -74,11 +73,15 @@ public class Enemy extends Entity implements Attackable, Attacker {
         if (!getIsActive())
             return;
 
-        // COLLISION TEST
-        // COLLISION TEST
-        // COLLISION TEST
-        // COLLISION TEST
+        shape.resetPosition();
+        shape.rotate(getAngle());
+        shape.translatePosition(this);
 
+
+        // COLLISION TEST
+        // COLLISION TEST
+        // COLLISION TEST
+        // COLLISION TEST
         float[] vertices = shape.getVerticesInitial();
         for (int i = 0; i < vertices.length; i += 1) {
             if (i % 2 == 0)

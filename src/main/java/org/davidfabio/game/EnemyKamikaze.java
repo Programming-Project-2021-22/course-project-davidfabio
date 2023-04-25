@@ -21,11 +21,11 @@ public class EnemyKamikaze extends Enemy {
         if (getIsSpawning()) {
             float angleTowardsPlayer = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
             setAngle(angleTowardsPlayer);
-            return;
         }
-
-        moveTowards(getAngle(), deltaTime);
-        setMoveSpeed(getMoveSpeed() + (deltaTime * 600.0f));
+        else {
+            moveTowards(getAngle(), deltaTime);
+            setMoveSpeed(getMoveSpeed() + (deltaTime * 600.0f));
+        }
 
         if (!isInView(world.getLevel()))
             destroy(world);

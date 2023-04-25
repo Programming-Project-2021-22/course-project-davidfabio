@@ -98,13 +98,10 @@ public class Player extends Entity implements Attackable {
         Color color = getColor();
         if (isInHitState)
             color.a = transparencyWhileInHitState;
-        shape.render(polygonSpriteBatch, this, color);
+        shape.render(polygonSpriteBatch, color);
 
         // direction arrow
-        float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
-        float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
-        float arrowAngle = Transform2D.radiansToDegrees(getAngle());
-        shapeArrow.render(polygonSpriteBatch, arrowX, arrowY, arrowAngle, Color.LIGHT_GRAY);
+        shapeArrow.render(polygonSpriteBatch, Color.LIGHT_GRAY);
 
         // dash "preview" line + circle outline
         if (inDashChooseDirectionState) {
@@ -124,7 +121,9 @@ public class Player extends Entity implements Attackable {
         if (isDashing) {
             for (int i = dashPositionsCount; i > 0; i -= 1) {
                 Color _color = new Color(getColor().r, getColor().g, getColor().b, dashTrailTransparencies[i]);
-                shape.render(polygonSpriteBatch, dashPositionsX[i], dashPositionsY[i], getAngle(), _color);
+                shape.resetPosition();
+                shape.translatePosition(dashPositionsX[i], dashPositionsY[i]);
+                shape.render(polygonSpriteBatch, _color);
             }
         }
 
@@ -246,6 +245,17 @@ public class Player extends Entity implements Attackable {
                 pickup.setIsActive(false);
             }
         }
+
+
+        // ---------------- update shape vertices ----------------
+        shape.resetPosition();
+        shape.translatePosition(this);
+
+        shapeArrow.resetPosition();
+        shapeArrow.rotate(getAngle());
+        float arrowX = Transform2D.translateX(getX(), getAngle(), arrowOffset);
+        float arrowY = Transform2D.translateY(getY(), getAngle(), arrowOffset);
+        shapeArrow.translatePosition(arrowX, arrowY);
     }
 
 
