@@ -1,26 +1,58 @@
 package org.davidfabio.game;
-
 import java.awt.geom.Line2D;
-
-// TODO: remove this class and use libgdx's in-built collision detection methods
-
 
 public class Collision {
 
-    public static boolean circleCircle(float x1, float y1, float radius1, float x2, float y2, float radius2) {
+    public static void update(World world) {
+        Player player = world.getPlayer();
 
-        // NOTE (David): ugly temp hack, but for now it will do (this method will not be used in the future anyway)
-        radius1 /= 2;
-        radius2 /= 2;
+        for (Enemy enemy : world.getEnemies()) {
+            if (!enemy.getIsActive())
+                continue;
+            if (enemy.getIsSpawning())
+                continue;
 
-        float distanceX = x1 - x2;
-        float distanceY = y1 - y2;
-        float distance = (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
+            // player colliding with enemy
+            if (polygonPolygon(player, enemy, world)) {
+                enemy.attack(player, world);
+                enemy.destroy(world);
+            }
 
-        if (distance <= radius1 + radius2)
-            return true;
+            for (BulletPlayer bulletPlayer : player.getBullets()) {
+                if (!bulletPlayer.getIsActive())
+                    continue;
 
-        return false;
+                // player bullet colliding with enemy
+                if (polygonPolygon(bulletPlayer, enemy, world)) {
+                    bulletPlayer.attack(enemy, world);
+                    if (!enemy.getIsActive())
+                        world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
+
+                    bulletPlayer.setIsActive(false);
+                }
+            }
+        }
+
+        for (BulletEnemy bulletEnemy : world.getEnemyBullets()) {
+            if (!bulletEnemy.getIsActive())
+                continue;
+
+            // player colliding with enemy bullet
+            if (polygonPolygon(bulletEnemy, player, world)) {
+                bulletEnemy.attack(player, world);
+                bulletEnemy.setIsActive(false);
+            }
+        }
+
+        for (Pickup pickup : world.getPickups()) {
+            if (!pickup.getIsActive())
+                continue;
+
+            // player colliding with pickup
+            if (polygonPolygon(player, pickup, world))
+                pickup.setIsActive(false);
+        }
+
     }
 
 
@@ -39,7 +71,28 @@ public class Collision {
         if (line.intersectsLine(linePolygon))
             intersectionsCount += 1;
 
-        return  (intersectionsCount % 2 != 0);
+        return (intersectionsCount % 2 != 0);
+    }
+
+    public static boolean polygonPolygon(Entity entity1, Entity entity2, World world) {
+        return polygonPolygon(entity1.shape.getVertices(), entity2.shape.getVertices(), world);
+    }
+
+    public static boolean polygonPolygon(float[] vertices1, float[] vertices2, World world) {
+        for (int i = 0; i < vertices1.length; i += 2) {
+            float x = vertices1[i];
+            float y = vertices1[i + 1];
+            if (pointPolygon(x, y, vertices2, world))
+                return true;
+        }
+        for (int i = 0; i < vertices2.length; i += 2) {
+            float x = vertices2[i];
+            float y = vertices2[i + 1];
+            if (pointPolygon(x, y, vertices1, world))
+                return true;
+        }
+
+        return false;
     }
 
 

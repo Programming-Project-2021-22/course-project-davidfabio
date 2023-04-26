@@ -12,6 +12,7 @@ public interface Movable {
     public float getMoveSpeed();
 
 
+    // TODO (David): should probably be redone after new collision system
     public default boolean isInView(Level level) {
         float halfScale = getScale() / 2;
         if (this.getX() - halfScale < 0)
@@ -25,6 +26,7 @@ public interface Movable {
         return true;
     }
 
+    // TODO (David): should probably be redone after new collision system
     public default void restrictToLevel(Level level) {
         float x = getX();
         float y = getY();

@@ -77,27 +77,6 @@ public class Enemy extends Entity implements Attackable, Attacker {
         shape.rotate(getAngle());
         shape.translatePosition(this);
 
-
-        // COLLISION TEST
-        // COLLISION TEST
-        // COLLISION TEST
-        // COLLISION TEST
-        float[] vertices = shape.getVerticesInitial();
-        for (int i = 0; i < vertices.length; i += 1) {
-            if (i % 2 == 0)
-                vertices[i] += getX();
-            else
-                vertices[i] += getY();
-        }
-        if (Collision.pointPolygon(Mouse.getX(), Mouse.getY(), vertices, world)) {
-            setColor(Color.GREEN);
-        }
-        else
-            setColor(getColorInitial());
-
-
-
-
         if (isInHitState) {
             hitCooldown -= deltaTime;
 

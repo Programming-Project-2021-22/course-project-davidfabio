@@ -71,6 +71,8 @@ public class Pickup extends Entity implements Movable {
             moveTowards(playerX, playerY, deltaTime);
         }
 
-
+        shape.resetPosition();
+        shape.translatePosition(this);
     }
+
 }

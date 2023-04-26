@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.Duality;
+import org.davidfabio.input.Mouse;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
 
@@ -52,6 +53,8 @@ public class World {
             this.pickups[i] = new Pickup();
     }
 
+
+
     public void update(float deltaTime) {
         // ---------------- update enemies ----------------
         for (Enemy enemy : enemiesTemp)
@@ -79,6 +82,9 @@ public class World {
             this.score.end();
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.scores,this.score));
         }
+
+        // ---------------- collision checks --------------------
+        Collision.update(this);
     }
 
 
