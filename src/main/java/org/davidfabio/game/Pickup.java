@@ -74,5 +74,5 @@ public class Pickup extends Entity implements Movable {
         shape.resetPosition();
         shape.translatePosition(this);
     }
-    
+
 }

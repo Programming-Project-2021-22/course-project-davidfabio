@@ -46,6 +46,8 @@ public class Player extends Entity implements Attackable {
     public float getHitDuration() { return hitDuration; }
     public boolean getIsDashing() { return isDashing; }
 
+    public BulletPlayer[] getBullets() { return bullets; }
+
     // indicates shooting direction (purely cosmetic)
     private PolygonShape shapeArrow;
     private float arrowScale = 16;
@@ -222,34 +224,6 @@ public class Player extends Entity implements Attackable {
             bullets[i].update(deltaTime,world);
         }
 
-
-        // ---------------- collision detection against enemies ----------------
-        /*
-        for (Enemy enemy : world.getEnemies()) {
-            if (!enemy.getIsActive())
-                continue;
-            if (enemy.getIsSpawning())
-                continue;
-            if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
-                // Enemy collided with Player
-                enemy.attack(this, world);
-                enemy.destroy(world);
-            }
-        }
-
-
-        // ---------------- collision detection against pickups ----------------
-        for (Pickup pickup : world.getPickups()) {
-            if (!pickup.getIsActive())
-                continue;
-            if (Collision.circleCircle(getX(), getY(), getScale(), pickup.getX(), pickup.getY(), pickup.getScale())) {
-                pickup.setIsActive(false);
-            }
-        }
-
-         */
-
-
         // ---------------- update shape vertices ----------------
         shape.resetPosition();
         shape.translatePosition(this);
@@ -264,7 +238,7 @@ public class Player extends Entity implements Attackable {
 
     public void shoot() {
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
-            if (!bullets[i].getIsActive() && !bullets[i].getToDestroyNextFrame()) {
+            if (!bullets[i].getIsActive()) {
 
                 // add random spread
                 float randomFloat = random.nextFloat() - 0.5f;

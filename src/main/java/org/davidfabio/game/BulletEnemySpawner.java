@@ -108,9 +108,8 @@ public class BulletEnemySpawner {
     public BulletEnemy getBullet(World world) {
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1) {
             BulletEnemy bullet = world.getEnemyBullets()[i];
-            if (!bullet.getIsActive() && !bullet.getToDestroyNextFrame()) {
+            if (!bullet.getIsActive())
                 return bullet;
-            }
         }
         return null;
     }

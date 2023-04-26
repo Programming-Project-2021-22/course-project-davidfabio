@@ -3,47 +3,52 @@ import java.awt.geom.Line2D;
 
 public class Collision {
 
-
-    public static boolean circleCircle(float x1, float y1, float radius1, float x2, float y2, float radius2) {
-
-        // NOTE (David): ugly temp hack, but for now it will do (this method will not be used in the future anyway)
-        radius1 /= 2;
-        radius2 /= 2;
-
-        float distanceX = x1 - x2;
-        float distanceY = y1 - y2;
-        float distance = (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
-
-        if (distance <= radius1 + radius2)
-            return true;
-
-        return false;
-    }
-
-
-
     public static void update(World world) {
-
         Player player = world.getPlayer();
 
-        // player / enemies
         for (Enemy enemy : world.getEnemies()) {
             if (!enemy.getIsActive())
                 continue;
             if (enemy.getIsSpawning())
                 continue;
+
+            // player colliding with enemy
             if (polygonPolygon(player, enemy, world)) {
                 enemy.attack(player, world);
                 enemy.destroy(world);
             }
+
+            for (BulletPlayer bulletPlayer : player.getBullets()) {
+                if (!bulletPlayer.getIsActive())
+                    continue;
+
+                // player bullet colliding with enemy
+                if (polygonPolygon(bulletPlayer, enemy, world)) {
+                    bulletPlayer.attack(enemy, world);
+                    if (!enemy.getIsActive())
+                        world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
+
+                    bulletPlayer.setIsActive(false);
+                }
+            }
         }
 
+        for (BulletEnemy bulletEnemy : world.getEnemyBullets()) {
+            if (!bulletEnemy.getIsActive())
+                continue;
 
+            // player colliding with enemy bullet
+            if (polygonPolygon(bulletEnemy, player, world)) {
+                bulletEnemy.attack(player, world);
+                bulletEnemy.setIsActive(false);
+            }
+        }
 
-        // player / pickups
         for (Pickup pickup : world.getPickups()) {
             if (!pickup.getIsActive())
                 continue;
+
+            // player colliding with pickup
             if (polygonPolygon(player, pickup, world))
                 pickup.setIsActive(false);
         }
