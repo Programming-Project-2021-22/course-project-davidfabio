@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.Duality;
+import org.davidfabio.input.Mouse;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
 
@@ -51,6 +52,8 @@ public class World {
         for (int i = 0; i < pickups.length; i += 1)
             this.pickups[i] = new Pickup();
     }
+
+
 
     public void update(float deltaTime) {
         // ---------------- update enemies ----------------

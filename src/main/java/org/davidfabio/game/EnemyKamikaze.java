@@ -23,7 +23,7 @@ public class EnemyKamikaze extends Enemy {
             setAngle(angleTowardsPlayer);
         }
         else {
-            moveTowards(getAngle(), deltaTime);
+            //moveTowards(getAngle(), deltaTime);
             setMoveSpeed(getMoveSpeed() + (deltaTime * 600.0f));
         }
 

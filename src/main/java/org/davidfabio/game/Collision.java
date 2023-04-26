@@ -1,12 +1,9 @@
 package org.davidfabio.game;
-
 import java.awt.geom.Line2D;
-
-// TODO: remove this class and use libgdx's in-built collision detection methods
-
 
 public class Collision {
 
+    /*
     public static boolean circleCircle(float x1, float y1, float radius1, float x2, float y2, float radius2) {
 
         // NOTE (David): ugly temp hack, but for now it will do (this method will not be used in the future anyway)
@@ -21,6 +18,12 @@ public class Collision {
             return true;
 
         return false;
+    }
+
+     */
+
+    public static void update(World world) {
+
     }
 
 
@@ -39,7 +42,24 @@ public class Collision {
         if (line.intersectsLine(linePolygon))
             intersectionsCount += 1;
 
-        return  (intersectionsCount % 2 != 0);
+        return (intersectionsCount % 2 != 0);
+    }
+
+    public static boolean polygonPolygon(float[] vertices1, float[] vertices2, World world) {
+        for (int i = 0; i < vertices1.length; i += 2) {
+            float x = vertices1[i];
+            float y = vertices1[i + 1];
+            if (pointPolygon(x, y, vertices2, world))
+                return true;
+        }
+        for (int i = 0; i < vertices2.length; i += 2) {
+            float x = vertices2[i];
+            float y = vertices2[i + 1];
+            if (pointPolygon(x, y, vertices1, world))
+                return true;
+        }
+
+        return false;
     }
 
 

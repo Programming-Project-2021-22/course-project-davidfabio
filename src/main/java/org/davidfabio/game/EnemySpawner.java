@@ -40,7 +40,8 @@ public class EnemySpawner {
                 break;
             case KAMIKAZE:
                 enemy = new EnemyKamikaze();
-                enemy.init(x, y, 30, 100, 1, Color.ORANGE);
+                //enemy.init(x, y, 30, 100, 1, Color.ORANGE);
+                enemy.init(x, y, 200, 100, 1, Color.ORANGE);
                 break;
         }
         worldReference.getEnemies().add(enemy);
@@ -67,6 +68,9 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
+        spawn(Enemy.Type.KAMIKAZE, 200, 200, 0.1f);
+
+        /*
         spawnGroupInCircle(Enemy.Type.CHASER, 6, centerX, centerY, 200, 1, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
         spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
@@ -86,5 +90,7 @@ public class EnemySpawner {
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
+
+         */
     }
 }
