@@ -39,6 +39,7 @@ public class BulletPlayer extends Bullet implements Attacker {
             if (enemy.getIsSpawning())
                 continue;
 
+
             if (Collision.circleCircle(getX(), getY(), getScale(), enemy.getX(), enemy.getY(), enemy.getScale())) {
                 this.attack(enemy,world);
                 if (!enemy.getIsActive())

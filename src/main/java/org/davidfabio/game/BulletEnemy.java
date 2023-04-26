@@ -21,6 +21,7 @@ public class BulletEnemy extends Bullet implements Attacker {
             return;
 
         // ---------------- collision detection ----------------
+
         if (Collision.circleCircle(getX(), getY(), getScale(), world.getPlayer().getX(), world.getPlayer().getY(), world.getPlayer().getScale())) {
 
             // we leave the bullet alive for 1 extra frame, so that we can draw it at the exact position where it touches the player

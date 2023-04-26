@@ -224,6 +224,7 @@ public class Player extends Entity implements Attackable {
 
 
         // ---------------- collision detection against enemies ----------------
+        /*
         for (Enemy enemy : world.getEnemies()) {
             if (!enemy.getIsActive())
                 continue;
@@ -245,6 +246,8 @@ public class Player extends Entity implements Attackable {
                 pickup.setIsActive(false);
             }
         }
+
+         */
 
 
         // ---------------- update shape vertices ----------------

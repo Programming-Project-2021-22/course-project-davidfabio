@@ -82,6 +82,9 @@ public class World {
             this.score.end();
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.scores,this.score));
         }
+
+        // ---------------- collision checks --------------------
+        Collision.update(this);
     }
 
 

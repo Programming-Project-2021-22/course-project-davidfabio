@@ -3,7 +3,7 @@ import java.awt.geom.Line2D;
 
 public class Collision {
 
-    /*
+
     public static boolean circleCircle(float x1, float y1, float radius1, float x2, float y2, float radius2) {
 
         // NOTE (David): ugly temp hack, but for now it will do (this method will not be used in the future anyway)
@@ -20,9 +20,33 @@ public class Collision {
         return false;
     }
 
-     */
+
 
     public static void update(World world) {
+
+        Player player = world.getPlayer();
+
+        // player / enemies
+        for (Enemy enemy : world.getEnemies()) {
+            if (!enemy.getIsActive())
+                continue;
+            if (enemy.getIsSpawning())
+                continue;
+            if (polygonPolygon(player, enemy, world)) {
+                enemy.attack(player, world);
+                enemy.destroy(world);
+            }
+        }
+
+
+
+        // player / pickups
+        for (Pickup pickup : world.getPickups()) {
+            if (!pickup.getIsActive())
+                continue;
+            if (polygonPolygon(player, pickup, world))
+                pickup.setIsActive(false);
+        }
 
     }
 
@@ -43,6 +67,10 @@ public class Collision {
             intersectionsCount += 1;
 
         return (intersectionsCount % 2 != 0);
+    }
+
+    public static boolean polygonPolygon(Entity entity1, Entity entity2, World world) {
+        return polygonPolygon(entity1.shape.getVertices(), entity2.shape.getVertices(), world);
     }
 
     public static boolean polygonPolygon(float[] vertices1, float[] vertices2, World world) {
