@@ -12,7 +12,7 @@ public class EnemyTurret extends Enemy {
         setType(Type.TURRET); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
-        shape = new PolygonShape(4, scale);
+        setShape(new PolygonShape(4, scale));
         bulletSpawner = new BulletEnemySpawner(false, 0.04f, 0.66f, 6, 200, 16, 10, true);
     }
 

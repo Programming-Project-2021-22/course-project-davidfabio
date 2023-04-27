@@ -38,13 +38,13 @@ public class EnemyChaser extends Enemy {
         xScaleCounter = Math.min(xScaleCounter, xScalingStopsAfter);
         xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
 
-        shape.resetPosition();
-        float[] newVertices = shape.getVertices();
+        getShape().resetPosition();
+        float[] newVertices = getShape().getVertices();
         newVertices[2] -= xScaleCounter * getScale();
         newVertices[6] += xScaleCounter * getScale();
-        shape.setVertices(newVertices);
-        shape.rotate(getAngle());
-        shape.translatePosition(this);
+        getShape().setVertices(newVertices);
+        getShape().rotate(getAngle());
+        getShape().translatePosition(this);
 
         float angle = getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
         setAngle(angle);

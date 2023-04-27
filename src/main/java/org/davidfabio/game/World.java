@@ -15,19 +15,19 @@ public class World {
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Enemy> enemiesTemp; // this is needed so we can add new enemies during the update loop (e.g. when an enemy dies, he spawns new enemies)
-    private BulletEnemy[] enemyBullets;
+    private Bullet[] enemyBullets;
     private EnemySpawner enemySpawner;
     private Pickup[] pickups;
     private Level level;
     private Score score;
     private ArrayList<Score> scores;
 
-    public Player getPlayer() { return this.player; }
-    public ArrayList<Enemy> getEnemies() { return this.enemies; }
-    public BulletEnemy[] getEnemyBullets() { return this.enemyBullets; }
+    public Player getPlayer() { return player; }
+    public ArrayList<Enemy> getEnemies() { return enemies; }
+    public Bullet[] getEnemyBullets() { return enemyBullets; }
     public Pickup[] getPickups() { return pickups; }
-    public Level getLevel() { return this.level; }
-    public Score getScore() { return this.score; }
+    public Level getLevel() { return level; }
+    public Score getScore() { return score; }
     public void addEnemyTemp(Enemy enemy) { enemiesTemp.add(enemy); }
 
 
@@ -38,19 +38,19 @@ public class World {
         this.scores = scores;
 
         this.player = new Player();
-        this.player.init(this.level.getWidth() / 2, this.level.getHeight() / 2, 32, 240, Color.GOLD);
+        this.player.init(level.getWidth() / 2, level.getHeight() / 2, 32, 240, Color.GOLD);
 
         this.enemies = new ArrayList<>();
         this.enemiesTemp = new ArrayList<>();
         this.enemySpawner = new EnemySpawner(this);
 
-        this.enemyBullets = new BulletEnemy[Settings.MAX_ENEMY_BULLETS];
+        this.enemyBullets = new Bullet[Settings.MAX_ENEMY_BULLETS];
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
-            this.enemyBullets[i] = new BulletEnemy();
+            enemyBullets[i] = new Bullet();
 
         this.pickups = new Pickup[Settings.MAX_PICKUPS];
         for (int i = 0; i < pickups.length; i += 1)
-            this.pickups[i] = new Pickup();
+            pickups[i] = new Pickup();
     }
 
 
@@ -63,7 +63,7 @@ public class World {
 
         enemySpawner.update(deltaTime);
 
-        for (Enemy enemy : this.enemies)
+        for (Enemy enemy : enemies)
             enemy.update(deltaTime, this);
 
 
@@ -78,9 +78,9 @@ public class World {
 
         // ---------------- update player --------------------
         this.player.update(deltaTime, this); // player bullets get updated here as well
-        if (this.player.getHealth() <= 0) {
-            this.score.end();
-            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(this.scores,this.score));
+        if (player.getHealth() <= 0) {
+            score.end();
+            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
         }
 
         // ---------------- collision checks --------------------
@@ -90,23 +90,23 @@ public class World {
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // Render Enemies
-        for (Enemy enemy : this.enemies)
+        for (Enemy enemy : enemies)
             enemy.render(polygonSpriteBatch);
 
         // Render Enemy Bullets
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
-            this.enemyBullets[i].render(polygonSpriteBatch);
+            enemyBullets[i].render(polygonSpriteBatch);
 
         // Render Pickups
         for (int i = 0; i < Settings.MAX_PICKUPS; i += 1)
-            this.pickups[i].render(polygonSpriteBatch);
+            pickups[i].render(polygonSpriteBatch);
 
         // Render Player & their Bullets
-        this.player.render(polygonSpriteBatch, shapeRenderer);
+        player.render(polygonSpriteBatch, shapeRenderer);
 
         polygonSpriteBatch.end();
 
         // Render Level
-        this.level.render(shapeRenderer);
+        level.render(shapeRenderer);
     }
 }

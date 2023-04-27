@@ -10,6 +10,7 @@ public class Entity implements Movable {
     private float moveSpeed;
     private float angle; // in radians
     private boolean isActive = false;
+    private PolygonShape shape; // needs to be initialized in the child init method
 
     public float getX() { return x; }
     public void setX(float x) { this.x = x; }
@@ -23,6 +24,8 @@ public class Entity implements Movable {
     public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
     public boolean getIsActive() { return isActive; }
     public void setIsActive(boolean isActive) { this.isActive = isActive; }
+    public PolygonShape getShape() { return shape; }
+    public void setShape(PolygonShape shape) { this.shape = shape; }
 
     private Color color, colorInitial;
     public Color getColor() { return color; }
@@ -37,7 +40,6 @@ public class Entity implements Movable {
         this.color.a = transparency;
     }
 
-    public PolygonShape shape; // needs to be initialized in the child init method
 
 
 

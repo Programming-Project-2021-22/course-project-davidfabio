@@ -96,6 +96,22 @@ public class PolygonShape {
     }
 
 
+    public static PolygonShape getPlayerBulletShape(float scale) {
+        float[] vertices = new float[] {
+                -0.5f, -0.25f,
+                -0.5f, 0.25f,
+                0.5f, 0
+        };
+        short[] triangles = new short[] {
+                0, 1, 2
+        };
+        return new PolygonShape(vertices, triangles, scale);
+    }
+
+    public static PolygonShape getEnemyBulletShape(float scale) {
+        return new PolygonShape(16, scale);
+    }
+
     public static PolygonShape getEnemyShape(Enemy.Type enemyType, float scale) {
         PolygonShape shape = null;
         float[] vertices;

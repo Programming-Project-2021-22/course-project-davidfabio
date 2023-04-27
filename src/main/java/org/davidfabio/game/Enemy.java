@@ -54,7 +54,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
         super.init(x, y, scale, color);
-        shape = PolygonShape.getEnemyShape(getType(), scale);
+        setShape(PolygonShape.getEnemyShape(getType(), scale));
 
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
@@ -73,9 +73,9 @@ public class Enemy extends Entity implements Attackable, Attacker {
         if (!getIsActive())
             return;
 
-        shape.resetPosition();
-        shape.rotate(getAngle());
-        shape.translatePosition(this);
+        getShape().resetPosition();
+        getShape().rotate(getAngle());
+        getShape().translatePosition(this);
 
         if (isInHitState) {
             hitCooldown -= deltaTime;
