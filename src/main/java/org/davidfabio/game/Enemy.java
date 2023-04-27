@@ -123,10 +123,11 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     @Override
     public void destroy(World world) {
+        if (Collision.pointIsInLevel(getX(), getY(), world))
+            spawnPickup(world);
+
         this.setHealth(0);
         this.setIsActive(false);
         this.playDestructionSound();
-
-        spawnPickup(world);
     }
 }

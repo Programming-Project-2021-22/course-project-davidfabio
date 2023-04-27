@@ -3,9 +3,9 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 
 public interface Attacker {
-    public int getAttackPower();
+    int getAttackPower();
 
-    public default void attack(Attackable attackable, World world) {
+    default void attack(Attackable attackable, World world) {
         if (!attackable.getIsActive())
             return;
 

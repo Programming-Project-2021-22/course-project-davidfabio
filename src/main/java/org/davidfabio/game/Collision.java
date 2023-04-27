@@ -96,6 +96,16 @@ public class Collision {
     }
 
 
+    public static boolean pointIsInLevel(float x, float y, World world) {
+        if (x < 0) return false;
+        if (x > world.getLevel().getWidth()) return false;
+        if (y < 0) return false;
+        if (y > world.getLevel().getHeight()) return false;
+
+        return true;
+    }
+
+
 
 
 }
