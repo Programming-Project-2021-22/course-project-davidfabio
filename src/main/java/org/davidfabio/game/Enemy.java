@@ -134,10 +134,21 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
+    public void spawnParticles(float particleScale, World world) {
+        for (int i = 0; i < Settings.MAX_PARTICLES; i += 1) {
+            if (!world.getParticles()[i].getIsActive()) {
+                world.getParticles()[i].init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(12, particleScale));
+                break;
+            }
+        }
+    }
+
     @Override
     public void destroy(World world) {
         if (Collision.pointIsInLevel(getX(), getY(), world))
             spawnPickup(world);
+
+        spawnParticles(getScale() / 4, world);
 
         this.setHealth(0);
         this.setIsActive(false);

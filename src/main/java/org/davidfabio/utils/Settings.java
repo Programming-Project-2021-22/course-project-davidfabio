@@ -22,4 +22,5 @@ public class Settings {
     public static final int MAX_ENEMY_BULLETS = 2048;
     public static final int MAX_PLAYER_BULLETS = 64;
     public static final int MAX_PICKUPS = 64;
+    public static final int MAX_PARTICLES = 2048;
 }

@@ -45,8 +45,8 @@ public interface Movable {
         float deltaX = (float)Math.cos(angle) * speed;
         float deltaY = (float)Math.sin(angle) * speed;
 
-        this.setX(getX() + deltaX);
-        this.setY(getY() + deltaY);
+        setX(getX() + deltaX);
+        setY(getY() + deltaY);
     }
 
     default void moveTowards(float otherX, float otherY, float deltaTime) {
@@ -55,12 +55,12 @@ public interface Movable {
     }
 
     default float getAngleTowards(float otherX, float otherY) {
-        return ((float)Math.atan2(otherY - this.getY(), otherX - this.getX()));
+        return ((float)Math.atan2(otherY - getY(), otherX - getX()));
     }
 
     default float getDistanceTo(float otherX, float otherY) {
-        float distanceX = this.getX() - otherX;
-        float distanceY = this.getY() - otherY;
+        float distanceX = getX() - otherX;
+        float distanceY = getY() - otherY;
         return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
     }
 }
