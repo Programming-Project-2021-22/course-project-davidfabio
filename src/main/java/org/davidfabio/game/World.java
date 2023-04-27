@@ -2,6 +2,7 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.Duality;
@@ -91,15 +92,15 @@ public class World {
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // Render Enemies
         for (Enemy enemy : enemies)
-            enemy.render(polygonSpriteBatch);
+            enemy.render(polygonSpriteBatch, shapeRenderer);
 
         // Render Enemy Bullets
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
-            enemyBullets[i].render(polygonSpriteBatch);
+            enemyBullets[i].render(polygonSpriteBatch, shapeRenderer);
 
         // Render Pickups
         for (int i = 0; i < Settings.MAX_PICKUPS; i += 1)
-            pickups[i].render(polygonSpriteBatch);
+            pickups[i].render(polygonSpriteBatch, shapeRenderer);
 
         // Render Player & their Bullets
         player.render(polygonSpriteBatch, shapeRenderer);

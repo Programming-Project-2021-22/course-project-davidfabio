@@ -2,6 +2,8 @@ package org.davidfabio.game;
 
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.input.Mouse;
 import org.davidfabio.utils.Settings;
 
@@ -69,6 +71,17 @@ public class Enemy extends Entity implements Attackable, Attacker {
         transparencyWhileSpawningIncreasing = true;
     }
 
+    @Override
+    public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
+        if (!getIsActive())
+            return;
+
+        if (getIsSpawning())
+            getShape().renderOutline(shapeRenderer, getColor());
+        else
+            super.render(polygonSpriteBatch, shapeRenderer);
+    }
+
     public void update(float deltaTime, World world) {
         if (!getIsActive())
             return;
@@ -100,9 +113,9 @@ public class Enemy extends Entity implements Attackable, Attacker {
             else
                 transparencyWhileSpawning -= deltaTime;
 
-            if (transparencyWhileSpawning > 0.6f)
+            if (transparencyWhileSpawning >= 0.75f)
                 transparencyWhileSpawningIncreasing = false;
-            else if (transparencyWhileSpawning < 0.1f)
+            else if (transparencyWhileSpawning < 0.25f)
                 transparencyWhileSpawningIncreasing = true;
         }
     }

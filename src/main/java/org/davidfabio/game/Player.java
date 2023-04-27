@@ -85,7 +85,7 @@ public class Player extends Entity implements Attackable {
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
-        // player
+        // main shape (circle)
         Color color = getColor();
         if (isInHitState)
             color.a = transparencyWhileInHitState;
@@ -120,7 +120,7 @@ public class Player extends Entity implements Attackable {
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
-            bullets[i].render(polygonSpriteBatch);
+            bullets[i].render(polygonSpriteBatch, shapeRenderer);
     }
 
 
