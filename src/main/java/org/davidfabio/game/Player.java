@@ -75,39 +75,17 @@ public class Player extends Entity implements Attackable {
         dashPositionsY = new float[dashPositionMax];
         dashTrailTransparencies = new float[dashPositionMax];
 
-
-        float[] verticesBullet = new float[] {
-                -0.5f, -0.25f,
-                -0.5f, 0.25f,
-                0.5f, 0
-        };
-        short[] trianglesBullet = new short[] {
-                0, 1, 2
-        };
-        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
+        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
             bullets[i] = new Bullet();
-            bullets[i].setShape(new PolygonShape(verticesBullet, trianglesBullet, bulletScale));
-        }
-
-
-        setShape(new PolygonShape(64, scale));
-
-        float[] verticesArrow = new float[] {
-                0, -0.5f,
-                0.5f, 0,
-                0, 0.5f
-        };
-        short[] trianglesArrow = new short[] {
-                0, 1, 2
-        };
-        shapeArrow = new PolygonShape(verticesArrow, trianglesArrow, arrowScale);
-
+        
+        setShape(PolygonShape.getPlayerShape(scale));
+        shapeArrow = PolygonShape.getPlayerArrowShape(arrowScale);
     }
 
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
-        // player
+        // main shape (circle)
         Color color = getColor();
         if (isInHitState)
             color.a = transparencyWhileInHitState;
@@ -142,7 +120,7 @@ public class Player extends Entity implements Attackable {
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)
-            bullets[i].render(polygonSpriteBatch);
+            bullets[i].render(polygonSpriteBatch, shapeRenderer);
     }
 
 

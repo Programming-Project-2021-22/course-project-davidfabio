@@ -1,10 +1,13 @@
 package org.davidfabio.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.ui.GameScreen;
 import org.davidfabio.utils.Transform2D;
 
@@ -95,6 +98,42 @@ public class PolygonShape {
         polygonSprite.draw(polygonSpriteBatch);
     }
 
+    public void renderOutline(ShapeRenderer shapeRenderer, Color color) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(color);
+        Gdx.gl.glEnable(GL20.GL_BLEND); // needed for transparencies
+        for (int i = 0; i < vertices.length - 2; i += 2) {
+            float x1 = vertices[i];
+            float y1 = vertices[i + 1];
+            float x2 = vertices[i + 2];
+            float y2 = vertices[i + 3];
+            shapeRenderer.line(x1, y1, x2, y2);
+        }
+        float x1 = vertices[vertices.length - 2];
+        float y1 = vertices[vertices.length - 1];
+        float x2 = vertices[0];
+        float y2 = vertices[1];
+
+        shapeRenderer.line(x1, y1, x2, y2);
+        shapeRenderer.end();
+    }
+
+
+    public static PolygonShape getPlayerShape(float scale) {
+        return new PolygonShape(12, scale);
+    }
+
+    public static PolygonShape getPlayerArrowShape(float scale) {
+        float[] vertices = new float[] {
+                0, -0.5f,
+                0.5f, 0,
+                0, 0.5f
+        };
+        short[] triangles = new short[] {
+                0, 1, 2
+        };
+        return new PolygonShape(vertices, triangles, scale);
+    }
 
     public static PolygonShape getPlayerBulletShape(float scale) {
         float[] vertices = new float[] {

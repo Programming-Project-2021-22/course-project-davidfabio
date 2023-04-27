@@ -2,6 +2,7 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
 public class Pickup extends Entity implements Movable {
@@ -25,7 +26,7 @@ public class Pickup extends Entity implements Movable {
     }
 
 
-    public void render(PolygonSpriteBatch polygonSpriteBatch) {
+    public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         if (!getIsActive())
             return;
 
@@ -35,7 +36,7 @@ public class Pickup extends Entity implements Movable {
             getShape().render(polygonSpriteBatch, _color);
         }
         else
-            super.render(polygonSpriteBatch);
+            super.render(polygonSpriteBatch, shapeRenderer);
     }
 
 

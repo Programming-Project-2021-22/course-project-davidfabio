@@ -3,6 +3,7 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Entity implements Movable {
     private float x, y;
@@ -57,7 +58,7 @@ public class Entity implements Movable {
     }
 
 
-    public void render(PolygonSpriteBatch polygonSpriteBatch) {
+    public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         if (!isActive)
             return;
 
