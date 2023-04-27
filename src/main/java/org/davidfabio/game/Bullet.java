@@ -18,8 +18,8 @@ public class Bullet extends Entity {
 
         moveTowards(getAngle(), deltaTime);
 
-        shape.resetPosition();
-        shape.rotate(getAngle());
-        shape.translatePosition(this);
+        getShape().resetPosition();
+        getShape().rotate(getAngle());
+        getShape().translatePosition(this);
     }
 }

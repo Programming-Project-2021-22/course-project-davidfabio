@@ -20,7 +20,7 @@ public class Pickup extends Entity implements Movable {
 
     public void init(float x, float y, float scale, Color color) {
         super.init(x, y, scale, color);
-        shape = new PolygonShape(4, scale);
+        setShape(new PolygonShape(4, scale));
         lifespanCounter = 0f;
     }
 
@@ -32,7 +32,7 @@ public class Pickup extends Entity implements Movable {
         if (lifespanCounter > startBlinkingAfter) {
             Color _color = getColorInitial();
             _color.a = transparencyWhileBlinking;
-            shape.render(polygonSpriteBatch, _color);
+            getShape().render(polygonSpriteBatch, _color);
         }
         else
             super.render(polygonSpriteBatch);
@@ -71,8 +71,8 @@ public class Pickup extends Entity implements Movable {
             moveTowards(playerX, playerY, deltaTime);
         }
 
-        shape.resetPosition();
-        shape.translatePosition(this);
+        getShape().resetPosition();
+        getShape().translatePosition(this);
     }
 
 }

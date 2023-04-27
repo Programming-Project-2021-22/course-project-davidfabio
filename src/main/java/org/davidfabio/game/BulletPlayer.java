@@ -22,7 +22,7 @@ public class BulletPlayer extends Bullet implements Attacker {
         short[] triangles = new short[] {
             0, 1, 2
         };
-        shape = new PolygonShape(vertices, triangles, scale);
+        setShape(new PolygonShape(vertices, triangles, scale));
     }
 
 }

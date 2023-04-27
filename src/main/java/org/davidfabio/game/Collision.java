@@ -75,7 +75,7 @@ public class Collision {
     }
 
     public static boolean polygonPolygon(Entity entity1, Entity entity2, World world) {
-        return polygonPolygon(entity1.shape.getVertices(), entity2.shape.getVertices(), world);
+        return polygonPolygon(entity1.getShape().getVertices(), entity2.getShape().getVertices(), world);
     }
 
     public static boolean polygonPolygon(float[] vertices1, float[] vertices2, World world) {

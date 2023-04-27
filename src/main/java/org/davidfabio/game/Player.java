@@ -80,7 +80,7 @@ public class Player extends Entity implements Attackable {
             bullets[i] = new BulletPlayer();
 
 
-        shape = new PolygonShape(64, scale);
+        setShape(new PolygonShape(64, scale));
 
         float[] verticesArrow = new float[] {
                 0, -0.5f,
@@ -100,7 +100,7 @@ public class Player extends Entity implements Attackable {
         Color color = getColor();
         if (isInHitState)
             color.a = transparencyWhileInHitState;
-        shape.render(polygonSpriteBatch, color);
+        getShape().render(polygonSpriteBatch, color);
 
         // direction arrow
         shapeArrow.render(polygonSpriteBatch, Color.LIGHT_GRAY);
@@ -123,9 +123,9 @@ public class Player extends Entity implements Attackable {
         if (isDashing) {
             for (int i = dashPositionsCount; i > 0; i -= 1) {
                 Color _color = new Color(getColor().r, getColor().g, getColor().b, dashTrailTransparencies[i]);
-                shape.resetPosition();
-                shape.translatePosition(dashPositionsX[i], dashPositionsY[i]);
-                shape.render(polygonSpriteBatch, _color);
+                getShape().resetPosition();
+                getShape().translatePosition(dashPositionsX[i], dashPositionsY[i]);
+                getShape().render(polygonSpriteBatch, _color);
             }
         }
 
@@ -225,8 +225,8 @@ public class Player extends Entity implements Attackable {
         }
 
         // ---------------- update shape vertices ----------------
-        shape.resetPosition();
-        shape.translatePosition(this);
+        getShape().resetPosition();
+        getShape().translatePosition(this);
 
         shapeArrow.resetPosition();
         shapeArrow.rotate(getAngle());

@@ -11,7 +11,7 @@ public class BulletEnemy extends Bullet implements Attacker {
     @Override
     public void init(float x, float y, float scale, float moveSpeed, float angle, Color color) {
         super.init(x, y, scale, moveSpeed, angle, color);
-        shape = new PolygonShape(12, scale);
+        setShape(new PolygonShape(12, scale));
     }
 
 
