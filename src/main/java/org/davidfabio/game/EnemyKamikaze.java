@@ -27,7 +27,7 @@ public class EnemyKamikaze extends Enemy {
             setMoveSpeed(getMoveSpeed() + (deltaTime * 600.0f));
         }
 
-        if (!isInView(world.getLevel()))
+        if (!isInView(world))
             destroy(world);
     }
 }

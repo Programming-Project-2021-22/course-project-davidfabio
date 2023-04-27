@@ -16,10 +16,10 @@ public class Bullet extends Entity implements Attacker {
     }
 
     public void update(float deltaTime, World world) {
-        if (!isInView(world.getLevel()))
-            setIsActive(false);
         if (!getIsActive())
             return;
+        if (!isInView(world))
+            setIsActive(false);
 
         moveTowards(getAngle(), deltaTime);
 
