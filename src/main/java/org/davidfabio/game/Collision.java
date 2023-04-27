@@ -18,29 +18,29 @@ public class Collision {
                 enemy.destroy(world);
             }
 
-            for (BulletPlayer bulletPlayer : player.getBullets()) {
-                if (!bulletPlayer.getIsActive())
+            for (Bullet playerBullet : player.getBullets()) {
+                if (!playerBullet.getIsActive())
                     continue;
 
                 // player bullet colliding with enemy
-                if (polygonPolygon(bulletPlayer, enemy, world)) {
-                    bulletPlayer.attack(enemy, world);
+                if (polygonPolygon(playerBullet, enemy, world)) {
+                    playerBullet.attack(enemy, world);
                     if (!enemy.getIsActive())
                         world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
 
-                    bulletPlayer.setIsActive(false);
+                    playerBullet.setIsActive(false);
                 }
             }
         }
 
-        for (BulletEnemy bulletEnemy : world.getEnemyBullets()) {
-            if (!bulletEnemy.getIsActive())
+        for (Bullet enemyBullet : world.getEnemyBullets()) {
+            if (!enemyBullet.getIsActive())
                 continue;
 
             // player colliding with enemy bullet
-            if (polygonPolygon(bulletEnemy, player, world)) {
-                bulletEnemy.attack(player, world);
-                bulletEnemy.setIsActive(false);
+            if (polygonPolygon(enemyBullet, player, world)) {
+                enemyBullet.attack(player, world);
+                enemyBullet.setIsActive(false);
             }
         }
 

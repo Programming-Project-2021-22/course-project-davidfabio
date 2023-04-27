@@ -2,7 +2,12 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 
-public class Bullet extends Entity {
+public class Bullet extends Entity implements Attacker {
+
+    private int attackPower = 1;
+
+    public int getAttackPower() { return this.attackPower; }
+
 
     public void init(float x, float y, float scale, float moveSpeed, float angle, Color color) {
         super.init(x, y, scale, color);
@@ -22,4 +27,5 @@ public class Bullet extends Entity {
         getShape().rotate(getAngle());
         getShape().translatePosition(this);
     }
+
 }
