@@ -2,6 +2,7 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import org.davidfabio.utils.Transform2D;
 
 public class Camera extends OrthographicCamera {
     /**
@@ -76,16 +77,16 @@ public class Camera extends OrthographicCamera {
      * @param deltaTime Delta by which the game loop updated
      */
     private void moveTowards(float otherX, float otherY, float deltaTime) {
-        float dir = this.getAngleTowards(otherX, otherY);
+        float dir = Transform2D.getAngleTowards(this.position.x, this.position.y, otherX, otherY);
         // Increase camera speed when distance to player is large, so that the player never goes
         // out of view.
-        float distanceToOther = this.getDistanceTo(otherX, otherY);
+        float distanceToOther = Transform2D.getDistance(this.position.x, this.position.y, otherX, otherY);
         if (distanceToOther * deltaTime > MINIMUM_DISTANCE_TO_MOVE) {
             // We only move the camera if the distance to the player is large enough.
             // This avoids unnecessary jiggle when the player stands still.
             float speedMultiplier = distanceToOther > MINIMUM_DISTANCE_TO_SPEED_UP ? (distanceToOther / MINIMUM_DISTANCE_TO_SPEED_UP * 2) : 1.0f;
             float speed = Camera.MOVEMENT_SPEED * deltaTime * speedMultiplier;
-            this.moveTowardsWSpeed(dir, speed);
+            this.moveTowardsWithSpeed(dir, speed);
         }
     }
 
@@ -109,17 +110,7 @@ public class Camera extends OrthographicCamera {
         return Math.min(optimalXZoom,optimalYZoom);
     }
 
-    private float getAngleTowards(float otherX, float otherY) {
-        return ((float)Math.atan2(otherY - this.position.y, otherX - this.position.x));
-    }
-
-    public float getDistanceTo(float otherX, float otherY) {
-        float distanceX = this.position.x - otherX;
-        float distanceY = this.position.y - otherY;
-        return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
-    }
-
-    public void moveTowardsWSpeed(float direction, float speed) {
+    public void moveTowardsWithSpeed(float direction, float speed) {
         float deltaX = (float)Math.cos(direction) * speed;
         float deltaY = (float)Math.sin(direction) * speed;
 
