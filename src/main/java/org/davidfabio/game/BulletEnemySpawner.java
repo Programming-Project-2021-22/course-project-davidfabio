@@ -89,8 +89,7 @@ public class BulletEnemySpawner {
             angle = enemy.getAngleTowards(world.getPlayer().getX(), world.getPlayer().getY());
 
         Bullet bullet = getEnemyBullet(world);
-        bullet.init(enemy.getX(), enemy.getY(), bulletScale, bulletSpeed, angle, enemy.getColorInitial());
-        bullet.setShape(PolygonShape.getEnemyBulletShape(bulletScale));
+        bullet.init(enemy.getX(), enemy.getY(), bulletScale, bulletSpeed, angle, enemy.getColorInitial(), PolygonShape.getEnemyBulletShape(bulletScale));
 
         bulletsPerAttackCounter += 1;
         fireRateCooldown = fireRate;
@@ -98,8 +97,7 @@ public class BulletEnemySpawner {
 
     public void shoot(World world, Entity enemy, float _angle) {
         Bullet bullet = getEnemyBullet(world);
-        bullet.init(enemy.getX(), enemy.getY(), bulletScale, bulletSpeed, _angle, enemy.getColorInitial());
-        bullet.setShape(PolygonShape.getEnemyBulletShape(bulletScale));
+        bullet.init(enemy.getX(), enemy.getY(), bulletScale, bulletSpeed, _angle, enemy.getColorInitial(), PolygonShape.getEnemyBulletShape(bulletScale));
 
         bulletsPerAttackCounter += 1;
         fireRateCooldown = fireRate;

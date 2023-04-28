@@ -16,6 +16,9 @@ public class Particle extends Entity {
     private float rotationSpeed = 2f;
 
 
+    // TODO: currently it's impossible to spawn less than 3 particles
+
+
     public void init(float x, float y, float scale, Color color, PolygonShape shape) {
         super.init(x, y, scale, color);
 

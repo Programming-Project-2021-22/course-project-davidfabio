@@ -53,14 +53,14 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public Type getType() { return type; }
 
 
-    public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
+    public void init(float x, float y, float scale, float moveSpeed, int health, Color color) {
         super.init(x, y, scale, color);
         setShape(PolygonShape.getEnemyShape(getType(), scale));
 
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
         if (this.initialHealth == 0)
-            this.initialHealth = newInitialHealth;
+            this.initialHealth = health;
         this.initializeHealth();
 
         isInHitState = false;

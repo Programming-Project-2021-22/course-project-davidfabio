@@ -9,10 +9,11 @@ public class Bullet extends Entity implements Attacker {
     public int getAttackPower() { return this.attackPower; }
 
 
-    public void init(float x, float y, float scale, float moveSpeed, float angle, Color color) {
+    public void init(float x, float y, float scale, float moveSpeed, float angle, Color color, PolygonShape shape) {
         super.init(x, y, scale, color);
         setMoveSpeed(moveSpeed);
         setAngle(angle);
+        setShape(shape);
     }
 
     public void update(float deltaTime, World world) {
