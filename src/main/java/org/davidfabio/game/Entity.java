@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.davidfabio.utils.Settings;
 
 public class Entity implements Movable {
     private float x, y;
@@ -29,6 +30,7 @@ public class Entity implements Movable {
     public void setShape(PolygonShape shape) { this.shape = shape; }
 
     private Color color, colorInitial;
+    public void setTransparency(float transparency) { color.a = transparency; }
     public Color getColor() { return color; }
     public Color getColorInitial() { return new Color(colorInitial.r, colorInitial.g, colorInitial.b, colorInitial.a); }
     public void setColor(Color color) {
@@ -37,11 +39,6 @@ public class Entity implements Movable {
         this.color.b = color.b;
         this.color.a = color.a;
     }
-    public void setTransparency(float transparency) {
-        this.color.a = transparency;
-    }
-
-
 
 
     // the reason for using this method to setup the entity instead of using constructor is the following:
@@ -66,4 +63,15 @@ public class Entity implements Movable {
         shape.render(polygonSpriteBatch, color);
         polygonSpriteBatch.end();
     }
+
+
+    public void spawnParticles(float particleScale, int particleCount, World world) {
+        for (int i = 0; i < Settings.MAX_PARTICLES; i += 1) {
+            if (!world.getParticles()[i].getIsActive()) {
+                world.getParticles()[i].init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(particleCount, particleScale));
+                break;
+            }
+        }
+    }
+
 }

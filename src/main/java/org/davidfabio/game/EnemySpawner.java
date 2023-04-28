@@ -67,12 +67,11 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawnGroupInCircle(Enemy.Type.CHASER, 6, centerX, centerY, 200, 1, 0);
-        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 5, centerX, centerY, 240, 5, 0.33f);
-        spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 260, 10, 0.15f);
+        spawnGroupInCircle(Enemy.Type.CHASER, 32, centerX, centerY, 200, 1, 0);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 64, centerX, centerY, 240, 5, 0.05f);
+        spawnGroupInCircle(Enemy.Type.CHASER, 24, centerX, centerY, 260, 8, 0.15f);
 
-        spawn(Enemy.Type.TURRET, 50, 50, 10f);
-        spawnGroupInCircle(Enemy.Type.BUBBLE, 2, centerX, centerY, 150, 17f, 1.5f);
+        spawnGroupInCircle(Enemy.Type.BUBBLE, 8, centerX, centerY, 250, 13f, 0.5f);
         spawn(Enemy.Type.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
         spawn(Enemy.Type.TURRET, rightBorder - 50, 50, 15f);
         spawn(Enemy.Type.TURRET, 50, bottomBorder - 50, 17f);
@@ -82,8 +81,8 @@ public class EnemySpawner {
         spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, 100, bottomBorder - 100, 32, 0.5f);
         spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, rightBorder - 100, bottomBorder - 100, 32, 0.5f);
 
-        spawn(Enemy.Type.BUBBLE, centerX, centerY, 32);
-        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 35, 0);
+        spawnGroupInCircle(Enemy.Type.CHASER, 20, 50, 50, 200, 32, 0);
+        spawnGroupInCircle(Enemy.Type.CHASER, 20, rightBorder - 50, bottomBorder - 50, 200, 32, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
     }

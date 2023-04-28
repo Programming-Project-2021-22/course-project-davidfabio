@@ -1,6 +1,7 @@
 package org.davidfabio.game;
 import java.awt.geom.Line2D;
 
+
 public class Collision {
 
     public static void update(World world) {
@@ -29,6 +30,7 @@ public class Collision {
                         world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
 
                     playerBullet.setIsActive(false);
+                    playerBullet.spawnParticles(playerBullet.getScale() / 4, 3, world);
                 }
             }
         }

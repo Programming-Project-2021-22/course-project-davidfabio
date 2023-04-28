@@ -225,22 +225,27 @@ public class Player extends Entity implements Attackable {
     }
 
 
-    public void shoot() {
+    public Bullet getBullet() {
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
-            if (!bullets[i].getIsActive()) {
-
-                // add random spread
-                float randomFloat = random.nextFloat() - 0.5f;
-                float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
-
-                bullets[i].init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD);
-                bullets[i].setShape(PolygonShape.getPlayerBulletShape(bulletScale));
-
-                fireRateCooldown = fireRate;
-                Sounds.playShootSfx();
-                break;
+            if (!bullets[i].getIsActive())
+                return bullets[i];
             }
+
+        return null;
+    }
+
+
+    public void shoot() {
+        int bulletsToSpawn = 3; // TODO: quick and dirty test
+        for (int i = 0; i < bulletsToSpawn; i += 1) {
+            Bullet bullet = getBullet();
+            float randomFloat = random.nextFloat() - 2.5f + (i * 2);
+            float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
+            bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
         }
+
+        fireRateCooldown = fireRate;
+        Sounds.playShootSfx();
     }
 
 }

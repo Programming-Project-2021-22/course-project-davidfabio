@@ -4,7 +4,6 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.davidfabio.input.Mouse;
 import org.davidfabio.utils.Settings;
 
 public class Enemy extends Entity implements Attackable, Attacker {
@@ -54,14 +53,14 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public Type getType() { return type; }
 
 
-    public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
+    public void init(float x, float y, float scale, float moveSpeed, int health, Color color) {
         super.init(x, y, scale, color);
         setShape(PolygonShape.getEnemyShape(getType(), scale));
 
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
         if (this.initialHealth == 0)
-            this.initialHealth = newInitialHealth;
+            this.initialHealth = health;
         this.initializeHealth();
 
         isInHitState = false;
@@ -136,10 +135,11 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
-    public void spawnParticles(float particleScale, World world) {
+    public void spawnParticles(float particleScale, int particleCount, World world) {
+        particleCount = Math.max(particleCount, 3);
         for (int i = 0; i < Settings.MAX_PARTICLES; i += 1) {
             if (!world.getParticles()[i].getIsActive()) {
-                world.getParticles()[i].init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(12, particleScale));
+                world.getParticles()[i].init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(particleCount, particleScale));
                 break;
             }
         }
@@ -150,7 +150,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         if (Collision.pointIsInLevel(getX(), getY(), world))
             spawnPickup(world);
 
-        spawnParticles(getScale() / 4, world);
+        spawnParticles(getScale() / 4, (int)getScale() / 2, world);
 
         this.setHealth(0);
         this.setIsActive(false);

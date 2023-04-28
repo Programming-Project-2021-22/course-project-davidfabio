@@ -13,7 +13,7 @@ public class EnemyTurret extends Enemy {
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         setShape(new PolygonShape(4, scale));
-        bulletSpawner = new BulletEnemySpawner(false, 0.04f, 0.66f, 6, 200, 16, 10, true);
+        bulletSpawner = new BulletEnemySpawner(false, 0.04f, 1.33f, 25, 200, 16, 20, true);
     }
 
 
