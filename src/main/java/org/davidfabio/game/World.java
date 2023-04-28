@@ -41,7 +41,7 @@ public class World {
     public World(ArrayList<Score> scores) {
         level = new Level(Settings.levelWidth, Settings.levelHeight);
         score = new Score();
-        scores = scores;
+        this.scores = scores;
 
         player = new Player();
         player.init(level.getWidth() / 2, level.getHeight() / 2, 32, 240, Color.GOLD);
