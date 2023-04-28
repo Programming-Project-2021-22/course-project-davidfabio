@@ -1,6 +1,8 @@
 package org.davidfabio.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.utils.Transform2D;
@@ -10,25 +12,24 @@ public class Particle extends Entity {
 
     public static Random random = new Random();
 
-    private float[] positionsX, positionsY, moveAngles, rotationAngles;
-    private float lifespanInitial = 0.33f;
-    private float lifespan;
+    private float[] positionsX, positionsY, moveAngles, rotationAngles, radii;
     private float rotationSpeed = 2f;
 
 
     public void init(float x, float y, float scale, Color color, PolygonShape shape) {
         super.init(x, y, scale, color);
 
-        setMoveSpeed(120);
-        lifespan = lifespanInitial;
+        setMoveSpeed(200);
 
         setShape(shape);
         shape.resetPosition();
         shape.translatePosition(getX(), getY());
 
         float[] vertices = shape.getVertices();
-        positionsX = new float[vertices.length / 2];
-        positionsY = new float[vertices.length / 2];
+        int particleCount = vertices.length / 2;
+        positionsX = new float[particleCount];
+        positionsY = new float[particleCount];
+        radii = new float[particleCount];
 
         int counter = 0;
         for (int i = 0; i < vertices.length; i += 2) {
@@ -37,12 +38,14 @@ public class Particle extends Entity {
             counter += 1;
         }
 
-        moveAngles = new float[vertices.length / 2];
-        rotationAngles = new float[vertices.length / 2];
-        for (int i = 0; i < moveAngles.length; i += 1) {
+        moveAngles = new float[particleCount];
+        rotationAngles = new float[particleCount];
+        for (int i = 0; i < particleCount; i += 1) {
             moveAngles[i] = getAngleTowards(positionsX[i], positionsY[i]);
             rotationAngles[i] = random.nextFloat(0, (float)Math.PI * 2);
+            radii[i] = (getScale() + ((float)Math.random() * getScale())) / 4;
         }
+
     }
 
 
@@ -50,8 +53,10 @@ public class Particle extends Entity {
         if (!getIsActive())
             return;
 
-        lifespan -= deltaTime;
-        if (lifespan < 0)
+        float transparency = getColor().a - (deltaTime * 2);
+        setTransparency(transparency);
+
+        if (transparency < 0)
             setIsActive(false);
 
         for (int i = 0; i < positionsX.length; i += 1) {
@@ -72,14 +77,17 @@ public class Particle extends Entity {
         if (!getIsActive())
             return;
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(getColor());
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         for (int i = 0; i < positionsX.length; i += 1) {
             float x1 = positionsX[i];
             float y1 = positionsY[i];
             float x2 = Transform2D.translateX(x1, rotationAngles[i], getScale());
             float y2 = Transform2D.translateY(y1, rotationAngles[i], getScale());
-            shapeRenderer.line(x1, y1, x2, y2);
+            //shapeRenderer.line(x1, y1, x2, y2);
+            shapeRenderer.circle(x2, y2, radii[i]);
         }
         shapeRenderer.end();
     }
