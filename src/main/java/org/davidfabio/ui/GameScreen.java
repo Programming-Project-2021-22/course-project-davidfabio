@@ -99,7 +99,6 @@ public class GameScreen extends ScreenAdapter {
         this.camera.updateCameraPosition(deltaTime, this.world.getPlayer());
         this.shapeRenderer.setProjectionMatrix(this.camera.combined);
 
-        this.polygonSpriteBatch.begin();
         this.polygonSpriteBatch.setProjectionMatrix(this.camera.combined);
         this.world.render(this.polygonSpriteBatch,this.shapeRenderer);
         this.stage.draw();
