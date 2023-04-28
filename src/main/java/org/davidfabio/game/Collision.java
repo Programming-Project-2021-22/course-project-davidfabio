@@ -104,8 +104,4 @@ public class Collision {
 
         return true;
     }
-
-
-
-
 }

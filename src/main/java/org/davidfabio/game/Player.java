@@ -85,6 +85,7 @@ public class Player extends Entity implements Attackable {
 
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
+        polygonSpriteBatch.begin();
         // main shape (circle)
         Color color = getColor();
         if (isInHitState)
@@ -102,9 +103,7 @@ public class Player extends Entity implements Attackable {
             float endX = Transform2D.translateX(getX(), getAngle(), dashLineLength);
             float endY = Transform2D.translateY(getY(), getAngle(), dashLineLength);
             shapeRenderer.line(getX(), getY(), endX, endY);
-
             shapeRenderer.circle(endX, endY, getScale() / 2);
-
             shapeRenderer.end();
         }
 
@@ -117,6 +116,7 @@ public class Player extends Entity implements Attackable {
                 getShape().render(polygonSpriteBatch, _color);
             }
         }
+        polygonSpriteBatch.end();
 
         // bullets
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1)

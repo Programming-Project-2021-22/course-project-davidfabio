@@ -123,8 +123,6 @@ public class World {
         // render player / player bullets
         player.render(polygonSpriteBatch, shapeRenderer);
 
-        polygonSpriteBatch.end();
-
         // render level
         level.render(shapeRenderer);
     }
