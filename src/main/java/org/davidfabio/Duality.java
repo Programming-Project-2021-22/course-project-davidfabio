@@ -2,6 +2,7 @@ package org.davidfabio;
 
 import com.badlogic.gdx.Game;
 import org.davidfabio.game.Score;
+import org.davidfabio.game.Sounds;
 import org.davidfabio.ui.GameScreen;
 import org.davidfabio.ui.MainMenuScreen;
 
@@ -13,7 +14,9 @@ public class Duality extends Game {
 	@Override
 	public void create() {
 		scores = new ArrayList<>();
-		//setScreen(new MainMenuScreen(scores));
-		setScreen(new GameScreen(scores));
+		Sounds.loadSounds();	// Initialize Sounds from current Settings.
+		//
+		setScreen(new MainMenuScreen(scores));
+		//setScreen(new GameScreen(scores));
 	}
 }
