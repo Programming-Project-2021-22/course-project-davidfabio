@@ -1,6 +1,7 @@
 package org.davidfabio.game;
 
 import org.davidfabio.utils.Settings;
+import org.davidfabio.utils.Transform2D;
 
 public interface Movable {
     float getX();
@@ -55,12 +56,10 @@ public interface Movable {
     }
 
     default float getAngleTowards(float otherX, float otherY) {
-        return ((float)Math.atan2(otherY - getY(), otherX - getX()));
+        return Transform2D.getAngleTowards(getX(), getY(), otherX, otherY);
     }
 
     default float getDistanceTo(float otherX, float otherY) {
-        float distanceX = getX() - otherX;
-        float distanceY = getY() - otherY;
-        return (float)Math.sqrt((distanceX * distanceX) + (distanceY * distanceY));
+        return Transform2D.getDistance(getX(),getY(),otherX,otherY);
     }
 }
