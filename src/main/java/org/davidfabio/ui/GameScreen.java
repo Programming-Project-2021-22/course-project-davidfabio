@@ -53,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
         this.camera = new Camera(this.world.getLevel());
         this.stage = new Stage();
         Sounds.loadSounds();
+        Sounds.playBackgroundMusic();
 
         this.userInterface = new UserInterface();
         this.userInterface.init(this.world.getPlayer(),this.world.getScore());
@@ -70,16 +71,22 @@ public class GameScreen extends ScreenAdapter {
 
         Inputs.update();
 
-        if (Inputs.esc.getWasPressed())
+        if (Inputs.esc.getWasPressed()) {
             isPaused = !isPaused;
+            if (isPaused)
+                Sounds.stopBackgroundMusic();
+            else
+                Sounds.playBackgroundMusic();
+        }
 
         // restart game
         // TODO (David): quick and dirty solution; e.g. all the sounds get reloaded again, which is unnecessary
         if (Inputs.tab.getWasPressed())
             show();
 
-        if (isPaused)
+        if (isPaused) {
             return;
+        }
 
 
 

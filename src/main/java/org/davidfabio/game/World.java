@@ -90,6 +90,7 @@ public class World {
         this.player.update(deltaTime, this); // player bullets get updated here as well
         if (player.getHealth() <= 0) {
             score.end();
+            Sounds.stopBackgroundMusic();
             ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
         }
 

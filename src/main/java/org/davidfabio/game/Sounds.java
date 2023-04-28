@@ -6,44 +6,55 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Sounds {
-    private static Sound sfxShoot, sfxExplosion, sfxHit;
-    private static Sound musicTrack;
+    private static Sound sfxShoot = null, sfxExplosion = null, sfxHit = null;
+    private static Sound musicTrack = null;
 
     public static void loadSounds() {
-        try {
-            sfxShoot = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/shoot1.wav"));
-        }
-        catch (GdxRuntimeException ex) {
-            sfxShoot = null;
-            System.out.println("Sound could not be loaded.\n" + ex.getMessage());
+        if (Settings.sfxEnabled) {
+            if(sfxShoot == null) {
+                try {
+                    sfxShoot = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/shoot1.wav"));
+                }
+                catch (GdxRuntimeException ex) {
+                    sfxShoot = null;
+                    System.out.println("Sound could not be loaded.\n" + ex.getMessage());
+                }
+            }
+
+            if(sfxExplosion == null) {
+                try {
+                    sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/explosion1.wav"));
+                }
+                catch (GdxRuntimeException ex) {
+                    sfxExplosion = null;
+                    System.out.println("Sound could not be loaded.\n" + ex.getMessage());
+                }
+            }
+
+            if(sfxHit == null) {
+                try {
+                    sfxHit = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/shoot5.wav"));
+                }
+                catch (GdxRuntimeException ex) {
+                    sfxHit = null;
+                    System.out.println("Sound could not be loaded.\n" + ex.getMessage());
+                }
+            }
         }
 
-        try {
-            sfxExplosion = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/explosion1.wav"));
+        if (Settings.musicEnabled) {
+            if (musicTrack == null ) {
+                try {
+                    // Note: Loading Music still takes very long.
+                    // However, this is done once and not more often.
+                    musicTrack = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/music/track1.mp3"));
+                }
+                catch (GdxRuntimeException ex) {
+                    musicTrack = null;
+                    System.out.println("Sound could not be loaded.\n" + ex.getMessage());
+                }
+            }
         }
-        catch (GdxRuntimeException ex) {
-            sfxExplosion = null;
-            System.out.println("Sound could not be loaded.\n" + ex.getMessage());
-        }
-
-        try {
-            sfxHit = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/shoot5.wav"));
-        }
-        catch (GdxRuntimeException ex) {
-            sfxHit = null;
-            System.out.println("Sound could not be loaded.\n" + ex.getMessage());
-        }
-
-        // NOTE (David): this is commented out for now, because it makes the game load very slowly
-        /*
-        try {
-            musicTrack = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/music/track1.mp3"));
-        }
-        catch (GdxRuntimeException ex) {
-            musicTrack = null;
-            System.out.println("Sound could not be loaded.\n" + ex.getMessage());
-        }
-        */
     }
 
     public static void playHitSfx() {
@@ -60,13 +71,19 @@ public class Sounds {
 
     public static void playExplosionSfx() {
         if ((sfxExplosion != null) && (Settings.sfxEnabled)) {
-            sfxExplosion.play(Settings.sfxVolume);
+            sfxExplosion.loop(Settings.sfxVolume);
         }
     }
 
     public static void playBackgroundMusic() {
         if ((musicTrack != null) && (Settings.musicEnabled)) {
             musicTrack.play(Settings.musicVolume);
+        }
+    }
+
+    public static void stopBackgroundMusic() {
+        if ((musicTrack != null) && Settings.musicEnabled) {
+            musicTrack.stop();
         }
     }
 }
