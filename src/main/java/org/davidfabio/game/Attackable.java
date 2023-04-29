@@ -26,9 +26,9 @@ public interface Attackable {
     }
 
     default void destroy(World world) {
-        this.setHealth(0);
-        this.setIsActive(false);
-        this.playDestructionSound();
+        setHealth(0);
+        setIsActive(false);
+        playDestructionSound();
     }
 
 }

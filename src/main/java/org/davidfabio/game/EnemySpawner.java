@@ -11,18 +11,20 @@ public class EnemySpawner {
     private float timeLastFrame;
     private float centerX, centerY, rightBorder, bottomBorder;
     private World worldReference;
+    private Level levelReference;
 
     public EnemySpawner(World world) {
         worldReference = world;
+        levelReference = world.getLevel();
         centerX = worldReference.getLevel().getWidth() / 2;
         centerY = worldReference.getLevel().getHeight() / 2;
         rightBorder = worldReference.getLevel().getWidth();
         bottomBorder = worldReference.getLevel().getHeight();
     }
 
-    private void spawn(Enemy.Type type, float x, float y, float spawnTime) {
+    private Enemy spawn(Enemy.Type type, float x, float y, float spawnTime) {
         if (timeLastFrame >= spawnTime || timeElapsed < spawnTime)
-            return;
+            return null;
 
         Enemy enemy = null;
         switch(type) {
@@ -48,6 +50,7 @@ public class EnemySpawner {
                 break;
         }
         worldReference.getEnemies().add(enemy);
+        return enemy;
     }
 
     private void spawnGroupInCircle(Enemy.Type type, int count, float centerX, float centerY, float radius, float spawnTime, float timeDeltaBetweenEnemies) {
@@ -65,22 +68,29 @@ public class EnemySpawner {
         }
     }
 
+    private void spawnAtRandomPoint(Enemy.Type type, float spawnTime) {
+        float x = Transform2D.getRandomX(levelReference);
+        float y = Transform2D.getRandomY(levelReference);
+        Enemy enemy = spawn(type, x, y, spawnTime);
+
+        if (enemy != null)
+            enemy.restrictToLevel(levelReference);
+    }
 
 
-    public void update(float deltaTime, Level level) {
+
+    public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
-
-        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 2f);
-        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 10f);
-        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 20f);
-        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 30f);
-        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 35f);
+        
+        spawnAtRandomPoint(Enemy.Type.STAR, 5f);
+        spawnAtRandomPoint(Enemy.Type.STAR, 15f);
+        spawnAtRandomPoint(Enemy.Type.STAR, 30f);
+        spawnAtRandomPoint(Enemy.Type.STAR, 40f);
 
         spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 240, 5, 0.05f);
         spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 260, 8, 0.15f);
-        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 10f);
 
         spawnGroupInCircle(Enemy.Type.BUBBLE, 4, centerX, centerY, 250, 13f, 0.5f);
         spawn(Enemy.Type.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
