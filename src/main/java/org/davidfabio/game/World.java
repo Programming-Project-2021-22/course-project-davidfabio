@@ -72,7 +72,7 @@ public class World {
             enemies.add(enemy);
         enemiesTemp.clear();
 
-        enemySpawner.update(deltaTime, level);
+        enemySpawner.update(deltaTime);
 
         for (Enemy enemy : enemies)
             enemy.update(deltaTime, this);

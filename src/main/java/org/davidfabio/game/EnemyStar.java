@@ -49,7 +49,7 @@ public class EnemyStar extends Enemy {
     @Override
     public void destroy(World world) {
         for (Enemy enemy : world.getEnemies()) {
-            if (enemy.getType() != Type.STAR)
+            if (enemy.getIsActive() && !enemy.getIsSpawning() && enemy.getType() != Type.STAR)
                 enemy.destroy(world);
         }
         world.getEnemiesTemp().clear();
