@@ -92,10 +92,12 @@ public class PolygonShape {
     }
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, Color color) {
+        polygonSpriteBatch.begin();
         PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setColor(color);
         polygonSprite.draw(polygonSpriteBatch);
+        polygonSpriteBatch.end();
     }
 
     public void renderOutline(ShapeRenderer shapeRenderer, Color color) {

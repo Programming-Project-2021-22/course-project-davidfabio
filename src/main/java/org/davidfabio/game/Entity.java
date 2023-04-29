@@ -54,14 +54,11 @@ public class Entity implements Movable {
         this.isActive = true;
     }
 
-
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         if (!isActive)
             return;
 
-        polygonSpriteBatch.begin();
         shape.render(polygonSpriteBatch, color);
-        polygonSpriteBatch.end();
     }
 
 
