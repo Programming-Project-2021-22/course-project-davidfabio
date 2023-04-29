@@ -19,8 +19,10 @@ public class Collision {
                     player.attack(enemy, world);
                     if (!enemy.getIsActive())
                         world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
-                } else
+                } else {
                     enemy.attack(player, world);
+                    player.resetCurrentPickupCollection();
+                }
                 enemy.destroy(world);
             }
 
@@ -56,8 +58,10 @@ public class Collision {
                 continue;
 
             // player colliding with pickup
-            if (polygonPolygon(player, pickup, world))
+            if (polygonPolygon(player, pickup, world)) {
                 pickup.setIsActive(false);
+                player.incrementPickups();
+            }
         }
 
     }

@@ -269,4 +269,20 @@ public class Player extends Entity implements Attackable, Attacker {
         Sounds.playShootSfx();
     }
 
+    /**
+     * This method increases the Player's Pickup Count by 1. Both {@link Player#currentPickupCollection} and
+     * {@link Player#pickupsCollected} are incremented in this method.
+     */
+    public void incrementPickups() {
+        currentPickupCollection += 1;
+        pickupsCollected += 1;
+    }
+
+    /**
+     * This method resets the Player's {@link Player#currentPickupCollection} to 0. This method is used to reset the
+     * Points multiplier once the player gets hit.
+     */
+    public void resetCurrentPickupCollection() {
+        currentPickupCollection = 0;
+    }
 }
