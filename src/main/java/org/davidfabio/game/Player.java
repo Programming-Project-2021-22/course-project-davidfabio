@@ -236,6 +236,12 @@ public class Player extends Entity implements Attackable {
 
 
     public void shoot() {
+        Bullet bullet = getBullet();
+        float randomFloat = random.nextFloat() - 0.5f;
+        float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
+        bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
+
+        /*
         int bulletsToSpawn = 3; // TODO: quick and dirty test
         for (int i = 0; i < bulletsToSpawn; i += 1) {
             Bullet bullet = getBullet();
@@ -243,6 +249,8 @@ public class Player extends Entity implements Attackable {
             float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
             bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
         }
+
+         */
 
         fireRateCooldown = fireRate;
         Sounds.playShootSfx();

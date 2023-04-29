@@ -109,6 +109,7 @@ public class PolygonShape {
             float y2 = vertices[i + 3];
             shapeRenderer.line(x1, y1, x2, y2);
         }
+
         float x1 = vertices[vertices.length - 2];
         float y1 = vertices[vertices.length - 1];
         float x2 = vertices[0];
@@ -193,6 +194,36 @@ public class PolygonShape {
 
             case TURRET:
                 shape = new PolygonShape(4, scale);
+                break;
+
+            case STAR:
+                vertices = new float[] {
+                        0.25f, 0,
+                        0.375f, -0.25f,
+                        0.125f, -0.25f,
+                        0, -0.5f,
+                        -0.125f, -0.25f,
+                        -0.375f, -0.25f,
+                        -0.25f, 0,
+                        -0.375f, 0.25f,
+                        -0.125f, 0.25f,
+                        0, 0.5f,
+                        0.125f, 0.25f,
+                        0.375f, 0.25f,
+                };
+                triangles = new short[] {
+                        0, 1, 2,
+                        2, 3, 4,
+                        4, 5, 6,
+                        6, 7, 8,
+                        8, 9, 10,
+                        10, 11, 0,
+                        0, 2, 10,
+                        10, 2, 8,
+                        2, 4, 8,
+                        8, 4, 6
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
                 break;
         }
 
