@@ -15,8 +15,10 @@ public class Collision {
 
             // player colliding with enemy
             if (polygonPolygon(player, enemy, world)) {
-                enemy.attack(player, world);
-                enemy.destroy(world);
+                if ((enemy.getType() != Enemy.Type.STAR) || !((EnemyStar)enemy).getIsBlowingUp()) {
+                    enemy.attack(player, world);
+                    enemy.destroy(world);
+                }
             }
 
             for (Bullet playerBullet : player.getBullets()) {
@@ -31,6 +33,24 @@ public class Collision {
 
                     playerBullet.setIsActive(false);
                     playerBullet.spawnParticles(playerBullet.getScale() / 4, 3, world, Particle.Type.CIRCLE);
+                }
+            }
+
+            // enemy colliding with blowing up EnemyStar
+            for (Enemy enemyStar : world.getEnemies()) {
+                if (enemy.getType() == Enemy.Type.STAR)
+                    continue;
+                if (!enemyStar.getIsActive())
+                    continue;
+                if (enemyStar.getIsSpawning())
+                    continue;
+                if (enemyStar.getType() != Enemy.Type.STAR)
+                    continue;
+                if (!((EnemyStar)enemyStar).getIsBlowingUp())
+                    continue;
+
+                if (Collision.polygonPolygon(enemy, enemyStar, world)) {
+                    enemy.destroy(world);
                 }
             }
         }
@@ -95,6 +115,17 @@ public class Collision {
         }
 
         return false;
+    }
+
+    public static boolean polygonFullyOusideLevel(Entity entity, World world) {
+        float[] vertices = entity.getShape().getVertices();
+        for (int i = 0; i < vertices.length; i += 2) {
+            float x = vertices[i];
+            float y = vertices[i + 1];
+            if (pointIsInLevel(x, y, world))
+                return false;
+        }
+        return true;
     }
 
 

@@ -15,6 +15,26 @@ public interface Attacker {
                 return;
             if (((Player)attackable).getIsDashing())
                 return;
+
+            // destroy all enemies and enemy bullets when player gets hit
+            for (Enemy enemy : world.getEnemies()) {
+                if (!enemy.getIsActive())
+                    continue;
+                if (enemy.getType() == Enemy.Type.STAR) {
+                    if (Collision.pointIsInLevel(enemy.getX(), enemy.getY(), world))
+                        enemy.spawnPickup(world);
+                    enemy.spawnParticles(enemy.getScale() / 4, (int)enemy.getScale() / 2, world, Particle.Type.CIRCLE);
+                    enemy.setHealth(0);
+                    enemy.setIsActive(false);
+                    enemy.playDestructionSound();
+                }
+                else
+                    enemy.destroy(world);
+            }
+            world.getEnemiesTemp().clear();
+
+            for (Bullet enemyBullet : world.getEnemyBullets())
+                enemyBullet.setIsActive(false);
         }
 
         attackable.setIsInHitState(true);

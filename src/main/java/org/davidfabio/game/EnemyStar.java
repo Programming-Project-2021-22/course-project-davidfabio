@@ -10,6 +10,10 @@ public class EnemyStar extends Enemy {
     private boolean scaleIncreasing = true;
     private float scaleInitial;
 
+    private boolean isBlowingUp = false;
+
+    public boolean getIsBlowingUp() { return isBlowingUp; }
+
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
@@ -28,17 +32,26 @@ public class EnemyStar extends Enemy {
         if (getIsSpawning())
             return;
 
-        if (scaleIncreasing)
-            scaleCounter += deltaTime;
-        else
-            scaleCounter -= deltaTime;
+        if (isBlowingUp) {
+            scaleCounter += (deltaTime * scaleCounter * 5);
+            if (Collision.polygonFullyOusideLevel(this, world)) {
+                setHealth(0);
+                setIsActive(false);
+            }
+        }
+        else {
+            if (scaleIncreasing)
+                scaleCounter += deltaTime;
+            else
+                scaleCounter -= deltaTime;
 
-        if (scaleCounter > scalingStopsAfter || scaleCounter < -scalingStopsAfter)
-            scaleIncreasing = !scaleIncreasing;
-        scaleCounter = Math.min(scaleCounter, scalingStopsAfter);
-        scaleCounter = Math.max(scaleCounter, -scalingStopsAfter);
+            if (scaleCounter > scalingStopsAfter || scaleCounter < -scalingStopsAfter)
+                scaleIncreasing = !scaleIncreasing;
+            scaleCounter = Math.min(scaleCounter, scalingStopsAfter);
+            scaleCounter = Math.max(scaleCounter, -scalingStopsAfter);
 
-        setTransparency(scaleCounter + 0.5f);
+            setTransparency(scaleCounter + 0.5f);
+        }
 
         setShape(PolygonShape.getEnemyShape(getType(), scaleInitial + (scaleCounter * getScale())));
         getShape().resetPosition();
@@ -48,13 +61,9 @@ public class EnemyStar extends Enemy {
 
     @Override
     public void destroy(World world) {
-        for (Enemy enemy : world.getEnemies()) {
-            if (enemy.getIsActive() && !enemy.getIsSpawning() && enemy.getType() != Type.STAR)
-                enemy.destroy(world);
-        }
-        world.getEnemiesTemp().clear();
-
-        super.destroy(world);
+        isBlowingUp = true;
+        scaleCounter = Math.abs(scaleCounter);
+        setTransparency(0.5f);
     }
 
 }
