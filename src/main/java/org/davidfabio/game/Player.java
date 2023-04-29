@@ -11,12 +11,12 @@ import org.davidfabio.utils.Transform2D;
 import java.util.Random;
 
 public class Player extends Entity implements Attackable, Attacker {
-    private float fireRate = 0.06f;
+    private float fireRate = 0.07f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
     private float bulletScale = 32;
     private float bulletSpreadMax = 8;
-    private int initialHealth = 5;
+    private int initialHealth = 3;
     private int health;
     private Bullet[] bullets = new Bullet[Settings.MAX_PLAYER_BULLETS];
 
@@ -179,6 +179,7 @@ public class Player extends Entity implements Attackable, Attacker {
             dashDurationCooldown = dashDuration;
             inDashChooseDirectionState = false;
             dashAngle = getAngle();
+            Sounds.playDashSfx();
         }
         // while dashing
         else if (isDashing) {

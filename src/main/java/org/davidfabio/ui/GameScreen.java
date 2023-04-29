@@ -62,6 +62,8 @@ public class GameScreen extends ScreenAdapter {
         this.isPaused = false;
 
         Gdx.input.setInputProcessor(this.stage);
+
+        Sounds.playGameStartSfx();
     }
 
     @Override

@@ -64,6 +64,7 @@ public class EnemyStar extends Enemy {
         isBlowingUp = true;
         scaleCounter = Math.abs(scaleCounter);
         setTransparency(0.5f);
+        Sounds.playExplosionEnemyStarSfx();
     }
 
 }
