@@ -13,14 +13,6 @@ public class Collision {
             if (enemy.getIsSpawning())
                 continue;
 
-            // player colliding with enemy
-            if (polygonPolygon(player, enemy, world)) {
-                if ((enemy.getType() != Enemy.Type.STAR) || !((EnemyStar)enemy).getIsBlowingUp()) {
-                    enemy.attack(player, world);
-                    enemy.destroy(world);
-                }
-            }
-
             for (Bullet playerBullet : player.getBullets()) {
                 if (!playerBullet.getIsActive())
                     continue;
@@ -53,6 +45,16 @@ public class Collision {
                     enemy.destroy(world);
                 }
             }
+
+            // player colliding with enemy
+            if (polygonPolygon(player, enemy, world)) {
+                if ((enemy.getType() != Enemy.Type.STAR) || !((EnemyStar)enemy).getIsBlowingUp()) {
+                    enemy.attack(player, world);
+                    enemy.destroy(world);
+                    if (!player.getIsDashing())
+                        world.destroyAllEnemies();
+                }
+            }
         }
 
         for (Bullet enemyBullet : world.getEnemyBullets()) {
@@ -63,6 +65,9 @@ public class Collision {
             if (polygonPolygon(enemyBullet, player, world)) {
                 enemyBullet.attack(player, world);
                 enemyBullet.setIsActive(false);
+
+                if (!player.getIsDashing())
+                    world.destroyAllEnemies();
             }
         }
 

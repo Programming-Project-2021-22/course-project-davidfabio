@@ -2,18 +2,13 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.Duality;
-import org.davidfabio.input.Mouse;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
-import org.davidfabio.utils.Transform2D;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class World {
     private Player player;
@@ -128,4 +123,27 @@ public class World {
         // render level
         level.render(shapeRenderer);
     }
+
+
+    public void destroyAllEnemies() {
+        for (Enemy enemy : getEnemies()) {
+            if (!enemy.getIsActive())
+                continue;
+            if (enemy.getType() == Enemy.Type.STAR) {
+                if (Collision.pointIsInLevel(enemy.getX(), enemy.getY(), this))
+                    enemy.spawnPickup(this);
+                enemy.spawnParticles(enemy.getScale() / 4, (int)enemy.getScale() / 2, this, Particle.Type.CIRCLE);
+                enemy.setHealth(0);
+                enemy.setIsActive(false);
+                enemy.playDestructionSound();
+            }
+            else
+                enemy.destroy(this);
+        }
+        getEnemiesTemp().clear();
+    }
+
+
+
+
 }

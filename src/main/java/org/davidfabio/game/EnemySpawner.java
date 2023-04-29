@@ -82,7 +82,7 @@ public class EnemySpawner {
     public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
-
+        
         spawnAtRandomPoint(Enemy.Type.STAR, 5f);
         spawnAtRandomPoint(Enemy.Type.STAR, 15f);
         spawnAtRandomPoint(Enemy.Type.STAR, 30f);
