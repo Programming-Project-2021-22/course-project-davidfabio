@@ -71,13 +71,13 @@ public class Sounds {
 
     public static void playExplosionSfx() {
         if ((sfxExplosion != null) && (Settings.sfxEnabled)) {
-            sfxExplosion.loop(Settings.sfxVolume);
+            sfxExplosion.play(Settings.sfxVolume);
         }
     }
 
     public static void playBackgroundMusic() {
         if ((musicTrack != null) && (Settings.musicEnabled)) {
-            musicTrack.play(Settings.musicVolume);
+            musicTrack.loop(Settings.musicVolume);
         }
     }
 
