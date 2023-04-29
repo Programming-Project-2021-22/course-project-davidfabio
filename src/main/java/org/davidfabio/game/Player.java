@@ -10,7 +10,7 @@ import org.davidfabio.utils.Transform2D;
 
 import java.util.Random;
 
-public class Player extends Entity implements Attackable {
+public class Player extends Entity implements Attackable, Attacker {
     private float fireRate = 0.06f;
     private float fireRateCooldown = 0.0f;
     private float bulletSpeed = 800;
@@ -34,6 +34,7 @@ public class Player extends Entity implements Attackable {
     private float hitCooldown;
     private float transparencyWhileInHitState;
     private boolean transparencyWhileInHitStateIncreasing;
+    private int attackPower = 20;  // This is the Damage a player deals on dashing.
 
     public int getHealth() { return this.health; }
     public void setHealth(int newHealth) { this.health = newHealth; }
@@ -41,6 +42,7 @@ public class Player extends Entity implements Attackable {
     public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
+    public int getAttackPower() { return attackPower; };
 
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
