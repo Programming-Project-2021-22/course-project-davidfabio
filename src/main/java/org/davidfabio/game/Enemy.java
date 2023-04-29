@@ -77,9 +77,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
             return;
 
         if (getIsSpawning()) {
-            polygonSpriteBatch.begin();
             getShape().renderOutline(shapeRenderer, getColor());
-            polygonSpriteBatch.end();
         } else
             super.render(polygonSpriteBatch, shapeRenderer);
     }

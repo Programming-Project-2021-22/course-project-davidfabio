@@ -14,8 +14,10 @@ public interface Attacker {
         if (attackable.getClass() == Player.class) {
             if (attackable.getIsInHitState())
                 return;
-            if (((Player)attackable).getIsDashing())
+            if (((Player)attackable).getIsDashing()) {
+
                 return;
+            }
         }
 
         attackable.setIsInHitState(true);

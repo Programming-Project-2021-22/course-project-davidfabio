@@ -51,6 +51,7 @@ public class Collision {
                 if ((enemy.getType() != Enemy.Type.STAR) || !((EnemyStar)enemy).getIsBlowingUp()) {
                     enemy.attack(player, world);
                     enemy.destroy(world);
+                    world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
                     if (!player.getIsDashing())
                         world.destroyAllEnemies();
                 }
