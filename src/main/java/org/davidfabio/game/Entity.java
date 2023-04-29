@@ -65,10 +65,11 @@ public class Entity implements Movable {
     }
 
 
-    public void spawnParticles(float particleScale, int particleCount, World world) {
+    public void spawnParticles(float particleScale, int particleCount, World world, Particle.Type type) {
         for (int i = 0; i < Settings.MAX_PARTICLES; i += 1) {
-            if (!world.getParticles()[i].getIsActive()) {
-                world.getParticles()[i].init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(particleCount, particleScale));
+            Particle particle = world.getParticles()[i];
+            if (!particle.getIsActive()) {
+                particle.init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(particleCount, particleScale), type);
                 break;
             }
         }

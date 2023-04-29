@@ -42,6 +42,10 @@ public class EnemySpawner {
                 enemy = new EnemyKamikaze();
                 enemy.init(x, y, 30, 100, 1, Color.ORANGE);
                 break;
+            case STAR:
+                enemy = new EnemyStar();
+                enemy.init(x, y, 80, 30, 20, Color.PURPLE);
+                break;
         }
         worldReference.getEnemies().add(enemy);
     }
@@ -63,15 +67,22 @@ public class EnemySpawner {
 
 
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, Level level) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawnGroupInCircle(Enemy.Type.CHASER, 32, centerX, centerY, 200, 1, 0);
-        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 64, centerX, centerY, 240, 5, 0.05f);
-        spawnGroupInCircle(Enemy.Type.CHASER, 24, centerX, centerY, 260, 8, 0.15f);
+        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 2f);
+        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 10f);
+        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 20f);
+        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 30f);
+        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 35f);
 
-        spawnGroupInCircle(Enemy.Type.BUBBLE, 8, centerX, centerY, 250, 13f, 0.5f);
+        spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 240, 5, 0.05f);
+        spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 260, 8, 0.15f);
+        spawn(Enemy.Type.STAR, Transform2D.getRandomX(level), Transform2D.getRandomY(level), 10f);
+
+        spawnGroupInCircle(Enemy.Type.BUBBLE, 4, centerX, centerY, 250, 13f, 0.5f);
         spawn(Enemy.Type.TURRET, rightBorder - 50, bottomBorder - 50, 19f);
         spawn(Enemy.Type.TURRET, rightBorder - 50, 50, 15f);
         spawn(Enemy.Type.TURRET, 50, bottomBorder - 50, 17f);
@@ -85,5 +96,6 @@ public class EnemySpawner {
         spawnGroupInCircle(Enemy.Type.CHASER, 20, rightBorder - 50, bottomBorder - 50, 200, 32, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
+
     }
 }

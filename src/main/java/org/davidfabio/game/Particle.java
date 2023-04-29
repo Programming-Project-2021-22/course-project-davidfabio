@@ -10,6 +10,12 @@ import java.util.Random;
 
 public class Particle extends Entity {
 
+    public enum Type {
+        LINE,
+        CIRCLE
+    }
+
+    private Type type;
     public static Random random = new Random();
 
     private float[] positionsX, positionsY, moveAngles, rotationAngles, radii;
@@ -19,8 +25,9 @@ public class Particle extends Entity {
     // TODO: currently it's impossible to spawn less than 3 particles
 
 
-    public void init(float x, float y, float scale, Color color, PolygonShape shape) {
+    public void init(float x, float y, float scale, Color color, PolygonShape shape, Type type) {
         super.init(x, y, scale, color);
+        this.type = type;
 
         setMoveSpeed(200);
 
@@ -80,18 +87,27 @@ public class Particle extends Entity {
         if (!getIsActive())
             return;
 
-        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        if (type == Type.LINE)
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        else if (type == Type.CIRCLE) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+        }
+
         shapeRenderer.setColor(getColor());
-        Gdx.gl.glEnable(GL20.GL_BLEND);
+
         for (int i = 0; i < positionsX.length; i += 1) {
             float x1 = positionsX[i];
             float y1 = positionsY[i];
             float x2 = Transform2D.translateX(x1, rotationAngles[i], getScale());
             float y2 = Transform2D.translateY(y1, rotationAngles[i], getScale());
-            //shapeRenderer.line(x1, y1, x2, y2);
-            shapeRenderer.circle(x2, y2, radii[i]);
+
+            if (type == Type.LINE)
+                shapeRenderer.line(x1, y1, x2, y2);
+            else if (type == Type.CIRCLE)
+                shapeRenderer.circle(x2, y2, radii[i]);
         }
+
         shapeRenderer.end();
     }
 

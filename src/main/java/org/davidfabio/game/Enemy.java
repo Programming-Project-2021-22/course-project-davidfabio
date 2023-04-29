@@ -12,7 +12,8 @@ public class Enemy extends Entity implements Attackable, Attacker {
         CHASER,
         TURRET,
         BUBBLE,
-        KAMIKAZE
+        KAMIKAZE,
+        STAR
     }
 
     private Type type;
@@ -135,6 +136,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
+    /*
     public void spawnParticles(float particleScale, int particleCount, World world) {
         particleCount = Math.max(particleCount, 3);
         for (int i = 0; i < Settings.MAX_PARTICLES; i += 1) {
@@ -145,12 +147,14 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
+     */
+
     @Override
     public void destroy(World world) {
         if (Collision.pointIsInLevel(getX(), getY(), world))
             spawnPickup(world);
 
-        spawnParticles(getScale() / 4, (int)getScale() / 2, world);
+        spawnParticles(getScale() / 4, (int)getScale() / 2, world, Particle.Type.CIRCLE);
 
         this.setHealth(0);
         this.setIsActive(false);

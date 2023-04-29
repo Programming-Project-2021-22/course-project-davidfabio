@@ -29,6 +29,7 @@ public class World {
 
     public Player getPlayer() { return player; }
     public ArrayList<Enemy> getEnemies() { return enemies; }
+    public ArrayList<Enemy> getEnemiesTemp() { return enemiesTemp; }
     public Bullet[] getEnemyBullets() { return enemyBullets; }
     public Pickup[] getPickups() { return pickups; }
     public Particle[] getParticles() { return particles; }
@@ -71,7 +72,7 @@ public class World {
             enemies.add(enemy);
         enemiesTemp.clear();
 
-        enemySpawner.update(deltaTime);
+        enemySpawner.update(deltaTime, level);
 
         for (Enemy enemy : enemies)
             enemy.update(deltaTime, this);
