@@ -15,7 +15,12 @@ public class Collision {
 
             // player colliding with enemy
             if (polygonPolygon(player, enemy, world)) {
-                enemy.attack(player, world);
+                if (player.getIsDashing()) {
+                    player.attack(enemy, world);
+                    if (!enemy.getIsActive())
+                        world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
+                } else
+                    enemy.attack(player, world);
                 enemy.destroy(world);
             }
 
