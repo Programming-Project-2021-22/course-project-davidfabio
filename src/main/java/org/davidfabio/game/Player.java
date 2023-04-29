@@ -34,7 +34,20 @@ public class Player extends Entity implements Attackable, Attacker {
     private float hitCooldown;
     private float transparencyWhileInHitState;
     private boolean transparencyWhileInHitStateIncreasing;
-    private int attackPower = 20;  // This is the Damage a player deals on dashing.
+    /**
+     * The Attack Power is the damage a Player instance deals to an Enemy instance when hitting it while dashing.
+     */
+    private int attackPower = 20;
+    /**
+     * The Pickups Collected Variable stores how many pickups the Player has picked up in total (This may be useful for
+     * statistics).
+     */
+    private int pickupsCollected = 0;
+    /**
+     * The Current Pickup Collection stores how many Pickups the Player has collected since last taking damage. This is
+     * used to calculate a Multiplier for the Player's score.
+     */
+    private int currentPickupCollection = 0;
 
     public int getHealth() { return this.health; }
     public void setHealth(int newHealth) { this.health = newHealth; }
