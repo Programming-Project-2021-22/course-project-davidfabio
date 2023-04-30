@@ -21,7 +21,7 @@ public class Collision {
                 if (polygonPolygon(playerBullet, enemy, world)) {
                     playerBullet.attack(enemy, world);
                     if (!enemy.getIsActive())
-                        world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
+                        world.getScore().addPoints(Enemy.POINT_VALUE * player.getMultiplier());
 
                     playerBullet.setIsActive(false);
                     playerBullet.spawnParticles(playerBullet.getScale() / 4, 3, world, Particle.Type.CIRCLE);
@@ -51,11 +51,12 @@ public class Collision {
                 if ((enemy.getType() != Enemy.Type.STAR) || !((EnemyStar)enemy).getIsBlowingUp()) {
                     enemy.attack(player, world);
                     enemy.destroy(world);
-                    world.getScore().setPoints(world.getScore().getPoints() + Enemy.POINT_VALUE);
-                    if (!player.getIsDashing())
+                    world.getScore().addPoints(Enemy.POINT_VALUE * player.getMultiplier());
+                    if (!player.getIsDashing()) {
                         world.destroyAllEnemies();
+                        player.resetCurrentPickupCollection();
+                    }
                 }
-                player.resetCurrentPickupCollection();
             }
         }
 
@@ -68,8 +69,10 @@ public class Collision {
                 enemyBullet.attack(player, world);
                 enemyBullet.setIsActive(false);
 
-                if (!player.getIsDashing())
+                if (!player.getIsDashing()) {
                     world.destroyAllEnemies();
+                    player.resetCurrentPickupCollection();
+                }
             }
         }
 

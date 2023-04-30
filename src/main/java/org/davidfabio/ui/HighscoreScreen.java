@@ -32,18 +32,20 @@ public class HighscoreScreen extends ScreenAdapter {
         this.mainTable = new Table();
         this.mainTable.setFillParent(true);
         this.stage.addActor(this.mainTable);
-        float columnWidth = Gdx.graphics.getWidth() * 0.4f / 3;
+        float columnWidth = Gdx.graphics.getWidth() * 0.4f / 4;
 
         UIBuilder.loadSkin();
         UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES",true);
         Table highScoresTable = new Table();
         UIBuilder.addSubtitleLabel(highScoresTable,"Score",columnWidth,true);
         UIBuilder.addSubtitleLabel(highScoresTable,"Username",columnWidth,false);
+        UIBuilder.addSubtitleLabel(highScoresTable,"Pickups",columnWidth,false);
         UIBuilder.addSubtitleLabel(highScoresTable,"Time played",columnWidth,false);
         for(Score score : getHighscores()) {
             long durationInSeconds = score.getDuration() / 1000;
             UIBuilder.addLabel(highScoresTable,"" + score.getPoints(),columnWidth,true);
             UIBuilder.addLabel(highScoresTable,score.getUsername(),columnWidth,false);
+            UIBuilder.addLabel(highScoresTable,String.format("%d",score.getPickups()),columnWidth,false);
             UIBuilder.addLabel(highScoresTable,String.format("%02d:%02d", durationInSeconds / 60, (durationInSeconds % 60)),columnWidth,false);
         }
         this.mainTable.row();

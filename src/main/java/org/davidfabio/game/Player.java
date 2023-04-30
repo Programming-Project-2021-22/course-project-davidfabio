@@ -48,6 +48,13 @@ public class Player extends Entity implements Attackable, Attacker {
      * used to calculate a Multiplier for the Player's score.
      */
     private int currentPickupCollection = 0;
+    /**
+     * This is the number of {@link Player#currentPickupCollection} required in order to gain a higher multiplier.
+     * For example if this is 10, the {@link Player#getMultiplier()} is calculated using {@link Player#currentPickupCollection}
+     * divided by 10. Only the integer Part is used and it cannot be lower than 1. The maximum Multiplier is defined in
+     * the Settings {@link Settings#MAX_MULTIPLIER}.
+     */
+    private static int pickupMultiplierDivisor = 10;
 
     public int getHealth() { return this.health; }
     public void setHealth(int newHealth) { this.health = newHealth; }
@@ -55,7 +62,8 @@ public class Player extends Entity implements Attackable, Attacker {
     public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
-    public int getAttackPower() { return attackPower; };
+    public int getAttackPower() { return attackPower; }
+    public int getPickupsCollected() { return pickupsCollected; }
 
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
@@ -285,5 +293,16 @@ public class Player extends Entity implements Attackable, Attacker {
      */
     public void resetCurrentPickupCollection() {
         currentPickupCollection = 0;
+    }
+
+    /**
+     * This method returns a multiplier by which the gained points are multiplied.
+     * The multiplier is calculated using the currentPickup-collection. The pickups collected are divided by {@link Player#pickupMultiplierDivisor}
+     * and only the integer part of this is used. The Multiplier cannot be lower than 1 and cannot exceed {@link Settings#MAX_MULTIPLIER}.
+     * @return An integer value by which the gained points are multiplied.
+     */
+    public int getMultiplier() {
+        int multiplier = (int)currentPickupCollection/10 + 1;
+        return multiplier < Settings.MAX_MULTIPLIER ? multiplier : Settings.MAX_MULTIPLIER;
     }
 }
