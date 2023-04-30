@@ -39,10 +39,10 @@ public class UserInterface extends Group {
 
         scoreMultiplier = new Label(getMultiplierText(player.getMultiplier()), UIBuilder.getSkin());
         scoreMultiplier.setStyle(labelStyle);
-        scoreMultiplier.setFontScale(0.75f);
-        scoreMultiplier.setHeight(30f);
+        scoreMultiplier.setFontScale(1.25f);
+        scoreMultiplier.setHeight(60f);
         scoreMultiplier.setWidth(Gdx.graphics.getWidth() * 0.5f);
-        scoreMultiplier.setPosition(Gdx.graphics.getWidth() - 30f,(Gdx.graphics.getHeight() * 0.9f));
+        scoreMultiplier.setPosition(Gdx.graphics.getWidth() - 90f,(Gdx.graphics.getHeight() * 0.9f));
         addActor(scoreMultiplier);
 
         playerLives = new ArrayList<>();
