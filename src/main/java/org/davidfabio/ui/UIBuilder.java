@@ -7,8 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class UIBuilder {
+    /**
+     * This contains a {@link Skin} that is used throughout the Application to style every interface object.
+     * This Variable is instanced using the {@link UIBuilder#loadSkin()} method.
+     */
     private static Skin skin;
 
+    /**
+     * This method loads the File "uiskin.json" from the shade-skin. If the file was already loaded, this method does
+     * nothing.
+     * The skin is loaded into the Variable {@link UIBuilder#skin}.
+     */
     public static void loadSkin() {
         if (skin == null) {
             skin = new Skin(Gdx.files.internal("src/main/resources/ui/shade/skin/uiskin.json"));

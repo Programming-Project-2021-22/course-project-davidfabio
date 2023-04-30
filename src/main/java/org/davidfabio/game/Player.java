@@ -34,7 +34,27 @@ public class Player extends Entity implements Attackable, Attacker {
     private float hitCooldown;
     private float transparencyWhileInHitState;
     private boolean transparencyWhileInHitStateIncreasing;
-    private int attackPower = 20;  // This is the Damage a player deals on dashing.
+    /**
+     * The Attack Power is the damage a Player instance deals to an Enemy instance when hitting it while dashing.
+     */
+    private int attackPower = 20;
+    /**
+     * The Pickups Collected Variable stores how many pickups the Player has picked up in total (This may be useful for
+     * statistics).
+     */
+    private int pickupsCollected = 0;
+    /**
+     * The Current Pickup Collection stores how many Pickups the Player has collected since last taking damage. This is
+     * used to calculate a Multiplier for the Player's score.
+     */
+    private int currentPickupCollection = 0;
+    /**
+     * This is the number of {@link Player#currentPickupCollection} required in order to gain a higher multiplier.
+     * For example if this is 10, the {@link Player#getMultiplier()} is calculated using {@link Player#currentPickupCollection}
+     * divided by 10. Only the integer Part is used and it cannot be lower than 1. The maximum Multiplier is defined in
+     * the Settings {@link Settings#MAX_MULTIPLIER}.
+     */
+    private static int pickupMultiplierDivisor = 10;
 
     public int getHealth() { return this.health; }
     public void setHealth(int newHealth) { this.health = newHealth; }
@@ -42,7 +62,8 @@ public class Player extends Entity implements Attackable, Attacker {
     public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
     public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
     public boolean getIsInHitState() { return isInHitState; }
-    public int getAttackPower() { return attackPower; };
+    public int getAttackPower() { return attackPower; }
+    public int getPickupsCollected() { return pickupsCollected; }
 
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
@@ -257,4 +278,31 @@ public class Player extends Entity implements Attackable, Attacker {
         Sounds.playShootSfx();
     }
 
+    /**
+     * This method increases the Player's Pickup Count by 1. Both {@link Player#currentPickupCollection} and
+     * {@link Player#pickupsCollected} are incremented in this method.
+     */
+    public void incrementPickups() {
+        currentPickupCollection += 1;
+        pickupsCollected += 1;
+    }
+
+    /**
+     * This method resets the Player's {@link Player#currentPickupCollection} to 0. This method is used to reset the
+     * Points multiplier once the player gets hit.
+     */
+    public void resetCurrentPickupCollection() {
+        currentPickupCollection = 0;
+    }
+
+    /**
+     * This method returns a multiplier by which the gained points are multiplied.
+     * The multiplier is calculated using the currentPickup-collection. The pickups collected are divided by {@link Player#pickupMultiplierDivisor}
+     * and only the integer part of this is used. The Multiplier cannot be lower than 1 and cannot exceed {@link Settings#MAX_MULTIPLIER}.
+     * @return An integer value by which the gained points are multiplied.
+     */
+    public int getMultiplier() {
+        int multiplier = (int)currentPickupCollection/10 + 1;
+        return multiplier < Settings.MAX_MULTIPLIER ? multiplier : Settings.MAX_MULTIPLIER;
+    }
 }

@@ -6,6 +6,7 @@ public class Settings {
     public static String username = "Player";
     public static float levelWidth = 800;
     public static float levelHeight = 640;
+    public static int MAX_MULTIPLIER = 5;
 
     // Display Settings
     public static boolean fullscreenEnabled = false;

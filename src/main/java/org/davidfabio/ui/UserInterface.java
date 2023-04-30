@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class UserInterface extends Group {
     private Label playerScore;
+    private Label scoreMultiplier;
     private HorizontalGroup healthContainer;
     private ArrayList<Boolean> playerLives;
 
@@ -26,32 +27,41 @@ public class UserInterface extends Group {
 
     public void init(Player player, Score score) {
         // Player Score
-        this.playerScore = new Label(getScoreText(score), UIBuilder.getSkin());
+        playerScore = new Label(getScoreText(score), UIBuilder.getSkin());
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = UIBuilder.getSkin().getFont("font-title");
-        this.playerScore.setStyle(labelStyle);
-        this.playerScore.setFontScale(0.75f);
-        this.playerScore.setHeight(30f);
-        this.playerScore.setWidth(Gdx.graphics.getWidth() * 0.5f);
-        this.playerScore.setPosition(30f,(Gdx.graphics.getHeight() * 0.9f));
-        this.addActor(this.playerScore);
+        playerScore.setStyle(labelStyle);
+        playerScore.setFontScale(0.75f);
+        playerScore.setHeight(30f);
+        playerScore.setWidth(Gdx.graphics.getWidth() * 0.5f);
+        playerScore.setPosition(30f,(Gdx.graphics.getHeight() * 0.9f));
+        addActor(playerScore);
 
-        this.playerLives = new ArrayList<>();
+        scoreMultiplier = new Label(getMultiplierText(player.getMultiplier()), UIBuilder.getSkin());
+        scoreMultiplier.setStyle(labelStyle);
+        scoreMultiplier.setFontScale(1.25f);
+        scoreMultiplier.setHeight(60f);
+        scoreMultiplier.setWidth(Gdx.graphics.getWidth() * 0.5f);
+        scoreMultiplier.setPosition(Gdx.graphics.getWidth() - 90f,(Gdx.graphics.getHeight() * 0.9f));
+        addActor(scoreMultiplier);
+
+        playerLives = new ArrayList<>();
         for(int i = 0; i < player.getHealth(); i++) {
-            this.playerLives.add(true);
+            playerLives.add(true);
         }
 
         // Player Health bar
-        this.healthContainer = new HorizontalGroup();
-        this.healthContainer.setHeight(20f);
-        this.healthContainer.setWidth(204f);
-        this.healthContainer.setPosition((Gdx.graphics.getWidth() / 2) - (this.healthContainer.getWidth() / 2),Gdx.graphics.getHeight() * 0.1f);
+        healthContainer = new HorizontalGroup();
+        healthContainer.setHeight(20f);
+        healthContainer.setWidth(204f);
+        healthContainer.setPosition((Gdx.graphics.getWidth() / 2) - (healthContainer.getWidth() / 2),Gdx.graphics.getHeight() * 0.1f);
         updateHealthContainer(player.getHealth());
-        this.addActor(this.healthContainer);
+        addActor(healthContainer);
     }
 
     public void update(Player player, Score score) {
-        this.playerScore.setText(getScoreText(score));
+        playerScore.setText(getScoreText(score));
+        scoreMultiplier.setText(getMultiplierText(player.getMultiplier()));
         updateHealthContainer(player.getHealth());
     }
 
@@ -59,9 +69,13 @@ public class UserInterface extends Group {
         return "Score: " + score.getPoints();
     }
 
+    private String getMultiplierText(int multiplier) {
+        return multiplier + "x";
+    }
+
     private void updateHealthContainer(int currentHealth) {
-        for(int i = 0; i < this.playerLives.size(); i++) {
-            this.playerLives.set(i, i < currentHealth);
+        for(int i = 0; i < playerLives.size(); i++) {
+            playerLives.set(i, i < currentHealth);
         }
 
         Pixmap pixmapGold = new Pixmap(30, 30, Pixmap.Format.RGBA8888);
@@ -72,7 +86,7 @@ public class UserInterface extends Group {
         pixmapDarkGrey.fill();
 
         this.healthContainer.clearChildren();
-        for(boolean active : this.playerLives) {
+        for(boolean active : playerLives) {
             Image playerHealth;
             if (active)
                 playerHealth = new Image(new Texture(pixmapGold));
@@ -81,10 +95,10 @@ public class UserInterface extends Group {
             playerHealth.setWidth(30f);
             playerHealth.setHeight(30f);
             playerHealth.setRotation(45f);
-            this.healthContainer.addActor(playerHealth);
-            this.healthContainer.center();
-            this.healthContainer.padLeft(25);
-            this.healthContainer.space(20);
+            healthContainer.addActor(playerHealth);
+            healthContainer.center();
+            healthContainer.padLeft(25);
+            healthContainer.space(20);
         }
     }
 }
