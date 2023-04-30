@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.utils.Settings;
 
+
+/**
+ * An enemy can damage the player by colliding with him.
+ * When that happens the player loses 1 life and all enemies on screen (including the spawning ones) are destroyed to give the player a brief pause.
+ */
+
 public class Enemy extends Entity implements Attackable, Attacker {
 
     public enum Type {

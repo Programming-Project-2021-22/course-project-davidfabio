@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import org.davidfabio.utils.Transform2D;
 
+/**
+ * Moves towards player.
+ */
+
 public class EnemyChaser extends Enemy {
     private float xScaleCounter = 0;
     private float xScalingStopsAfter = 0.1f;

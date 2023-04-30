@@ -2,6 +2,13 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 
+/**
+ * While spawning it rotates towards player.
+ * When it's spawned it moves straight towards last rotation at a high speed.
+ * Get's destroyed when it leaves the level area.
+ */
+
+
 public class EnemyKamikaze extends Enemy {
 
 
