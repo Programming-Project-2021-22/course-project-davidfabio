@@ -1,26 +1,51 @@
 package org.davidfabio.input;
 
+import com.badlogic.gdx.Gdx;
+
+import java.util.ArrayList;
+
 public class Input {
-    private int binding;
+    private ArrayList<Integer> bindings;
     private boolean isDown, wasPressed, wasReleased, wasDownLastFrame;
 
-    public int getBinding() { return binding; }
     public boolean getIsDown() { return isDown; }
     public boolean getWasPressed() { return wasPressed; }
     public boolean getWasReleased() { return wasReleased; }
     public boolean getWasDownLastFrame() { return wasDownLastFrame; }
-    public void setIsDown(boolean isDown) { this.isDown = isDown; }
-    public void setWasPressed(boolean wasPressed) { this.wasPressed = wasPressed; }
-    public void setWasReleased(boolean wasReleased) { this.wasReleased = wasReleased; }
 
-    public Input(int binding) {
-        this.binding = binding;
+
+    public Input(int... bindings) {
+        this.bindings = new ArrayList<>();
+        for (int binding : bindings)
+            this.bindings.add(binding);
+
+        Inputs.inputList.add(this);
     }
-
     void update() {
         wasDownLastFrame = isDown;
         isDown = false;
         wasPressed = false;
         wasReleased = false;
+
+        for (int binding : bindings) {
+            // mouse buttons
+            if (binding >= 0 && binding <= 2) {
+                if (Gdx.input.isButtonJustPressed(binding))
+                    wasPressed = true;
+                if (Gdx.input.isButtonPressed(binding))
+                    isDown = true;
+            }
+            // keyboard keys
+            else {
+                if (Gdx.input.isKeyJustPressed(binding))
+                    wasPressed = true;
+                if (Gdx.input.isKeyPressed(binding))
+                    isDown = true;
+            }
+        }
+
+        if (getWasDownLastFrame() && !getIsDown())
+            wasReleased = true;
     }
+
 }
