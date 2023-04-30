@@ -73,7 +73,7 @@ public class GameScreen extends ScreenAdapter {
 
         Inputs.update();
 
-        if (Inputs.esc.getWasPressed()) {
+        if (Inputs.pause.getWasPressed()) {
             isPaused = !isPaused;
             if (isPaused)
                 Sounds.stopBackgroundMusic();
@@ -83,7 +83,7 @@ public class GameScreen extends ScreenAdapter {
 
         // restart game
         // TODO (David): quick and dirty solution; e.g. all the sounds get reloaded again, which is unnecessary
-        if (Inputs.tab.getWasPressed())
+        if (Inputs.restart.getWasPressed())
             show();
 
         if (isPaused) {

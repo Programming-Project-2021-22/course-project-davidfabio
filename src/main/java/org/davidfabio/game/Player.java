@@ -174,15 +174,15 @@ public class Player extends Entity implements Attackable, Attacker {
         float speed = getMoveSpeed() * deltaTime;
 
         // normalize diagonal movement
-        if ((Inputs.up.getIsDown() || Inputs.down.getIsDown()) && (Inputs.left.getIsDown() || Inputs.right.getIsDown()))
+        if ((Inputs.moveUp.getIsDown() || Inputs.moveDown.getIsDown()) && (Inputs.moveLeft.getIsDown() || Inputs.moveRight.getIsDown()))
             speed *= 0.707106f;
 
         float nextX = getX();
         float nextY = getY();
-        if (Inputs.up.getIsDown())    nextY -= speed;
-        if (Inputs.down.getIsDown())  nextY += speed;
-        if (Inputs.left.getIsDown())  nextX -= speed;
-        if (Inputs.right.getIsDown()) nextX += speed;
+        if (Inputs.moveUp.getIsDown())    nextY -= speed;
+        if (Inputs.moveDown.getIsDown())  nextY += speed;
+        if (Inputs.moveLeft.getIsDown())  nextX -= speed;
+        if (Inputs.moveRight.getIsDown()) nextX += speed;
 
         // moving normally
         if (!isDashing && !inDashChooseDirectionState) {
@@ -190,12 +190,12 @@ public class Player extends Entity implements Attackable, Attacker {
             setY(nextY);
             restrictToLevel(world.getLevel());
 
-            if (Mouse.right.getWasPressed())
+            if (Inputs.dash.getWasPressed())
                 inDashChooseDirectionState = true;
         }
 
         // start dashing
-        else if (Mouse.right.getWasReleased()) {
+        else if (!isDashing && Inputs.dash.getWasReleased()) {
             isDashing = true;
             dashDurationCooldown = dashDuration;
             inDashChooseDirectionState = false;
@@ -228,7 +228,7 @@ public class Player extends Entity implements Attackable, Attacker {
         if (fireRateCooldown > 0)
             fireRateCooldown -= deltaTime;
 
-        if (!isDashing && !inDashChooseDirectionState && Mouse.left.getIsDown() && fireRateCooldown <= 0)
+        if (!isDashing && !inDashChooseDirectionState && Inputs.shoot.getIsDown() && fireRateCooldown <= 0)
             shoot();
 
         for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
