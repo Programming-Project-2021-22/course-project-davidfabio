@@ -195,7 +195,7 @@ public class Player extends Entity implements Attackable, Attacker {
         }
 
         // start dashing
-        else if (Inputs.dash.getWasReleased()) {
+        else if (!isDashing && Inputs.dash.getWasReleased()) {
             isDashing = true;
             dashDurationCooldown = dashDuration;
             inDashChooseDirectionState = false;
