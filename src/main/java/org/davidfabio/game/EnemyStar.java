@@ -3,6 +3,11 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 
 
+/**
+ * Doesn't move.
+ * When destroyed it grows larger (until it fills the whole level) and kills all enemies it touches.
+ */
+
 public class EnemyStar extends Enemy {
 
     private float scaleCounter = 0;

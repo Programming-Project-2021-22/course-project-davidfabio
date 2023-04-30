@@ -3,6 +3,10 @@ package org.davidfabio.game;
 import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.utils.Transform2D;
 
+/**
+ * Doesn't move. Shoots bullets that kill the player when he collides with them.
+ */
+
 public class EnemyTurret extends Enemy {
 
     BulletEnemySpawner bulletSpawner;

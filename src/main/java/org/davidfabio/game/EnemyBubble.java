@@ -2,8 +2,13 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 
-public class EnemyBubble extends Enemy {
 
+/**
+ * Moves in a random direction and bounces off walls.
+ * When destroyed 4 bubble children get spawned with a smaller size (scale). When one of these gets destroyed again 4 even smaller bubbles get spawned.
+ */
+
+public class EnemyBubble extends Enemy {
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
