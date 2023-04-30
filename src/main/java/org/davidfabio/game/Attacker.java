@@ -9,6 +9,7 @@ public interface Attacker {
         if (!attackable.getIsActive())
             return;
 
+
         // player is invincible under certain circumstances
         if (attackable.getClass() == Player.class) {
             if (attackable.getIsInHitState())

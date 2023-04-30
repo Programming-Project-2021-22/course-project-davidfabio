@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.davidfabio.game.Sounds;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,8 @@ public class GameOverScreen extends ScreenAdapter {
         });
 
         Gdx.input.setInputProcessor(this.stage);
+
+        Sounds.playGameOverSfx();
     }
 
     @Override

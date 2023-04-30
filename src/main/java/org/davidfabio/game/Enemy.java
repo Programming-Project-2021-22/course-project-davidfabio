@@ -154,8 +154,8 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
         spawnParticles(getScale() / 4, (int)getScale() / 2, world, Particle.Type.CIRCLE);
 
-        this.setHealth(0);
-        this.setIsActive(false);
-        this.playDestructionSound();
+        setHealth(0);
+        setIsActive(false);
+        playDestructionSound();
     }
 }
