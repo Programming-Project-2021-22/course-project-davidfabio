@@ -55,6 +55,7 @@ public class Collision {
                     if (!player.getIsDashing())
                         world.destroyAllEnemies();
                 }
+                player.resetCurrentPickupCollection();
             }
         }
 
