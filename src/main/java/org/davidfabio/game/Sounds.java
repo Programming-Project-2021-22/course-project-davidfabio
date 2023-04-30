@@ -31,12 +31,11 @@ public class Sounds {
     public static void playGameOverSfx() { playSoundEffect(sfxGameOver); }
 
     private static Sound loadSound(String fileName) {
-        Sound sound;
+        Sound sound = null;
         try {
             sound = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/" + fileName));
         }
         catch (GdxRuntimeException ex) {
-            sound = null;
             System.out.println("Sound could not be loaded.\n" + ex.getMessage());
         }
         return sound;
