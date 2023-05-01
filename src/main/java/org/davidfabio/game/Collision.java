@@ -1,4 +1,7 @@
 package org.davidfabio.game;
+import org.davidfabio.game.enemies.Enemy;
+import org.davidfabio.game.enemies.EnemyStar;
+
 import java.awt.geom.Line2D;
 
 

@@ -1,9 +1,10 @@
-package org.davidfabio.game;
+package org.davidfabio.game.enemies;
 
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.davidfabio.game.*;
 import org.davidfabio.utils.Settings;
 
 
@@ -140,18 +141,6 @@ public class Enemy extends Entity implements Attackable, Attacker {
         }
     }
 
-    /*
-    public void spawnParticles(float particleScale, int particleCount, World world) {
-        particleCount = Math.max(particleCount, 3);
-        for (int i = 0; i < Settings.MAX_PARTICLES; i += 1) {
-            if (!world.getParticles()[i].getIsActive()) {
-                world.getParticles()[i].init(getX(), getY(), particleScale, getColorInitial(), new PolygonShape(particleCount, particleScale));
-                break;
-            }
-        }
-    }
-
-     */
 
     @Override
     public void destroy(World world) {

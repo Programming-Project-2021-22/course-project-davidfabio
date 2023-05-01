@@ -1,6 +1,7 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
+import org.davidfabio.game.enemies.EnemyStar;
 
 public interface Attacker {
     int getAttackPower();
@@ -9,15 +10,19 @@ public interface Attacker {
         if (!attackable.getIsActive())
             return;
 
-
         // player is invincible under certain circumstances
         if (attackable.getClass() == Player.class) {
             if (attackable.getIsInHitState())
                 return;
             if (((Player)attackable).getIsDashing()) {
-
                 return;
             }
+        }
+
+        // EnemyStar is invincible under certain circumstances
+        if (attackable.getClass() == EnemyStar.class) {
+            if (((EnemyStar)attackable).getIsBlowingUp())
+                return;
         }
 
         attackable.setIsInHitState(true);

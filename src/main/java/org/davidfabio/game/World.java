@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.Duality;
+import org.davidfabio.game.enemies.Enemy;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
 

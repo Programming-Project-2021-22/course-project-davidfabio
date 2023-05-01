@@ -1,5 +1,6 @@
 package org.davidfabio.game;
 
+import org.davidfabio.game.enemies.Enemy;
 import org.davidfabio.utils.Settings;
 
 public class BulletEnemySpawner {
