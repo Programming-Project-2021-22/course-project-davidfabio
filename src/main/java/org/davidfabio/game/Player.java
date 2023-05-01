@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.input.Inputs;
 import org.davidfabio.input.Mouse;
+import org.davidfabio.utils.Pulsation;
 import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
@@ -32,8 +33,8 @@ public class Player extends Entity implements Attackable, Attacker {
     private boolean isInHitState;
     private float hitDuration = 2.5f;
     private float hitCooldown;
-    private float transparencyWhileInHitState;
-    private boolean transparencyWhileInHitStateIncreasing;
+    private Pulsation pulsationHitTransparency;
+
     /**
      * The Attack Power is the damage a Player instance deals to an Enemy instance when hitting it while dashing.
      */
@@ -89,7 +90,7 @@ public class Player extends Entity implements Attackable, Attacker {
 
         random = new Random();
 
-        transparencyWhileInHitStateIncreasing = true;
+        pulsationHitTransparency = new Pulsation(4, 0.25f);
         isDashing = false;
         inDashChooseDirectionState = false;
 
@@ -111,7 +112,7 @@ public class Player extends Entity implements Attackable, Attacker {
         // main shape (circle)
         Color color = getColor();
         if (isInHitState)
-            color.a = transparencyWhileInHitState;
+            color.a = pulsationHitTransparency.getCounter() + 0.6f;
         getShape().render(polygonSpriteBatch, color);
 
         // direction arrow
@@ -149,21 +150,12 @@ public class Player extends Entity implements Attackable, Attacker {
     public void update(float deltaTime, World world) {
         if (isInHitState) {
             hitCooldown -= deltaTime;
+            pulsationHitTransparency.update(deltaTime);
 
             if (hitCooldown < 0) {
                 setColor(getColorInitial());
                 isInHitState = false;
             }
-
-            if (transparencyWhileInHitStateIncreasing)
-                transparencyWhileInHitState += deltaTime * 4;
-            else
-                transparencyWhileInHitState -= deltaTime * 4;
-
-            if (transparencyWhileInHitState > 0.6f)
-                transparencyWhileInHitStateIncreasing = false;
-            else if (transparencyWhileInHitState < 0.1f)
-                transparencyWhileInHitStateIncreasing = true;
         }
 
 

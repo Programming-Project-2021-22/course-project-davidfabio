@@ -3,6 +3,8 @@ package org.davidfabio.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -14,8 +16,14 @@ import org.davidfabio.utils.Transform2D;
 
 import java.util.Arrays;
 
+/**
+ * If this class is going to be used in a screen, the init method needs to be called IN THAT SCREEN!
+ */
 
 public class PolygonShape {
+    private static Pixmap pixmap;
+    private static Texture textureWhite;
+
     private float[] vertices, verticesInitial;
     private short[] triangles; // in counter-clockwise direction
 
@@ -28,6 +36,14 @@ public class PolygonShape {
         for (int i = 0; i < vertices.length; i += 1)
             vertices[i] = newVertices[i];
     }
+
+    public static void init() {
+        pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(0xFFFFFFFF); // red, green, blue, alpha
+        pixmap.fill();
+        textureWhite = new Texture(pixmap);
+    }
+
 
     // polygon circle constructor
     public PolygonShape(int triangleCount, float scale) {
@@ -94,7 +110,7 @@ public class PolygonShape {
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, Color color) {
         polygonSpriteBatch.begin();
-        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(GameScreen.getTextureWhite()), vertices, triangles);
+        PolygonRegion polygonRegion = new PolygonRegion(new TextureRegion(textureWhite), vertices, triangles);
         PolygonSprite polygonSprite = new PolygonSprite(polygonRegion);
         polygonSprite.setColor(color);
         polygonSprite.draw(polygonSpriteBatch);

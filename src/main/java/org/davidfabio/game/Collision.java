@@ -22,6 +22,9 @@ public class Collision {
 
                 // player bullet colliding with enemy
                 if (polygonPolygon(playerBullet, enemy, world)) {
+                    if (enemy.getType() == Enemy.Type.STAR && ((EnemyStar)enemy).getIsBlowingUp())
+                        break;
+
                     playerBullet.attack(enemy, world);
                     if (!enemy.getIsActive())
                         world.getScore().addPoints(Enemy.POINT_VALUE * player.getMultiplier());

@@ -15,7 +15,7 @@ public class Duality extends Game {
 	public void create() {
 		scores = new ArrayList<>();
 		Sounds.loadSounds();	// Initialize Sounds from current Settings.
-		//
+
 		setScreen(new MainMenuScreen(scores));
 		//setScreen(new GameScreen(scores));
 	}

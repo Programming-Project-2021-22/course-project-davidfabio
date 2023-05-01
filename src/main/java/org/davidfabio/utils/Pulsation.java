@@ -7,25 +7,25 @@ package org.davidfabio.utils;
 
 public class Pulsation {
 
-    private float pulsationSpeed;
-    private float counter = 0;
+    private float pulsationSpeedMultiplier;
+    private float counter = 0f;
     private float changeDirectionAfter;
     private boolean isGrowing = true;
 
     public float getCounter() { return counter; }
 
 
-    public Pulsation(float pulsationSpeed, float changeDirectionAfter) {
-        this.pulsationSpeed = pulsationSpeed;
+    public Pulsation(float pulsationSpeedMultiplier, float changeDirectionAfter) {
+        this.pulsationSpeedMultiplier = pulsationSpeedMultiplier;
         this.changeDirectionAfter = changeDirectionAfter;
 
     }
 
     public void update(float deltaTime) {
         if (isGrowing)
-            counter += deltaTime * pulsationSpeed;
+            counter += deltaTime * pulsationSpeedMultiplier;
         else
-            counter -= deltaTime * pulsationSpeed;
+            counter -= deltaTime * pulsationSpeedMultiplier;
 
         if (counter > changeDirectionAfter || counter < -changeDirectionAfter)
             isGrowing = !isGrowing;
