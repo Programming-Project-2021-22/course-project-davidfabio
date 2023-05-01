@@ -1,6 +1,8 @@
-package org.davidfabio.game;
+package org.davidfabio.game.enemies;
 
 import com.badlogic.gdx.graphics.Color;
+import org.davidfabio.game.*;
+import org.davidfabio.utils.Pulsation;
 
 
 /**
@@ -10,11 +12,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public class EnemyStar extends Enemy {
 
-    private float scaleCounter = 0;
-    private float scalingStopsAfter = 0.2f;
-    private boolean scaleIncreasing = true;
-    private float scaleInitial;
-
+    private Pulsation pulsation;
+    private float blowingUpCounter;
     private boolean isBlowingUp = false;
 
     public boolean getIsBlowingUp() { return isBlowingUp; }
@@ -25,7 +24,7 @@ public class EnemyStar extends Enemy {
         setType(Type.STAR); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
-        scaleInitial = scale;
+        pulsation = new Pulsation(1, 0.2f);
     }
 
 
@@ -37,28 +36,24 @@ public class EnemyStar extends Enemy {
         if (getIsSpawning())
             return;
 
-        if (isBlowingUp) {
-            scaleCounter += (deltaTime * scaleCounter * 5);
+        float newScale = getScale();
+
+        if (!isBlowingUp) {
+            pulsation.update(deltaTime);
+            newScale += pulsation.getCounter() * getScale();
+            setTransparency(pulsation.getCounter() + 0.5f);
+        }
+        else {
+            setColor(new Color(1, 0, 0, 0.5f)); // TODO: should only be called once in destroy method, but for some reason that is not working
+            blowingUpCounter += deltaTime * blowingUpCounter * 5;
+            newScale += blowingUpCounter * getScale();
             if (Collision.polygonFullyOusideLevel(this, world)) {
                 setHealth(0);
                 setIsActive(false);
             }
         }
-        else {
-            if (scaleIncreasing)
-                scaleCounter += deltaTime;
-            else
-                scaleCounter -= deltaTime;
 
-            if (scaleCounter > scalingStopsAfter || scaleCounter < -scalingStopsAfter)
-                scaleIncreasing = !scaleIncreasing;
-            scaleCounter = Math.min(scaleCounter, scalingStopsAfter);
-            scaleCounter = Math.max(scaleCounter, -scalingStopsAfter);
-
-            setTransparency(scaleCounter + 0.5f);
-        }
-
-        setShape(PolygonShape.getEnemyShape(getType(), scaleInitial + (scaleCounter * getScale())));
+        setShape(PolygonShape.getEnemyShape(getType(), newScale));
         getShape().resetPosition();
         getShape().translatePosition(this);
     }
@@ -67,8 +62,7 @@ public class EnemyStar extends Enemy {
     @Override
     public void destroy(World world) {
         isBlowingUp = true;
-        scaleCounter = Math.abs(scaleCounter);
-        setTransparency(0.5f);
+        blowingUpCounter = Math.abs(pulsation.getCounter());
         Sounds.playExplosionEnemyStarSfx();
     }
 

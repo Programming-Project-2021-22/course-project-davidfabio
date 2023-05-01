@@ -1,6 +1,7 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
+import org.davidfabio.game.enemies.*;
 import org.davidfabio.utils.Transform2D;
 
 public class EnemySpawner {
@@ -46,7 +47,7 @@ public class EnemySpawner {
                 break;
             case STAR:
                 enemy = new EnemyStar();
-                enemy.init(x, y, 80, 30, 20, Color.PURPLE);
+                enemy.init(x, y, 80, 30, 15, Color.PURPLE);
                 break;
         }
         worldReference.getEnemies().add(enemy);
@@ -82,13 +83,14 @@ public class EnemySpawner {
     public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
-        
+
+        spawnAtRandomPoint(Enemy.Type.STAR, 1f);
         spawnAtRandomPoint(Enemy.Type.STAR, 5f);
         spawnAtRandomPoint(Enemy.Type.STAR, 15f);
         spawnAtRandomPoint(Enemy.Type.STAR, 30f);
         spawnAtRandomPoint(Enemy.Type.STAR, 40f);
 
-        spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
+        //spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 240, 5, 0.05f);
         spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 260, 8, 0.15f);
 

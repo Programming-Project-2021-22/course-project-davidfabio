@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.davidfabio.game.enemies.Enemy;
 import org.davidfabio.ui.GameScreen;
 import org.davidfabio.utils.Transform2D;
 

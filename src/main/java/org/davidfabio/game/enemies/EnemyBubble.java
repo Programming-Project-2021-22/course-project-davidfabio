@@ -1,6 +1,7 @@
-package org.davidfabio.game;
+package org.davidfabio.game.enemies;
 
 import com.badlogic.gdx.graphics.Color;
+import org.davidfabio.game.World;
 
 
 /**

@@ -1,23 +1,24 @@
-package org.davidfabio.game;
+package org.davidfabio.game.enemies;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import org.davidfabio.utils.Transform2D;
+import org.davidfabio.game.World;
+import org.davidfabio.utils.Pulsation;
 
 /**
  * Moves towards player.
  */
 
 public class EnemyChaser extends Enemy {
-    private float xScaleCounter = 0;
-    private float xScalingStopsAfter = 0.1f;
-    private boolean xScaleIncreasing = true;
+
+    private Pulsation pulsation;
 
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
         setType(Type.CHASER); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
+
+        pulsation = new Pulsation(0.33f, 0.1f);
     }
 
 
@@ -30,23 +31,11 @@ public class EnemyChaser extends Enemy {
         if (getIsSpawning())
             return;
 
-        // stretching/squashing width
-        float stretchSpeed = deltaTime / 3;
-        if (xScaleIncreasing)
-            xScaleCounter += stretchSpeed;
-        else
-            xScaleCounter -= stretchSpeed;
-
-        if (xScaleCounter > xScalingStopsAfter || xScaleCounter < -xScalingStopsAfter)
-            xScaleIncreasing = !xScaleIncreasing;
-        xScaleCounter = Math.min(xScaleCounter, xScalingStopsAfter);
-        xScaleCounter = Math.max(xScaleCounter, -xScalingStopsAfter);
+        pulsation.update(deltaTime);
 
         getShape().resetPosition();
-        float[] newVertices = getShape().getVertices();
-        newVertices[2] -= xScaleCounter * getScale();
-        newVertices[6] += xScaleCounter * getScale();
-        getShape().setVertices(newVertices);
+        getShape().getVertices()[2] -= pulsation.getCounter() * getScale();
+        getShape().getVertices()[6] += pulsation.getCounter() * getScale();
         getShape().rotate(getAngle());
         getShape().translatePosition(this);
 

@@ -1,6 +1,9 @@
-package org.davidfabio.game;
+package org.davidfabio.game.enemies;
 
 import com.badlogic.gdx.graphics.Color;
+import org.davidfabio.game.BulletEnemySpawner;
+import org.davidfabio.game.PolygonShape;
+import org.davidfabio.game.World;
 import org.davidfabio.utils.Transform2D;
 
 /**
