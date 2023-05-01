@@ -84,13 +84,12 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawnAtRandomPoint(Enemy.Type.STAR, 1f);
         spawnAtRandomPoint(Enemy.Type.STAR, 5f);
         spawnAtRandomPoint(Enemy.Type.STAR, 15f);
         spawnAtRandomPoint(Enemy.Type.STAR, 30f);
         spawnAtRandomPoint(Enemy.Type.STAR, 40f);
 
-        //spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
+        spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 240, 5, 0.05f);
         spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 260, 8, 0.15f);
 
@@ -108,6 +107,5 @@ public class EnemySpawner {
         spawnGroupInCircle(Enemy.Type.CHASER, 20, rightBorder - 50, bottomBorder - 50, 200, 32, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
-
     }
 }

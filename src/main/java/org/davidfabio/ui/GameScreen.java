@@ -27,13 +27,8 @@ public class GameScreen extends ScreenAdapter {
     private static boolean isPaused = false;
     public static float displayRefreshRate;
 
-    private PolygonSprite polygonSprite;
     private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
-    private Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    private static Texture textureWhite;
     private ArrayList<Score> scores;
-
-    public static Texture getTextureWhite() { return textureWhite; }
 
     public GameScreen(ArrayList<Score> scores) {
         this.scores = scores;
@@ -41,10 +36,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        pixmap.setColor(0xFFFFFFFF); // red, green, blue, alpha
-        pixmap.fill();
-        textureWhite = new Texture(pixmap);
-
+        PolygonShape.init();
         polygonSpriteBatch = new PolygonSpriteBatch();
 
         this.world = new World(scores);
