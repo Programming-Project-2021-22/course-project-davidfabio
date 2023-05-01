@@ -2,6 +2,9 @@ package org.davidfabio.game.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.game.World;
+import org.davidfabio.utils.Transform2D;
+
+import java.util.Random;
 
 
 /**
@@ -18,8 +21,8 @@ public class EnemyBubble extends Enemy {
 
         float randomAngle = (float)(Math.PI * 2 * Math.random());
         setAngle(randomAngle);
-    }
 
+    }
 
     @Override
     public void update(float deltaTime, World world) {
