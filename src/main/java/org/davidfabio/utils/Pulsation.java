@@ -2,22 +2,22 @@ package org.davidfabio.utils;
 
 
 /**
- * Helper class for increasing/decreasing a float over time, i.e. for the pulsation effect of EnemyStar.
+ * Helper class for increasing/decreasing a float over time, e.g. for the pulsation effect of EnemyStar.
  */
 
 public class Pulsation {
 
     private float pulsationSpeed;
     private float counter = 0;
-    private float growingStopsAfter;
+    private float changeDirectionAfter;
     private boolean isGrowing = true;
 
     public float getCounter() { return counter; }
 
 
-    public Pulsation(float pulsationSpeed, float growingStopsAfter) {
+    public Pulsation(float pulsationSpeed, float changeDirectionAfter) {
         this.pulsationSpeed = pulsationSpeed;
-        this.growingStopsAfter = growingStopsAfter;
+        this.changeDirectionAfter = changeDirectionAfter;
 
     }
 
@@ -27,10 +27,10 @@ public class Pulsation {
         else
             counter -= deltaTime * pulsationSpeed;
 
-        if (counter > growingStopsAfter || counter < -growingStopsAfter)
+        if (counter > changeDirectionAfter || counter < -changeDirectionAfter)
             isGrowing = !isGrowing;
-        counter = Math.min(counter, growingStopsAfter);
-        counter = Math.max(counter, -growingStopsAfter);
+        counter = Math.min(counter, changeDirectionAfter);
+        counter = Math.max(counter, -changeDirectionAfter);
     }
 
 }
