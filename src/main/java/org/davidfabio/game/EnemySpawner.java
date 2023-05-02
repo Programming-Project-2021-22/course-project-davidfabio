@@ -1,6 +1,7 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import org.davidfabio.game.enemies.*;
 import org.davidfabio.utils.Transform2D;
 
@@ -78,12 +79,24 @@ public class EnemySpawner {
             enemy.restrictToLevel(levelReference);
     }
 
+    private void spawnGroupAtLine(Enemy.Type type, int count, float x1, float y1, float x2, float y2, float spawnTime, float timeDeltaBetweenEnemies) {
+        float xOffset = Math.abs(x2 - x1) / count;
+        float yOffset = Math.abs(y2 - y1) / count;
+        for (int i = 0; i < count; i += 1) {
+            float x = x1 + (i * xOffset);
+            float y = y1 + (i * yOffset);
+            spawn(type, x, y, spawnTime + (i * timeDeltaBetweenEnemies));
+        }
+    }
 
-
+    
     public void update(float deltaTime) {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
+        spawnGroupAtLine(Enemy.Type.CHASER, 16, 0, 0, rightBorder, 0, 0.1f, 0);
+
+        /*
         spawnAtRandomPoint(Enemy.Type.STAR, 5f);
         spawnAtRandomPoint(Enemy.Type.STAR, 15f);
         spawnAtRandomPoint(Enemy.Type.STAR, 30f);
@@ -107,5 +120,7 @@ public class EnemySpawner {
         spawnGroupInCircle(Enemy.Type.CHASER, 20, rightBorder - 50, bottomBorder - 50, 200, 32, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
+
+         */
     }
 }
