@@ -28,6 +28,20 @@ public interface Movable {
         return false;
     }
 
+    // returns true if all vertices of the shape are inside level
+    default boolean isCompletelyInView(World world) {
+        float[] vertices = getShape().getVertices();
+        for (int i = 0; i < vertices.length; i += 2) {
+            float x = vertices[i];
+            float y = vertices[i + 1];
+
+            if (!Collision.pointIsInLevel(x, y, world))
+                return false;
+        }
+
+        return true;
+    }
+
     // TODO (David): should probably be redone after new collision system
     default void restrictToLevel(Level level) {
         float x = getX();
