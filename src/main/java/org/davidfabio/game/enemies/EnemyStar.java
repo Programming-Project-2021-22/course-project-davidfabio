@@ -18,10 +18,12 @@ public class EnemyStar extends Enemy {
 
     public boolean getIsBlowingUp() { return isBlowingUp; }
 
+    public EnemyStar() {
+        setType(Type.STAR);
+    }
 
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
-        setType(Type.STAR); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         pulsation = new Pulsation(1, 0.2f);

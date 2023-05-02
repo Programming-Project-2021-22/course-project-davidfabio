@@ -14,9 +14,13 @@ public class EnemyTurret extends Enemy {
 
     BulletEnemySpawner bulletSpawner;
 
+
+    public EnemyTurret() {
+        setType(Type.TURRET);
+    }
+
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
-        setType(Type.TURRET); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         setShape(new PolygonShape(4, scale));

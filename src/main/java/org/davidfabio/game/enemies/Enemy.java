@@ -35,6 +35,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
     private float spawnCounter;
     private float transparencyWhileSpawning;
     private boolean transparencyWhileSpawningIncreasing;
+    private boolean spawnNextFrame;
 
     private boolean isInHitState;
     private float hitDuration = 0.03f;
@@ -59,6 +60,8 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void setSpawnCounter(float spawnCounter) { this.spawnCounter = spawnCounter; }
     public void setType(Type type) { this.type = type; }
     public Type getType() { return type; }
+    public boolean getSpawnNextFrame() { return spawnNextFrame; }
+    public void setSpawnNextFrame(boolean spawnNextFrame) { this.spawnNextFrame = spawnNextFrame; }
 
 
     public void init(float x, float y, float scale, float moveSpeed, int health, Color color) {
@@ -76,6 +79,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
         isSpawning = true;
         spawnCounter = 0;
         transparencyWhileSpawningIncreasing = true;
+        spawnNextFrame = false;
     }
 
     @Override
@@ -151,6 +155,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
         setHealth(0);
         setIsActive(false);
+        setSpawnNextFrame(false);
         playDestructionSound();
     }
 }

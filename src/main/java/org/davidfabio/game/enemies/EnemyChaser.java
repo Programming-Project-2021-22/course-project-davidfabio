@@ -13,9 +13,12 @@ public class EnemyChaser extends Enemy {
     private Pulsation pulsation;
 
 
+    public EnemyChaser() {
+        setType(Type.CHASER);
+    }
+
     @Override
     public void init(float x, float y, float scale, float moveSpeed, int newInitialHealth, Color color) {
-        setType(Type.CHASER); // NOTE (David): type needs to be set BEFORE calling the super constructor!
         super.init(x, y, scale, moveSpeed, newInitialHealth, color);
 
         pulsation = new Pulsation(0.33f, 0.1f);
