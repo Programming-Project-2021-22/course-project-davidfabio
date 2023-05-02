@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.Duality;
-import org.davidfabio.game.enemies.Enemy;
+import org.davidfabio.game.enemies.*;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
 
@@ -13,8 +13,7 @@ import java.util.ArrayList;
 
 public class World {
     private Player player;
-    private ArrayList<Enemy> enemies;
-    private ArrayList<Enemy> enemiesTemp; // this is needed so we can add new enemies during the update loop (e.g. when an enemy dies, he spawns new enemies)
+    private Enemy[] enemies;
     private Bullet[] enemyBullets;
     private EnemySpawner enemySpawner;
     private Pickup[] pickups;
@@ -24,14 +23,12 @@ public class World {
     private ArrayList<Score> scores;
 
     public Player getPlayer() { return player; }
-    public ArrayList<Enemy> getEnemies() { return enemies; }
-    public ArrayList<Enemy> getEnemiesTemp() { return enemiesTemp; }
+    public Enemy[] getEnemies() { return enemies; }
     public Bullet[] getEnemyBullets() { return enemyBullets; }
     public Pickup[] getPickups() { return pickups; }
     public Particle[] getParticles() { return particles; }
     public Level getLevel() { return level; }
     public Score getScore() { return score; }
-    public void addEnemyTemp(Enemy enemy) { enemiesTemp.add(enemy); }
 
 
 
@@ -43,8 +40,27 @@ public class World {
         player = new Player();
         player.init(level.getWidth() / 2, level.getHeight() / 2, 32, 240, Color.GOLD);
 
-        enemies = new ArrayList<>();
-        enemiesTemp = new ArrayList<>();
+
+        enemies = new Enemy[Settings.MAX_ENEMIES];
+        int currentTypeIndex = 0;
+        int changeTypeAfter = Settings.MAX_ENEMIES / Enemy.Type.values().length;
+
+        for (int i = 0; i < Settings.MAX_ENEMIES; i += 1) {
+            Enemy.Type currentType = Enemy.Type.values()[currentTypeIndex];
+            switch (currentType) {
+                case BUBBLE:   enemies[i] = new EnemyBubble(); break;
+                case CHASER:   enemies[i] = new EnemyChaser(); break;
+                case KAMIKAZE: enemies[i] = new EnemyKamikaze(); break;
+                case STAR:     enemies[i] = new EnemyStar(); break;
+                case TURRET:   enemies[i] = new EnemyTurret(); break;
+            }
+
+            if (i % changeTypeAfter == 0 && i > 0 && currentTypeIndex < Enemy.Type.values().length - 1)
+                currentTypeIndex += 1;
+        }
+
+
+
         enemySpawner = new EnemySpawner(this);
 
         enemyBullets = new Bullet[Settings.MAX_ENEMY_BULLETS];
@@ -63,16 +79,17 @@ public class World {
 
 
     public void update(float deltaTime) {
-        // update enemies
-        for (Enemy enemy : enemiesTemp)
-            enemies.add(enemy);
-        enemiesTemp.clear();
-
+        // update enemy spawner
         enemySpawner.update(deltaTime);
 
-        for (Enemy enemy : enemies)
+        // update enemies
+        for (Enemy enemy : enemies) {
+            if (!enemy.getIsActive() && enemy.getSpawnNextFrame()) {
+                enemy.setSpawnNextFrame(false);
+                enemy.setIsActive(true);
+            }
             enemy.update(deltaTime, this);
-
+        }
 
         // update enemy bullets
         for (int i = 0; i < Settings.MAX_ENEMY_BULLETS; i += 1)
@@ -81,7 +98,6 @@ public class World {
         // update pickups
         for (int i = 0; i < Settings.MAX_PICKUPS; i += 1)
             pickups[i].update(deltaTime, this);
-
 
         // update player
         this.player.update(deltaTime, this); // player bullets get updated here as well
@@ -126,10 +142,28 @@ public class World {
     }
 
 
+    public Enemy getEnemy(Enemy.Type type) {
+        for (int i = 0; i < enemies.length; i += 1) {
+            if (enemies[i].getIsActive())
+                continue;
+            if (enemies[i].getSpawnNextFrame())
+                continue;
+            if (type == enemies[i].getType())
+                return enemies[i];
+        }
+
+        return null;
+    }
+
+
     public void destroyAllEnemies() {
         for (Enemy enemy : getEnemies()) {
+            if (enemy.getSpawnNextFrame())
+                enemy.setSpawnNextFrame(false);
+
             if (!enemy.getIsActive())
                 continue;
+
             if (enemy.getType() == Enemy.Type.STAR) {
                 if (Collision.pointIsInLevel(enemy.getX(), enemy.getY(), this))
                     enemy.spawnPickup(this);
@@ -141,7 +175,6 @@ public class World {
             else
                 enemy.destroy(this);
         }
-        getEnemiesTemp().clear();
     }
 
 

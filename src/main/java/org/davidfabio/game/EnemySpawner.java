@@ -24,34 +24,26 @@ public class EnemySpawner {
         bottomBorder = worldReference.getLevel().getHeight();
     }
 
+
+
+
+
     private Enemy spawn(Enemy.Type type, float x, float y, float spawnTime) {
         if (timeLastFrame >= spawnTime || timeElapsed < spawnTime)
             return null;
 
-        Enemy enemy = null;
+        Enemy enemy = worldReference.getEnemy(type);
+        if (enemy == null)
+            return null;
+
         switch(type) {
-            case CHASER:
-                enemy = new EnemyChaser();
-                enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f));
-                break;
-            case TURRET:
-                enemy = new EnemyTurret();
-                enemy.init(x, y, 60, 0, 10, Color.BLUE);
-                break;
-            case BUBBLE:
-                enemy = new EnemyBubble();
-                enemy.init(x, y, 160, 20, 8, new Color(1, 0.75f, 0.8f, 0.75f));
-                break;
-            case KAMIKAZE:
-                enemy = new EnemyKamikaze();
-                enemy.init(x, y, 30, 100, 1, Color.ORANGE);
-                break;
-            case STAR:
-                enemy = new EnemyStar();
-                enemy.init(x, y, 80, 30, 15, Color.PURPLE);
-                break;
+            case CHASER:   enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f));        break;
+            case TURRET:   enemy.init(x, y, 60, 0, 10, Color.BLUE);                        break;
+            case BUBBLE:   enemy.init(x, y, 160, 20, 8, new Color(1, 0.75f, 0.8f, 0.75f)); break;
+            case KAMIKAZE: enemy.init(x, y, 30, 100, 1, Color.ORANGE);                     break;
+            case STAR:     enemy.init(x, y, 80, 30, 15, Color.PURPLE);                     break;
         }
-        worldReference.getEnemies().add(enemy);
+
         return enemy;
     }
 
@@ -94,16 +86,13 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        spawnGroupAtLine(Enemy.Type.CHASER, 16, 0, 0, rightBorder, 0, 0.1f, 0);
-
-        /*
         spawnAtRandomPoint(Enemy.Type.STAR, 5f);
         spawnAtRandomPoint(Enemy.Type.STAR, 15f);
         spawnAtRandomPoint(Enemy.Type.STAR, 30f);
         spawnAtRandomPoint(Enemy.Type.STAR, 40f);
 
-        spawnGroupInCircle(Enemy.Type.CHASER, 16, centerX, centerY, 200, 1, 0);
-        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 240, 5, 0.05f);
+        spawnGroupAtLine(Enemy.Type.CHASER, 16, 0, 0, rightBorder, 0, 1f, 0);
+        spawnGroupAtLine(Enemy.Type.KAMIKAZE, 16, 0, 0, rightBorder, bottomBorder, 5f, 0);
         spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 260, 8, 0.15f);
 
         spawnGroupInCircle(Enemy.Type.BUBBLE, 4, centerX, centerY, 250, 13f, 0.5f);
@@ -121,6 +110,5 @@ public class EnemySpawner {
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
         spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
 
-         */
     }
 }
