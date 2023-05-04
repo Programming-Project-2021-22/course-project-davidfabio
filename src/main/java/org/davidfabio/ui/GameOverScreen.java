@@ -1,6 +1,6 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.Duality;
+import org.davidfabio.PolygonWars;
 import org.davidfabio.game.Score;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -44,13 +44,13 @@ public class GameOverScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Play again",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Main Menu",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {

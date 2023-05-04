@@ -1,6 +1,6 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.Duality;
+import org.davidfabio.PolygonWars;
 import org.davidfabio.game.Score;
 import org.davidfabio.game.Sounds;
 import org.davidfabio.utils.Settings;
@@ -92,7 +92,7 @@ public class SettingsScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Back",false,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
 

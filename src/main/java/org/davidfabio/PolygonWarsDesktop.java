@@ -8,7 +8,7 @@ import org.davidfabio.ui.GameScreen;
 import org.davidfabio.utils.Settings;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
-public class DualityDesktop {
+public class PolygonWarsDesktop {
 	public static void main (String[] args) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
@@ -26,6 +26,6 @@ public class DualityDesktop {
 		config.setWindowedMode(Settings.windowWidth, Settings.windowHeight);
 		config.setResizable(false);
 		config.setTitle(Settings.GAME_TITLE);
-		new Lwjgl3Application(new Duality(), config);
+		new Lwjgl3Application(new PolygonWars(), config);
 	}
 }

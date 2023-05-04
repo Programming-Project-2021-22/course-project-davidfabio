@@ -1,6 +1,6 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.Duality;
+import org.davidfabio.PolygonWars;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -43,19 +43,19 @@ public class MainMenuScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Play",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Options",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"High Scores",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new HighscoreScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new HighscoreScreen(scores));
             }
         });
         UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {

@@ -2,7 +2,7 @@ package org.davidfabio.utils;
 
 public class Settings {
     // Game Setup Settings
-    public static final String GAME_TITLE = "Duality";
+    public static final String GAME_TITLE = "Polygon Wars";
     public static String username = "Player";
     public static float levelWidth = 800;
     public static float levelHeight = 640;

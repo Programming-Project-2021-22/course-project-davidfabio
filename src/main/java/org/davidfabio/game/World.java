@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.davidfabio.Duality;
+import org.davidfabio.PolygonWars;
 import org.davidfabio.game.enemies.*;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
@@ -104,7 +104,7 @@ public class World {
         if (player.getHealth() <= 0) {
             score.end(player.getPickupsCollected());
             Sounds.stopBackgroundMusic();
-            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
+            ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
         }
 
         // update particles

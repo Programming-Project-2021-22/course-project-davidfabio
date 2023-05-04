@@ -1,6 +1,6 @@
 package org.davidfabio.ui;
 
-import org.davidfabio.Duality;
+import org.davidfabio.PolygonWars;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -53,7 +53,7 @@ public class HighscoreScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Back",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Duality)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
 
