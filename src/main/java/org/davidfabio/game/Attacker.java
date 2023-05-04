@@ -28,9 +28,9 @@ public interface Attacker {
         attackable.setIsInHitState(true);
         attackable.setColor(Color.LIGHT_GRAY);
         attackable.setHitCooldown(attackable.getHitDuration());
-        attackable.setHealth(attackable.getHealth() - this.getAttackPower());
+        attackable.setHealth(attackable.getHealth() - getAttackPower());
 
-        if (attackable.getHealth() < 0) {
+        if (attackable.getHealth() <= 0) {
             attackable.destroy(world);
         } else {
             attackable.playHitSound();

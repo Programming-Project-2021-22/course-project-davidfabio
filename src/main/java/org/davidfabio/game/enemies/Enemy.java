@@ -17,9 +17,9 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     public enum Type {
         CHASER,
-        TURRET,
         BUBBLE,
         KAMIKAZE,
+        TURRET,
         STAR
     }
 
@@ -30,6 +30,7 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
     private int attackPower = 1;  // This is actually the damage an Enemy causes when hitting the player
 
+    private float startSpawningIn;
     private boolean isSpawning;
     private float spawnDuration = 2.0f;
     private float spawnCounter;
@@ -53,6 +54,8 @@ public class Enemy extends Entity implements Attackable, Attacker {
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
 
+    public float getStartSpawningIn() { return startSpawningIn; }
+    public void setStartSpawningIn() { this.startSpawningIn = startSpawningIn; }
     public boolean getIsSpawning() { return isSpawning; }
     public void setIsSpawning(boolean isSpawning) { this.isSpawning = isSpawning; }
     public float getSpawnDuration() { return spawnDuration; }
@@ -70,9 +73,10 @@ public class Enemy extends Entity implements Attackable, Attacker {
 
         setMoveSpeed(moveSpeed);
         setColor(new Color(getColorInitial().r, getColorInitial().g, getColorInitial().b, 0.33f));
-        if (this.initialHealth == 0)
-            this.initialHealth = health;
-        this.initializeHealth();
+        if (initialHealth == 0)
+            initialHealth = health;
+        //initialHealth = health;
+        initializeHealth();
 
         isInHitState = false;
         hitCooldown = 0;

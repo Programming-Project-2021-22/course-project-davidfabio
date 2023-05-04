@@ -55,7 +55,7 @@ public class EnemyBubble extends Enemy {
         Enemy child = world.getEnemy(getType());
         if (child == null)
             return;
-        child.init(getX(), getY(), getScale() / 2, getMoveSpeed() * 2, getInitialHealth() / 2, getColorInitial());
+        child.init(getX(), getY(), getScale() / 2, getMoveSpeed() * 2, getInitialHealth() / 3, getColorInitial());
         child.setIsSpawning(false);
         child.setColor(getColorInitial());
         child.setIsActive(false);

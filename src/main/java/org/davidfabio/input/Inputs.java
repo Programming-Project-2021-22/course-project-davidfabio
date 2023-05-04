@@ -11,9 +11,9 @@ public class Inputs {
     // to create a new input you just need to declare a new variable here
     // list of KeyCodes: https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/Input.java#L63
 
-    private static int MOUSE_LEFT   = com.badlogic.gdx.Input.Buttons.LEFT;
-    private static int MOUSE_RIGHT  = com.badlogic.gdx.Input.Buttons.RIGHT;
-    private static int MOUSE_MIDDLE = com.badlogic.gdx.Input.Buttons.MIDDLE;
+    private static final int MOUSE_LEFT   = com.badlogic.gdx.Input.Buttons.LEFT;
+    private static final int MOUSE_RIGHT  = com.badlogic.gdx.Input.Buttons.RIGHT;
+    private static final int MOUSE_MIDDLE = com.badlogic.gdx.Input.Buttons.MIDDLE;
 
     public static Input moveUp    = new Input(Keys.W, Keys.UP);
     public static Input moveDown  = new Input(Keys.S, Keys.DOWN);
