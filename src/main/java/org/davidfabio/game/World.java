@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.davidfabio.Duality;
+import org.davidfabio.PolygonWars;
 import org.davidfabio.game.enemies.*;
 import org.davidfabio.ui.GameOverScreen;
 import org.davidfabio.utils.Settings;
@@ -40,10 +40,10 @@ public class World {
         player = new Player();
         player.init(level.getWidth() / 2, level.getHeight() / 2, 32, 240, Color.GOLD);
 
-
+        int enemyTypesCount = Enemy.Type.values().length;
+        Settings.MAX_ENEMIES = Settings.MAX_ENEMIES_PER_TYPE * enemyTypesCount;
         enemies = new Enemy[Settings.MAX_ENEMIES];
         int currentTypeIndex = 0;
-        int changeTypeAfter = Settings.MAX_ENEMIES / Enemy.Type.values().length;
 
         for (int i = 0; i < Settings.MAX_ENEMIES; i += 1) {
             Enemy.Type currentType = Enemy.Type.values()[currentTypeIndex];
@@ -55,7 +55,7 @@ public class World {
                 case TURRET:   enemies[i] = new EnemyTurret(); break;
             }
 
-            if (i % changeTypeAfter == 0 && i > 0 && currentTypeIndex < Enemy.Type.values().length - 1)
+            if (i % Settings.MAX_ENEMIES_PER_TYPE == 0 && i > 0 && currentTypeIndex < enemyTypesCount - 1)
                 currentTypeIndex += 1;
         }
 
@@ -104,7 +104,7 @@ public class World {
         if (player.getHealth() <= 0) {
             score.end(player.getPickupsCollected());
             Sounds.stopBackgroundMusic();
-            ((Duality)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
+            ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
         }
 
         // update particles
