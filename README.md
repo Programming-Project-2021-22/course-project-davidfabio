@@ -1,9 +1,6 @@
-# Duality
+# Polygon Wars
 ## 1. About
-Duality is a twin stick shooter video game. In this game you control a shape which can shoot down enemies.
-The unique mechanic of Duality is that there are two "Polarities", which are represented by different colors.
-When a player hits an enemy of the same color (or vice versa), no damage is applied.
-This requires the player to constantly switch colors in order to defeat the most enemies.
+Polygon Wars is a twin stick shooter video game. In this game you control a shape which can shoot down enemies.
 
 ### 1.1. Demo
 Add a link to a demo of your project.
@@ -40,12 +37,12 @@ mvn exec:exec
 Alternatively you can also run the jar-directly, in this case run the following:
 #### On Windows & Linux:
 ```shell
-java -jar ./target/duality-1.0.0-jar-with-dependencies.jar
+java -jar ./target/polygonwars-1.0.0-jar-with-dependencies.jar
 ```
 
 #### On MacOS:
 ```shell
-java -jar -XstartOnFirstThread ./target/duality-1.0.0-jar-with-dependencies.jar
+java -jar -XstartOnFirstThread ./target/polygonwars-1.0.0-jar-with-dependencies.jar
 ```
 > Note: The flag `-XstartOnFirstThread` is only required for MacOS, if you're on any other Operating system, you should omit this flag.
 
