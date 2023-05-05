@@ -1,7 +1,6 @@
 package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import org.davidfabio.game.enemies.*;
 import org.davidfabio.utils.Transform2D;
 
@@ -22,7 +21,7 @@ public class EnemySpawner {
 
     private Random random;
 
-    private enum SpawnType {
+    private enum SpawnFormation {
         CIRCLE,
         LINE,
         RANDOM
@@ -83,7 +82,7 @@ public class EnemySpawner {
         float centerX = random.nextFloat(radius, levelReference.getWidth() - radius);
         float centerY = random.nextFloat(radius, levelReference.getHeight() - radius);
         Enemy.Type enemyType = getRandomEnemyType();
-        SpawnType spawnType = getRandomSpawnType();
+        SpawnFormation spawnFormation = getRandomSpawnType();
 
         int enemyCount = 1;
         switch (enemyType) {
@@ -94,7 +93,7 @@ public class EnemySpawner {
             case STAR:     enemyCount = 1; break;
         }
 
-        switch (spawnType) {
+        switch (spawnFormation) {
             case CIRCLE: {
                 float angleDelta = (float)(2 * Math.PI) / enemyCount;
                 for (int i = 0; i < enemyCount; i += 1) {
@@ -148,10 +147,10 @@ public class EnemySpawner {
         return Enemy.Type.values()[rand];
     }
 
-    private SpawnType getRandomSpawnType() {
-        int spawnTypesCount = SpawnType.values().length;
+    private SpawnFormation getRandomSpawnType() {
+        int spawnTypesCount = SpawnFormation.values().length;
         int rand = random.nextInt(spawnTypesCount);
-        return SpawnType.values()[rand];
+        return SpawnFormation.values()[rand];
     }
 
     
