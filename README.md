@@ -89,10 +89,11 @@ List and explain how you used the 10 programming techniques required for this pr
 - **Collections**: In order to store various data we use collections. For example:
   - When storing past `Score`s in order to list the highscores.
   - When storing enemies in the `World`-class to periodically update their behaviour and spawn new ones.
-- **Try-Catch-Blocks**: In order to safely load the sounds and music we rely on Try-Catch blocks to avoid any errors on missing files.
+- **Try-Catch-Blocks**: In order to safely load the sounds and music we rely on Try-Catch blocks to avoid any errors on missing files. We also use these Try-Catch blocks to avoid RunTimeErrors while writing or reading from files.
 - **File I/O**: In order to store settings and scores we use files and therefore we need to write and read from files.
 - **Serialization**: In order to store Settings and Scores in a sensible way, we serialize them into a JSON. We use Jackson for this.
 - **Deserialization**: In order to read our serialized Settings and Scores we need to deserialize them from JSON. We use Jackson for this.
+- **Test Hooks**: For our Test Suite we use `@BeforeAll` and `@AfterAll` in order to clean our Test environment. For example the `JSONFileManagementTest` uses these hooks to clean the Files created.
 
 
 ### 4.4. Tests
