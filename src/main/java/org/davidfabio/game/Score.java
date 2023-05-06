@@ -50,21 +50,42 @@ public class Score implements Comparable {
         pickups = totalPickups;
     }
 
+    /**
+     * Returns the current amount of points collected.
+     * @return amount of points
+     */
     public int getPoints() {
         return points;
     }
+
+    /**
+     * Returns the total amount of pickups collected.
+     * @return amount of pickups
+     */
     public int getPickups() {
         return pickups;
     }
 
+    /**
+     * Adds the passed points to the current score.
+     * @param points to add
+     */
     public void addPoints(int points) {
         this.points = this.points + points;
     }
 
+    /**
+     * Returns the duration of the game in milliseconds.
+     * @return duration in milliseconds
+     */
     public long getDuration() {
         return duration;
     }
 
+    /**
+     * Returns the username that this Score belongs to.
+     * @return username of scorer
+     */
     public String getUsername() {
         return username;
     }
