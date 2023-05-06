@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.davidfabio.game.Score;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the Screen that displays the highest scores that a Player has achieved.
@@ -77,15 +78,10 @@ public class HighscoreScreen extends ScreenAdapter {
         viewport.update(width, height);
     }
 
-    private ArrayList<Score> getHighscores() {
-        ArrayList<Score> highscores = new ArrayList<>();
-        highscores.addAll(this.scores);
-        highscores.sort(Score::compareTo);
-        if (highscores.size() > 5) {
-            for(int i = 5; i < highscores.size(); i++) {
-                highscores.remove(i);
-            }
-        }
-        return highscores;
+    private List<Score> getHighscores() {
+        return this.scores.stream()
+                .sorted(Score::compareTo)
+                .limit(5)
+                .toList();
     }
 }
