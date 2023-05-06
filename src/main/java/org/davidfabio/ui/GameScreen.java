@@ -43,21 +43,21 @@ public class GameScreen extends ScreenAdapter {
         PolygonShape.init();
         polygonSpriteBatch = new PolygonSpriteBatch();
 
-        this.world = new World(scores);
+        world = new World(scores);
 
-        this.shapeRenderer = new ShapeRenderer();
-        this.camera = new Camera(this.world.getLevel());
-        this.stage = new Stage();
+        shapeRenderer = new ShapeRenderer();
+        camera = new Camera(world.getLevel());
+        stage = new Stage();
         Sounds.loadSounds();
         Sounds.playBackgroundMusic();
 
-        this.userInterface = new UserInterface();
-        this.userInterface.init(this.world.getPlayer(),this.world.getScore());
-        this.stage.addActor(this.userInterface);
+        userInterface = new UserInterface();
+        userInterface.init(world.getPlayer(),world.getScore());
+        stage.addActor(userInterface);
 
-        this.isPaused = false;
+        isPaused = false;
 
-        Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
 
         Sounds.playGameStartSfx();
     }
@@ -90,10 +90,10 @@ public class GameScreen extends ScreenAdapter {
 
         // ---------------- update game logic ----------------
         // Update World
-        this.world.update(deltaTime);
+        world.update(deltaTime);
 
         // Update User Interface
-        this.userInterface.update(this.world.getPlayer(),this.world.getScore());
+        userInterface.update(world.getPlayer(),world.getScore());
 
 
 
@@ -101,14 +101,19 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
         // Reposition camera on player
-        this.camera.updateCameraPosition(deltaTime, this.world.getPlayer());
-        this.shapeRenderer.setProjectionMatrix(this.camera.combined);
+        camera.updateCameraPosition(deltaTime, world.getPlayer());
+        shapeRenderer.setProjectionMatrix(camera.combined);
 
-        this.polygonSpriteBatch.setProjectionMatrix(this.camera.combined);
-        this.world.render(this.polygonSpriteBatch,this.shapeRenderer);
-        this.stage.draw();
+        polygonSpriteBatch.setProjectionMatrix(camera.combined);
+        world.render(polygonSpriteBatch,shapeRenderer);
+        stage.draw();
     }
 
+    /**
+     * This method is called if the window is ever resized.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         super.resize(width,height);

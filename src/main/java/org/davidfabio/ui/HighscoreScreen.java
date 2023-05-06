@@ -30,16 +30,16 @@ public class HighscoreScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        this.stage = new Stage(this.viewport);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        stage = new Stage(viewport);
 
-        this.mainTable = new Table();
-        this.mainTable.setFillParent(true);
-        this.stage.addActor(this.mainTable);
+        mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
         float columnWidth = Gdx.graphics.getWidth() * 0.4f / 4;
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable,"HIGHSCORES",true);
+        UIBuilder.addTitleLabel(mainTable,"HIGHSCORES",true);
         Table highScoresTable = new Table();
         UIBuilder.addSubtitleLabel(highScoresTable,"Score",columnWidth,true);
         UIBuilder.addSubtitleLabel(highScoresTable,"Username",columnWidth,false);
@@ -52,16 +52,16 @@ public class HighscoreScreen extends ScreenAdapter {
             UIBuilder.addLabel(highScoresTable,String.format("%d",score.getPickups()),columnWidth,false);
             UIBuilder.addLabel(highScoresTable,String.format("%02d:%02d", durationInSeconds / 60, (durationInSeconds % 60)),columnWidth,false);
         }
-        this.mainTable.row();
-        this.mainTable.add(highScoresTable).minWidth(Gdx.graphics.getWidth()*0.4f).padBottom(10);
-        UIBuilder.addButton(this.mainTable,"Back",true,new ClickListener() {
+        mainTable.row();
+        mainTable.add(highScoresTable).minWidth(Gdx.graphics.getWidth()*0.4f).padBottom(10);
+        UIBuilder.addButton(mainTable,"Back",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
 
-        Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -69,17 +69,22 @@ public class HighscoreScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.stage.act();
-        this.stage.draw();
+        stage.act();
+        stage.draw();
     }
 
+    /**
+     * This method is called if the window is ever resized.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
 
     private List<Score> getHighscores() {
-        return this.scores.stream()
+        return scores.stream()
                 .sorted(Score::compareTo)
                 .limit(5)
                 .toList();

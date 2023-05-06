@@ -40,10 +40,10 @@ public class GameOverScreen extends ScreenAdapter {
         super();
         this.score = score;
         this.scores = scores;
-        scores.add(score);
+        this.scores.add(score);
 
         File scoresFile = new File(Settings.SCORES_FILENAME);
-        JSONFileManagement.writeScoresToFile(scoresFile, scores);
+        JSONFileManagement.writeScoresToFile(scoresFile, this.scores);
     }
 
     /**
@@ -51,36 +51,36 @@ public class GameOverScreen extends ScreenAdapter {
      */
     @Override
     public void show() {
-        this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        this.stage = new Stage(this.viewport);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        stage = new Stage(viewport);
 
-        this.mainTable = new Table();
-        this.mainTable.setFillParent(true);
-        this.stage.addActor(this.mainTable);
+        mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable,"GAME OVER!",true);
-        UIBuilder.addSubtitleLabel(this.mainTable,"You scored a total of " + this.score.getPoints() + " points!",true);
-        UIBuilder.addButton(this.mainTable,"Play again",true,new ClickListener() {
+        UIBuilder.addTitleLabel(mainTable,"GAME OVER!",true);
+        UIBuilder.addSubtitleLabel(mainTable,"You scored a total of " + score.getPoints() + " points!",true);
+        UIBuilder.addButton(mainTable,"Play again",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
             }
         });
-        UIBuilder.addButton(this.mainTable,"Main Menu",true,new ClickListener() {
+        UIBuilder.addButton(mainTable,"Main Menu",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });
-        UIBuilder.addButton(this.mainTable,"Quit",true,new ClickListener() {
+        UIBuilder.addButton(mainTable,"Quit",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
 
-        Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
 
         Sounds.playGameOverSfx();
     }
@@ -94,8 +94,8 @@ public class GameOverScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.stage.act();
-        this.stage.draw();
+        stage.act();
+        stage.draw();
     }
 
     /**

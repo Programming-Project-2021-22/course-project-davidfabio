@@ -33,39 +33,39 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        this.stage = new Stage(this.viewport);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        stage = new Stage(viewport);
 
-        this.mainTable = new Table();
-        this.mainTable.setFillParent(true);
-        this.stage.addActor(this.mainTable);
+        mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable, Settings.GAME_TITLE,true);
-        UIBuilder.addSubtitleLabel(this.mainTable,"80's Arcade for a modern audience.",true);
-        UIBuilder.addLabel(this.mainTable,"",true);
-        UIBuilder.addLabel(this.mainTable,"Welcome, " + Settings.username + "!",true);
-        UIBuilder.addLabel(this.mainTable,"",true);
-        UIBuilder.addButton(this.mainTable,"Play",true,new ClickListener() {
+        UIBuilder.addTitleLabel(mainTable, Settings.GAME_TITLE,true);
+        UIBuilder.addSubtitleLabel(mainTable,"80's Arcade for a modern audience.",true);
+        UIBuilder.addLabel(mainTable,"",true);
+        UIBuilder.addLabel(mainTable,"Welcome, " + Settings.username + "!",true);
+        UIBuilder.addLabel(mainTable,"",true);
+        UIBuilder.addButton(mainTable,"Play",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameScreen(scores));
             }
         });
-        UIBuilder.addButton(this.mainTable,"Options",true,new ClickListener() {
+        UIBuilder.addButton(mainTable,"Options",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen(scores));
             }
         });
-        UIBuilder.addButton(this.mainTable,"High Scores",true,new ClickListener() {
+        UIBuilder.addButton(mainTable,"High Scores",true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new HighscoreScreen(scores));
             }
         });
     UIBuilder.addButton(
-        this.mainTable, "Quit", true,
+        mainTable, "Quit", true,
         new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
@@ -75,7 +75,7 @@ public class MainMenuScreen extends ScreenAdapter {
           }
         });
 
-        Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -83,10 +83,15 @@ public class MainMenuScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.stage.act();
-        this.stage.draw();
+        stage.act();
+        stage.draw();
     }
 
+    /**
+     * This method is called if the window is ever resized.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);

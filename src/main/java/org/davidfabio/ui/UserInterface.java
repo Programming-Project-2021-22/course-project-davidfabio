@@ -25,7 +25,7 @@ public class UserInterface extends Group {
 
     public UserInterface() {
         super();
-        this.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         UIBuilder.loadSkin();
     }
 
@@ -89,7 +89,7 @@ public class UserInterface extends Group {
         pixmapDarkGrey.setColor(Color.DARK_GRAY);
         pixmapDarkGrey.fill();
 
-        this.healthContainer.clearChildren();
+        healthContainer.clearChildren();
         for(boolean active : playerLives) {
             Image playerHealth;
             if (active)
