@@ -20,6 +20,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This is the Settings Screen and it contains all the Buttons and Sliders that a user may modify.
+ */
 public class SettingsScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;

@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import org.davidfabio.utils.Transform2D;
 
+/**
+ * This class represents the Camera that is showing our Game during play.
+ * We can manipulate it to zoom and focus on the {@link Player}.
+ */
 public class Camera extends OrthographicCamera {
     /**
      * Speed by which the Camera moves towards the player.

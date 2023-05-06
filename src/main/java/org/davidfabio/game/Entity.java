@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.utils.Settings;
 
+/**
+ * Almost anything in our Game inherits from the Entity class. This is the Base for Players, Enemies, Bullets and more.
+ */
 public class Entity implements Movable {
     private float x, y;
     private float scale;

@@ -14,6 +14,9 @@ import org.davidfabio.game.Score;
 
 import java.util.ArrayList;
 
+/**
+ * This is the Screen that displays the highest scores that a Player has achieved.
+ */
 public class HighscoreScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;

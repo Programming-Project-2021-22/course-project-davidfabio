@@ -1,8 +1,11 @@
 package org.davidfabio.game;
 
-import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
+/**
+ * This interface is used for all Entities that are moving in the game.
+ * This mainly includes any class that extends {@link Entity}.
+ */
 public interface Movable {
     float getX();
     void setX(float newX);
@@ -12,7 +15,6 @@ public interface Movable {
     void setScale(float newScale);
     float getMoveSpeed();
     PolygonShape getShape();
-
 
     // returns true if at least 1 vertex of the shape is inside level
     default boolean isInView(World world) {
