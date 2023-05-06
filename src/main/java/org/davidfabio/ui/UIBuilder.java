@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * This class is used to instance various kinds of Labels, Buttons and other UI elements.
+ * This is used to unify the screen building experience.
+ */
 public class UIBuilder {
     /**
      * This contains a {@link Skin} that is used throughout the Application to style every interface object.

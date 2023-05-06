@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This static class handles all the sound effects and background music tasks.
+ */
 public class Sounds {
     private static Sound sfxShoot;
     private static Sound sfxExplosion;

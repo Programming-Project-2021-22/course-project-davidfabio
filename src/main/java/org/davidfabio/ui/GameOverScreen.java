@@ -18,6 +18,10 @@ import org.davidfabio.utils.Settings;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This is the Screen that is displayed when the Player loses all their lives.
+ * It gives the Player the possibility to go to the Main Menu, Play again or Quit the game.
+ */
 public class GameOverScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;
@@ -25,6 +29,13 @@ public class GameOverScreen extends ScreenAdapter {
     private ArrayList<Score> scores;
     private Score score;
 
+    /**
+     * This initializes the Game Over Screen. Additionally, it adds the current game's score to the
+     * general score list.
+     * Once the score was added the updated scores-list is written to file using {@link JSONFileManagement#writeScoresToFile(File, ArrayList)}.
+     * @param scores this is the list of scores of past games.
+     * @param score this is the current game's score
+     */
     public GameOverScreen(ArrayList<Score> scores, Score score) {
         super();
         this.score = score;
@@ -35,6 +46,9 @@ public class GameOverScreen extends ScreenAdapter {
         JSONFileManagement.writeScoresToFile(scoresFile, scores);
     }
 
+    /**
+     * This method initializes the Game Over Screen's contents. It adds the Buttons and Labels displayed to the user.
+     */
     @Override
     public void show() {
         this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());

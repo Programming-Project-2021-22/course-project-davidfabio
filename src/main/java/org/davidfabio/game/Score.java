@@ -2,6 +2,9 @@ package org.davidfabio.game;
 
 import org.davidfabio.utils.Settings;
 
+/**
+ * This class is used to store the Player's past scores.
+ */
 public class Score implements Comparable {
     /**
      * Stores the Username that this Score instance belongs to.

@@ -14,6 +14,10 @@ import org.davidfabio.input.Inputs;
 
 import java.util.ArrayList;
 
+/**
+ * This is the game's main screen. It asks the Game's state to {@link GameScreen#render(float)} periodically and
+ * provides the Player with a visual representation of the Game's state.
+ */
 public class GameScreen extends ScreenAdapter {
     private static World world;
 
