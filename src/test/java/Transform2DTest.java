@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Transform2DTests {
+public class Transform2DTest {
     final float PI = (float)Math.PI;
     float tolerance = 0.00001f;
     final float HALF_PI = PI / 2;

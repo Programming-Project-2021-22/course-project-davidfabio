@@ -3,6 +3,7 @@ package org.davidfabio.ui;
 import org.davidfabio.PolygonWars;
 import org.davidfabio.game.Score;
 import org.davidfabio.game.Sounds;
+import org.davidfabio.utils.JSONFileManagement;
 import org.davidfabio.utils.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class SettingsScreen extends ScreenAdapter {
@@ -92,6 +94,8 @@ public class SettingsScreen extends ScreenAdapter {
         UIBuilder.addButton(this.mainTable,"Back",false,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                File settingsFile = new File(Settings.SETTINGS_FILENAME);
+                JSONFileManagement.writeSettingsToFile(settingsFile);
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });

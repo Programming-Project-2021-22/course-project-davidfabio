@@ -1,12 +1,18 @@
 package org.davidfabio.utils;
 
+/**
+ * Contains both editable and constant Settings that are used throughout the game.
+ * This Class is always accessed in a static way.
+ */
 public class Settings {
     // Game Setup Settings
     public static final String GAME_TITLE = "Polygon Wars";
+    public static final String SETTINGS_FILENAME = "src/main/resources/settings.json";
+    public static final String SCORES_FILENAME = "src/main/resources/scores.json";
     public static String username = "Player";
     public static float levelWidth = 800;
     public static float levelHeight = 640;
-    public static int MAX_MULTIPLIER = 5;
+    public static final int MAX_MULTIPLIER = 5;
 
     // Display Settings
     public static boolean fullscreenEnabled = false;

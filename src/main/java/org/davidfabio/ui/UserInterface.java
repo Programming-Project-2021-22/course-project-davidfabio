@@ -13,6 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.ArrayList;
 
+/**
+ * This class handles the User Interface displayed while playing.
+ * It contains the Health Bar, Score and Multiplier.
+ */
 public class UserInterface extends Group {
     private Label playerScore;
     private Label scoreMultiplier;
