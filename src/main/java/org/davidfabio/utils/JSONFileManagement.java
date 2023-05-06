@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This class provides utility functions to read & write from json-files.
+ * This class provides utility functions to read and write from json-files.
  * In particular this class is used to read and write settings and scores.
  */
 public class JSONFileManagement {
