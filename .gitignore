@@ -123,3 +123,7 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# PolygonWars specific files
+src/main/resources/scores.json
+src/main/resources/settings.json

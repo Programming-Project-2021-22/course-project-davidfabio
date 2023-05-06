@@ -12,7 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.davidfabio.game.Sounds;
+import org.davidfabio.utils.FileManipulations;
+import org.davidfabio.utils.Settings;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class GameOverScreen extends ScreenAdapter {
@@ -27,6 +30,9 @@ public class GameOverScreen extends ScreenAdapter {
         this.score = score;
         this.scores = scores;
         scores.add(score);
+
+        File scoresFile = new File(Settings.SCORES_FILENAME);
+        FileManipulations.writeScoresToFile(scoresFile, scores);
     }
 
     @Override
