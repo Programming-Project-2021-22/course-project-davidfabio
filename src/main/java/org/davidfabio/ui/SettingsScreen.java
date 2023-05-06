@@ -20,6 +20,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This Enum provides some default values for the Window Resolutions.
+ */
 enum DefaultWindowSize {
     W1440H900,
     W1366H768,
@@ -87,6 +90,15 @@ public class SettingsScreen extends ScreenAdapter {
                 Settings.fullscreenEnabled = !Settings.fullscreenEnabled;
             }
         });
+        UIBuilder.addLabel(this.mainTable,"",true);
+        UIBuilder.addSelectBox(this.mainTable,false,new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SelectBox selectBox = (SelectBox) actor;
+                DefaultWindowSize defaultWindowSize = (DefaultWindowSize) selectBox.getSelected();
+                setSettingsFromDefaultWindowSize(defaultWindowSize);
+            }
+        },getSelectedWindowSize(),DefaultWindowSize.W1024H768,DefaultWindowSize.W1280H720,DefaultWindowSize.W1366H768,DefaultWindowSize.W1440H900);
         UIBuilder.addLabel(this.mainTable,"Sound Effect Volume",true);
         UIBuilder.addLabel(this.mainTable,"Changing Display Settings (Resolution, Fullscreen, ...)\nrequires a Restart of the Application.",false);
         UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.sfxVolume,true,new ChangeListener() {
@@ -155,5 +167,55 @@ public class SettingsScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    /**
+     * This method takes a {@link DefaultWindowSize} enum and writes the correct Resolution to the {@link Settings} class.
+     * @param windowSize enum containing the window resolution.
+     */
+    private void setSettingsFromDefaultWindowSize(DefaultWindowSize windowSize) {
+        switch (windowSize) {
+            case W1024H768: {
+                Settings.windowWidth = 1024;
+                Settings.windowHeight = 768;
+                break;
+            }
+            case W1280H720: {
+                Settings.windowWidth = 1280;
+                Settings.windowHeight = 720;
+                break;
+            }
+            case W1366H768: {
+                Settings.windowWidth = 1366;
+                Settings.windowHeight = 768;
+                break;
+            }
+            case W1440H900: {
+                Settings.windowWidth = 1440;
+                Settings.windowHeight = 900;
+                break;
+            }
+        }
+    }
+
+    /**
+     * This method returns the {@link DefaultWindowSize} enum which corresponds to the currently selected resolution.
+     * If no resolution is adequate, this method returns {@link DefaultWindowSize#W1024H768}.
+     * @return the enum corresponding to the current window resolution.
+     */
+    private DefaultWindowSize getSelectedWindowSize() {
+        if (Settings.windowWidth == 1024 && Settings.windowHeight == 768) {
+            return DefaultWindowSize.W1024H768;
+        }
+        if (Settings.windowWidth == 1280 && Settings.windowHeight == 720) {
+            return DefaultWindowSize.W1280H720;
+        }
+        if (Settings.windowWidth == 1366 && Settings.windowHeight == 768) {
+            return DefaultWindowSize.W1366H768;
+        }
+        if (Settings.windowWidth == 1440 && Settings.windowHeight == 900) {
+            return DefaultWindowSize.W1440H900;
+        }
+        return DefaultWindowSize.W1024H768;
     }
 }

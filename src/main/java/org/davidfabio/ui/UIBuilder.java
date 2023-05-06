@@ -231,4 +231,21 @@ public class UIBuilder {
         textField.addListener(listener);
         addActorToTable(table,textField,30f,newRow);
     }
+
+    /**
+     * This method instances a new {@link SelectBox} using the provided selected and items values. The SelectBox is 30f high.
+     *
+     * @param table where the {@link SelectBox} is added to.
+     * @param newRow if true, a new row is created. Otherwise, the {@link TextField} is added to the current row.
+     * @param listener a listener that needs to be executed onChange.
+     * @param selected the currently selected item
+     * @param items the list of items that can be selected
+     */
+    public static void addSelectBox(Table table, boolean newRow, ChangeListener listener, Object selected, Object... items) {
+        SelectBox selectBox = new SelectBox(skin);
+        selectBox.setItems(items);
+        selectBox.setSelected(selected);
+        selectBox.addListener(listener);
+        addActorToTable(table,selectBox,30f,newRow);
+    }
 }
