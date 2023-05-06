@@ -3,7 +3,7 @@ package org.davidfabio.ui;
 import org.davidfabio.PolygonWars;
 import org.davidfabio.game.Score;
 import org.davidfabio.game.Sounds;
-import org.davidfabio.utils.FileManipulations;
+import org.davidfabio.utils.JSONFileManagement;
 import org.davidfabio.utils.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -95,7 +95,7 @@ public class SettingsScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 File settingsFile = new File(Settings.SETTINGS_FILENAME);
-                FileManipulations.writeSettingsToFile(settingsFile);
+                JSONFileManagement.writeSettingsToFile(settingsFile);
                 ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(scores));
             }
         });

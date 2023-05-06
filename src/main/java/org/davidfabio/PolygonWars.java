@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import org.davidfabio.game.Score;
 import org.davidfabio.game.Sounds;
 import org.davidfabio.ui.MainMenuScreen;
-import org.davidfabio.utils.FileManipulations;
+import org.davidfabio.utils.JSONFileManagement;
 import org.davidfabio.utils.Settings;
 
 import java.io.File;
@@ -33,10 +33,10 @@ public class PolygonWars extends Game {
 		// Load scores from the scores.json-File
 		File scoresFile = new File(Settings.SCORES_FILENAME);
 		if (scoresFile.exists()) {
-			scores = FileManipulations.initScoresFromFile(scoresFile);
+			scores = JSONFileManagement.initScoresFromFile(scoresFile);
 		} else {
 			scores = new ArrayList<>();
-			FileManipulations.writeScoresToFile(scoresFile,scores);
+			JSONFileManagement.writeScoresToFile(scoresFile,scores);
 		}
 
 		// Initialize Sounds from current Settings.

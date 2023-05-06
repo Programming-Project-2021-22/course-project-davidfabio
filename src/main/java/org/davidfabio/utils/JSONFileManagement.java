@@ -1,6 +1,5 @@
 package org.davidfabio.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -10,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FileManipulations {
+public class JSONFileManagement {
     public static void initSettingsFromFile(File settingsFile) {
         ObjectMapper mapper = new ObjectMapper();
         try {

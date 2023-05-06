@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 import org.davidfabio.ui.GameScreen;
-import org.davidfabio.utils.FileManipulations;
+import org.davidfabio.utils.JSONFileManagement;
 import org.davidfabio.utils.Settings;
 
 import java.io.File;
@@ -26,9 +26,9 @@ public class PolygonWarsDesktop {
 		// Load Settings from file
 		File settingsFile = new File(Settings.SETTINGS_FILENAME);
 		if (settingsFile.exists()) {
-			FileManipulations.initSettingsFromFile(settingsFile);
+			JSONFileManagement.initSettingsFromFile(settingsFile);
 		} else {
-			FileManipulations.writeSettingsToFile(settingsFile);
+			JSONFileManagement.writeSettingsToFile(settingsFile);
 		}
 
 		// Prepare Window for Application
