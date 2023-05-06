@@ -66,32 +66,32 @@ public class SettingsScreen extends ScreenAdapter {
      */
     @Override
     public void show() {
-        this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        this.stage = new Stage(this.viewport);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        stage = new Stage(viewport);
 
-        this.mainTable = new Table();
-        this.mainTable.setFillParent(true);
-        this.stage.addActor(this.mainTable);
+        mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(this.mainTable,"SETTINGS",true);
-        UIBuilder.addSubtitleLabel(this.mainTable,"Sound Effects",true);
-        UIBuilder.addSubtitleLabel(this.mainTable,"Graphics",false);
-        UIBuilder.addCheckBox(this.mainTable,"Sound Effects", Settings.sfxEnabled,true, new ClickListener() {
+        UIBuilder.addTitleLabel(mainTable,"SETTINGS",true);
+        UIBuilder.addSubtitleLabel(mainTable,"Sound Effects",true);
+        UIBuilder.addSubtitleLabel(mainTable,"Graphics",false);
+        UIBuilder.addCheckBox(mainTable,"Sound Effects", Settings.sfxEnabled,true, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.sfxEnabled = !Settings.sfxEnabled;
                 Sounds.loadSounds();
             }
         });
-        UIBuilder.addCheckBox(this.mainTable,"Fullscreen", Settings.fullscreenEnabled,false, new ClickListener() {
+        UIBuilder.addCheckBox(mainTable,"Fullscreen", Settings.fullscreenEnabled,false, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.fullscreenEnabled = !Settings.fullscreenEnabled;
             }
         });
-        UIBuilder.addLabel(this.mainTable,"",true);
-        UIBuilder.addSelectBox(this.mainTable,false,new ChangeListener() {
+        UIBuilder.addLabel(mainTable,"",true);
+        UIBuilder.addSelectBox(mainTable,false,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 SelectBox selectBox = (SelectBox) actor;
@@ -99,9 +99,9 @@ public class SettingsScreen extends ScreenAdapter {
                 setSettingsFromDefaultWindowSize(defaultWindowSize);
             }
         },getSelectedWindowSize(),DefaultWindowSize.W1024H768,DefaultWindowSize.W1280H720,DefaultWindowSize.W1366H768,DefaultWindowSize.W1440H900);
-        UIBuilder.addLabel(this.mainTable,"Sound Effect Volume",true);
-        UIBuilder.addLabel(this.mainTable,"Changing Display Settings (Resolution, Fullscreen, ...)\nrequires a Restart of the Application.",false);
-        UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.sfxVolume,true,new ChangeListener() {
+        UIBuilder.addLabel(mainTable,"Sound Effect Volume",true);
+        UIBuilder.addLabel(mainTable,"Changing Display Settings (Resolution, Fullscreen, ...)\nrequires a Restart of the Application.",false);
+        UIBuilder.addSlider(mainTable,0f,1f,0.01f,Settings.sfxVolume,true,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Slider slider = (Slider)event.getListenerActor();
@@ -109,32 +109,32 @@ public class SettingsScreen extends ScreenAdapter {
                 Sounds.playHitSfx();
             }
         });
-        UIBuilder.addSubtitleLabel(this.mainTable,"Music",true);
-        UIBuilder.addSubtitleLabel(this.mainTable,"Username",false);
-        UIBuilder.addCheckBox(this.mainTable,"Music", Settings.musicEnabled,true,new ClickListener() {
+        UIBuilder.addSubtitleLabel(mainTable,"Music",true);
+        UIBuilder.addSubtitleLabel(mainTable,"Username",false);
+        UIBuilder.addCheckBox(mainTable,"Music", Settings.musicEnabled,true,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.musicEnabled = !Settings.musicEnabled;
                 Sounds.loadSounds();
             }
         });
-        UIBuilder.addTextInput(this.mainTable, Settings.username, false, new ChangeListener() {
+        UIBuilder.addTextInput(mainTable, Settings.username, false, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 TextField textField = (TextField)event.getListenerActor();
                 Settings.username = textField.getText();
             }
         });
-        UIBuilder.addLabel(this.mainTable,"Music Volume",true);
-        UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.musicVolume,true,new ChangeListener() {
+        UIBuilder.addLabel(mainTable,"Music Volume",true);
+        UIBuilder.addSlider(mainTable,0f,1f,0.01f,Settings.musicVolume,true,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Slider slider = (Slider)event.getListenerActor();
                 Settings.musicVolume = slider.getValue();
             }
         });
-        UIBuilder.addLabel(this.mainTable,"",true);
-        UIBuilder.addButton(this.mainTable,"Back",false,new ClickListener() {
+        UIBuilder.addLabel(mainTable,"",true);
+        UIBuilder.addButton(mainTable,"Back",false,new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 File settingsFile = new File(Settings.SETTINGS_FILENAME);
@@ -143,7 +143,7 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
 
-        Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
     }
 
     /**
@@ -155,8 +155,8 @@ public class SettingsScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.stage.act();
-        this.stage.draw();
+        stage.act();
+        stage.draw();
     }
 
     /**
