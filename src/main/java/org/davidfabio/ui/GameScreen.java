@@ -40,6 +40,10 @@ public class GameScreen extends ScreenAdapter {
      */
     private static UserInterface userInterface;
     /**
+     * The Pause Menu that has to be shown when paused.
+     */
+    private static PauseMenu pauseMenu;
+    /**
      * This value traces whether or not the game is currently paused. When paused the update()-loop does not change the
      * Game's state.
      */
@@ -55,11 +59,24 @@ public class GameScreen extends ScreenAdapter {
      */
     private ArrayList<Score> scores;
 
+    /**
+     * Initializes the GameScreen object and stores the scores in order to pass them on to other screens.
+     * @param scores of past games to be stored
+     */
     public GameScreen(ArrayList<Score> scores) {
         this.scores = scores;
     }
+
+    /**
+     * @return the camera object of the GameScreen
+     */
     public static Camera getCamera() { return camera; }
 
+    /**
+     * Prepares the GameScreen layout. It also initializes the {@link GameScreen#world} and {@link GameScreen#camera}
+     * objects, as well as the Rendering batches ({@link GameScreen#polygonSpriteBatch} and {@link GameScreen#shapeRenderer}).
+     * This method also loads the Sounds and starts the Background Music.
+     */
     @Override
     public void show() {
         PolygonShape.init();
@@ -78,25 +95,40 @@ public class GameScreen extends ScreenAdapter {
         stage.addActor(userInterface);
 
         isPaused = false;
+        pauseMenu = new PauseMenu();
+        pauseMenu.init(scores, () -> {
+            isPaused = !isPaused;
+            pauseMenu.setVisible(isPaused);
+        });
+        pauseMenu.setVisible(false);
+        stage.addActor(pauseMenu);
 
         Gdx.input.setInputProcessor(stage);
 
         Sounds.playGameStartSfx();
     }
 
+    /**
+     * Updates the Game Screen and also the Game state by calling {@link World#update(float)}.
+     * This method also manages the Pause State.
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         // TODO (David): frametimes are uneven when using deltaTime (with VSync enabled), so for now at least we are not using it
         float deltaTime = 1.0f / displayRefreshRate; // float deltaTime = Gdx.graphics.getDeltaTime();
 
         Inputs.update();
-
         if (Inputs.pause.getWasPressed()) {
             isPaused = !isPaused;
-            if (isPaused)
+
+            pauseMenu.setVisible(isPaused);
+            if (isPaused) {
                 Sounds.stopBackgroundMusic();
-            else
+            } else {
                 Sounds.playBackgroundMusic();
+            }
         }
 
         // restart game
@@ -105,10 +137,9 @@ public class GameScreen extends ScreenAdapter {
             show();
 
         if (isPaused) {
+            stage.draw();
             return;
         }
-
-
 
         // ---------------- update game logic ----------------
         // Update World
@@ -117,15 +148,15 @@ public class GameScreen extends ScreenAdapter {
         // Update User Interface
         userInterface.update(world.getPlayer(),world.getScore());
 
-
-
         // ---------------- rendering ----------------
+        // Clear Screen
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
         // Reposition camera on player
         camera.updateCameraPosition(deltaTime, world.getPlayer());
         shapeRenderer.setProjectionMatrix(camera.combined);
 
+        // Render the Game State
         polygonSpriteBatch.setProjectionMatrix(camera.combined);
         world.render(polygonSpriteBatch,shapeRenderer);
         stage.draw();
