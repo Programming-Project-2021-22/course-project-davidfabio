@@ -94,7 +94,7 @@ List and explain how you used the 10 programming techniques required for this pr
 - **Serialization**: In order to store Settings and Scores in a sensible way, we serialize them into a JSON. We use Jackson for this.
 - **Deserialization**: In order to read our serialized Settings and Scores we need to deserialize them from JSON. We use Jackson for this.
 - **Test Hooks**: For our Test Suite we use `@BeforeAll` and `@AfterAll` in order to clean our Test environment. For example the `JSONFileManagementTest` uses these hooks to clean the Files created.
-
+- **Streams**: In the High Scores screen we use streams to show the best 5 scores present in the Scores List.
 
 ### 4.4. Tests
 Briefly describe and motivate your test suite.
