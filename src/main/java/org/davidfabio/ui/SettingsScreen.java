@@ -20,19 +20,47 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.io.File;
 import java.util.ArrayList;
 
+enum DefaultWindowSize {
+    W1440H900,
+    W1366H768,
+    W1280H720,
+    W1024H768
+}
+
 /**
- * This is the Settings Screen and it contains all the Buttons and Sliders that a user may modify.
+ * This is the Settings Screen, it contains all the Buttons and Sliders that a user may modify.
  */
 public class SettingsScreen extends ScreenAdapter {
+    /**
+     * The stage is required by LibGDX to render the Screen.
+     */
     private Stage stage;
+    /**
+     * The viewport is required by LibGDX to render the Screen.
+     */
     private Viewport viewport;
+    /**
+     * The mainTable contains any Label, or any Control that the user interacts with.
+     */
     private Table mainTable;
+    /**
+     * These are the scores of past games. They are required as they need to be passed to the next screen if the screen
+     * is switched.
+     */
     private ArrayList<Score> scores;
 
+    /**
+     * The SettingsScreen constructor simply stores the scores passed on by another part of the Application.
+     * @param scores scores to be stored for the next page
+     */
     public SettingsScreen(ArrayList<Score> scores) {
         this.scores = scores;
     }
 
+    /**
+     * This method prepares all the UI elements that need to be shown to the user.
+     * It also creates the EventHandlers that need to be executed if a Button, Slider, or Checkbox is triggered.
+     */
     @Override
     public void show() {
         this.viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -60,7 +88,7 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
         UIBuilder.addLabel(this.mainTable,"Sound Effect Volume",true);
-        UIBuilder.addLabel(this.mainTable,"Changing this setting requires a Restart of the Application.",false);
+        UIBuilder.addLabel(this.mainTable,"Changing Display Settings (Resolution, Fullscreen, ...)\nrequires a Restart of the Application.",false);
         UIBuilder.addSlider(this.mainTable,0f,1f,0.01f,Settings.sfxVolume,true,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -106,6 +134,10 @@ public class SettingsScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(this.stage);
     }
 
+    /**
+     * This method renders the contents from the stage (which are defined by {@link SettingsScreen#show()}.
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
@@ -115,6 +147,11 @@ public class SettingsScreen extends ScreenAdapter {
         this.stage.draw();
     }
 
+    /**
+     * This method is called if the window is ever resized.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
