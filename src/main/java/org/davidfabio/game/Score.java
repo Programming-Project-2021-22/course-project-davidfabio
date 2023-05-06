@@ -53,7 +53,9 @@ public class Score implements Comparable {
     public int getPoints() {
         return points;
     }
-    public int getPickups() { return pickups; }
+    public int getPickups() {
+        return pickups;
+    }
 
     public void addPoints(int points) {
         this.points = this.points + points;

@@ -7,8 +7,6 @@ import org.davidfabio.utils.Transform2D;
 import java.util.Random;
 
 public class EnemySpawner {
-
-
     private int MAX_ACTIVE_ENEMIES = 24;
     private float DELAY_BETWEEN_SPAWNS = 3.5f;
 

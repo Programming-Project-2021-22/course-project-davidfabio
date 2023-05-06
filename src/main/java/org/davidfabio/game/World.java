@@ -11,6 +11,9 @@ import org.davidfabio.utils.Settings;
 
 import java.util.ArrayList;
 
+/**
+ * This class is the heart of the Game's State. It contains everything that is displayed while playing.
+ */
 public class World {
     private Player player;
     private Enemy[] enemies;
@@ -30,8 +33,14 @@ public class World {
     public Level getLevel() { return level; }
     public Score getScore() { return score; }
 
-
-
+    /**
+     * The World constructor initializes the Game's state. This means that a new {@link Level} is instanced, a new
+     * {@link Score} is prepared, the {@link Player} is created, the {@link Enemy}-classes are created and instanced.
+     * Furthermore, the {@link EnemySpawner} is instanced and also the Enemy {@link Bullet}s, {@link Pickup}s and
+     * {@link Particle}s. This is all done to avoid allocating memory while playing the game.
+     *
+     * @param scores This is the list of scores which will be required later to add the current game's score.
+     */
     public World(ArrayList<Score> scores) {
         level = new Level(Settings.levelWidth, Settings.levelHeight);
         score = new Score();
@@ -59,8 +68,6 @@ public class World {
                 currentTypeIndex += 1;
         }
 
-
-
         enemySpawner = new EnemySpawner(this);
 
         enemyBullets = new Bullet[Settings.MAX_ENEMY_BULLETS];
@@ -76,8 +83,13 @@ public class World {
             particles[i] = new Particle();
     }
 
-
-
+    /**
+     * This loop updates the Game's state. This means that Enemies, Enemy Bullets, Pickups and the Player are moved.
+     * Additionally, we check for any Collisions using the {@link Collision}-class.
+     * If the {@link Player} drops to 0 health, the {@link GameOverScreen} is shown and the game is stopped.
+     *
+     * @param deltaTime time elapsed since last rendering
+     */
     public void update(float deltaTime) {
         // update enemy spawner
         enemySpawner.update(deltaTime);
@@ -115,8 +127,14 @@ public class World {
         Collision.update(this);
     }
 
-
-
+    /**
+     * This method handles the rendering of everything that happens inside the Game's state.
+     * This means that Enemies, Enemy Bullets, Pickups, Particles, the Player and the Level are
+     * rendered. Each of these entities implements an own render()-method which is called in each case.
+     *
+     * @param polygonSpriteBatch used to render any shapes that use LibGDX's Polygons
+     * @param shapeRenderer used to render any shapes that use LibGDX's Shapes
+     */
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // render enemies
         for (Enemy enemy : enemies)
@@ -141,7 +159,6 @@ public class World {
         level.render(shapeRenderer);
     }
 
-
     public Enemy getEnemy(Enemy.Type type) {
         for (int i = 0; i < enemies.length; i += 1) {
             if (enemies[i].getIsActive())
@@ -155,7 +172,11 @@ public class World {
         return null;
     }
 
-
+    /**
+     * This method is called when a Player collides with an Enemy.
+     * In order to give the Player some breathing time, all currently spawned Enemies are destroyed.
+     * The Enemy destruction does not award any Points to the Player.
+     */
     public void destroyAllEnemies() {
         for (Enemy enemy : getEnemies()) {
             if (enemy.getSpawnNextFrame())
@@ -176,8 +197,4 @@ public class World {
                 enemy.destroy(this);
         }
     }
-
-
-
-
 }

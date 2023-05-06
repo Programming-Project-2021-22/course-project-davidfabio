@@ -85,6 +85,10 @@ public class GameOverScreen extends ScreenAdapter {
         Sounds.playGameOverSfx();
     }
 
+    /**
+     * This method draws the actual Screen.
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
@@ -94,6 +98,11 @@ public class GameOverScreen extends ScreenAdapter {
         this.stage.draw();
     }
 
+    /**
+     * This method is called if the window is ever resized.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);

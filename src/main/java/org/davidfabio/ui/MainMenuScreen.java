@@ -17,6 +17,10 @@ import org.davidfabio.utils.Settings;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This is the Main Menu that offers the User the ability to play, look at high scores, change the settings or exit
+ * the application altogether.
+ */
 public class MainMenuScreen extends ScreenAdapter {
     private Stage stage;
     private Viewport viewport;

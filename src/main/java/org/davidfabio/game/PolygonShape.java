@@ -11,15 +11,14 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.game.enemies.Enemy;
-import org.davidfabio.ui.GameScreen;
 import org.davidfabio.utils.Transform2D;
 
 import java.util.Arrays;
 
 /**
+ * This class is used to draw a PolygonShape. This is used in Enemies, Player, and other classes.
  * If this class is going to be used in a screen, the init method needs to be called IN THAT SCREEN!
  */
-
 public class PolygonShape {
     private static Pixmap pixmap;
     private static Texture textureWhite;
@@ -32,11 +31,6 @@ public class PolygonShape {
     }
     public float[] getVertices() { return vertices; }
 
-    public void setVertices(float[] newVertices) {
-        for (int i = 0; i < vertices.length; i += 1)
-            vertices[i] = newVertices[i];
-    }
-
     public static void init() {
         pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0xFFFFFFFF); // red, green, blue, alpha
@@ -44,8 +38,11 @@ public class PolygonShape {
         textureWhite = new Texture(pixmap);
     }
 
-
-    // polygon circle constructor
+    /**
+     * Polygon circle constructor
+     * @param triangleCount
+     * @param scale
+     */
     public PolygonShape(int triangleCount, float scale) {
         verticesInitial = new float[(triangleCount + 1) * 2];
         vertices = new float[verticesInitial.length];

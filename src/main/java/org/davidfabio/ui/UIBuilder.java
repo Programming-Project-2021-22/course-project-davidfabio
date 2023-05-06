@@ -28,6 +28,10 @@ public class UIBuilder {
         }
     }
 
+    /**
+     * Returns the {@link Skin} which is used throughout the application.
+     * @return the application's skin
+     */
     public static Skin getSkin() {
         return skin;
     }

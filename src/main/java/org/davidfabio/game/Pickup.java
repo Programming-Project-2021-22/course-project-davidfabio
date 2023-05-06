@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-
+/**
+ * This class represents a Pickup that is left behind by dead enemies.
+ * The Player may collect these Pickups to gain a Points Multiplier.
+ */
 public class Pickup extends Entity implements Movable {
-
-
     private float stopMovingDistance = 80;
     private float lifespanCounter;
     private float lifespan = 3.0f;
@@ -16,15 +17,11 @@ public class Pickup extends Entity implements Movable {
     private boolean transparencyWhileBlinkingIncreasing;
     private float transparencyWhileBlinking;
 
-
-
-
     public void init(float x, float y, float scale, Color color) {
         super.init(x, y, scale, color);
         setShape(new PolygonShape(4, scale));
         lifespanCounter = 0f;
     }
-
 
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         if (!getIsActive())
@@ -38,8 +35,6 @@ public class Pickup extends Entity implements Movable {
         else
             super.render(polygonSpriteBatch, shapeRenderer);
     }
-
-
 
     public void update(float deltaTime, World world) {
         if (!getIsActive())
@@ -75,5 +70,4 @@ public class Pickup extends Entity implements Movable {
         getShape().resetPosition();
         getShape().translatePosition(this);
     }
-
 }
