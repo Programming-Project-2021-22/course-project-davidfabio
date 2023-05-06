@@ -33,7 +33,7 @@ public class Sounds {
     private static Sound loadSound(String fileName) {
         Sound sound = null;
         try {
-            sound = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/sfx/" + fileName));
+            sound = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/" + fileName));
         }
         catch (GdxRuntimeException ex) {
             System.out.println("Sound could not be loaded.\n" + ex.getMessage());
@@ -43,18 +43,18 @@ public class Sounds {
 
     public static void loadSounds() {
         if (Settings.sfxEnabled) {
-            sfxShoot = loadSound("shoot.wav");
-            sfxExplosion = loadSound("explosion.wav");
-            sfxExplosionEnemyStar = loadSound("explosion_enemy_star.wav");
-            sfxHit = loadSound("bullet_hit.wav");
-            sfxDash = loadSound("dash.wav");
-            sfxPickup = loadSound("pickup.wav");
-            sfxGameStart = loadSound("game_start.wav");
-            sfxGameOver = loadSound("game_over.wav");
+            sfxShoot = loadSound("sfx/shoot.wav");
+            sfxExplosion = loadSound("sfx/explosion.wav");
+            sfxExplosionEnemyStar = loadSound("sfx/explosion_enemy_star.wav");
+            sfxHit = loadSound("sfx/bullet_hit.wav");
+            sfxDash = loadSound("sfx/dash.wav");
+            sfxPickup = loadSound("sfx/pickup.wav");
+            sfxGameStart = loadSound("sfx/game_start.wav");
+            sfxGameOver = loadSound("sfx/game_over.wav");
         }
 
         if (Settings.musicEnabled) {
-            musicTrack = loadSound("track1.mp3");
+            musicTrack = loadSound("music/track1.mp3");
         }
     }
 
