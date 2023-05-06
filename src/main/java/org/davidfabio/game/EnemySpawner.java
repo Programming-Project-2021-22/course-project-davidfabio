@@ -10,7 +10,7 @@ public class EnemySpawner {
 
 
     private int MAX_ACTIVE_ENEMIES = 24;
-    private float DELAY_BETWEEN_SPAWNS = 3.5f;
+    private float DELAY_BETWEEN_SPAWNS = 1.5f;
 
     private float timeElapsed = 0;
     private float timeLastFrame;
@@ -63,27 +63,83 @@ public class EnemySpawner {
         if (enemy == null)
             return null;
 
-        switch(type) {
+        switch (type) {
             case CHASER:   enemy.init(x, y, 50, 100, 2, new Color(1, 0, 0, 0.75f)); break;
             case TURRET:   enemy.init(x, y, 60, 0, 10, Color.BLUE); break;
             case BUBBLE:   enemy.init(x, y, 160, 20, 9, new Color(1, 0.75f, 0.8f, 0.75f)); break;
             case KAMIKAZE: enemy.init(x, y, 30, 100, 1, Color.ORANGE); break;
             case STAR:     enemy.init(x, y, 80, 30, 15, Color.PURPLE); break;
         }
-        enemy.restrictToLevel(levelReference);
 
         return enemy;
     }
 
 
 
-    private void spawnGroup() {
-        float radius = random.nextFloat(32, 256);
-        float centerX = random.nextFloat(radius, levelReference.getWidth() - radius);
-        float centerY = random.nextFloat(radius, levelReference.getHeight() - radius);
-        Enemy.Type enemyType = getRandomEnemyType();
-        SpawnFormation spawnFormation = getRandomSpawnType();
 
+    private void spawnCircle() {
+        Enemy.Type enemyType = getRandomEnemyType();
+        int enemyCount = getEnemyCount(enemyType);
+
+        float radius = random.nextFloat(64, 256);
+        float centerX = random.nextFloat(0, rightBorder);
+        float centerY = random.nextFloat(0, bottomBorder);
+
+        float angleDelta = (float)(2 * Math.PI) / enemyCount;
+        for (int i = 0; i < enemyCount; i += 1) {
+            float x = Transform2D.translateX(centerX, (i * angleDelta), radius);
+            float y = Transform2D.translateY(centerY, (i * angleDelta), radius);
+            spawn(enemyType, x, y);
+        }
+    }
+
+
+    private void spawnLine() {
+        Enemy.Type enemyType = getRandomEnemyType();
+        int enemyCount = getEnemyCount(enemyType);
+        float minLength = 200f;
+        float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+        while (Transform2D.getDistance(x1, y1, x2, y2) < minLength) {
+            x1 = random.nextFloat(0, levelReference.getWidth());
+            x2 = random.nextFloat(0, levelReference.getWidth());
+            y1 = random.nextFloat(0, levelReference.getHeight());
+            y2 = random.nextFloat(0, levelReference.getHeight());
+        }
+
+        float xOffset = Math.abs(x2 - x1) / enemyCount;
+        float yOffset = Math.abs(y2 - y1) / enemyCount;
+
+        for (int i = 0; i < enemyCount; i += 1) {
+            float x = x1 + (i * xOffset);
+            float y = y1 + (i * yOffset);
+            spawn(enemyType, x, y);
+        }
+    }
+
+    private void spawnRandom() {
+        Enemy.Type enemyType = getRandomEnemyType();
+        int enemyCount = getEnemyCount(enemyType);
+
+        for (int i = 0; i < enemyCount; i += 1) {
+            float x = random.nextFloat(0, rightBorder);
+            float y = random.nextFloat(0, bottomBorder);
+            spawn(enemyType, x, y);
+        }
+    }
+
+
+    private void spawnGroup() {
+        SpawnFormation spawnFormation = getRandomSpawnType();
+        switch (spawnFormation) {
+            case CIRCLE: spawnCircle(); break;
+            case LINE: spawnLine(); break;
+            case RANDOM: spawnRandom(); break;
+        }
+    }
+
+
+    private int getEnemyCount(Enemy.Type enemyType) {
         int enemyCount = 1;
         switch (enemyType) {
             case CHASER:   enemyCount = random.nextInt(6, 12); break;
@@ -93,44 +149,8 @@ public class EnemySpawner {
             case STAR:     enemyCount = 1; break;
         }
 
-        switch (spawnFormation) {
-            case CIRCLE: {
-                float angleDelta = (float)(2 * Math.PI) / enemyCount;
-                for (int i = 0; i < enemyCount; i += 1) {
-                    float x = Transform2D.translateX(centerX, (i * angleDelta), radius);
-                    float y = Transform2D.translateY(centerY, (i * angleDelta), radius);
-                    spawn(enemyType, x, y);
-                }
-                break;
-            }
-
-            case LINE: {
-                float x1 = random.nextFloat(0, levelReference.getWidth());
-                float x2 = random.nextFloat(0, levelReference.getWidth());
-                float y1 = random.nextFloat(0, levelReference.getHeight());
-                float y2 = random.nextFloat(0, levelReference.getHeight());
-                float xOffset = Math.abs(x2 - x1) / enemyCount;
-                float yOffset = Math.abs(y2 - y1) / enemyCount;
-                for (int i = 0; i < enemyCount; i += 1) {
-                    float x = x1 + (i * xOffset);
-                    float y = y1 + (i * yOffset);
-                    spawn(enemyType, x, y);
-                }
-                break;
-            }
-
-            case RANDOM: {
-                for (int i = 0; i < enemyCount; i += 1) {
-                    float x = Transform2D.getRandomX(levelReference);
-                    float y = Transform2D.getRandomY(levelReference);
-                    spawn(enemyType, x, y);
-                }
-                break;
-            }
-        }
-
+        return enemyCount;
     }
-
 
     private int getActiveEnemiesCount() {
         int res = 0;

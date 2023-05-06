@@ -15,9 +15,6 @@ public class Transform2D {
         return angleDegrees * (float)(Math.PI / 180);
     }
 
-    public static float getRandomX(Level level) { return (float)(Math.random() * level.getWidth()); }
-    public static float getRandomY(Level level) { return (float)(Math.random() * level.getHeight()); }
-
     public static float getDistance(float x1, float y1, float x2, float y2) {
         float distanceX = x1 - x2;
         float distanceY = y1 - y2;
@@ -27,4 +24,11 @@ public class Transform2D {
     public static float getAngleTowards(float x1, float y1, float x2, float y2) {
         return ((float)Math.atan2(y2 - y1, x2 - x1));
     }
+
+    public static float restrictTo(float num, float min, float max) {
+        num = Math.min(max, num);
+        num = Math.max(min, num);
+        return num;
+    }
+
 }
