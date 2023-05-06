@@ -22,15 +22,39 @@ import java.util.ArrayList;
  * the application altogether.
  */
 public class MainMenuScreen extends ScreenAdapter {
+    /**
+     * The stage is required by LibGDX to render the Screen.
+     */
     private Stage stage;
+    /**
+     * The viewport is required by LibGDX to render the Screen.
+     */
     private Viewport viewport;
+    /**
+     * The mainTable contains any Label, or any Control that the user interacts with.
+     */
     private Table mainTable;
+    /**
+     * These are the scores of past games. They are required as they need to be passed to the next screen if the screen
+     * is switched.
+     */
     private ArrayList<Score> scores;
 
+    /**
+     * This constructor initializes the MainMenuScreen object.
+     * It receives the list of scores in order to pass them on to any other screen requiring them.
+     *
+     * @param scores list of all past game scores.
+     */
     public MainMenuScreen(ArrayList<Score> scores) {
         this.scores = scores;
     }
 
+    /**
+     * This method builds the User interface.
+     * It contains any Buttons, Labels or other User Interface Controls that a User may need to see.
+     * In this method we create a List of Buttons that allow the User to navigate to any other screen.
+     */
     @Override
     public void show() {
         viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -78,6 +102,10 @@ public class MainMenuScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * This method draws the actual Screen.
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);

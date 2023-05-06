@@ -19,24 +19,46 @@ import java.util.ArrayList;
  * provides the Player with a visual representation of the Game's state.
  */
 public class GameScreen extends ScreenAdapter {
+    /**
+     * The whole Game State which is rendered and updated in this class.
+     */
     private static World world;
-
+    /**
+     * The rendering batch used to render any LibGDX's shapes.
+     */
     private ShapeRenderer shapeRenderer;
+    /**
+     * The camera used to show the Game. This allows for zooming and focusing on the Player.
+     */
     private static Camera camera;
-    private static Stage stage;
+    /**
+     * The stage is required by LibGDX to render the Screen.
+     */
+    private Stage stage;
+    /**
+     * The User Interface that is displayed during the game.
+     */
     private static UserInterface userInterface;
-
-    public static Camera getCamera() { return camera; }
-
+    /**
+     * This value traces whether or not the game is currently paused. When paused the update()-loop does not change the
+     * Game's state.
+     */
     private static boolean isPaused = false;
     public static float displayRefreshRate;
-
+    /**
+     * The rendering batch that is used to render any LibGDX's PolygonShapes.
+     */
     private PolygonSpriteBatch polygonSpriteBatch = new PolygonSpriteBatch();
+    /**
+     * This List contains the lives that a player has. True indicates an existing life, while False means that this live
+     * was already lost.
+     */
     private ArrayList<Score> scores;
 
     public GameScreen(ArrayList<Score> scores) {
         this.scores = scores;
     }
+    public static Camera getCamera() { return camera; }
 
     @Override
     public void show() {

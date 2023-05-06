@@ -23,10 +23,27 @@ import java.util.ArrayList;
  * It gives the Player the possibility to go to the Main Menu, Play again or Quit the game.
  */
 public class GameOverScreen extends ScreenAdapter {
+    /**
+     * The stage is required by LibGDX to render the Screen.
+     */
     private Stage stage;
+    /**
+     * The viewport is required by LibGDX to render the Screen.
+     */
     private Viewport viewport;
+    /**
+     * The mainTable contains any Label, or any Control that the user interacts with.
+     */
     private Table mainTable;
+    /**
+     * These are the scores of past games. They are required as they need to be passed to the next screen if the screen
+     * is switched.
+     */
     private ArrayList<Score> scores;
+    /**
+     * Score of the current game to be added to the {@link GameOverScreen#scores} list and to show the achievements of the
+     * game that just ended.
+     */
     private Score score;
 
     /**
