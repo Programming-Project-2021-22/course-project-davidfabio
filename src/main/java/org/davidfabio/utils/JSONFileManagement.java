@@ -26,6 +26,7 @@ public class JSONFileManagement {
             Settings.musicVolume = (float)settings.get("musicVolume").asDouble();
         } catch (IOException e) {
             // do nothing
+            e.printStackTrace();
         }
     }
 

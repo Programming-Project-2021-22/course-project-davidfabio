@@ -1,27 +1,36 @@
 import org.davidfabio.game.Score;
 import org.davidfabio.utils.JSONFileManagement;
+import org.davidfabio.utils.Settings;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class JSONFileManagementTest {
     private static final String TEST_WRITE_SCORES_FILENAME = "src/main/resources/scores.testwrite.json";
     private static final String TEST_READ_SCORES_FILENAME = "src/main/resources/scores.testread.json";
+    private static final String TEST_WRITE_SETTINGS_FILENAME = "src/main/resources/settings.testwrite.json";
+    private static final String TEST_READ_SETTINGS_FILENAME = "src/main/resources/settings.testread.json";
 
     @BeforeEach
+    @AfterEach
     public void resetFiles() {
         File file = new File(TEST_WRITE_SCORES_FILENAME);
         if (file.exists())
             file.delete();
 
         file = new File(TEST_READ_SCORES_FILENAME);
+        if (file.exists())
+            file.delete();
+
+        file = new File(TEST_WRITE_SETTINGS_FILENAME);
+        if (file.exists())
+            file.delete();
+
+        file = new File(TEST_READ_SETTINGS_FILENAME);
         if (file.exists())
             file.delete();
     }
@@ -106,6 +115,61 @@ public class JSONFileManagementTest {
             assertEquals(scores.get(0).getPickups(),readScores.get(0).getPickups());
             assertEquals(scores.get(1).getUsername(),readScores.get(1).getUsername());
             assertEquals(scores.get(2).getDuration(),readScores.get(2).getDuration());
+        }
+    }
+
+    @Nested
+    @DisplayName("Test Settings Write & Read")
+    public class SettingsWriteReadTest {
+        @BeforeEach
+        @AfterEach
+        public void resetSettings() {
+            Settings.username = "Player";
+            Settings.sfxVolume = 0.5f;
+            Settings.levelWidth = 800;
+            Settings.levelHeight = 640;
+            Settings.musicEnabled = false;
+        }
+
+        @Test
+        @DisplayName("Write default Settings to File")
+        public void testWriteSettingsToFile() {
+            File file = new File(TEST_WRITE_SETTINGS_FILENAME);
+            JSONFileManagement.writeSettingsToFile(file);
+
+            // Read File contents
+            assertEquals(true,file.exists());
+
+            String fileContents = getFileContentAsString(file);
+            assertNotEquals("",fileContents);
+            assertEquals(true,fileContents.contains("\"username\":\"" + Settings.username + "\""));
+            assertEquals(true,fileContents.contains("\"levelWidth\":"+ Settings.levelWidth));
+            assertEquals(true,fileContents.contains("\"sfxEnabled\":" + Settings.sfxEnabled));
+        }
+
+        @Test
+        @DisplayName("Read modified Settings from File")
+        public void testReadSettingsFromFile() {
+            File file = new File(TEST_READ_SETTINGS_FILENAME);
+            Settings.username = "Test User";
+            Settings.sfxVolume = 0.0f;
+            Settings.levelWidth = 50;
+            Settings.levelHeight = 50;
+            Settings.musicEnabled = true;
+            JSONFileManagement.writeSettingsToFile(file);
+
+            Settings.username = "Player";
+            Settings.sfxVolume = 0.5f;
+            Settings.levelWidth = 800;
+            Settings.levelHeight = 640;
+            Settings.musicEnabled = false;
+            JSONFileManagement.initSettingsFromFile(file);
+
+            assertEquals("Test User",Settings.username);
+            assertEquals(0.0f,Settings.sfxVolume);
+            assertEquals(50,Settings.levelWidth);
+            assertEquals(50,Settings.levelHeight);
+            assertEquals(true,Settings.musicEnabled);
         }
     }
 
