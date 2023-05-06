@@ -60,4 +60,8 @@ buildNumber.properties
 
 ## PolygonWars specific files
 src/main/resources/scores.json
+src/main/resources/scores.testwrite.json
+src/main/resources/scores.testread.json
 src/main/resources/settings.json
+src/main/resources/settings.testwrite.json
+src/main/resources/settings.testread.json
