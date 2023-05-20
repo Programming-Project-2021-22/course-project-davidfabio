@@ -1,9 +1,9 @@
 ```mermaid
 ---
-title: Duality (UI Flowchart)
+title: Polygon Wars (UI Flowchart)
 ---
 flowchart TD
-    A[DualityDesktop] -->|Launches Desktop App| B[Duality]
+    A[PolygonWarsDesktop] -->|Launches Desktop App| B[PolygonWars]
     B --> |Starts| C{MainMenuScreen}
     C -->|Play| D[GameScreen]
     C -->|Options| E[SettingsScreen]

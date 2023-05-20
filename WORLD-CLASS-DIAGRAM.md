@@ -1,6 +1,6 @@
 ```mermaid
 ---
-title: Duality (Game Class Diagram)
+title: Polygon Wars (Entity Class Diagram)
 ---
 classDiagram
 Entity <|-- Player
@@ -13,12 +13,10 @@ Enemy <|-- EnemySpinner
 Enemy <|-- EnemyTurret
 
 Entity <|-- Bullet
-Bullet <|-- BulletPlayer
-Bullet <|-- BulletEnemy
 
 Entity ..|> Movable
-BulletPlayer ..|> Attacker
 Enemy ..|> Attacker
+Player ..|> Attacker
 Player ..|> Attackable
 Enemy ..|> Attackable
 
@@ -53,25 +51,25 @@ class Enemy {
 class EnemyBubble {
     +init()
     +update()
+    +spawnChild()
     +destroy()
 }
 
 class EnemyChaser {
     +init()
     +update()
-    +render()
 }
 
 class EnemyKamikaze {
-    +init()
     +update()
 }
 
-class EnemySpinner {
-    +float rotationSpeed
+class EnemyStar {
+    +Pulsation pulsation
+    +boolean isBlowingUp
     +init()
     +update()
-    +render()
+    +destroy()
 }
 
 class EnemyTurret {
@@ -86,22 +84,11 @@ class Bullet {
     +update()
 }
 
-class BulletEnemy {
-    +float attackPower
-    +init()
-    +update()
-}
-
-class BulletPlayer {
-    +float attackPower
-    +init()
-    +update()
-}
-
 note for Movable "Used to position and move Objects towards something."
 class Movable {
     <<interface>>
     +isInView()
+    +isCompletelyInView()
     +restrictToLevel()
     +moveTowards()
     +getAngleTowards()
@@ -111,6 +98,8 @@ class Movable {
 note for Attackable "Used to track health, hit damage and death."
 class Attackable {
     <<interface>>
+    +playHitSound()
+    +playDestructionSound()
     +initializeHealth()
     +destroy()
 }
@@ -120,5 +109,4 @@ class Attacker {
     <<interface>>
     +attack(Attackable attackable)
 }
-
 ```
