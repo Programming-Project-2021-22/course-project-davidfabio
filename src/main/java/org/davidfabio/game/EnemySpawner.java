@@ -117,11 +117,11 @@ public class EnemySpawner {
         spawnAtRandomPoint(Enemy.Type.TURRET, 62f);
         spawnAtRandomPoint(Enemy.Type.TURRET, 67f);
 
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX, centerY, 70, 0.1f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX - 150, centerY - 150, 74, 0.1f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX + 150, centerY - 150, 78, 0.1f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX + 150, centerY + 150, 82, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX, centerY, 70, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX - 150, centerY - 150, 74, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX + 150, centerY - 150, 74, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX + 150, centerY + 150, 74, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX - 150, centerY + 150, 74, 0.1f);
         spawnAtRandomPoint(Enemy.Type.STAR, 85f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX - 150, centerY + 150, 86, 0.1f);
     }
 }
