@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.utils.Transform2D;
 import java.util.Random;
 
+/**
+ * This class is used for various effects throughout the game.
+ * For example, it is used when an Enemy dies to create an explosion.
+ */
 public class Particle extends Entity {
 
     public enum Type {

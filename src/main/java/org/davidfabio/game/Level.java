@@ -5,10 +5,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.davidfabio.utils.Settings;
 import org.davidfabio.utils.Transform2D;
 
+/**
+ * This class represents the level boundaries. No object may exceed these boundaries and must move within this level.
+ */
 public class Level {
     private float width;
     private float height;
-
+    /**
+     * Color that is used to draw over anything that is outside the Level
+     */
     private Color backgroundColor = Color.BLACK;
 
     public float getHeight() {
@@ -18,12 +23,22 @@ public class Level {
         return width;
     }
 
-
+    /**
+     * Instances a new Level object using the given width and height.
+     * @param width
+     * @param height
+     */
     public Level(float width, float height) {
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * This method renders the {@link Level} during the {@link World#render} method.
+     * It renders a background using the {@link Level#backgroundColor} that is outside the Level and hides anything that
+     * is outside the boundaries. It also renders a {@link Color#LIGHT_GRAY} border for the Level's boundaries.
+     * @param renderer rendering batch that draws our Level
+     */
     public void render(ShapeRenderer renderer) {
         // background color (outside of level area)
         // NOTE (David): this makes sure that enemies/bullets that are partially outside the level are not visible (because we paint this background over them)
@@ -43,5 +58,4 @@ public class Level {
         renderer.rect(0, 0, width, height);
         renderer.end();
     }
-
 }

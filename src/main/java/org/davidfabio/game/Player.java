@@ -11,6 +11,9 @@ import org.davidfabio.utils.Transform2D;
 
 import java.util.Random;
 
+/**
+ * This class represents the Player during the gameplay.
+ */
 public class Player extends Entity implements Attackable, Attacker {
     private float fireRate = 0.07f;
     private float fireRateCooldown = 0.0f;
