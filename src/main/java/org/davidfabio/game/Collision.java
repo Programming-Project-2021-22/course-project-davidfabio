@@ -59,7 +59,7 @@ public class Collision {
                     enemy.destroy(world);
                     world.getScore().addPoints(Enemy.POINT_VALUE * player.getMultiplier());
                     if (!player.getIsDashing()) {
-                        world.destroyAllEnemies();
+                        //world.destroyAllEnemies();
                         player.resetCurrentPickupCollection();
                     }
                 }

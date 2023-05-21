@@ -23,6 +23,8 @@ public class EnemySpawner {
         levelHeight = worldReference.getLevel().getHeight();
 
         random = new Random();
+
+        timeElapsed = 0;
     }
 
 
@@ -84,7 +86,6 @@ public class EnemySpawner {
         timeElapsed += deltaTime;
         timeLastFrame = timeElapsed - deltaTime;
 
-        //spawnGroupAtLine(Enemy.Type.CHASER, 16, 0, 0, levelWidth, 0, 1f, 0);
         spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 240, 1f, 0.15f);
         spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 80, 5f, 0.15f);
         spawnGroupAtLine(Enemy.Type.KAMIKAZE, 8, centerX, centerY, centerX + 150, centerY + 150, 9f, 0);
@@ -93,25 +94,34 @@ public class EnemySpawner {
         spawnGroupAtLine(Enemy.Type.KAMIKAZE, 8, centerX, centerY + 150, centerX + 150, centerY, 13.5f, 0);
         spawnGroupAtLine(Enemy.Type.KAMIKAZE, 8, centerX, centerY, centerX - 150, centerY - 150, 15f, 0);
 
-        //spawnGroupInCircle(Enemy.Type.CHASER, 12, centerX, centerY, 320, 8f, 0.33f);
+        spawnGroupInCircle(Enemy.Type.BUBBLE, 3, centerX, centerY, 250, 16f, 0.5f);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 12, centerX, centerY, 160, 20f, 0.15f);
+        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 12, centerX, centerY, 240, 24f, 0.15f);
+        spawnAtRandomPoint(Enemy.Type.STAR, 27f);
 
-        /*
-        spawnGroupInCircle(Enemy.Type.BUBBLE, 4, centerX, centerY, 250, 13f, 0.5f);
-        spawn(Enemy.Type.TURRET, levelWidth - 50, levelHeight - 50, 19f);
-        spawn(Enemy.Type.TURRET, levelWidth - 50, 50, 15f);
-        spawn(Enemy.Type.TURRET, 50, levelHeight - 50, 17f);
+        spawnGroupAtLine(Enemy.Type.CHASER, 12, 50, 0, 50, levelHeight, 27f, 0);
+        spawnGroupAtLine(Enemy.Type.CHASER, 12, levelWidth - 50, 0, levelWidth - 50, levelHeight, 27f, 0);
+        spawnGroupAtLine(Enemy.Type.TURRET, 3, 150, 100, levelWidth, 100, 34f, 1f);
 
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, 100, 100, 25, 0.5f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, levelWidth - 100, 100, 28, 0.5f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, 100, levelHeight - 100, 32, 0.5f);
-        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 6, levelWidth - 100, levelHeight - 100, 32, 0.5f);
+        spawnGroupAtLine(Enemy.Type.KAMIKAZE, 12, 50, 50, levelWidth - 50, 50, 40f, 0.15f);
+        spawnGroupAtLine(Enemy.Type.KAMIKAZE, 8, 50, centerY, levelWidth - 50, centerY, 45f, 0.15f);
+        spawn(Enemy.Type.BUBBLE, centerX - 150, centerY, 48f);
+        spawn(Enemy.Type.TURRET, centerX + 150, centerY, 48f);
+        spawnGroupAtLine(Enemy.Type.KAMIKAZE, 12, 50, levelHeight - 50, levelWidth - 50, levelHeight - 50, 50f, 0.15f);
+        spawnAtRandomPoint(Enemy.Type.STAR, 50f);
 
-        spawnGroupInCircle(Enemy.Type.CHASER, 20, 50, 50, 200, 32, 0);
-        spawnGroupInCircle(Enemy.Type.CHASER, 20, levelWidth - 50, levelHeight - 50, 200, 32, 0);
-        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 38, 0);
-        spawnGroupInCircle(Enemy.Type.KAMIKAZE, 32, centerX, centerY, 150, 41, 0);
+        spawnGroupAtLine(Enemy.Type.KAMIKAZE, 12, 50, 0, 50, levelHeight, 53f, 0);
+        spawnGroupAtLine(Enemy.Type.KAMIKAZE, 12, levelWidth - 50, 0, levelWidth - 50, levelHeight, 56f, 0);
 
-         */
+        spawnGroupInCircle(Enemy.Type.BUBBLE, 5, centerX, centerY, 350, 60f, 1f);
+        spawnAtRandomPoint(Enemy.Type.TURRET, 62f);
+        spawnAtRandomPoint(Enemy.Type.TURRET, 67f);
 
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX, centerY, 70, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX - 150, centerY - 150, 74, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX + 150, centerY - 150, 78, 0.1f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX + 150, centerY + 150, 82, 0.1f);
+        spawnAtRandomPoint(Enemy.Type.STAR, 85f);
+        spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 10, centerX - 150, centerY + 150, 86, 0.1f);
     }
 }

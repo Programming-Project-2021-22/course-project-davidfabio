@@ -15,8 +15,8 @@ public class Settings {
 
     // Music & Sound Settings
     public static boolean sfxEnabled = true;
-    public static boolean musicEnabled = false;
-    public static float sfxVolume = 0.1f; // range: 0 to 1
+    public static boolean musicEnabled = true;
+    public static float sfxVolume = 0.5f; // range: 0 to 1
     public static float musicVolume = 0.1f; // range: 0 to 1
 
     // Max amount of x that can be active (i.e. on-screen) at once; memory for it gets reserved in World constructor
