@@ -49,7 +49,7 @@ public class EnemyStar extends Enemy {
             setColor(new Color(1, 0, 0, 0.5f)); // TODO: should only be called once in destroy method, but for some reason that is not working
             blowingUpCounter += deltaTime * blowingUpCounter * 5;
             newScale += blowingUpCounter * getScale();
-            if (Collision.polygonFullyOusideLevel(this, world)) {
+            if (Collision.polygonFullyOutsideLevel(this, world)) {
                 setHealth(0);
                 setIsActive(false);
             }

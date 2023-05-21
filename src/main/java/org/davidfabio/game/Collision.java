@@ -59,7 +59,7 @@ public class Collision {
                     enemy.destroy(world);
                     world.getScore().addPoints(Enemy.POINT_VALUE * player.getMultiplier());
                     if (!player.getIsDashing()) {
-                        world.destroyAllEnemies();
+                        //world.destroyAllEnemies();
                         player.resetCurrentPickupCollection();
                     }
                 }
@@ -136,7 +136,7 @@ public class Collision {
         return false;
     }
 
-    public static boolean polygonFullyOusideLevel(Entity entity, World world) {
+    public static boolean polygonFullyOutsideLevel(Entity entity, World world) {
         float[] vertices = entity.getShape().getVertices();
         for (int i = 0; i < vertices.length; i += 2) {
             float x = vertices[i];

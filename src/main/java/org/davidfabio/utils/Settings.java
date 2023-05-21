@@ -54,6 +54,7 @@ public class Settings {
      * If this is enabled, the sound effects get played during the game.
      */
     public static boolean sfxEnabled = true;
+
     /**
      * If this is enabled, the background music is played during the game.
      */
@@ -66,6 +67,7 @@ public class Settings {
      * This indicates the Volume (Loudness) multiplier for background Music. It may only range from 0.0f to 0.1f.
      */
     public static float musicVolume = 0.1f;
+
 
     /**
      * Max amount of x that can be active (i.e. on-screen) at once; memory for it gets reserved in World constructor
