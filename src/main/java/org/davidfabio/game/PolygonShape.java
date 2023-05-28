@@ -249,21 +249,58 @@ public class PolygonShape {
     public static PolygonShape getLetterShape(char character, float scale) {
         PolygonShape shape = null;
         float[] vertices;
-        short[] triangles;
+        short[] triangles = new short[] {};
 
         character = Character.toLowerCase(character);
-
         switch(character) {
             case 'p': {
                 vertices = new float[] {
-                        0.5f, 0,
-                        -0.5f, -0.5f,
-                        -0.25f, 0,
-                        -0.5f, 0.5f
+                        0, 0,
+                        0, 0.5f,
+                        0.25f, 0.5f,
+                        0.25f, 0.25f,
+                        0.1f, 0.25f,
+                        0.1f, 0
                 };
-                triangles = new short[] {
-                        0, 1, 2,
-                        2, 3, 0
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'o': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.25f, 0.5f,
+                        0.25f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'l': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.1f, 0.5f,
+                        0.1f, 0.1f,
+                        0.25f, 0.1f,
+                        0.25f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'y': {
+                vertices = new float[] {
+                        0, 0.2f,
+                        0, 0.5f,
+                        0.1f, 0.5f,
+                        0.1f, 0.3f,
+                        0.2f, 0.3f,
+                        0.2f, 0.5f,
+                        0.3f, 0.5f,
+                        0.3f, 0.2f,
+                        0.2f, 0.2f,
+                        0.2f, 0,
+                        0.1f, 0,
+                        0.1f, 0.2f
                 };
                 shape = new PolygonShape(vertices, triangles, scale);
                 break;

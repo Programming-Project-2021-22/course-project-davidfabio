@@ -3,24 +3,17 @@ package org.davidfabio.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.davidfabio.PolygonWars;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.davidfabio.game.Entity;
 import org.davidfabio.game.PolygonShape;
-import org.davidfabio.game.Score;
 import org.davidfabio.utils.Settings;
 
-import java.text.CollationElementIterator;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class StartScreen extends ScreenAdapter {
@@ -34,9 +27,12 @@ public class StartScreen extends ScreenAdapter {
 
     private PolygonSpriteBatch polygonSpriteBatch;
     private ShapeRenderer shapeRenderer;
-    private float circleRadius = 4;
+    private float letterScale = 350;
+    private float letterDotRadius = 4;
+    private float xOffsetBetweenLetters = 125;
+    private float yFirstLine = Settings.windowHeight - 300;
 
-    Entity p;
+    Entity p, o, l, y, g, n, w, a, r, s;
     ArrayList<Entity> letters;
 
 
@@ -53,10 +49,14 @@ public class StartScreen extends ScreenAdapter {
 
         letters = new ArrayList<Entity>();
 
-        p = new Entity();
-        p.init(100, Settings.windowHeight - 100, 120, Color.RED);
-        p.setShape(PolygonShape.getLetterShape('p', p.getScale()));
-        letters.add(p);
+        initLetter('p', Color.GREEN);
+        initLetter('o', Color.RED);
+        initLetter('l', Color.CYAN);
+        initLetter('y', Color.ORANGE);
+        //initLetter('g', Color.BLUE);
+        //initLetter('o', Color.YELLOW);
+        //initLetter('n', Color.GRAY);
+
     }
 
     /**
@@ -78,6 +78,13 @@ public class StartScreen extends ScreenAdapter {
     }
 
 
+    private void initLetter(char character, Color color) {
+        Entity letter = new Entity();
+        letter.init(100 + letters.size() * xOffsetBetweenLetters, yFirstLine, letterScale, color);
+        letter.setShape(PolygonShape.getLetterShape(character, letterScale));
+        letters.add(letter);
+    }
+
 
     private void renderLetter(Entity letter) {
         letter.getShape().renderOutline(shapeRenderer, letter.getColor());
@@ -87,7 +94,7 @@ public class StartScreen extends ScreenAdapter {
         for (int i = 0; i < letter.getShape().getVertices().length; i += 2) {
             float x = letter.getShape().getVertices()[i];
             float y = letter.getShape().getVertices()[i + 1];
-            shapeRenderer.circle(x, y, circleRadius);
+            //shapeRenderer.circle(x, y, letterDotRadius);
         }
         shapeRenderer.end();
     }
