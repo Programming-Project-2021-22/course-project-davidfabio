@@ -246,4 +246,31 @@ public class PolygonShape {
         return shape;
     }
 
+    public static PolygonShape getLetterShape(char character, float scale) {
+        PolygonShape shape = null;
+        float[] vertices;
+        short[] triangles;
+
+        character = Character.toLowerCase(character);
+
+        switch(character) {
+            case 'p': {
+                vertices = new float[] {
+                        0.5f, 0,
+                        -0.5f, -0.5f,
+                        -0.25f, 0,
+                        -0.5f, 0.5f
+                };
+                triangles = new short[] {
+                        0, 1, 2,
+                        2, 3, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+        }
+
+        return shape;
+    }
+
 }

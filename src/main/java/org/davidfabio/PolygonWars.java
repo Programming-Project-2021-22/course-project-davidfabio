@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import org.davidfabio.game.Score;
 import org.davidfabio.game.Sounds;
 import org.davidfabio.ui.MainMenuScreen;
+import org.davidfabio.ui.StartScreen;
 import org.davidfabio.utils.JSONFileManagement;
 import org.davidfabio.utils.Settings;
 
@@ -43,7 +44,7 @@ public class PolygonWars extends Game {
 		Sounds.loadSounds();
 
 		// Show the Main Menu
-		setScreen(new MainMenuScreen(scores));
-		//setScreen(new GameScreen(scores));
+		//setScreen(new MainMenuScreen(scores));
+		setScreen(new StartScreen());
 	}
 }
