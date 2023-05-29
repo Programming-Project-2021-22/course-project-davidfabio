@@ -27,13 +27,14 @@ public class StartScreen extends ScreenAdapter {
 
     private PolygonSpriteBatch polygonSpriteBatch;
     private ShapeRenderer shapeRenderer;
-    private float letterScale = 350;
-    private float letterDotRadius = 4;
-    private float xOffsetBetweenLetters = 125;
+    private float letterScale = 325;
+    private float letterDotRadius = 3;
+    private float xOffsetBetweenLettersFirstRow = 125;
+    private float xOffsetBetweenLettersSecondRow = 175;
     private float yFirstLine = Settings.windowHeight - 300;
+    private float ySecondLine = Settings.windowHeight - 500;
 
-    Entity p, o, l, y, g, n, w, a, r, s;
-    ArrayList<Entity> letters;
+    ArrayList<Entity> lettersFirstRow, lettersSecondRow;
 
 
     @Override
@@ -47,16 +48,20 @@ public class StartScreen extends ScreenAdapter {
         polygonSpriteBatch = new PolygonSpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        letters = new ArrayList<Entity>();
+        lettersFirstRow = new ArrayList<Entity>();
+        lettersSecondRow = new ArrayList<Entity>();
 
-        initLetter('p', Color.GREEN);
-        initLetter('o', Color.RED);
-        initLetter('l', Color.CYAN);
-        initLetter('y', Color.ORANGE);
-        //initLetter('g', Color.BLUE);
-        //initLetter('o', Color.YELLOW);
-        //initLetter('n', Color.GRAY);
-
+        initLetterFirstRow('p', Color.GREEN);
+        initLetterFirstRow('o', Color.RED);
+        initLetterFirstRow('l', Color.CYAN);
+        initLetterFirstRow('y', Color.ORANGE);
+        initLetterFirstRow('g', Color.BLUE);
+        initLetterFirstRow('o', Color.YELLOW);
+        initLetterFirstRow('n', Color.PURPLE);
+        initLetterSecondRow('w', Color.GOLD);
+        initLetterSecondRow('a', Color.CORAL);
+        initLetterSecondRow('r', Color.MAGENTA);
+        initLetterSecondRow('s', Color.VIOLET);
     }
 
     /**
@@ -68,7 +73,12 @@ public class StartScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.15f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        for (Entity letter : letters) {
+        for (Entity letter : lettersFirstRow) {
+            letter.getShape().resetPosition();
+            letter.getShape().translatePosition(letter);
+            renderLetter(letter);
+        }
+        for (Entity letter : lettersSecondRow) {
             letter.getShape().resetPosition();
             letter.getShape().translatePosition(letter);
             renderLetter(letter);
@@ -78,11 +88,18 @@ public class StartScreen extends ScreenAdapter {
     }
 
 
-    private void initLetter(char character, Color color) {
+    private void initLetterFirstRow(char character, Color color) {
         Entity letter = new Entity();
-        letter.init(100 + letters.size() * xOffsetBetweenLetters, yFirstLine, letterScale, color);
+        letter.init(100 + lettersFirstRow.size() * xOffsetBetweenLettersFirstRow, yFirstLine, letterScale, color);
         letter.setShape(PolygonShape.getLetterShape(character, letterScale));
-        letters.add(letter);
+        lettersFirstRow.add(letter);
+    }
+
+    private void initLetterSecondRow(char character, Color color) {
+        Entity letter = new Entity();
+        letter.init(100 + lettersSecondRow.size() * xOffsetBetweenLettersSecondRow, ySecondLine, letterScale, color);
+        letter.setShape(PolygonShape.getLetterShape(character, letterScale));
+        lettersSecondRow.add(letter);
     }
 
 
@@ -94,7 +111,7 @@ public class StartScreen extends ScreenAdapter {
         for (int i = 0; i < letter.getShape().getVertices().length; i += 2) {
             float x = letter.getShape().getVertices()[i];
             float y = letter.getShape().getVertices()[i + 1];
-            //shapeRenderer.circle(x, y, letterDotRadius);
+            shapeRenderer.circle(x, y, letterDotRadius);
         }
         shapeRenderer.end();
     }

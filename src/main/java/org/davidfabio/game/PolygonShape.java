@@ -305,6 +305,104 @@ public class PolygonShape {
                 shape = new PolygonShape(vertices, triangles, scale);
                 break;
             }
+            case 'g': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.3f, 0.5f,
+                        0.3f, 0.4f,
+                        0.1f, 0.4f,
+                        0.1f, 0.1f,
+                        0.2f, 0.1f,
+                        0.2f, 0.2f,
+                        0.15f, 0.2f,
+                        0.15f, 0.3f,
+                        0.3f, 0.3f,
+                        0.3f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'n': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.35f, 0.5f,
+                        0.35f, 0,
+                        0.25f, 0,
+                        0.25f, 0.4f,
+                        0.1f, 0.4f,
+                        0.1f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'w': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.1f, 0.5f,
+                        0.1f, 0.1f,
+                        0.15f, 0.1f,
+                        0.15f, 0.3f,
+                        0.25f, 0.3f,
+                        0.25f, 0.1f,
+                        0.3f, 0.1f,
+                        0.3f, 0.5f,
+                        0.4f, 0.5f,
+                        0.4f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'a': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.3f, 0.5f,
+                        0.3f, 0,
+                        0.2f, 0,
+                        0.2f, 0.25f,
+                        0.1f, 0.25f,
+                        0.1f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 'r': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.5f,
+                        0.35f, 0.5f,
+                        0.35f, 0.25f,
+                        0.3f, 0.25f,
+                        0.3f, 0,
+                        0.2f, 0,
+                        0.2f, 0.25f,
+                        0.1f, 0.25f,
+                        0.1f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
+            case 's': {
+                vertices = new float[] {
+                        0, 0,
+                        0, 0.1f,
+                        0.2f, 0.1f,
+                        0.2f, 0.2f,
+                        0, 0.2f,
+                        0, 0.5f,
+                        0.3f, 0.5f,
+                        0.3f, 0.4f,
+                        0.1f, 0.4f,
+                        0.1f, 0.3f,
+                        0.3f, 0.3f,
+                        0.3f, 0
+                };
+                shape = new PolygonShape(vertices, triangles, scale);
+                break;
+            }
         }
 
         return shape;
