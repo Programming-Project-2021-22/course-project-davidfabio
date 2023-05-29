@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.davidfabio.game.Entity;
 import org.davidfabio.game.PolygonShape;
+import org.davidfabio.input.Mouse;
+import org.davidfabio.utils.Pulsation;
 import org.davidfabio.utils.Settings;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class StartScreen extends ScreenAdapter {
 
     ArrayList<Entity> lettersFirstRow, lettersSecondRow;
 
+    float currentScale;
+
 
     @Override
     public void show() {
@@ -48,8 +52,8 @@ public class StartScreen extends ScreenAdapter {
         polygonSpriteBatch = new PolygonSpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        lettersFirstRow = new ArrayList<Entity>();
-        lettersSecondRow = new ArrayList<Entity>();
+        lettersFirstRow = new ArrayList<>();
+        lettersSecondRow = new ArrayList<>();
 
         initLetterFirstRow('p', Color.GREEN);
         initLetterFirstRow('o', Color.RED);
