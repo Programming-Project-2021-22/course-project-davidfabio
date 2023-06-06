@@ -97,11 +97,16 @@ List and explain how you used the 10 programming techniques required for this pr
 - **Streams**: In the High Scores screen we use streams to show the best 5 scores present in the Scores List.
 
 ### 4.4. Tests
-Briefly describe and motivate your test suite.
+Testing a LibGDX application has proven to be very tricky. This is because of two reasons mainly:
+- Testing UI is always difficult.
+- Many LibGDX-methods, which we use throughout our game, can only be run in the main thread and require some kind of initialization. Both requirements that we cannot satisfy through jUnit Tests. Therefore Classes like the `Camera` cannot be tested as they would require Gdx.graphics to be set up, which again requires an Application to run on the main thread.
+
+Because of these constraints we tried to test as much of our non-LibGDX-related classes as possible. Obviously this still leaves a lot of room for potential errors.
 
 ## 5. Experience
 ### 5.1. Overall Experience
-Describe your overall experience in developing this project.
+Overall, we had fun iterating over the various features and ideas of the Project. Both David and I learned a lot in the process. We also learned from eachother since we both have different backgrounds in programming and are used to different styles of programming.
+We were very quick at building a working prototype and this helped us get a lot of the groundwork done early.
 
 ### 5.2. Division of Responsibilities
 Describe the roles and responsibilities each member had in this project.
@@ -111,7 +116,7 @@ Describe the roles and responsibilities each member had in this project.
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.
 - **David Pittracher:** ...
-- **Fabio Vitalba:** Migrating from gradle (LibGDX's prefered Bundler) to Maven was quite painful. Coordinating the work was difficult at first, but once we figured out how to use the GitHub Issues it was a lot better.
+- **Fabio Vitalba:** Migrating from gradle (LibGDX's preferred Bundler) to Maven was quite painful. Coordinating the work was difficult at first, but once we figured out how to use the GitHub Issues it was a lot better.
 
 ### 5.4. Learning Outcomes
 Describe what you learned with this project.
