@@ -30,7 +30,7 @@ public class Player extends Entity implements Attackable, Attacker {
     private int health;
     /**
      * A list that stores all {@link Bullet}s a player may shoot. This is initialized at the {@link Player#init} method
-     * in order to reduce memory allocation during gameplay.
+     * in order to reduce memory allocation during gameplay. This Array is initialized to {@link Settings#MAX_PLAYER_BULLETS} size.
      */
     private Bullet[] bullets = new Bullet[Settings.MAX_PLAYER_BULLETS];
 
@@ -84,7 +84,10 @@ public class Player extends Entity implements Attackable, Attacker {
     public boolean getIsDashing() { return isDashing; }
     public Bullet[] getBullets() { return bullets; }
 
-    // indicates shooting direction (purely cosmetic)
+    /**
+     * The PolygonShape which is used to indicate the direction in which the Player is shooting in.
+     * This is purely cosmetic.
+     */
     private PolygonShape shapeArrow;
     private float arrowScale = 16;
     private float arrowOffset = 24;
@@ -273,7 +276,7 @@ public class Player extends Entity implements Attackable, Attacker {
 
         float randomFloat = random.nextFloat() - 0.5f;
         float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
-        bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, getColor(), PolygonShape.getPlayerBulletShape(bulletScale));
+        bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
 
         /*
         int bulletsToSpawn = 3; // TODO: quick and dirty test
