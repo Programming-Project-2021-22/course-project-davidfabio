@@ -46,7 +46,7 @@ public class Camera extends OrthographicCamera {
      * Initializes the Camera Object. On initialization the Camera is centered on the Level passed in the parameters.
      * The Initial Zoom is defined by {@link Camera#INITIAL_ZOOM}. Optimal zoom for the game is calculated using
      * {@link Camera#calcOptimalZoom(Level)}.
-     * @param level
+     * @param level Level which the Camera should focus on.
      */
     public Camera(Level level) {
         super();

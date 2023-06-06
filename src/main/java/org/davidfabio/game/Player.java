@@ -20,8 +20,18 @@ public class Player extends Entity implements Attackable, Attacker {
     private float bulletSpeed = 800;
     private float bulletScale = 32;
     private float bulletSpreadMax = 8;
+    /**
+     * The health a Player starts a game with.
+     */
     private int initialHealth = 3;
+    /**
+     * The health a Player has left. Initialized by {@link Player#initialHealth}.
+     */
     private int health;
+    /**
+     * A list that stores all {@link Bullet}s a player may shoot. This is initialized at the {@link Player#init} method
+     * in order to reduce memory allocation during gameplay. This Array is initialized to {@link Settings#MAX_PLAYER_BULLETS} size.
+     */
     private Bullet[] bullets = new Bullet[Settings.MAX_PLAYER_BULLETS];
 
     private float dashSpeed = 800;
@@ -72,18 +82,16 @@ public class Player extends Entity implements Attackable, Attacker {
     public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
     public float getHitDuration() { return hitDuration; }
     public boolean getIsDashing() { return isDashing; }
-
     public Bullet[] getBullets() { return bullets; }
 
-    // indicates shooting direction (purely cosmetic)
+    /**
+     * The PolygonShape which is used to indicate the direction in which the Player is shooting in.
+     * This is purely cosmetic.
+     */
     private PolygonShape shapeArrow;
     private float arrowScale = 16;
     private float arrowOffset = 24;
-
     private Random random;
-
-
-
 
 
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
@@ -241,9 +249,13 @@ public class Player extends Entity implements Attackable, Attacker {
         shapeArrow.translatePosition(arrowX, arrowY);
     }
 
-
+    /**
+     * This method iterates over the {@link Player#bullets} array and looks for a non-active Bullet.
+     * Whether or not a Bullet is active is checked using the {@link Bullet#getIsActive} method.
+     * @return If a non-active Bullet was found, this Method returns the Bullet. Otherwise it returns null.
+     */
     public Bullet getBullet() {
-        for (int i = 0; i < Settings.MAX_PLAYER_BULLETS; i += 1) {
+        for (int i = 0; i < bullets.length; i += 1) {
             if (!bullets[i].getIsActive())
                 return bullets[i];
             }
@@ -251,9 +263,17 @@ public class Player extends Entity implements Attackable, Attacker {
         return null;
     }
 
-
+    /**
+     * This method is used to initialize a new Bullet from the Player Bullets array ({@link Player#bullets}).
+     * First a non-active Bullet is searched using the {@link Player#getBullet()} method. If one is found, it's
+     * activated and starts traveling in the direction the player was pointing at.
+     * In the end a Shooting sound is played as well.
+     */
     public void shoot() {
         Bullet bullet = getBullet();
+        if (bullet == null)
+            return; // No more bullets available. Shooting is not possible.
+
         float randomFloat = random.nextFloat() - 0.5f;
         float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
         bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
@@ -266,8 +286,7 @@ public class Player extends Entity implements Attackable, Attacker {
             float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
             bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
         }
-
-         */
+        */
 
         fireRateCooldown = fireRate;
         Sounds.playShootSfx();
@@ -297,7 +316,7 @@ public class Player extends Entity implements Attackable, Attacker {
      * @return An integer value by which the gained points are multiplied.
      */
     public int getMultiplier() {
-        int multiplier = (int)currentPickupCollection/10 + 1;
+        int multiplier = (int)currentPickupCollection/Player.pickupMultiplierDivisor + 1;
         return multiplier < Settings.MAX_MULTIPLIER ? multiplier : Settings.MAX_MULTIPLIER;
     }
 }

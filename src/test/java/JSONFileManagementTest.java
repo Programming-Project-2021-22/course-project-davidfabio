@@ -10,10 +10,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class JSONFileManagementTest {
-    private static final String TEST_WRITE_SCORES_FILENAME = "src/main/resources/scores.testwrite.json";
-    private static final String TEST_READ_SCORES_FILENAME = "src/main/resources/scores.testread.json";
-    private static final String TEST_WRITE_SETTINGS_FILENAME = "src/main/resources/settings.testwrite.json";
-    private static final String TEST_READ_SETTINGS_FILENAME = "src/main/resources/settings.testread.json";
+    private static final String TEST_WRITE_SCORES_FILENAME = "src/test/resources/scores.testwrite.json";
+    private static final String TEST_READ_SCORES_FILENAME = "src/test/resources/scores.testread.json";
+    private static final String TEST_WRITE_SETTINGS_FILENAME = "src/test/resources/settings.testwrite.json";
+    private static final String TEST_READ_SETTINGS_FILENAME = "src/test/resources/settings.testread.json";
 
     @BeforeEach
     @AfterEach
