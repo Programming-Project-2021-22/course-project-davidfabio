@@ -46,7 +46,7 @@ public class PauseMenu extends Group {
 
         mainTable = new Table(UIBuilder.getSkin());
         mainTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pixmapBackground))));
-        mainTable.setWidth(500);
+        mainTable.setWidth(Gdx.graphics.getWidth() * 0.65f);
         mainTable.setHeight(500);
         mainTable.setPosition((Gdx.graphics.getWidth() / 2) - (mainTable.getWidth() / 2),Gdx.graphics.getHeight() / 2 - (mainTable.getHeight() / 2));
 

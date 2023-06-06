@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * This Enum provides some default values for the Window Resolutions.
  */
 enum DefaultWindowSize {
-    W1440H900,
+    W1600H900,
     W1366H768,
     W1280H720,
     W1024H768
@@ -98,7 +98,7 @@ public class SettingsScreen extends ScreenAdapter {
                 DefaultWindowSize defaultWindowSize = (DefaultWindowSize) selectBox.getSelected();
                 setSettingsFromDefaultWindowSize(defaultWindowSize);
             }
-        },getSelectedWindowSize(),DefaultWindowSize.W1024H768,DefaultWindowSize.W1280H720,DefaultWindowSize.W1366H768,DefaultWindowSize.W1440H900);
+        },getSelectedWindowSize(),DefaultWindowSize.W1024H768,DefaultWindowSize.W1280H720,DefaultWindowSize.W1366H768,DefaultWindowSize.W1600H900);
         UIBuilder.addLabel(mainTable,"Sound Effect Volume",true);
         UIBuilder.addLabel(mainTable,"Changing Display Settings (Resolution, Fullscreen, ...)\nrequires a Restart of the Application.",false);
         UIBuilder.addSlider(mainTable,0f,1f,0.01f,Settings.sfxVolume,true,new ChangeListener() {
@@ -190,8 +190,8 @@ public class SettingsScreen extends ScreenAdapter {
                 Settings.windowHeight = 768;
                 break;
             }
-            case W1440H900: {
-                Settings.windowWidth = 1440;
+            case W1600H900: {
+                Settings.windowWidth = 1600;
                 Settings.windowHeight = 900;
                 break;
             }
@@ -213,8 +213,8 @@ public class SettingsScreen extends ScreenAdapter {
         if (Settings.windowWidth == 1366 && Settings.windowHeight == 768) {
             return DefaultWindowSize.W1366H768;
         }
-        if (Settings.windowWidth == 1440 && Settings.windowHeight == 900) {
-            return DefaultWindowSize.W1440H900;
+        if (Settings.windowWidth == 1600 && Settings.windowHeight == 900) {
+            return DefaultWindowSize.W1600H900;
         }
         return DefaultWindowSize.W1024H768;
     }
