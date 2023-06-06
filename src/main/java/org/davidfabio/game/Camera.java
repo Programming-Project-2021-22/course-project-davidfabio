@@ -27,7 +27,7 @@ public class Camera extends OrthographicCamera {
      * It compares stage width/height to window width/height and takes the lowest value. This
      * Value is multiplied by FINAL_LEVEL_VISIBILITY to calculate the optimal Zoom.
      */
-    private static final float FINAL_LEVEL_VISIBILITY = 0.9f;
+    private static final float FINAL_LEVEL_VISIBILITY = 0.8f;
     /**
      * Minimum Distance to Move should be as low as possible to ensure responsive camera handling.
      * This is actually just required to avoid jiggling when the player stands still.
@@ -105,13 +105,10 @@ public class Camera extends OrthographicCamera {
      */
     private float calcOptimalZoom(Level level) {
         float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
         float levelWidth = level.getWidth();
-        float levelHeight = level.getHeight();
 
         float optimalXZoom = levelWidth / screenWidth * FINAL_LEVEL_VISIBILITY;
-        float optimalYZoom = levelHeight / screenHeight * FINAL_LEVEL_VISIBILITY;
-        return Math.min(optimalXZoom,optimalYZoom);
+        return optimalXZoom;
     }
 
     public void moveTowardsWithSpeed(float direction, float speed) {
