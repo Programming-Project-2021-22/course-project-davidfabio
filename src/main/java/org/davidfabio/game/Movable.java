@@ -7,16 +7,50 @@ import org.davidfabio.utils.Transform2D;
  * This mainly includes any class that extends {@link Entity}.
  */
 public interface Movable {
+    /**
+     * @return The x-position of the Movable object.
+     */
     float getX();
+
+    /**
+     * @param newX The new x-position for the Movable object.
+     */
     void setX(float newX);
+
+    /**
+     * @return The y-position of the Movable object.
+     */
     float getY();
+
+    /**
+     * @param newY The new y-position for the Movable object.
+     */
     void setY(float newY);
+
+    /**
+     * @return the scale for the Movable object. (Used for drawing)
+     */
     float getScale();
+
+    /**
+     * @param newScale the new scale for the Movable object. (Used for drawing)
+     */
     void setScale(float newScale);
+
+    /**
+     * @return The Movable object's movement speed/velocity.
+     */
     float getMoveSpeed();
+
+    /**
+     * @return The {@link PolygonShape} used to draw this Movable object.
+     */
     PolygonShape getShape();
 
-    // returns true if at least 1 vertex of the shape is inside level
+    /**
+     * @param world world object reference, needed for side-effects or references of other objects in the world.
+     * @return true if at least 1 vertex of the shape is inside level
+     */
     default boolean isInView(World world) {
         float[] vertices = getShape().getVertices();
         for (int i = 0; i < vertices.length; i += 2) {
@@ -30,7 +64,10 @@ public interface Movable {
         return false;
     }
 
-    // returns true if all vertices of the shape are inside level
+    /**
+     * @param world world object reference, needed for side-effects or references of other objects in the world.
+     * @return true if all vertices of the shape are inside level
+     */
     default boolean isCompletelyInView(World world) {
         float[] vertices = getShape().getVertices();
         for (int i = 0; i < vertices.length; i += 2) {
@@ -44,7 +81,12 @@ public interface Movable {
         return true;
     }
 
-    // TODO (David): should probably be redone after new collision system
+    /**
+     * This method is used to ensure that the Movable object remains within the boundaries of the level.
+     * In order to achieve this, the x and y position is modified, should the object be outside the level.
+     *
+     * @param level Level where the object has to stay in
+     */
     default void restrictToLevel(Level level) {
         float x = getX();
         float y = getY();
@@ -57,6 +99,13 @@ public interface Movable {
         setY(y);
     }
 
+    /**
+     * Moves the Movable object in the direction of the passed angle. The movement-speed is multiplied with the
+     * deltaTime parameter in order to determine the new position.
+     *
+     * @param angle direction in which we need to move in
+     * @param deltaTime time passed since last update
+     */
     default void moveTowards(float angle, float deltaTime) {
         float speed = getMoveSpeed() * deltaTime;
         float deltaX = (float)Math.cos(angle) * speed;
@@ -66,15 +115,36 @@ public interface Movable {
         setY(getY() + deltaY);
     }
 
+    /**
+     * Moves the Movable object in the direction of the passed point (otherX, otherY). The movement-speed is multiplied
+     * with the deltaTime parameter in order to determine the new position.
+     *
+     * @param otherX target point's x-position
+     * @param otherY target point's y-position
+     * @param deltaTime time passed since last update
+     */
     default void moveTowards(float otherX, float otherY, float deltaTime) {
         float dir = getAngleTowards(otherX, otherY);
         moveTowards(dir, deltaTime);
     }
 
+    /**
+     * Calculates the angle between the movable object and the other point (otherX, otherY).
+     *
+     * @param otherX target point's x-position
+     * @param otherY target point's y-position
+     * @return angle between this and target point.
+     */
     default float getAngleTowards(float otherX, float otherY) {
         return Transform2D.getAngleTowards(getX(), getY(), otherX, otherY);
     }
 
+    /**
+     * Calculates the distance between the movable object and the other point (otherX, otherY).
+     * @param otherX target point's x-position
+     * @param otherY target point's y-position
+     * @return distance between this and target point
+     */
     default float getDistanceTo(float otherX, float otherY) {
         return Transform2D.getDistance(getX(),getY(),otherX,otherY);
     }
