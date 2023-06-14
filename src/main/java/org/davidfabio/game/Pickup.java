@@ -72,7 +72,7 @@ public class Pickup extends Entity implements Movable {
      * Pickup should move towards the Player.
      *
      * @param deltaTime time passed since the last update in ms
-     * @param world world object reference, needed for side-effects or references of other points in the world.
+     * @param world world object reference, needed for side-effects or references of other objects in the world.
      */
     public void update(float deltaTime, World world) {
         if (!getIsActive())
