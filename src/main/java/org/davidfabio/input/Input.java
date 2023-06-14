@@ -4,23 +4,55 @@ import com.badlogic.gdx.Gdx;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to handle an Input. An Input will be mapped to one or more keys.
+ */
 public class Input {
+    /**
+     * List of allowed key-bindings for this Input.
+     */
     private ArrayList<Integer> bindings;
+    /**
+     * The state of the Input, so whether or not it was pressed, released or just recently released.
+     */
     private boolean isDown, wasPressed, wasReleased, wasDownLastFrame;
 
+    /**
+     * @return true if one of the Keys for this Input is currently pressed.
+     */
     public boolean getIsDown() { return isDown; }
+    /**
+     * @return true if one of the Keys for this Input was just pressed.
+     */
     public boolean getWasPressed() { return wasPressed; }
+    /**
+     * @return true if one of the Keys for this Input was just released.
+     */
     public boolean getWasReleased() { return wasReleased; }
+    /**
+     * @return true if one of the Keys for this Input was pressed on the last frame.
+     */
     public boolean getWasDownLastFrame() { return wasDownLastFrame; }
 
-
-    public Input(int... bindings) {
+    /**
+     * Constructor for the Input instance. This constructor takes an input list in which this instance will be added.
+     * After the list it is possible to assign as many key-bindings as one wishes to add.
+     *
+     * @param inputList List of Inputs on which this input will be added.
+     * @param bindings List of Key-Bindings that this Input corresponds to.
+     */
+    public Input(ArrayList<Input> inputList, int... bindings) {
         this.bindings = new ArrayList<>();
         for (int binding : bindings)
             this.bindings.add(binding);
 
-        Inputs.inputList.add(this);
+        inputList.add(this);
     }
+
+    /**
+     * Updates the State of the Inputs. This method updates the fields {@link Input#wasDownLastFrame}, {@link Input#isDown},
+     * {@link Input#wasPressed}, and {@link Input#wasReleased}.
+     */
     void update() {
         wasDownLastFrame = isDown;
         isDown = false;
@@ -47,5 +79,4 @@ public class Input {
         if (getWasDownLastFrame() && !getIsDown())
             wasReleased = true;
     }
-
 }

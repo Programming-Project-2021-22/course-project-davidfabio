@@ -15,10 +15,28 @@ import java.util.Random;
  * This class represents the Player during the gameplay.
  */
 public class Player extends Entity implements Attackable, Attacker {
+    /**
+     * Indicates the frequency at which the player may shoot bullets.
+     */
     private float fireRate = 0.07f;
+    /**
+     * Indicates the time since the last bullet was fired. This number will be increased by {@link Player#fireRate}
+     * in order to increase the cooldown after shooting. At each {@link Player#update(float, World)} the number will be
+     * decreased by deltaTime. Once the number is again 0, the player may shoot again.
+     */
     private float fireRateCooldown = 0.0f;
+    /**
+     * Velocity for Player bullets.
+     */
     private float bulletSpeed = 800;
+    /**
+     * Scale for Player bullets.
+     */
     private float bulletScale = 32;
+    /**
+     * Indicates the maximum angle offset that a bullet may be shot. If it's 8, this means that bullets will shoot in
+     * the direction indicated with the mouse, +/- 8 degrees of random spread.
+     */
     private float bulletSpreadMax = 8;
     /**
      * The health a Player starts a game with.
@@ -33,19 +51,56 @@ public class Player extends Entity implements Attackable, Attacker {
      * in order to reduce memory allocation during gameplay. This Array is initialized to {@link Settings#MAX_PLAYER_BULLETS} size.
      */
     private Bullet[] bullets = new Bullet[Settings.MAX_PLAYER_BULLETS];
-
+    /**
+     * Indicates the velocity at which the player dashes.
+     */
     private float dashSpeed = 800;
+    /**
+     * Indicates how long a player dash takes.
+     */
     private float dashDuration = 0.2f;
+    /**
+     * Stores the dash angle, as this will be saved once the dash starts and should not be influenced by the Mouse.
+     */
     private float dashAngle;
+    /**
+     * Stores the {@link Player#dashDuration} in order to keep track of the current dash's remaining time.
+     * Once this is 0 (or less) the player has finished dashing.
+     */
     private float dashDurationCooldown;
+    /**
+     * Indicates whether the player is currently dashing.
+     */
     private boolean isDashing;
+    /**
+     * Indicates whether the player is currently selecting the dashing-angle.
+     */
     private boolean inDashChooseDirectionState;
+    /**
+     * These variables keep track of the trail where the player dashed through. These are needed for the visual dash effect.
+     */
     private float[] dashPositionsX, dashPositionsY, dashTrailTransparencies;
+    /**
+     * This keeps track of the number of "snapshots" are taken during a dash. This indicates the number of elements in
+     * {@link Player#dashPositionsX}, {@link Player#dashPositionsY}, {@link Player#dashTrailTransparencies}.
+     */
     private int dashPositionsCount = 0;
 
+    /**
+     * Indicates if the player is currently invulnerable due to being recently hit. (Meaning the player is in Hit-state.)
+     */
     private boolean isInHitState;
+    /**
+     * Indicates how long the so-called Hit-state ({@link Player#isInHitState}) lasts.
+     */
     private float hitDuration = 2.5f;
+    /**
+     * Keeps track of the current Hit-state's ({@link Player#isInHitState}) remaining duration.
+     */
     private float hitCooldown;
+    /**
+     * Used to keep track of the Player transparency during a Hit-state ({@link Player#isInHitState}).
+     */
     private Pulsation pulsationHitTransparency;
 
     /**
@@ -70,30 +125,118 @@ public class Player extends Entity implements Attackable, Attacker {
      */
     private static int pickupMultiplierDivisor = 10;
 
-    public int getHealth() { return this.health; }
-    public void setHealth(int newHealth) { this.health = newHealth; }
-    public int getInitialHealth() { return this.initialHealth; }
-    public void setInitialHealth(int newInitialHealth) { this.initialHealth = newInitialHealth; }
-    public void setIsInHitState(boolean isInHitState) { this.isInHitState = isInHitState; }
-    public boolean getIsInHitState() { return isInHitState; }
-    public int getAttackPower() { return attackPower; }
-    public int getPickupsCollected() { return pickupsCollected; }
+    /**
+     * @return the Player's current health.
+     */
+    public int getHealth() {
+        return health;
+    }
 
-    public void setHitCooldown(float hitCooldown) { this.hitCooldown = hitCooldown; }
-    public float getHitDuration() { return hitDuration; }
-    public boolean getIsDashing() { return isDashing; }
-    public Bullet[] getBullets() { return bullets; }
+    /**
+     * @param newHealth the Player's new health
+     */
+    public void setHealth(int newHealth) {
+        health = newHealth;
+    }
+
+    /**
+     * @return the Player's starting/initial health
+     */
+    public int getInitialHealth() {
+        return initialHealth;
+    }
+
+    /**
+     * @param newInitialHealth the Player's new starting/initial health
+     */
+    public void setInitialHealth(int newInitialHealth) {
+        initialHealth = newInitialHealth;
+    }
+
+    /**
+     * @param isInHitState sets the Player's {@link Player#isInHitState}.
+     */
+    public void setIsInHitState(boolean isInHitState) {
+        this.isInHitState = isInHitState;
+    }
+
+    /**
+     * @return the Player's current {@link Player#isInHitState}.
+     */
+    public boolean getIsInHitState() {
+        return isInHitState;
+    }
+
+    /**
+     * @return the Player's attack power (used for collisions).
+     */
+    public int getAttackPower() {
+        return attackPower;
+    }
+
+    /**
+     * @return the amount of total Pickups collected.
+     */
+    public int getPickupsCollected() {
+        return pickupsCollected;
+    }
+
+    /**
+     * @param hitCooldown the new {@link Player#hitCooldown}
+     */
+    public void setHitCooldown(float hitCooldown) {
+        this.hitCooldown = hitCooldown;
+    }
+
+    /**
+     * @return {@link Player#hitDuration}.
+     */
+    public float getHitDuration() {
+        return hitDuration;
+    }
+
+    /**
+     * @return {@link Player#isDashing}
+     */
+    public boolean getIsDashing() {
+        return isDashing;
+    }
+
+    /**
+     * @return {@link Player#bullets}
+     */
+    public Bullet[] getBullets() {
+        return bullets;
+    }
 
     /**
      * The PolygonShape which is used to indicate the direction in which the Player is shooting in.
      * This is purely cosmetic.
      */
     private PolygonShape shapeArrow;
+    /**
+     * The scale used to draw the {@link Player#shapeArrow}.
+     */
     private float arrowScale = 16;
+    /**
+     * The offset used to draw the {@link Player#shapeArrow}.
+     */
     private float arrowOffset = 24;
+    /**
+     * The random number generator used in combination with {@link Player#bulletSpreadMax}.
+     */
     private Random random;
 
-
+    /**
+     * The initialization method used instead of the Constructor. We explicitly created this method to avoid
+     * memory-reallocation.
+     *
+     * @param x x-position for the Player
+     * @param y y-position for the Player
+     * @param scale scale for the Player's shape
+     * @param moveSpeed Player's movement-speed
+     * @param color color for the Player
+     */
     public void init(float x, float y, float scale, float moveSpeed, Color color)  {
         super.init(x, y, scale, color);
         this.setMoveSpeed(moveSpeed);
@@ -117,8 +260,14 @@ public class Player extends Entity implements Attackable, Attacker {
         shapeArrow = PolygonShape.getPlayerArrowShape(arrowScale);
     }
 
-
-
+    /**
+     * This method actually draws the Player on the screen.
+     * This method renders the Player itself, the direction arrow, a preview-line for dashing, the dashing effect,
+     * and event the Player's bullets.
+     *
+     * @param polygonSpriteBatch rendering batch for anything that is drawn using Sprites
+     * @param shapeRenderer rendering batch for anything that is drawn using Shapes
+     */
     public void render(PolygonSpriteBatch polygonSpriteBatch, ShapeRenderer shapeRenderer) {
         // main shape (circle)
         Color color = getColor();
@@ -156,8 +305,15 @@ public class Player extends Entity implements Attackable, Attacker {
             bullets[i].render(polygonSpriteBatch, shapeRenderer);
     }
 
-
-
+    /**
+     * Updates the Player's state.
+     * This method is in charge of reading the {@link Inputs} and update the Player's state accordingly.
+     * It also updates the Shapes and transparencies related to the Player class.
+     * It also updates the bullets ({@link Player#bullets}).
+     *
+     * @param deltaTime time passed since last update in ms
+     * @param world world object reference, needed for side-effects or references of other objects in the world.
+     */
     public void update(float deltaTime, World world) {
         if (isInHitState) {
             hitCooldown -= deltaTime;
@@ -168,8 +324,6 @@ public class Player extends Entity implements Attackable, Attacker {
                 isInHitState = false;
             }
         }
-
-
 
         setAngle((float)Math.atan2(Mouse.getY() - getY(), Mouse.getX() - getX())); // update direction
 
@@ -182,10 +336,14 @@ public class Player extends Entity implements Attackable, Attacker {
 
         float nextX = getX();
         float nextY = getY();
-        if (Inputs.moveUp.getIsDown())    nextY -= speed;
-        if (Inputs.moveDown.getIsDown())  nextY += speed;
-        if (Inputs.moveLeft.getIsDown())  nextX -= speed;
-        if (Inputs.moveRight.getIsDown()) nextX += speed;
+        if (Inputs.moveUp.getIsDown())
+            nextY -= speed;
+        if (Inputs.moveDown.getIsDown())
+            nextY += speed;
+        if (Inputs.moveLeft.getIsDown())
+            nextX -= speed;
+        if (Inputs.moveRight.getIsDown())
+            nextX += speed;
 
         // moving normally
         if (!isDashing && !inDashChooseDirectionState) {
@@ -196,7 +354,6 @@ public class Player extends Entity implements Attackable, Attacker {
             if (Inputs.dash.getWasPressed())
                 inDashChooseDirectionState = true;
         }
-
         // start dashing
         else if (!isDashing && Inputs.dash.getWasReleased()) {
             isDashing = true;
@@ -277,16 +434,6 @@ public class Player extends Entity implements Attackable, Attacker {
         float randomFloat = random.nextFloat() - 0.5f;
         float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
         bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
-
-        /*
-        int bulletsToSpawn = 3; // TODO: quick and dirty test
-        for (int i = 0; i < bulletsToSpawn; i += 1) {
-            Bullet bullet = getBullet();
-            float randomFloat = random.nextFloat() - 2.5f + (i * 2);
-            float angleDelta = Transform2D.degreesToRadians(randomFloat * bulletSpreadMax);
-            bullet.init(getX(), getY(), bulletScale, bulletSpeed, getAngle() + angleDelta, Color.GOLD, PolygonShape.getPlayerBulletShape(bulletScale));
-        }
-        */
 
         fireRateCooldown = fireRate;
         Sounds.playShootSfx();

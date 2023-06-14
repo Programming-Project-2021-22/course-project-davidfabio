@@ -9,7 +9,13 @@ import org.davidfabio.utils.Transform2D;
  * This class represents the level boundaries. No object may exceed these boundaries and must move within this level.
  */
 public class Level {
+    /**
+     * Width of the Level.
+     */
     private float width;
+    /**
+     * Height of the Level.
+     */
     private float height;
     /**
      * Color that is used to draw over anything that is outside the Level
