@@ -14,12 +14,12 @@ public class Input {
     public boolean getWasDownLastFrame() { return wasDownLastFrame; }
 
 
-    public Input(int... bindings) {
+    public Input(ArrayList<Input> inputList, int... bindings) {
         this.bindings = new ArrayList<>();
         for (int binding : bindings)
             this.bindings.add(binding);
 
-        Inputs.inputList.add(this);
+        inputList.add(this);
     }
     void update() {
         wasDownLastFrame = isDown;
