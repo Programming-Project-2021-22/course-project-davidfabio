@@ -311,7 +311,7 @@ public class Player extends Entity implements Attackable, Attacker {
      * It also updates the Shapes and transparencies related to the Player class.
      * It also updates the bullets ({@link Player#bullets}).
      *
-     * @param deltaTime time passed since last update in ms
+     * @param deltaTime Delta by which the game loop updated
      * @param world world object reference, needed for side-effects or references of other objects in the world.
      */
     public void update(float deltaTime, World world) {

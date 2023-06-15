@@ -71,7 +71,7 @@ public class Pickup extends Entity implements Movable {
      * This method requires a world-instance in order to understand where the Player is located and determine if the
      * Pickup should move towards the Player.
      *
-     * @param deltaTime time passed since the last update in ms
+     * @param deltaTime Delta by which the game loop updated
      * @param world world object reference, needed for side-effects or references of other objects in the world.
      */
     public void update(float deltaTime, World world) {

@@ -104,7 +104,7 @@ public interface Movable {
      * deltaTime parameter in order to determine the new position.
      *
      * @param angle direction in which we need to move in
-     * @param deltaTime time passed since last update
+     * @param deltaTime Delta by which the game loop updated
      */
     default void moveTowards(float angle, float deltaTime) {
         float speed = getMoveSpeed() * deltaTime;
@@ -121,7 +121,7 @@ public interface Movable {
      *
      * @param otherX target point's x-position
      * @param otherY target point's y-position
-     * @param deltaTime time passed since last update
+     * @param deltaTime Delta by which the game loop updated
      */
     default void moveTowards(float otherX, float otherY, float deltaTime) {
         float dir = getAngleTowards(otherX, otherY);

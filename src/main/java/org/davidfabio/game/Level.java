@@ -22,9 +22,16 @@ public class Level {
      */
     private Color backgroundColor = Color.BLACK;
 
+    /**
+     * @return Height of the Level.
+     */
     public float getHeight() {
         return height;
     }
+
+    /**
+     * @return Width of the Level.
+     */
     public float getWidth() {
         return width;
     }

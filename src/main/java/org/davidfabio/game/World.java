@@ -88,7 +88,7 @@ public class World {
      * Additionally, we check for any Collisions using the {@link Collision}-class.
      * If the {@link Player} drops to 0 health, the {@link GameOverScreen} is shown and the game is stopped.
      *
-     * @param deltaTime time elapsed since last rendering
+     * @param deltaTime Delta by which the game loop updated
      */
     public void update(float deltaTime) {
         // update enemy spawner

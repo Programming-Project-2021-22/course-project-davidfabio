@@ -102,7 +102,7 @@ public class Particle extends Entity {
 
     /**
      * Updates the Particle instance's state.
-     * @param deltaTime time that has passed since last update in ms
+     * @param deltaTime Delta by which the game loop updated
      */
     public void update(float deltaTime) {
         if (!getIsActive())

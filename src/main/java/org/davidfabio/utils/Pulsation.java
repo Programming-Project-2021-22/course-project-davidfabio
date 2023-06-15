@@ -43,7 +43,7 @@ public class Pulsation {
     /**
      * Updates the counter based on the properties of the Pulsation instance.
      *
-     * @param deltaTime time passed since the last update in ms
+     * @param deltaTime Delta by which the game loop updated
      */
     public void update(float deltaTime) {
         if (isGrowing)
