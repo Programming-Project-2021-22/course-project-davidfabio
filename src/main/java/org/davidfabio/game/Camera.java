@@ -50,10 +50,10 @@ public class Camera extends OrthographicCamera {
      */
     public Camera(Level level) {
         super();
-        this.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.position.set(level.getWidth() / 2f, level.getHeight() / 2f, 0);
-        this.finalZoom = calcOptimalZoom(level);    // calculates the optimal zoom to show a little less than the whole level
-        this.zoom = INITIAL_ZOOM * this.finalZoom;   // We start zoomed in
+        setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        position.set(level.getWidth() / 2f, level.getHeight() / 2f, 0);
+        finalZoom = calcOptimalZoom(level);    // calculates the optimal zoom to show a little less than the whole level
+        zoom = INITIAL_ZOOM * finalZoom;   // We start zoomed in
     }
 
     /**
@@ -65,12 +65,12 @@ public class Camera extends OrthographicCamera {
      */
     public void updateCameraPosition(float deltaTime, Player player) {
         // First we zoom out
-        if (this.zoom < finalZoom) {
-            this.zoom += ZOOM_VELOCITY * deltaTime;
+        if (zoom < finalZoom) {
+            zoom += ZOOM_VELOCITY * deltaTime;
         }
         // Then we move towards the player
-        this.moveTowards(player.getX(), player.getY(), deltaTime);
-        this.update();
+        moveTowards(player.getX(), player.getY(), deltaTime);
+        update();
     }
 
     /**
@@ -81,10 +81,10 @@ public class Camera extends OrthographicCamera {
      * @param deltaTime Delta by which the game loop updated
      */
     private void moveTowards(float otherX, float otherY, float deltaTime) {
-        float dir = Transform2D.getAngleTowards(this.position.x, this.position.y, otherX, otherY);
+        float dir = Transform2D.getAngleTowards(position.x, position.y, otherX, otherY);
         // Increase camera speed when distance to player is large, so that the player never goes
         // out of view.
-        float distanceToOther = Transform2D.getDistance(this.position.x, this.position.y, otherX, otherY);
+        float distanceToOther = Transform2D.getDistance(position.x, position.y, otherX, otherY);
         if (distanceToOther * deltaTime > MINIMUM_DISTANCE_TO_MOVE) {
             // We only move the camera if the distance to the player is large enough.
             // This avoids unnecessary jiggle when the player stands still.
@@ -111,10 +111,15 @@ public class Camera extends OrthographicCamera {
         return optimalXZoom;
     }
 
+    /**
+     * Moves the Camera center in the provided direction using the provided speed.
+     * @param direction angle in which to move the Camera center
+     * @param speed speed at which the camera should move
+     */
     public void moveTowardsWithSpeed(float direction, float speed) {
         float deltaX = (float)Math.cos(direction) * speed;
         float deltaY = (float)Math.sin(direction) * speed;
 
-        this.position.set(this.position.x + deltaX, this.position.y + deltaY, 0);
+        position.set(position.x + deltaX, position.y + deltaY, 0);
     }
 }
