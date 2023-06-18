@@ -45,6 +45,10 @@ public class GameOverScreen extends ScreenAdapter {
      * game that just ended.
      */
     private Score score;
+    /**
+     * This is the title that has to be displayed at the top of the window. It indicates if the Player has lost or won.
+     */
+    private String screenTitle;
 
     /**
      * This initializes the Game Over Screen. Additionally, it adds the current game's score to the
@@ -53,7 +57,7 @@ public class GameOverScreen extends ScreenAdapter {
      * @param scores this is the list of scores of past games.
      * @param score this is the current game's score
      */
-    public GameOverScreen(ArrayList<Score> scores, Score score) {
+    public GameOverScreen(ArrayList<Score> scores, Score score, String title) {
         super();
         this.score = score;
         this.scores = scores;
@@ -61,6 +65,7 @@ public class GameOverScreen extends ScreenAdapter {
 
         File scoresFile = new File(Settings.SCORES_FILENAME);
         JSONFileManagement.writeScoresToFile(scoresFile, this.scores);
+        screenTitle = title;
     }
 
     /**
@@ -76,7 +81,7 @@ public class GameOverScreen extends ScreenAdapter {
         stage.addActor(mainTable);
 
         UIBuilder.loadSkin();
-        UIBuilder.addTitleLabel(mainTable,"GAME OVER!",true);
+        UIBuilder.addTitleLabel(mainTable,screenTitle,true);
         UIBuilder.addSubtitleLabel(mainTable,"You scored a total of " + score.getPoints() + " points!",true);
         UIBuilder.addButton(mainTable,"Play again",true,new ClickListener() {
             @Override
