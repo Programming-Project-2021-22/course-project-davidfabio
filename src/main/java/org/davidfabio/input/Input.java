@@ -1,7 +1,6 @@
 package org.davidfabio.input;
 
 import com.badlogic.gdx.Gdx;
-
 import java.util.ArrayList;
 
 /**

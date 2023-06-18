@@ -7,7 +7,6 @@ import org.davidfabio.utils.Pulsation;
 /**
  * Moves towards player.
  */
-
 public class EnemyChaser extends Enemy {
 
     private Pulsation pulsation;

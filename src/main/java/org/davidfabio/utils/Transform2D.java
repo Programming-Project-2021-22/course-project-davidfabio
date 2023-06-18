@@ -1,7 +1,5 @@
 package org.davidfabio.utils;
 
-import org.davidfabio.game.Level;
-
 /**
  * This class provides utility functions for manipulating coordinates and angles in 2D space.
  */

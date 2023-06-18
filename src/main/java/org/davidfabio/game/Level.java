@@ -2,8 +2,6 @@ package org.davidfabio.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.davidfabio.utils.Settings;
-import org.davidfabio.utils.Transform2D;
 
 /**
  * This class represents the level boundaries. No object may exceed these boundaries and must move within this level.

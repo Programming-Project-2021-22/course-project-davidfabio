@@ -4,12 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.game.*;
 import org.davidfabio.utils.Pulsation;
 
-
 /**
  * Doesn't move.
  * When destroyed it grows larger (until it fills the whole level) and kills all enemies it touches.
  */
-
 public class EnemyStar extends Enemy {
 
     private Pulsation pulsation;

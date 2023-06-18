@@ -2,16 +2,11 @@ package org.davidfabio.game.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.game.World;
-import org.davidfabio.utils.Transform2D;
-
-import java.util.Random;
-
 
 /**
  * Moves in a random direction and bounces off walls.
  * When destroyed 4 bubble children get spawned with a smaller size (scale). When one of these gets destroyed again 4 even smaller bubbles get spawned.
  */
-
 public class EnemyBubble extends Enemy {
 
     private int childrenCount = 4;

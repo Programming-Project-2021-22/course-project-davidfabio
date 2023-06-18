@@ -1,6 +1,5 @@
 package org.davidfabio.game.enemies;
 
-import com.badlogic.gdx.graphics.Color;
 import org.davidfabio.game.World;
 
 /**
@@ -8,8 +7,6 @@ import org.davidfabio.game.World;
  * When it's spawned it moves straight towards last rotation at a high speed.
  * Get's destroyed when it leaves the level area.
  */
-
-
 public class EnemyKamikaze extends Enemy {
 
 
