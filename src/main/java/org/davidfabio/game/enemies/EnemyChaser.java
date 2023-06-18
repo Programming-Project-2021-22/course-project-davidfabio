@@ -42,7 +42,7 @@ public class EnemyChaser extends Enemy {
     /**
      * Updates the EnemyChaser state and therefore updates the {@link EnemyChaser#pulsation}.
      * It also updates the angle in which it moves, in order to chase the player.
-     * 
+     *
      * @param deltaTime Delta by which the game loop updated
      * @param world World object reference used for side-effects
      */

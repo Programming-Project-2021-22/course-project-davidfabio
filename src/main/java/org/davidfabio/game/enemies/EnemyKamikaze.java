@@ -8,13 +8,21 @@ import org.davidfabio.game.World;
  * Get's destroyed when it leaves the level area.
  */
 public class EnemyKamikaze extends Enemy {
-
-
+    /**
+     * Constructor of the EnemyKamikaze-class. It sets the EnemyType to KAMIKAZE.
+     */
     public EnemyKamikaze() {
         setType(Type.KAMIKAZE);
     }
 
-
+    /**
+     * This Enemy updates the Angle towards the Player only during the "spawn" time.
+     * Once the Enemy is fully spawned, therefore active, the Enemy takes the direction and quickly moves in that direction.
+     * If the Enemy does not hit anything, it dies once outside the Level.
+     *
+     * @param deltaTime Delta by which the game loop updated
+     * @param world World object reference used for side-effects
+     */
     @Override
     public void update(float deltaTime, World world) {
         super.update(deltaTime, world);
