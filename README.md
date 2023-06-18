@@ -90,7 +90,7 @@ In order to generate the documentation for the project use the following command
 ```shell
 mvn javadoc:javadoc
 ```
-You will find the generated documentation under `./target/site/jacoco/index.html`.
+You will find the generated documentation under `./target/site/apidocs/index.html`.
 
 ## 4. Implementation
 ### 4.1. Architectural Overview

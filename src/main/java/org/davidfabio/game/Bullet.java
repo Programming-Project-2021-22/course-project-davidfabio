@@ -21,7 +21,7 @@ public class Bullet extends Entity implements Attacker {
     }
 
     /**
-     * This method initializes or resets the Entity object. We use this method instead of creating a new Object to reduce
+     * This method initializes or resets the Bullet object. We use this method instead of creating a new Object to reduce
      * the memory allocation during gameplay.
      *
      * @param x x-position for the Bullet
