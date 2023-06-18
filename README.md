@@ -1,9 +1,43 @@
 # Polygon Wars
-## 1. About
-Polygon Wars is a twin stick shooter video game. In this game you control a shape which can shoot down enemies.
+## Table of Contents
+
+- [Description](#1-description)
+  - [Demo](#11-demo)
+  - [Controls](#12-controls)
+- [Authors](#2-authors)
+- [Usage](#3-usage)
+  - [Build](#build)
+  - [Execution](#execution)
+  - [Documentation](#documentation)
+- [Implementation](#4-implementation)
+  - [Architectural Overview](#41-architectural-overview)
+  - [Third-Party Libraries](#42-third-party-libraries)
+  - [Programming Techniques](#43-programming-techniques)
+  - [Tests](#44-tests)
+- [Experience](#5-experience)
+  - [Overall Experience](#51-overall-experience)
+  - [Division of Responsibilities](#52-division-of-responsibilities)
+  - [Main Challenges](#53-main-challenges)
+  - [Learning Outcomdes](#54-learning-outcomes)
+
+## 1. Description
+Polygon Wars is a simple shooter video game. Inspired by 80's arcade games, the game world looks simple and is easy to read.
+In this game **you control a simple circle shape**, that can shoot, move and even dash. **Your goal is to survive** until all 
+enemies are dead and no more enemies are spawned. Killing enemies grants points and pickups, collect them all to **reach
+the highest score of anyone you know!**
 
 ### 1.1. Demo
-Add a link to a demo of your project.
+**_Add a link to a demo of your project._**
+
+### 1.2. Controls
+- Movement
+  - `W` `A` `S` `D` or `↑` `←` `↓` `→` to **move** on the Map
+  - `Right-Mouse` or ` ` (space) to **dash** (keep pressed to aim)
+- Combat
+  - `Left-Mouse` to **shoot**
+- Gameplay
+  - `Esc` to **pause/resume**
+  - `Tab` to **restart** (this is for Debugging only)
 
 ## 2. Authors
 This project was created by:
@@ -11,7 +45,12 @@ This project was created by:
 * Fabio Vitalba
 
 ## 3. Usage
-Unfortunately LibGDX only has unofficial maven support. So in order to run the game you will have to execute the steps below.
+_Unfortunately LibGDX only has unofficial maven support. So in order to run the game you will have to execute the steps below._
+In order to run this Project you will need to have both `java` (**At least JAVA 17**) and [maven](https://maven.apache.org/download.cgi) installed on your machine.
+
+Once you've installed both, you'll need to first [build](#build) then [execute](#execution) the project through command line.
+
+#### Any of the following commands need to be executed at the projects root folder!
 
 ### Build
 To build the project, run:
@@ -51,12 +90,17 @@ In order to generate the documentation for the project use the following command
 ```shell
 mvn javadoc:javadoc
 ```
+You will find the generated documentation under `./target/site/apidocs/index.html`.
 
 ## 4. Implementation
 ### 4.1. Architectural Overview
 Our Project is divided into three main Java Packages:
 - org.davidfabio.**game**
   - Contains anything that represents the Game-World and Game-Flow.
+- org.davidfabio.game.**enemies**
+  - Contains all the enemy logics. Since these became very specific, we opted to move them to a seperate package.
+- org.davidfabio.**input**
+  - Contains anything that is required to handle User Inputs (Key-presses, Mouse movement, ...)
 - org.davidfabio.**ui**
   - Contains anything that creates User Interfaces (Main Menu, In-game UI, ...)
 - org.davidfabio.**utils**
@@ -83,7 +127,7 @@ These are the Third-Party Libraries we've used:
 List and explain how you used the 10 programming techniques required for this project.
 - **Graphical User Interface**: We used the built-in Libraries of LibGDX in order to create various User Interfaces for Game Menus, Settings, Highscores and User Interface in Game. 
 - **Method Overriding**: Since we're using inheritance and interfaces we predefine a few methods at a high level (Example `Entity` provides `init()`, `update()`, `render()` methods.). However, some Entities require special behaviour and therefore need to override the original implementation of the method. For example the `Player` class requires a different `update()` method than the `EnemyChaser` class.
-- **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces _**...to be explained...**_
+- **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces. These are used to unify the combat behaviour for Players, Enemies and other Entities.
 - **Method Overloading**: Various methods use the overloading technique to provide easy-to-use methods. For example:
   - In the `UIBuilder` class we use method overloading to provide various functions to create UI-controls in default settings, or by overloading, with specific settings.
 - **Collections**: In order to store various data we use collections. For example:
@@ -109,9 +153,11 @@ Overall, we had fun iterating over the various features and ideas of the Project
 We were very quick at building a working prototype and this helped us get a lot of the groundwork done early.
 
 ### 5.2. Division of Responsibilities
-Describe the roles and responsibilities each member had in this project.
+We had no clear division of responsibilities, but we ended up with the following responsibilities:
 - **David Pittracher:** Game Design
 - **Fabio Vitalba:** UI Design, Documentation, Project structure
+
+We both used GitHub Issues in order to track the outstanding tasks and features.
 
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.

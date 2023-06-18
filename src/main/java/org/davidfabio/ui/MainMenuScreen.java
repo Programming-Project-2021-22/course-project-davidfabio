@@ -69,6 +69,7 @@ public class MainMenuScreen extends ScreenAdapter {
         UIBuilder.addSubtitleLabel(mainTable,"80's Arcade for a modern audience.",true);
         UIBuilder.addLabel(mainTable,"",true);
         UIBuilder.addLabel(mainTable,"Welcome, " + Settings.username + "!",true);
+        UIBuilder.addLabel(mainTable,"In order to move use the Arrow Keys or WASD.\nAim using the Mouse pointer.\nWith the Left Mouse you can shoot.\nUse Right Mouse or Space to dash.",true);
         UIBuilder.addLabel(mainTable,"",true);
         UIBuilder.addButton(mainTable,"Play",true,new ClickListener() {
             @Override
