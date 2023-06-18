@@ -1,8 +1,9 @@
 # Polygon Wars
 ## Table of Contents
 
-- [About](#1-about)
+- [Description](#1-description)
   - [Demo](#11-demo)
+  - [Controls](#12-controls)
 - [Authors](#2-authors)
 - [Usage](#3-usage)
   - [Build](#build)
@@ -19,7 +20,7 @@
   - [Main Challenges](#53-main-challenges)
   - [Learning Outcomdes](#54-learning-outcomes)
 
-## 1. About
+## 1. Description
 Polygon Wars is a simple shooter video game. Inspired by 80's arcade games, the game world looks simple and is easy to read.
 In this game **you control a simple circle shape**, that can shoot, move and even dash. **Your goal is to survive** until all 
 enemies are dead and no more enemies are spawned. Killing enemies grants points and pickups, collect them all to **reach
@@ -27,6 +28,16 @@ the highest score of anyone you know!**
 
 ### 1.1. Demo
 **_Add a link to a demo of your project._**
+
+### 1.2. Controls
+- Movement
+  - `W` `A` `S` `D` or `↑` `←` `↓` `→` to **move** on the Map
+  - `Right-Mouse` or ` ` (space) to **dash** (keep pressed to aim)
+- Combat
+  - `Left-Mouse` to **shoot**
+- Gameplay
+  - `Esc` to **pause/resume**
+  - `Tab` to **restart** (this is for Debugging only)
 
 ## 2. Authors
 This project was created by:
