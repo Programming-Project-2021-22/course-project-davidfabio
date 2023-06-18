@@ -115,10 +115,10 @@ Describe the roles and responsibilities each member had in this project.
 
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.
-- **David Pittracher:** ...
+- **David Pittracher:** The most difficult things for me were how to structure the project (i.e. the class hierarchies) and which system to use to spawn enemies (time-based or something else?, completely fixed/static or with some amount of randomness?). Both things were overcome with thinking about it for a bit, trying out the most sensible idea and then simply adjusting it if needed. It was also a challenge to work with someone else on a bigger project like this and coordinate it.
 - **Fabio Vitalba:** Migrating from gradle (LibGDX's preferred Bundler) to Maven was quite painful. Coordinating the work was difficult at first, but once we figured out how to use the GitHub Issues it was a lot better.
 
 ### 5.4. Learning Outcomes
 Describe what you learned with this project.
-- **David Pittracher:** ...
+- **David Pittracher:** The main thing was working on a project with someone else. I also learned to use some features of GitHub I never/barely used before (branches, issues).
 - **Fabio Vitalba:** I learned a new library called `LibGDX` and David helped me learn something more regarding Game Development.
