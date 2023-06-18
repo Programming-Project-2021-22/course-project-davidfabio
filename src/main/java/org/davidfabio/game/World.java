@@ -94,6 +94,21 @@ public class World {
         // update enemy spawner
         enemySpawner.update(deltaTime);
 
+        // Verify if the Spawns are over and the Enemies are all inactive
+        if (enemySpawner.getSpawnsEnded()) {
+            boolean allEnemiesInactive = true;
+            for (Enemy enemy : enemies) {
+                if (enemy.getIsActive() || enemy.getIsSpawning())
+                    allEnemiesInactive = false;
+            }
+            if (allEnemiesInactive) {
+                // Game Ended, Player survived
+                score.end(player.getPickupsCollected());
+                Sounds.stopBackgroundMusic();
+                ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score, "GAME WON!"));
+            }
+        }
+
         // update enemies
         for (Enemy enemy : enemies) {
             if (!enemy.getIsActive() && enemy.getSpawnNextFrame()) {
@@ -116,7 +131,7 @@ public class World {
         if (player.getHealth() <= 0) {
             score.end(player.getPickupsCollected());
             Sounds.stopBackgroundMusic();
-            ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score));
+            ((PolygonWars)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(scores, score, "GAME OVER!"));
         }
 
         // update particles

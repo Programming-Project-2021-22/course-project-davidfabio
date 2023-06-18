@@ -35,6 +35,17 @@ public class EnemySpawner {
      * A Random numbers generator which is used to spawn waves that have random positioning.
      */
     private Random random;
+    /**
+     * True if no more spawns are to be expected, false otherwise.
+     */
+    private boolean spawnsEnded;
+
+    /**
+     * @return true if no more spawns are to be expected, false otherwise.
+     */
+    public boolean getSpawnsEnded() {
+        return spawnsEnded;
+    }
 
     /**
      * Constructor class that initializes the reference variables for world and level, as well as the center and level
@@ -52,6 +63,7 @@ public class EnemySpawner {
         random = new Random();
 
         timeElapsed = 0;
+        spawnsEnded = false;
     }
 
     /**
@@ -174,6 +186,14 @@ public class EnemySpawner {
     }
 
     /**
+     * This method verifies if all spawns have ended and sets {@link EnemySpawner#spawnsEnded}.
+     */
+    private void setSpawnsEnded(float spawnTime) {
+        if (timeLastFrame < spawnTime && timeElapsed >= spawnTime)
+            spawnsEnded = true;
+    }
+
+    /**
      * This method contains various Enemy Wave Spawns. It essentially contains the Enemy-spawn-plan for the game.
      * At each update the method checks if new Enemies need to be spawned and spawns them if necessary.
      * 
@@ -220,5 +240,7 @@ public class EnemySpawner {
         spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX + 150, centerY + 150, 74, 0.1f);
         spawnGroupAtPoint(Enemy.Type.KAMIKAZE, 50, centerX - 150, centerY + 150, 74, 0.1f);
         spawnAtRandomPoint(Enemy.Type.STAR, 85f);
+
+        setSpawnsEnded(86f);
     }
 }
