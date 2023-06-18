@@ -127,7 +127,7 @@ These are the Third-Party Libraries we've used:
 List and explain how you used the 10 programming techniques required for this project.
 - **Graphical User Interface**: We used the built-in Libraries of LibGDX in order to create various User Interfaces for Game Menus, Settings, Highscores and User Interface in Game. 
 - **Method Overriding**: Since we're using inheritance and interfaces we predefine a few methods at a high level (Example `Entity` provides `init()`, `update()`, `render()` methods.). However, some Entities require special behaviour and therefore need to override the original implementation of the method. For example the `Player` class requires a different `update()` method than the `EnemyChaser` class.
-- **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces _**...to be explained...**_
+- **Interfaces**: `Movable`, `Attackable`, `Attacker` Interfaces. These are used to unify the combat behaviour for Players, Enemies and other Entities.
 - **Method Overloading**: Various methods use the overloading technique to provide easy-to-use methods. For example:
   - In the `UIBuilder` class we use method overloading to provide various functions to create UI-controls in default settings, or by overloading, with specific settings.
 - **Collections**: In order to store various data we use collections. For example:
@@ -153,9 +153,11 @@ Overall, we had fun iterating over the various features and ideas of the Project
 We were very quick at building a working prototype and this helped us get a lot of the groundwork done early.
 
 ### 5.2. Division of Responsibilities
-Describe the roles and responsibilities each member had in this project.
+We had no clear division of responsibilities, but we ended up with the following responsibilities:
 - **David Pittracher:** Game Design
 - **Fabio Vitalba:** UI Design, Documentation, Project structure
+
+We both used GitHub Issues in order to track the outstanding tasks and features.
 
 ### 5.3. Main Challenges
 Elaborate on the main challenges each group member faced throughout the project and how they were surpassed.
