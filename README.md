@@ -1,9 +1,32 @@
 # Polygon Wars
+## Table of Contents
+
+- [About](#1-about)
+  - [Demo](#11-demo)
+- [Authors](#2-authors)
+- [Usage](#3-usage)
+  - [Build](#build)
+  - [Execution](#execution)
+  - [Documentation](#documentation)
+- [Implementation](#4-implementation)
+  - [Architectural Overview](#41-architectural-overview)
+  - [Third-Party Libraries](#42-third-party-libraries)
+  - [Programming Techniques](#43-programming-techniques)
+  - [Tests](#44-tests)
+- [Experience](#5-experience)
+  - [Overall Experience](#51-overall-experience)
+  - [Division of Responsibilities](#52-division-of-responsibilities)
+  - [Main Challenges](#53-main-challenges)
+  - [Learning Outcomdes](#54-learning-outcomes)
+
 ## 1. About
-Polygon Wars is a twin stick shooter video game. In this game you control a shape which can shoot down enemies.
+Polygon Wars is a simple shooter video game. Inspired by 80's arcade games, the game world looks simple and is easy to read.
+In this game **you control a simple circle shape**, that can shoot, move and even dash. **Your goal is to survive** until all 
+enemies are dead and no more enemies are spawned. Killing enemies grants points and pickups, collect them all to **reach
+the highest score of anyone you know!**
 
 ### 1.1. Demo
-Add a link to a demo of your project.
+**_Add a link to a demo of your project._**
 
 ## 2. Authors
 This project was created by:
@@ -11,7 +34,12 @@ This project was created by:
 * Fabio Vitalba
 
 ## 3. Usage
-Unfortunately LibGDX only has unofficial maven support. So in order to run the game you will have to execute the steps below.
+_Unfortunately LibGDX only has unofficial maven support. So in order to run the game you will have to execute the steps below._
+In order to run this Project you will need to have both `java` (**At least JAVA 17**) and [maven](https://maven.apache.org/download.cgi) installed on your machine.
+
+Once you've installed both, you'll need to first [build](#build) then [execute](#execution) the project through command line.
+
+#### Any of the following commands need to be executed at the projects root folder!
 
 ### Build
 To build the project, run:
@@ -51,12 +79,17 @@ In order to generate the documentation for the project use the following command
 ```shell
 mvn javadoc:javadoc
 ```
+You will find the generated documentation under `./target/site/jacoco/index.html`.
 
 ## 4. Implementation
 ### 4.1. Architectural Overview
 Our Project is divided into three main Java Packages:
 - org.davidfabio.**game**
   - Contains anything that represents the Game-World and Game-Flow.
+- org.davidfabio.game.**enemies**
+  - Contains all the enemy logics. Since these became very specific, we opted to move them to a seperate package.
+- org.davidfabio.**input**
+  - Contains anything that is required to handle User Inputs (Key-presses, Mouse movement, ...)
 - org.davidfabio.**ui**
   - Contains anything that creates User Interfaces (Main Menu, In-game UI, ...)
 - org.davidfabio.**utils**
