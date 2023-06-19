@@ -18,7 +18,7 @@
   - [Overall Experience](#51-overall-experience)
   - [Division of Responsibilities](#52-division-of-responsibilities)
   - [Main Challenges](#53-main-challenges)
-  - [Learning Outcomdes](#54-learning-outcomes)
+  - [Learning Outcomes](#54-learning-outcomes)
 
 ## 1. Description
 Polygon Wars is a simple shooter video game. Inspired by 80's arcade games, the game world looks simple and is easy to read.
@@ -27,7 +27,10 @@ enemies are dead and no more enemies are spawned. Killing enemies grants points 
 the highest score of anyone you know!**
 
 ### 1.1. Demo
-**_Add a link to a demo of your project._**
+Below you can find a quick video description of the Project.
+It gives you an overview on how to download, build and run the project.
+[![Project description](src/main/resources/polygonwars-screenshot.png)](https://youtu.be/pN0GrCHbsG8)
+_(Click on the Image to open the video.)_
 
 ### 1.2. Controls
 - Movement
